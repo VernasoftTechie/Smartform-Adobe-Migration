@@ -6,16 +6,17 @@
 *& For every Smart Form in scope, writes one markdown snapshot file to
 *& the local frontend. Automated: generated function module, form
 *& interface (import/export/tables/exceptions), driver-program
-*& candidates, output determination (NACE/TNAPR). Still MANUAL:
-*& SmartStyle, logo, form outline - no read API for those has been
-*& confirmed against this system yet; see docs/02_legacy_grab_spec.md.
+*& candidates (full source extracted to its own file + a dependency
+*& scan of the objects it references), output determination
+*& (NACE/TNAPR). Still MANUAL: SmartStyle, logo, form outline - no
+*& read API for those has been confirmed against this system yet; see
+*& docs/02_legacy_grab_spec.md.
 *&
 *& Performance: driver-program candidates are found by scanning every
 *& Z*/Y* program's source ONCE for the whole run (build_driver_index),
-*& not once per form - the original per-form rescan was the real
-*& bottleneck, not a lack of parallel work processes.
+*& not once per form.
 *&
-*& After running: drop the downloaded .md files into
+*& After running: drop the downloaded .md/.txt files into
 *& docs/legacy_grab/ of this repo and push (or hand them to Bolt).
 *&---------------------------------------------------------------------*
 REPORT zsf2af_r_legacy_grab.
@@ -69,14 +70,47 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
            END OF ty_idx,
            tt_idx TYPE STANDARD TABLE OF ty_idx WITH EMPTY KEY.
 
+    "! Per driver program: where its extracted source landed, and what
+    "! other Z*/Y* objects it appears to reference.
+    TYPES: BEGIN OF ty_prog_info,
+             progname    TYPE tadir-obj_name,
+             source_file TYPE string,
+             deps        TYPE string_table,
+           END OF ty_prog_info,
+           tt_prog_info TYPE STANDARD TABLE OF ty_prog_info WITH EMPTY KEY.
+
+    DATA mt_prog_info TYPE tt_prog_info.
+
     METHODS get_form_list
       RETURNING VALUE(rt_form) TYPE string_table.
 
     "! Single pass over every in-scope program's source, checked against
-    "! every form at once - the fix for the original per-form rescan.
+    "! every form at once. For every program that matches at least one
+    "! form: extracts its full source to its own file and scans it for
+    "! dependent Z*/Y* objects (stored in mt_prog_info).
     METHODS build_driver_index
       IMPORTING it_forms      TYPE string_table
       RETURNING VALUE(rt_idx) TYPE tt_idx.
+
+    "! Writes a program's already-read source to its own file in P_PATH.
+    METHODS write_driver_source
+      IMPORTING iv_progname   TYPE tadir-obj_name
+                it_source     TYPE string_table
+      RETURNING VALUE(rv_file) TYPE string.
+
+    "! Plain substring scan (no regex) for lines that look like a
+    "! reference to another custom object - CALL FUNCTION 'Z.../Y...',
+    "! CALL METHOD ZCL_.../YCL_..., NEW/TYPE ZCL_.../YCL_..., INCLUDE
+    "! Z.../Y..., external PERFORM (Z.../Y...). Returns the raw matching
+    "! lines (trimmed, deduplicated) as evidence rather than a parsed
+    "! object name, to avoid mis-extracting one.
+    METHODS scan_dependencies
+      IMPORTING it_source      TYPE string_table
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
+    METHODS get_prog_info
+      IMPORTING iv_progname    TYPE tadir-obj_name
+      RETURNING VALUE(rs_info) TYPE ty_prog_info.
 
     METHODS process_form
       IMPORTING iv_formname TYPE string
@@ -120,12 +154,13 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
 
     w( |Legacy grab starting for { lines( lt_forms ) } form(s).| ).
     DATA(lt_idx) = build_driver_index( lt_forms ).
-    w( |Driver-program index built: { lines( lt_idx ) } form/program match(es).| ).
+    w( |Driver-program index built: { lines( lt_idx ) } form/program match(es), | &&
+       |{ lines( mt_prog_info ) } driver source(s) extracted.| ).
 
     LOOP AT lt_forms INTO DATA(lv_form).
       process_form( iv_formname = lv_form it_idx = lt_idx ).
     ENDLOOP.
-    w( |Done. Snapshots written under { p_path }.| ).
+    w( |Done. Snapshots and driver source files written under { p_path }.| ).
     w( |Drop them into docs/legacy_grab/ of Smartform-Adobe-Migration and push.| ).
   ENDMETHOD.
 
@@ -161,8 +196,9 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD build_driver_index.
-    DATA lt_source  TYPE TABLE OF string.
-    DATA lv_pattern TYPE string.
+    DATA lt_source        TYPE string_table.
+    DATA lt_matched_forms TYPE string_table.
+    DATA lv_pattern       TYPE string.
 
     lv_pattern = p_pref && '%'.
     SELECT obj_name FROM tadir INTO TABLE @DATA(lt_prog)
@@ -191,13 +227,80 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
         CONTINUE.
       ENDIF.
 
+      CLEAR lt_matched_forms.
       DATA(lv_joined) = concat_lines_of( table = lt_source sep = | | ).
       LOOP AT it_forms INTO DATA(lv_form).
         IF lv_joined CS lv_form.
-          APPEND VALUE #( formname = lv_form progname = ls_prog-obj_name ) TO rt_idx.
+          APPEND lv_form TO lt_matched_forms.
         ENDIF.
       ENDLOOP.
+
+      IF lt_matched_forms IS INITIAL.
+        CONTINUE.
+      ENDIF.
+
+      DATA(lv_source_file) = write_driver_source( iv_progname = ls_prog-obj_name it_source = lt_source ).
+      DATA(lt_deps)        = scan_dependencies( lt_source ).
+      APPEND VALUE #( progname    = ls_prog-obj_name
+                       source_file = lv_source_file
+                       deps        = lt_deps ) TO mt_prog_info.
+
+      LOOP AT lt_matched_forms INTO lv_form.
+        APPEND VALUE #( formname = lv_form progname = ls_prog-obj_name ) TO rt_idx.
+      ENDLOOP.
     ENDLOOP.
+  ENDMETHOD.
+
+  METHOD write_driver_source.
+    DATA(lv_filename) = |{ p_path }driver_{ iv_progname }.txt|.
+    CALL FUNCTION 'GUI_DOWNLOAD'
+      EXPORTING
+        filename = lv_filename
+        filetype = 'ASC'
+      TABLES
+        data_tab = it_source
+      EXCEPTIONS
+        OTHERS   = 1.
+    IF sy-subrc = 0.
+      rv_file = lv_filename.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD scan_dependencies.
+    LOOP AT it_source INTO DATA(lv_line).
+      DATA(lv_trim) = |{ lv_line }|.
+      IF lv_trim IS INITIAL.
+        CONTINUE.
+      ENDIF.
+
+      DATA(lv_is_dep) = abap_false.
+      IF    lv_trim CS `CALL FUNCTION 'Z` OR lv_trim CS `CALL FUNCTION 'Y`
+         OR lv_trim CS `CALL METHOD ZCL_` OR lv_trim CS `CALL METHOD YCL_`
+         OR lv_trim CS `NEW ZCL_`         OR lv_trim CS `NEW YCL_`
+         OR lv_trim CS `TYPE ZCL_`        OR lv_trim CS `TYPE YCL_`
+         OR lv_trim CS `INCLUDE Z`        OR lv_trim CS `INCLUDE Y`.
+        lv_is_dep = abap_true.
+      ENDIF.
+      IF lv_trim CS `PERFORM`.
+        IF lv_trim CS `(Z` OR lv_trim CS `(Y`.
+          lv_is_dep = abap_true.
+        ENDIF.
+      ENDIF.
+
+      IF lv_is_dep = abap_true.
+        APPEND lv_trim TO rt_lines.
+      ENDIF.
+    ENDLOOP.
+
+    SORT rt_lines.
+    DELETE ADJACENT DUPLICATES FROM rt_lines.
+  ENDMETHOD.
+
+  METHOD get_prog_info.
+    READ TABLE mt_prog_info INTO rs_info WITH KEY progname = iv_progname.
+    IF sy-subrc <> 0.
+      CLEAR rs_info.
+    ENDIF.
   ENDMETHOD.
 
   METHOD resolve_fm_name.
@@ -333,13 +436,27 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND LINES OF capture_interface( iv_fm_name ) TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 3. Driver program candidates (source-scan match)` TO lt_lines.
+    APPEND `## 3. Driver program candidates (source + dependencies extracted)` TO lt_lines.
     IF it_drivers IS INITIAL.
       APPEND `None found scanning Z*/Y* programs for a literal match. Confirm manually` TO lt_lines.
       APPEND `(NACE output-type Processing Routines tab, or ask the functional owner).` TO lt_lines.
     ELSE.
       LOOP AT it_drivers INTO DATA(ls_hit).
+        DATA(ls_info) = get_prog_info( ls_hit-progname ).
         APPEND |- `{ ls_hit-progname }` (contains this form name + SSF_FUNCTION_MODULE_NAME - confirm it is the real driver)| TO lt_lines.
+        IF ls_info-source_file IS NOT INITIAL.
+          APPEND |  full source extracted to `{ ls_info-source_file }`| TO lt_lines.
+        ELSE.
+          APPEND `  (source extraction failed for this program - check authorization to READ REPORT)` TO lt_lines.
+        ENDIF.
+        IF ls_info-deps IS INITIAL.
+          APPEND `  no other Z*/Y* object references found by the dependency scan` TO lt_lines.
+        ELSE.
+          APPEND `  dependent objects referenced (raw source lines - confirm each one):` TO lt_lines.
+          LOOP AT ls_info-deps INTO DATA(lv_dep).
+            APPEND |    { lv_dep }| TO lt_lines.
+          ENDLOOP.
+        ENDIF.
       ENDLOOP.
     ENDIF.
     APPEND `` TO lt_lines.
@@ -366,6 +483,14 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `## 8. Risk score` TO lt_lines.
     APPEND `Business criticality / Interactivity / Layout complexity / Driver complexity /` TO lt_lines.
     APPEND `Integration touchpoints / Localization / Volume -> composite: Low / Medium / High / Critical.` TO lt_lines.
+    APPEND `` TO lt_lines.
+
+    APPEND `## 9. Output comparison (OTF) - Phase 2 pilot only, not auto-captured here` TO lt_lines.
+    APPEND `OTF is a rendered print stream, not a design source - it cannot be used to` TO lt_lines.
+    APPEND `rebuild the form. Its correct role is validation: once the Adobe Form exists,` TO lt_lines.
+    APPEND `run this form for one real document (SSF control param GETOTF = 'X' captures` TO lt_lines.
+    APPEND `JOB_OUTPUT_INFO-OTFDATA; CONVERT_OTF renders it to PDF for comparison) and` TO lt_lines.
+    APPEND `diff it visually against the new Adobe Form's PDF for the same document.` TO lt_lines.
 
     DATA(lv_filename) = |{ p_path }{ iv_formname }.md|.
     CALL FUNCTION 'GUI_DOWNLOAD'

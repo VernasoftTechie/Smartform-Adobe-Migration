@@ -26,7 +26,7 @@ stays a clearly labelled manual section rather than a guess.
 | Form → generated function module | `CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'` (`FORMNAME` in, `FM_NAME` out) — converted to a fixed `CHAR30` local first (F1 fix) | high — the textbook Smart Form driver pattern, now dump-safe |
 | Form list (optional auto-discovery) | `TADIR` where `PGMID = 'R3TR'`, `OBJECT = 'SSFO'` | best-effort — verify hit count against SE71 the first time |
 | **Form interface** (import/export/tables/exceptions) | `SELECT parameter, paramtype FROM fupararef WHERE funcname = @fm AND r3state = 'A'` | **verified** — this exact pattern is already proven in `Utility-Class-and-Method/docs/00_engineering_log.md` A18, built precisely to avoid guessing a `FUNCTION_IMPORT_INTERFACE`-style signature |
-| Driver-program candidates | Single pass over every Z*/Y* program's source (`READ REPORT`), checked against every form name at once — see performance note below | high — plain ABAP statements, no DDIC/FM guess |
+| Driver-program candidates, **full source + dependencies** | Single pass over every Z*/Y* program's source (`READ REPORT`), checked against every form name at once (see performance note below). For every match: the program's **full source is downloaded to its own file** (`driver_<progname>.txt`), and a plain substring scan (`scan_dependencies`, no regex) flags lines that reference another custom object — `CALL FUNCTION 'Z.../Y...'`, `CALL METHOD ZCL_.../YCL_...`, `NEW`/`TYPE ZCL_.../YCL_...`, `INCLUDE Z.../Y...`, external `PERFORM (Z.../Y...)` | high — plain ABAP statements, no DDIC/FM guess. Dependency lines are raw evidence (the matching source line), not a parsed object name — deliberately, to avoid mis-extracting one |
 | **Output determination (NACE)** | `SELECT * FROM tnapr` (no field-name guess in the `WHERE` — there isn't one) + a generic reflection-based dump (`dump_any`, via `cl_abap_typedescr`) that scans every column of every row for the form name | high — `SELECT *` needs no field names; RTTI reflection needs no assumed column names either |
 | Snapshot delivery | `GUI_DOWNLOAD` to the local frontend | high — standard, ubiquitous |
 
@@ -46,6 +46,20 @@ system yet. **A 2-minute SE37 lookup** (search `SSF_READ_FORM`, or pattern
 once confirmed, it can likely also feed the generic `dump_any` reflection
 dump the way TNAPR does now, so no field names need to be guessed there
 either.
+
+## OTF is not a design source — don't try to "redesign from OTF"
+
+OTF is the **rendered print stream** for one specific document instance (real
+data already merged in) — it does not contain the form's layout definition,
+loops, conditions, or interface, so it cannot be used to reconstruct or
+redesign a form. Its correct role is **validation, in Phase 2**: after the
+pilot Adobe Form exists, run the *same* real document through the old Smart
+Form with the SSF control parameter `GETOTF = 'X'` (captures
+`JOB_OUTPUT_INFO-OTFDATA`), convert it to PDF via `CONVERT_OTF`, and diff it
+visually against the new Adobe Form's PDF output for that same document. This
+needs a real business document key per form, so it isn't something Phase 1a's
+generic legacy-grab can supply — each snapshot's section 9 documents the
+mechanism so it's ready to use once a pilot form is picked.
 
 ## Performance: the real bottleneck, and what was and wasn't done about it
 

@@ -79,7 +79,7 @@ consultants, Basis (ADS).
 |---|---|---|---|
 | **1a** | Legacy-grab tooling | `ZSF2AF_R_LEGACY_GRAB` (package `ZABAP_UTIL`) | report activates, runs against ≥1 real form, produces a snapshot |
 | **1b** | Discovery: full inventory + risk score every form | `docs/legacy_grab/*.md`, risk register | risk-ranked list approved, pilot form chosen |
-| **2** | Pilot conversion (thin end-to-end slice) | one Adobe Form (SFP migration) + rewritten driver | pilot PDF matches Smart Form output on real data, parallel run live, sign-off |
+| **2** | Pilot conversion (thin end-to-end slice) | one Adobe Form (SFP migration) + rewritten driver | pilot PDF matches Smart Form output on real data — validated by running one real document through both (old form's OTF via `GETOTF = 'X'` + `CONVERT_OTF`, vs. the new Adobe Form's PDF) and diffing visually; parallel run live, sign-off |
 | **3** | Wave 1 — Low-risk forms | proven pattern applied per form | all Low-risk forms converted, parallel-run confirmed |
 | **4** | Wave 2 — Medium-risk forms | same | Medium-risk forms converted, traps logged |
 | **5** | Wave 3 — High/Critical forms | same, longest parallel run | named sign-off per form |

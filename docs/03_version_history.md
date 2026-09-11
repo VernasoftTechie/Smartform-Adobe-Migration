@@ -1,5 +1,26 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.6 — extract driver source + dependencies; clarify OTF's role
+
+- **Driver-program candidates now have their full source extracted** to its
+  own file (`driver_<progname>.txt`) in the output folder, not just their
+  name — addresses "the program has to extract the form and respective
+  objects into that folder."
+- **New dependency scan** (`scan_dependencies`, plain substring matching, no
+  regex): for each extracted driver, flags lines referencing other custom
+  objects (`CALL FUNCTION 'Z.../Y...'`, `CALL METHOD ZCL_.../YCL_...`,
+  `NEW`/`TYPE ZCL_.../YCL_...`, `INCLUDE Z.../Y...`, external
+  `PERFORM (Z.../Y...)`) and lists the raw matching source lines (not a
+  parsed object name, deliberately, to avoid mis-extracting one) in a new
+  per-driver breakdown under section 3.
+- **New section 9 (Output comparison / OTF)**: clarifies that OTF is a
+  rendered print stream, not a design source, and documents its correct
+  role — visual validation of the pilot Adobe Form's PDF against the old
+  Smart Form's OTF for the same real document (`GETOTF = 'X'` +
+  `CONVERT_OTF`) — as a Phase 2 activity, not something Phase 1a auto-runs
+  (it needs a real document key per form). See
+  `docs/02_legacy_grab_spec.md` "OTF is not a design source."
+
 ## v0.5 — automate interface + output-determination capture; fix the real perf bug
 
 - **Fixed the actual bottleneck**: driver-program candidates were being found
