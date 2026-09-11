@@ -48,6 +48,17 @@ once confirmed, it can likely also feed the generic `dump_any` reflection
 dump the way TNAPR does now, so no field names need to be guessed there
 either.
 
+## Confirming an unfamiliar FM's interface (e.g. `SSF_READ_FORM`) — safely
+
+`ZSF2AF_R_LEGACY_GRAB` has a `P_PROBE` field on its selection screen. Fill it
+with a function module name and run the report: it introspects that FM's
+interface via the same `FUPARAREF` technique as section 2 (`capture_interface`)
+and writes the parameter list (names + IMPORTING/EXPORTING/TABLES/CHANGING/
+EXCEPTIONS) to the list and to `probe_<fmname>.txt`, then stops — it does not
+run the legacy grab. This is how `SSF_READ_FORM`'s real parameter list gets
+confirmed before any code calls it for real, instead of guessing a signature
+a third time.
+
 ## OTF is not a design source — don't try to "redesign from OTF"
 
 OTF is the **rendered print stream** for one specific document instance (real

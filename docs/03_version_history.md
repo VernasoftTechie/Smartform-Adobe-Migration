@@ -1,5 +1,17 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.8 — P_PROBE: safely confirm SSF_READ_FORM's interface before calling it
+
+- New optional selection field `P_PROBE`: fill it with a function module name
+  (e.g. `SSF_READ_FORM`, confirmed as the likely form-read API this round)
+  and the report introspects its interface via the same `FUPARAREF` technique
+  already proven for section 2, writes the parameter list to the list and to
+  `probe_<fmname>.txt`, then stops without running the legacy grab.
+- This is the safe way to learn an unfamiliar FM's real parameter list before
+  any code calls it — no more guessing a signature and risking a repeat of
+  F1. Next round, once `SSF_READ_FORM`'s parameters are confirmed this way,
+  real automation for sections 5-7 (SmartStyle/logo/outline) can be built.
+
 ## v0.7 — deep mining: follow driver includes; full prerequisite checklist
 
 - **`extract_includes`**: driver programs' own `INCLUDE Z.../Y...` statements

@@ -15,6 +15,11 @@
 *& API for those has been confirmed against this system yet; see
 *& docs/02_legacy_grab_spec.md.
 *&
+*& P_PROBE: fill it with a function module name (e.g. SSF_READ_FORM)
+*& to introspect its interface via FUPARAREF instead of running the
+*& legacy grab - the safe way to learn an unfamiliar FM's parameter
+*& list before it gets called for real.
+*&
 *& Performance: driver-program candidates are found by scanning every
 *& Z*/Y* program's source ONCE for the whole run (build_driver_index),
 *& not once per form.
@@ -35,6 +40,10 @@ SELECTION-SCREEN END OF BLOCK b1.
 SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-b02.
 PARAMETERS p_path TYPE char100 LOWER CASE OBLIGATORY DEFAULT 'C:\Legacy_Grab\'.
 SELECTION-SCREEN END OF BLOCK b2.
+
+SELECTION-SCREEN BEGIN OF BLOCK b3 WITH FRAME TITLE TEXT-b03.
+PARAMETERS p_probe TYPE char30 LOWER CASE.
+SELECTION-SCREEN END OF BLOCK b3.
 
 AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_path.
   DATA lv_folder TYPE string.
@@ -62,6 +71,14 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
     METHODS run.
 
   PRIVATE SECTION.
+    "! If P_PROBE is filled: introspect that function module's interface
+    "! (reusing the same proven FUPARAREF technique as capture_interface)
+    "! and stop - does not run the legacy grab. Use this to safely learn
+    "! an unfamiliar FM's parameter list (names + I/E/T/C/X kind) before
+    "! Bolt calls it for real, instead of guessing a signature.
+    METHODS probe_fm
+      IMPORTING iv_fm_name TYPE char30.
+
     TYPES: BEGIN OF ty_driver_hit,
              progname TYPE tadir-obj_name,
            END OF ty_driver_hit,
@@ -160,6 +177,11 @@ ENDCLASS.
 CLASS lcl_legacy_grab IMPLEMENTATION.
 
   METHOD run.
+    IF p_probe IS NOT INITIAL.
+      probe_fm( p_probe ).
+      RETURN.
+    ENDIF.
+
     DATA(lt_forms) = get_form_list( ).
     IF lt_forms IS INITIAL.
       w( |No forms in scope - fill S_FORM, or tick P_AUTO to try TADIR discovery.| ).
@@ -598,6 +620,33 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
         OTHERS   = 1.
     IF sy-subrc <> 0.
       w( |WARNING: download failed for { iv_formname } to { lv_filename }, sy-subrc { sy-subrc }.| ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD probe_fm.
+    w( |FM interface probe: { iv_fm_name } (via FUPARAREF - same technique as section 2)| ).
+    DATA(lt_lines) = capture_interface( iv_fm_name ).
+
+    DATA lt_out TYPE TABLE OF string.
+    APPEND |# FM interface probe - { iv_fm_name }| TO lt_out.
+    APPEND `` TO lt_out.
+    APPEND LINES OF lt_lines TO lt_out.
+
+    LOOP AT lt_out INTO DATA(lv_line).
+      w( lv_line ).
+    ENDLOOP.
+
+    DATA(lv_filename) = |{ p_path }probe_{ iv_fm_name }.txt|.
+    CALL FUNCTION 'GUI_DOWNLOAD'
+      EXPORTING
+        filename = lv_filename
+        filetype = 'ASC'
+      TABLES
+        data_tab = lt_out
+      EXCEPTIONS
+        OTHERS   = 1.
+    IF sy-subrc = 0.
+      w( |Saved to { lv_filename }| ).
     ENDIF.
   ENDMETHOD.
 
