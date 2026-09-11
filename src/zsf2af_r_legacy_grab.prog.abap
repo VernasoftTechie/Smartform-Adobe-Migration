@@ -6,10 +6,13 @@
 *& For every Smart Form in scope, writes one markdown snapshot file to
 *& the local frontend. Automated: generated function module, form
 *& interface (import/export/tables/exceptions), driver-program
-*& candidates (full source extracted to its own file + a dependency
-*& scan of the objects it references), output determination
-*& (NACE/TNAPR). Still MANUAL: SmartStyle, logo, form outline - no
-*& read API for those has been confirmed against this system yet; see
+*& candidates (full source extracted to its own file, their own
+*& INCLUDEs followed one level deep and extracted too, and a
+*& dependency scan of the custom objects they reference), output
+*& determination (NACE/TNAPR), plus a full prerequisite checklist
+*& (section 10) covering everything else a Smart Form can depend on.
+*& Still MANUAL: SmartStyle, logo, form outline themselves - no read
+*& API for those has been confirmed against this system yet; see
 *& docs/02_legacy_grab_spec.md.
 *&
 *& Performance: driver-program candidates are found by scanning every
@@ -70,12 +73,14 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
            END OF ty_idx,
            tt_idx TYPE STANDARD TABLE OF ty_idx WITH EMPTY KEY.
 
-    "! Per driver program: where its extracted source landed, and what
-    "! other Z*/Y* objects it appears to reference.
+    "! Per driver program: where its extracted source landed, what other
+    "! Z*/Y* objects it appears to reference, and which of its own
+    "! INCLUDEs were followed and extracted too (one level deep).
     TYPES: BEGIN OF ty_prog_info,
-             progname    TYPE tadir-obj_name,
-             source_file TYPE string,
-             deps        TYPE string_table,
+             progname      TYPE tadir-obj_name,
+             source_file   TYPE string,
+             deps          TYPE string_table,
+             include_files TYPE string_table,
            END OF ty_prog_info,
            tt_prog_info TYPE STANDARD TABLE OF ty_prog_info WITH EMPTY KEY.
 
@@ -107,6 +112,15 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
     METHODS scan_dependencies
       IMPORTING it_source      TYPE string_table
       RETURNING VALUE(rt_lines) TYPE string_table.
+
+    "! Follows INCLUDE Z.../Y... statements found in it_source one level
+    "! deep: extracts each included program's source to its own file and
+    "! folds its dependency scan into ct_deps. Bounded to one level so a
+    "! chain of includes can't run away.
+    METHODS extract_includes
+      IMPORTING it_source        TYPE string_table
+      CHANGING  ct_include_files TYPE string_table
+                ct_deps          TYPE string_table.
 
     METHODS get_prog_info
       IMPORTING iv_progname    TYPE tadir-obj_name
@@ -241,9 +255,17 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
 
       DATA(lv_source_file) = write_driver_source( iv_progname = ls_prog-obj_name it_source = lt_source ).
       DATA(lt_deps)        = scan_dependencies( lt_source ).
-      APPEND VALUE #( progname    = ls_prog-obj_name
-                       source_file = lv_source_file
-                       deps        = lt_deps ) TO mt_prog_info.
+
+      DATA lt_include_files TYPE string_table.
+      CLEAR lt_include_files.
+      extract_includes( EXPORTING it_source        = lt_source
+                         CHANGING  ct_include_files = lt_include_files
+                                   ct_deps          = lt_deps ).
+
+      APPEND VALUE #( progname      = ls_prog-obj_name
+                       source_file   = lv_source_file
+                       deps          = lt_deps
+                       include_files = lt_include_files ) TO mt_prog_info.
 
       LOOP AT lt_matched_forms INTO lv_form.
         APPEND VALUE #( formname = lv_form progname = ls_prog-obj_name ) TO rt_idx.
@@ -294,6 +316,55 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
 
     SORT rt_lines.
     DELETE ADJACENT DUPLICATES FROM rt_lines.
+  ENDMETHOD.
+
+  METHOD extract_includes.
+    LOOP AT it_source INTO DATA(lv_line).
+      DATA(lv_work) = lv_line.
+      CONDENSE lv_work.
+      IF lv_work IS INITIAL.
+        CONTINUE.
+      ENDIF.
+      IF NOT to_upper( lv_work ) CP 'INCLUDE *'.
+        CONTINUE.
+      ENDIF.
+
+      SPLIT lv_work AT space INTO TABLE DATA(lt_words).
+      DELETE lt_words WHERE table_line IS INITIAL.
+      IF lines( lt_words ) < 2.
+        CONTINUE.
+      ENDIF.
+
+      DATA(lv_inclname) = to_upper( lt_words[ 2 ] ).
+      DATA(lv_len) = strlen( lv_inclname ) - 1.
+      IF lv_len > 0 AND lv_inclname+lv_len(1) = '.'.
+        lv_inclname = lv_inclname(lv_len).
+      ENDIF.
+
+      IF NOT lv_inclname CP |{ p_pref }*|.
+        " only follow custom includes, not standard SAP includes
+        CONTINUE.
+      ENDIF.
+
+      DATA lt_inc_source TYPE string_table.
+      CLEAR lt_inc_source.
+      READ REPORT lv_inclname INTO lt_inc_source.
+      IF sy-subrc <> 0 OR lt_inc_source IS INITIAL.
+        CONTINUE.
+      ENDIF.
+
+      DATA(lv_inc_file) = write_driver_source( iv_progname = lv_inclname it_source = lt_inc_source ).
+      IF lv_inc_file IS NOT INITIAL.
+        APPEND |{ lv_inclname } -> { lv_inc_file }| TO ct_include_files.
+      ENDIF.
+
+      APPEND LINES OF scan_dependencies( lt_inc_source ) TO ct_deps.
+    ENDLOOP.
+
+    SORT ct_include_files.
+    DELETE ADJACENT DUPLICATES FROM ct_include_files.
+    SORT ct_deps.
+    DELETE ADJACENT DUPLICATES FROM ct_deps.
   ENDMETHOD.
 
   METHOD get_prog_info.
@@ -449,10 +520,16 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
         ELSE.
           APPEND `  (source extraction failed for this program - check authorization to READ REPORT)` TO lt_lines.
         ENDIF.
+        IF ls_info-include_files IS NOT INITIAL.
+          APPEND `  included programs extracted (one level deep):` TO lt_lines.
+          LOOP AT ls_info-include_files INTO DATA(lv_inc).
+            APPEND |    { lv_inc }| TO lt_lines.
+          ENDLOOP.
+        ENDIF.
         IF ls_info-deps IS INITIAL.
           APPEND `  no other Z*/Y* object references found by the dependency scan` TO lt_lines.
         ELSE.
-          APPEND `  dependent objects referenced (raw source lines - confirm each one):` TO lt_lines.
+          APPEND `  dependent objects referenced (raw source lines, driver + its includes - confirm each one):` TO lt_lines.
           LOOP AT ls_info-deps INTO DATA(lv_dep).
             APPEND |    { lv_dep }| TO lt_lines.
           ENDLOOP.
@@ -491,6 +568,24 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `run this form for one real document (SSF control param GETOTF = 'X' captures` TO lt_lines.
     APPEND `JOB_OUTPUT_INFO-OTFDATA; CONVERT_OTF renders it to PDF for comparison) and` TO lt_lines.
     APPEND `diff it visually against the new Adobe Form's PDF for the same document.` TO lt_lines.
+    APPEND `` TO lt_lines.
+
+    APPEND `## 10. Full prerequisite checklist - confirm every item before converting` TO lt_lines.
+    APPEND `[ ] SmartStyle name(s) (section 5)` TO lt_lines.
+    APPEND `[ ] Paragraph/character formats used by each SmartStyle` TO lt_lines.
+    APPEND `[ ] Graphics/logos referenced (section 6) - MIME Repository object + binary export` TO lt_lines.
+    APPEND `[ ] Standard texts (SO10) referenced by any TEXT/INCLUDE TEXT node -` TO lt_lines.
+    APPEND `    check each TDOBJECT/TDNAME/TDID/TDSPRAS via SO10` TO lt_lines.
+    APPEND `[ ] Barcode / font resources (if the form prints barcodes or labels)` TO lt_lines.
+    APPEND `[ ] Languages / translations required (each SPRAS variant, if multi-language)` TO lt_lines.
+    APPEND `[ ] Driver program full source (section 3 - extracted)` TO lt_lines.
+    APPEND `[ ] Included programs of the driver (section 3 - extracted where found)` TO lt_lines.
+    APPEND `[ ] Other custom objects the driver/includes reference (section 3 - confirm each)` TO lt_lines.
+    APPEND `[ ] Form interface (section 2 - extracted)` TO lt_lines.
+    APPEND `[ ] Output determination / NACE linkage (section 4 - extracted)` TO lt_lines.
+    APPEND `[ ] Digital signature / interactive XFA scripting, if this form is interactive` TO lt_lines.
+    APPEND `[ ] Authorization checks inside the driver program (read the extracted source)` TO lt_lines.
+    APPEND `[ ] Number-range/posting side effects inside the driver (read the extracted source)` TO lt_lines.
 
     DATA(lv_filename) = |{ p_path }{ iv_formname }.md|.
     CALL FUNCTION 'GUI_DOWNLOAD'

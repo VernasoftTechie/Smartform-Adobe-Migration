@@ -1,5 +1,23 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.7 — deep mining: follow driver includes; full prerequisite checklist
+
+- **`extract_includes`**: driver programs' own `INCLUDE Z.../Y...` statements
+  are now followed one level deep — each included program's full source is
+  extracted to its own file too, and its dependency scan is folded into the
+  same driver's dependency list. Bounded to one level so an include chain
+  can't run away.
+- **New section 10 — full prerequisite checklist**: every Smart Form snapshot
+  now ends with a static, always-emitted checklist covering everything a
+  Smart Form can depend on (SmartStyle, formats, graphics, SO10 standard
+  texts, barcodes/fonts, languages, digital signature/XFA scripting,
+  authorization checks and number-range/posting side effects inside the
+  driver) — a completeness net for what still can't be safely automated
+  (the form's own internal definition), so nothing gets missed in the manual
+  pass.
+- Section 3's driver breakdown now lists extracted include files alongside
+  the driver's own source file and dependency evidence.
+
 ## v0.6 — extract driver source + dependencies; clarify OTF's role
 
 - **Driver-program candidates now have their full source extracted** to its
