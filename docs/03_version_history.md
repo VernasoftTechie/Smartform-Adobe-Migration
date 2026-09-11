@@ -1,5 +1,33 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.6 — confirmed: SE71/SMARTSTYLES "Utilities → Download" is the real design source
+
+User provided real exports for `Z_MM_PR_FORM`: the form's own
+`Utilities → Download` XML (`<sf:SMARTFORM>`, 363KB, one `<sf:WINDOW>` per
+window with text/graphic/code/condition `<sf:NODE>` children) and
+`ZSTYLE_PR_FORM`'s SmartStyle XML export. Both verified real and directly
+cross-consistent: the form's `LOGO` window's graphic node resolves to
+`GKEYBDS/NAME=DANGOTE LOGO`, which matches an actual row the `P_GLOB` sweep
+already found in `STXBITMAPS`; every text node's `STYLE_NAME` is
+`ZSTYLE_PR_FORM`, matching both the style XML and the `global_smartstyles.txt`
+inventory. `docs/02_legacy_grab_spec.md` updated: this GUI export is now the
+confirmed way to get a form's real design into Bolt's hands — not a
+background-report capability, but real, complete, parseable data once
+exported. Investigating whether the underlying FM can be called directly to
+automate this for all 500+ forms.
+
+Read the real XML directly (byte-offset extraction via `grep -bo` + `tail -c`,
+since the export is essentially one enormous line and both the Read and Grep
+tools truncate very long single-line matches) and produced a first accurate
+design read of `Z_MM_PR_FORM`: 10 windows (title/company header, PR
+header fields via embedded ABAP CODE nodes, type-of-request block, date
+block with 2 custom Z-FM calls, page-number footer, value/total block, a
+conditional watermark, the DANGOTE LOGO graphic, and the MAIN line-items
+window). Found real cleanup items: a live `break abap1` debugger statement,
+dead/commented code in 3 places, and an SO10 header-text read
+(`object=EBANH`, `id=B01`) not previously captured by the legacy-grab tool
+— logged as a design finding, not yet built into the tool itself.
+
 ## v1.5 — fix PROBE_FORM_STORAGE activation errors (F3, F4)
 
 - F3: `SELECT * FROM (lv_tab) INTO TABLE <tab> ...` failed activation —

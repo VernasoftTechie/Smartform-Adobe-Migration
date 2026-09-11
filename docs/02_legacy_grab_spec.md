@@ -61,16 +61,40 @@ a test-variant number, an active-version flag, an "admin data" block) — not
 a page/window/node/style/graphic layout tree. **This was not the API that
 unlocks sections 6-8** the way earlier notes here assumed — it looks like
 the equivalent of SE71's Form Attributes → General tab, not the Layout tab.
-Smart Form layout appears to be stored in a way that doesn't expose a
-simple read API the way `TNAPR`/`FUPARAREF` do (those are flat config
-tables; a form's compiled layout evidently isn't). Kept in every snapshot
-anyway (harmless, occasionally useful for the description/version), but
-sections 6-8 stay manual — not because of a missing type (as first
-assumed), but because there may be no safe read API for the layout itself.
+Smart Form layout has no confirmed **programmatic** read API the way
+`TNAPR`/`FUPARAREF` do (those are flat config tables; a form's compiled
+layout evidently isn't). Kept in every snapshot anyway (harmless,
+occasionally useful for the description/version).
+
+**Confirmed 2026-09-13 — there IS a real, non-programmatic path**:
+**SE71/SMARTFORMS → Utilities → Download** (and the equivalent in
+SMARTSTYLES for styles) exports the complete definition as XML
+(`xmlns:sf="urn:sap-com:SmartForms:2000:..."`). Verified against
+`Z_MM_PR_FORM`'s real export: root `<sf:SMARTFORM>`, one `<sf:WINDOW>` per
+window with `<sf:NODE>` children (text/graphic/code/condition nodes),
+`<sf:GRAPHIC><GKEYBDS><NAME>DANGOTE LOGO</NAME>...` for the logo (which
+matched directly against the `STXBITMAPS` global sweep — the two mechanisms
+tie together), and `<STYLE_NAME>ZSTYLE_PR_FORM</STYLE_NAME>` on every text
+node (matching the SmartStyle's own `Utilities → Download` export). This is
+a GUI action `ZSF2AF_R_LEGACY_GRAB` can't trigger — but its *output* is
+real, complete, parseable data Bolt reads directly, same as everything else
+in this project. Drop both exports (`<formname>.xml`,
+`sfstyle-<stylename>.xml`) into `docs/legacy_grab/` alongside the `.md`
+snapshot; sections 6-8 of the snapshot get filled from reading them, not
+from a fresh SE71 walk-through.
+
+**Worth investigating**: whether the function module behind "Utilities →
+Download" can be called directly — would let `ZSF2AF_R_LEGACY_GRAB`
+automate this export for all 500+ forms in one run, the way `P_GLOB`
+already automates the style/logo sweep. Not yet found; the safe way to look
+is the same `P_PROBE` pattern once a candidate name surfaces, not a guess
+baked into static code.
+
 See `docs/05_individual_form_conversion_framework.md` for how the design
-actually gets produced instead: SFP's **"Create Adobe Form by Migration"**
-wizard, SAP's own sanctioned tool for exactly this, run per form inside the
-system — not a background extraction.
+gets produced: Bolt reads the real XML to write a design spec; SFP's
+**"Create Adobe Form by Migration"** wizard is still the *build* mechanism
+(SAP's sanctioned tool, not a workaround) — but its output now gets
+reviewed against real extracted data, not blind.
 
 `P_PROBE` still exists as a general-purpose version of the same tool, for
 any *other* unfamiliar FM this project needs to call later — fill it with a
