@@ -1,5 +1,19 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.9 — fix EXTRACT_INCLUDES activation errors (F2)
+
+- `LV_INCLNAME` was inferred `TYPE string` by `DATA(lv_inclname) = to_upper(
+  ... )`, which broke two things: the classic offset/length trim
+  (`field+off(len)`, valid only on fixed `C/N/D/T` types) and the
+  by-reference `IMPORTING` binding to `write_driver_source`'s
+  `IV_PROGNAME TYPE tadir-obj_name` formal (needs an exact type match, not
+  just a convertible one). Fixed by declaring `lv_inclname` explicitly as
+  `TYPE tadir-obj_name` and assigning via `=`. See `docs/BUILD_ISSUES_LOG.md`
+  F2; also logged as D7 in the shared Bolt Playbook Appendix A.
+- Also fixed an ABAP Doc "wrong position" warning on `PROBE_FM`'s doc
+  comment (added the blank line before it that every other doc-commented
+  method in this file already has).
+
 ## v0.8 — P_PROBE: safely confirm SSF_READ_FORM's interface before calling it
 
 - New optional selection field `P_PROBE`: fill it with a function module name

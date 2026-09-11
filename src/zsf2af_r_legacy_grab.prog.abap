@@ -71,6 +71,7 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
     METHODS run.
 
   PRIVATE SECTION.
+
     "! If P_PROBE is filled: introspect that function module's interface
     "! (reusing the same proven FUPARAREF technique as capture_interface)
     "! and stop - does not run the legacy grab. Use this to safely learn
@@ -357,7 +358,13 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
         CONTINUE.
       ENDIF.
 
-      DATA(lv_inclname) = to_upper( lt_words[ 2 ] ).
+      " Must be a fixed CHAR type, not STRING: classic offset/length
+      " notation (+len) below only works on C/N/D/T fields, and
+      " write_driver_source's IV_PROGNAME formal is TYPE tadir-obj_name
+      " (by-reference IMPORTING needs an exact type match, not just a
+      " convertible one).
+      DATA lv_inclname TYPE tadir-obj_name.
+      lv_inclname = to_upper( lt_words[ 2 ] ).
       DATA(lv_len) = strlen( lv_inclname ) - 1.
       IF lv_len > 0 AND lv_inclname+lv_len(1) = '.'.
         lv_inclname = lv_inclname(lv_len).
