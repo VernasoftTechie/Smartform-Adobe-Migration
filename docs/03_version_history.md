@@ -1,5 +1,32 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.9 — fix F10: reference-field UNIT needs a real declared field, not a bare table-column name
+
+Applying v2.8's `MEINS`/`WAERS` values as the Reference Field for the 10
+`T_FINAL-*` entries produced 20 new errors: *"Field MEINS does not
+exist"* / *"Field WAERS does not exist"*. Root cause: a reference
+field's UNIT must resolve to an actually-declared field in the
+interface's own data model — not automatically to a same-named column
+inside the bound table. Confirmed by re-reading the reference file's raw
+`GLOBAL_DATA` (not previously extracted in full): it declares `MEINS
+TYPE EBAN-MEINS`, `LABST TYPE MARA-MEINS`, `NETPR TYPE EKKO-WAERS` as
+dedicated standalone global variables built specifically to be
+reference-field targets. `V_EXTTOTAL`'s reference to `V_WAERS` (a real
+import parameter) didn't error, confirming the pattern.
+
+Fixed: added the same two standalone globals to
+`z_mm_pr_form_adt.sfpi.xml`'s `GLOBAL_DATA` (`MEINS TYPE EBAN-MEINS`,
+`WAERS TYPE EKKO-WAERS`). Left `REFERENCE_FIELDS`' `T_FINAL-<field>`
+VALUE qualifiers unchanged — SAP's own error text already addressed
+fields that way, confirming it was correct.
+
+**Known, flagged follow-on gap**: nothing populates these two globals
+with a real per-row value yet (`CL_FP_CODING`/`INITIALIZATION` is still
+empty) — same true of the reference file's own equivalents, which also
+have no visible population logic. They satisfy static validation now;
+wiring a real value into them is separate work, not yet done. Logged as
+F10 in `docs/BUILD_ISSUES_LOG.md`.
+
 ## v2.8 — fix F9: populate CL_FP_REFERENCE_FIELDS, confirms live that T_FINAL really is the full ZTABLE_PR_PRINT
 
 User manually dragged `T_FINAL` into SFP's Context tree (working around
