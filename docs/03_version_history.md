@@ -1,5 +1,20 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.5 — naming confirmed: _ADT only, form and interface share one name
+
+User confirmed the naming question v2.4 flagged: *"Use _ADT only .. This
+uniqueness I wanted to distinguish between other processes."* Standing
+rule for all 500+ forms going forward: `<name>_ADT`, identical for both
+the SFPF (form) and SFPI (interface) object — no `_INT_` infix, no
+distinct interface base name (the object type itself distinguishes them
+in TADIR). Renamed `z_mm_pr_form_int_adt.sfpi.xml` → `z_mm_pr_form_adt.sfpi.xml`,
+updated `z_mm_pr_form_adt.sfpf.xml`'s `<INTERFACE>` reference from
+`Z_MM_PR_FORM_INT_ADT` to `Z_MM_PR_FORM_ADT` to match, and updated every
+doc reference (`05_individual_form_conversion_framework.md`'s naming
+table, `reference_examples/README.md`,
+`reference_examples_z_adt_mm_pr_form/README.md`'s naming section, now
+marked confirmed rather than open).
+
 ## v2.4 — fix F6: real abapGit-native SFPF/SFPI format, adopt confirmed interface types, switch naming to _ADT
 
 User reported abapGit still couldn't clone after F5's folder fix — "still
@@ -21,7 +36,7 @@ Rebuilt all three deliverable files against this exact confirmed shape:
 - `src/z_mm_pr_form_adt.sfpf.xml` (was `SFPF_Z_MM_PR_FORM_ADF.XML`) —
   `<abapGit>`-wrapped, `LAYOUT` left as a `CL_FP_LAYOUT` stub pointing at
   the companion `.sfpf.xdp`.
-- `src/z_mm_pr_form_int_adt.sfpi.xml` (was `SFPI_Z_MM_PR_FORM_ADF.XML`) —
+- `src/z_mm_pr_form_adt.sfpi.xml` (was `SFPI_Z_MM_PR_FORM_ADF.XML`) —
   `<abapGit>`-wrapped; `CL_FP_PARAMETERS/IMPORT_PARAMETERS` now populated
   with the real, confirmed ABAP types for all 16 original interface
   parameters plus the 2 Bolt-proposed extensions, and

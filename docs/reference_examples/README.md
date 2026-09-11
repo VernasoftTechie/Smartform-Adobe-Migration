@@ -54,7 +54,7 @@ serialize it (`LCL_OBJECT_SFPF` / `LCL_OBJECT_SFPI`, per the files'
 
 **This is the format every `/src/` file in this repo must follow.**
 `src/z_mm_pr_form_adt.sfpf.xdp` / `.sfpf.xml` /
-`z_mm_pr_form_int_adt.sfpi.xml` were rebuilt against this exact shape —
+`z_mm_pr_form_adt.sfpi.xml` were rebuilt against this exact shape —
 see `docs/BUILD_ISSUES_LOG.md` entry F6 and
 `docs/reference_examples_z_adt_mm_pr_form/README.md` for the populated
 (non-trivial) `CL_FP_PARAMETERS`/`CL_FP_CONTEXT` reference this Hello

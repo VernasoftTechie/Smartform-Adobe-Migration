@@ -22,7 +22,7 @@
   them): IV_REQ_EMAIL TYPE STRING OPTIONAL, IV_FRGKZ TYPE EBAN-FRGKZ
   OPTIONAL. See build checklist section 6.1/6.2 for why. These are
   additive/optional - the confirmed original 16 IMPORT_PARAMETERS are
-  otherwise unchanged (see z_mm_pr_form_int_adt.sfpi.xml).
+  otherwise unchanged (see z_mm_pr_form_adt.sfpi.xml).
 
   Binding paths below (bind ref="$.FIELDNAME") assume the Adobe
   Interface Context exposes parameters at the top level, matching Smart

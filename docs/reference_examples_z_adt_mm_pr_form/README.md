@@ -121,32 +121,24 @@ not a template to imitate wholesale.
   the user confirming with the functional owner whether the driver
   already computes an FRGKZ-equivalent value it could pass through.
 
-## Naming convention discrepancy (needs the user's decision)
+## Naming convention — confirmed 2026-09-12
 
-Three different marker conventions have now shown up for Adobe Form
-objects in this system:
+**Confirmed by the user: `_ADT` only, applied identically to both the
+form and the interface** — *"Use _ADT only .. This uniqueness I wanted
+to distinguish between other processes."* Standing rule for all 500+
+forms: `<original Smart Form name>_ADT`, used unchanged for both the
+SFPF (form) and SFPI (interface) object — no extra infix, no distinct
+interface base name. The object type itself (SFPF vs. SFPI) is what
+distinguishes the two in TADIR, so an identical name doesn't collide.
+`Z_MM_PR_FORM` → **`Z_MM_PR_FORM_ADT`** (form and interface both).
 
-1. Bolt's original instruction: `_ADF` suffix (superseded by this
-   entry — see below).
-2. This reference's own objects: `Z_ADT_MM_PR_FORM` (form, **prefix**
-   `Z_ADT_`) / `Z_INT_MM_PR_FORM` (interface, **prefix** `Z_INT_`).
-3. The user's own just-created Hello World objects, staged the same day:
-   `ZHELLO_WORLD_FORM_ADT` (form, **suffix** `_ADT`) /
-   `ZHELLO_WORLD_ADT` (interface, also suffix `_ADT`, but note it drops
-   `_FORM` relative to the form name — and the form's own `<INTERFACE>`
-   tag inside `zhello_world_form_adt.sfpf.xml` names the interface
-   `ZHELLO_WORLD` with **no** `_ADT` suffix at all, which doesn't match
-   the interface object's own file name `zhello_world_adt.sfpi.xml` —
-   likely a typo made while linking the two objects in SFP, flagged here
-   rather than silently resolved).
-
-Given (3) is the user's own freshly-created, confirmed-importable object
-and shares its marker letters ("ADT") with (2)'s prefix, this project has
-switched from `_ADF` to **`_ADT`** as of this round:
-`Z_MM_PR_FORM_ADT` (form) / `Z_MM_PR_FORM_INT_ADT` (interface) — a
-judgment call, not a silent guess. **Please confirm** whether `_ADT`
-should be the standing convention for all 500+ forms, and whether the
-interface should share the form's base name (as done here) or use a
-distinct name (as the `Z_INT_` reference does) — and separately, whether
-`ZHELLO_WORLD_FORM_ADT`'s interface link (`ZHELLO_WORLD`, no suffix) was
-intentional or a typo to fix.
+This settles the discrepancy that prompted the question: this
+reference's own objects use `Z_ADT_`/`Z_INT_` **prefixes**
+(`Z_ADT_MM_PR_FORM` / `Z_INT_MM_PR_FORM`) — a different, not-adopted
+scheme, kept here only as a fact about this reference, not a pattern to
+follow. The user's own Hello World test object
+(`ZHELLO_WORLD_FORM_ADT` / `ZHELLO_WORLD_ADT`) remains as originally
+built and is not part of this project's naming rule going forward; its
+interface-link mismatch (the form's `<INTERFACE>` tag names
+`ZHELLO_WORLD`, not `ZHELLO_WORLD_ADT`) is still worth a look next time
+that object is touched, but doesn't affect this project's convention.
