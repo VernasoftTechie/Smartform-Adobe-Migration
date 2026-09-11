@@ -1,5 +1,31 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.0 — first hand-authored Adobe Form template (XDP)
+
+User asked Bolt to build the actual importable Adobe Form design, not just
+the checklist — "I'll import into SFP." Produced
+`docs/legacy_grab/Z_MM_PR_FORM.xdp`: a hand-authored XFA template using
+every exact position/size/field/font/script from the build checklist —
+all 9 positioned subforms at their real coordinates, the 14-column table
+(header row + repeating data row bound to `T_FINAL[*]`, grand-total row
+with a FormCalc `Sum()`), the logo image field, native page-numbering
+fields, and the two resolved JavaScript `initialize` scripts (watermark
+visibility on `IV_FRGKZ`, date spell-out computed from `BADAT`) verbatim
+from checklist §6.2/§6.3. Includes sample/preview data matching the
+interface plus the two new optional parameters.
+
+**Flagged explicitly as the highest-risk deliverable so far**: unlike
+everything else built this session, an XDP's schema correctness can't be
+verified without a live SFP/ADS import — no compile/activation feedback
+loop available beforehand. Framed to the user as a genuine first test: try
+the import, paste back the exact result (success or error text), fix fast
+if needed — same discipline as every ABAP fix this session, applied to a
+much larger file. Noted two things the XDP doesn't do: it doesn't add the
+2 new optional parameters to SFP's own Form Interface tab (a separate GUI
+step, prerequisite to the import), and its `bind ref` paths assume a flat
+interface Context — SFP's actual Data View may nest fields differently, in
+which case only the `ref` attributes need adjusting, not the structure.
+
 ## v1.9 — resolve the embedded ABAP: FormCalc/JavaScript decisions, made
 
 User authorized Bolt to decide the interface where needed and use

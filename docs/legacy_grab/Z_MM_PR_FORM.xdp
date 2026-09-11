@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Z_MM_PR_FORM.xdp
+  Hand-authored Adobe LiveCycle Designer template (XFA), built directly
+  from the real Smart Form export - not the SFP "Create by Migration"
+  wizard. Every position/size/font/field below matches
+  docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md exactly.
+
+  IMPORT NOTE: this is the first hand-authored XDP in this project - it
+  has not been validated against a live SFP/ADS system. Try importing it
+  (SFP -> Z_MM_PR_FORM -> Layout tab -> Utilities/Import, or the exact
+  path your SFP version uses), and paste back EXACTLY what happens -
+  success, or the precise error text - so any schema issue gets fixed
+  fast rather than guessed at twice.
+
+  BEFORE importing this layout, add these two fields to the SFP Form
+  Interface tab (this file does not create them - it only references
+  them): IV_REQ_EMAIL TYPE STRING OPTIONAL, IV_FRGKZ TYPE EBAN-FRGKZ
+  OPTIONAL. See build checklist section 6.1/6.2 for why.
+
+  Binding paths below (bind ref="$.FIELDNAME") assume the Adobe Interface
+  Context exposes parameters at the top level, matching Smart Forms'
+  naming. SFP's own Data View (visible once the interface is bound) may
+  nest fields differently (e.g. under a root context node) - if so, adjust
+  every "ref" attribute to match what SFP's Data View actually shows,
+  the structure/positions/fonts/scripts stay the same.
+-->
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/">
+
+  <config xmlns="http://www.xfa.org/schema/xci/3.0/">
+    <present>
+      <pdf>
+        <fontInfo/>
+      </pdf>
+      <common>
+        <template>
+          <base/>
+        </template>
+        <locale>en_US</locale>
+      </common>
+    </present>
+  </config>
+
+  <template xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
+    <subform name="Z_MM_PR_FORM" layout="tb" locale="en_US" restrict="open">
+
+      <pageSet>
+        <pageArea name="Page1" id="Page1">
+          <contentArea x="0cm" y="0cm" w="29.7cm" h="21cm"/>
+          <medium stock="a4" orientation="landscape"/>
+        </pageArea>
+      </pageSet>
+
+      <!-- ===================== LOGO ===================== -->
+      <subform name="logo" x="0.60cm" y="0.20cm" w="5.42cm" h="2.82cm" layout="position">
+        <field name="logo_image" w="5.42cm" h="2.82cm">
+          <ui><imageEdit/></ui>
+          <value>
+            <!-- Export DANGOTE LOGO (SE78, object GRAPHICS, id BMAP, type
+                 BCOL) and embed it here, or bind to an image data node if
+                 the interface carries the binary. -->
+            <image contentType="image/bmp" href=""/>
+          </value>
+        </field>
+      </subform>
+
+      <!-- ===================== HEADER (company + title) ===================== -->
+      <subform name="header" x="6.60cm" y="0.40cm" w="17.47cm" h="2.20cm" layout="tb">
+        <draw name="company_line" w="17.47cm" h="0.70cm">
+          <font typeface="Times New Roman" size="15pt" weight="bold"/>
+          <para hAlign="center"/>
+          <value><text>Dangote Group</text></value>
+          <bind match="none"/>
+          <!-- static placeholder - SFP will show &lv_company& as available
+               data if you prefer a bound field instead of static text -->
+        </draw>
+        <field name="plant_name" w="17.47cm" h="0.70cm">
+          <ui><textEdit/></ui>
+          <font typeface="Times New Roman" size="15pt" weight="bold"/>
+          <para hAlign="center"/>
+          <bind ref="$.PLANT_NAME"/>
+        </field>
+        <draw name="form_title" w="17.47cm" h="0.70cm">
+          <font typeface="Times New Roman" size="15pt" weight="bold"/>
+          <para hAlign="center"/>
+          <value><text>PURCHASE REQUISITION FORM</text></value>
+        </draw>
+      </subform>
+
+      <!-- ===================== TYPE OF REQUEST ===================== -->
+      <subform name="type_of_request" x="0.53cm" y="4.00cm" w="15.73cm" h="1.20cm" layout="tb">
+        <draw name="type_line1" w="15.73cm" h="0.60cm">
+          <font typeface="Times New Roman" size="10pt"/>
+          <para hAlign="left"/>
+          <value><text>
+            <exData contentType="text/html"><body xmlns="http://www.w3.org/1999/xhtml">
+              <p><b>Type of Request&#160;&#160;&#160;&#160;:&#160;&#160;</b>Revenue/Capital Spares/General Consumables</p>
+            </body></exData>
+          </text></value>
+        </draw>
+        <draw name="type_line2" w="15.73cm" h="0.60cm">
+          <font typeface="Times New Roman" size="10pt"/>
+          <para hAlign="left"/>
+          <value><text>
+            <exData contentType="text/html"><body xmlns="http://www.w3.org/1999/xhtml">
+              <p><b>Equipment Details:</b></p>
+            </body></exData>
+          </text></value>
+        </draw>
+      </subform>
+
+      <!-- ===================== PR HEADER (identity block) ===================== -->
+      <subform name="pr_header" x="19.33cm" y="4.00cm" w="9.60cm" h="2.47cm" layout="tb">
+        <subform name="pr_line_lprno" w="9.60cm" h="0.49cm" layout="row">
+          <draw name="lbl_lprno" w="2.60cm" h="0.49cm">
+            <font typeface="Times New Roman" size="10pt" weight="bold"/>
+            <value><text>LPR No :</text></value>
+          </draw>
+          <field name="fld_banfn" w="7.00cm" h="0.49cm">
+            <ui><textEdit/></ui>
+            <font typeface="Courier New" size="11pt"/>
+            <bind ref="$.BANFN"/>
+          </field>
+        </subform>
+        <subform name="pr_line_lprdate" w="9.60cm" h="0.49cm" layout="row">
+          <draw name="lbl_lprdate" w="2.60cm" h="0.49cm">
+            <font typeface="Times New Roman" size="10pt" weight="bold"/>
+            <value><text>LPR Date :</text></value>
+          </draw>
+          <field name="fld_badat" w="7.00cm" h="0.49cm">
+            <ui><textEdit/></ui>
+            <font typeface="Courier New" size="11pt"/>
+            <bind ref="$.BADAT"/>
+          </field>
+        </subform>
+        <subform name="pr_line_dept" w="9.60cm" h="0.49cm" layout="row">
+          <draw name="lbl_dept" w="2.60cm" h="0.49cm">
+            <font typeface="Times New Roman" size="10pt" weight="bold"/>
+            <value><text>Department:</text></value>
+          </draw>
+          <field name="fld_eknam" w="7.00cm" h="0.49cm">
+            <ui><textEdit/></ui>
+            <font typeface="Courier New" size="11pt"/>
+            <bind ref="$.EKNAM"/>
+          </field>
+        </subform>
+        <subform name="pr_line_section" w="9.60cm" h="0.49cm" layout="row">
+          <draw name="lbl_section" w="2.60cm" h="0.49cm">
+            <font typeface="Times New Roman" size="10pt" weight="bold"/>
+            <value><text>Section :</text></value>
+          </draw>
+          <field name="fld_bednr" w="7.00cm" h="0.49cm">
+            <ui><textEdit/></ui>
+            <font typeface="Courier New" size="11pt"/>
+            <bind ref="$.BEDNR"/>
+          </field>
+        </subform>
+        <subform name="pr_line_email" w="9.60cm" h="0.51cm" layout="row">
+          <draw name="lbl_email" w="2.60cm" h="0.51cm">
+            <font typeface="Times New Roman" size="10pt" weight="bold"/>
+            <value><text>Email :</text></value>
+          </draw>
+          <field name="fld_email" w="7.00cm" h="0.51cm">
+            <ui><textEdit/></ui>
+            <font typeface="Courier New" size="11pt"/>
+            <!-- new optional interface parameter - build checklist 6.1 -->
+            <bind ref="$.IV_REQ_EMAIL"/>
+          </field>
+        </subform>
+      </subform>
+
+      <!-- ===================== VALUE LINE ===================== -->
+      <subform name="value_line" x="0.50cm" y="5.47cm" w="13.97cm" h="0.50cm" layout="row">
+        <draw name="lbl_value" w="7.50cm" h="0.50cm">
+          <font typeface="Times New Roman" size="10pt" weight="bold"/>
+          <value><text>Estimated Value of this LPR :</text></value>
+        </draw>
+        <field name="fld_exttotal" w="4.50cm" h="0.50cm">
+          <ui><numericEdit/></ui>
+          <font typeface="Times New Roman" size="10pt"/>
+          <bind ref="$.V_EXTTOTAL"/>
+        </field>
+        <field name="fld_waers" w="1.97cm" h="0.50cm">
+          <ui><textEdit/></ui>
+          <font typeface="Times New Roman" size="10pt"/>
+          <bind ref="$.V_WAERS"/>
+        </field>
+      </subform>
+
+      <!-- ===================== WATERMARK (conditional) ===================== -->
+      <subform name="watermark" x="2.20cm" y="10.40cm" w="20.50cm" h="8.80cm" layout="position" presence="hidden">
+        <draw name="watermark_text" w="20.50cm" h="8.80cm">
+          <font typeface="Times New Roman" size="72pt" weight="bold"/>
+          <para hAlign="center" vAlign="middle"/>
+          <value><text>PENDING RELEASE</text></value>
+          <!-- exact wording not captured in the export - confirm the real
+               watermark text in SE71 before finalizing; position/condition
+               are correct regardless -->
+        </draw>
+        <event name="watermarkVisibility" activity="initialize">
+          <script contentType="application/x-javascript"><![CDATA[
+            // build checklist section 6.2 - new optional interface
+            // parameter IV_FRGKZ. Unmodified caller -> blank -> hidden.
+            if (IV_FRGKZ.rawValue == "R" || IV_FRGKZ.rawValue == "2") {
+                this.presence = "visible";
+            } else {
+                this.presence = "hidden";
+            }
+          ]]></script>
+        </event>
+      </subform>
+
+      <!-- ===================== DATE LINE (computed) ===================== -->
+      <subform name="date_line" x="0.50cm" y="19.87cm" w="7.60cm" h="0.93cm" layout="position">
+        <draw name="date_text" w="7.60cm" h="0.93cm">
+          <font typeface="Times New Roman" size="10pt"/>
+          <para hAlign="left"/>
+          <value><text></text></value>
+        </draw>
+        <event name="dateSpellOut" activity="initialize">
+          <script contentType="application/x-javascript"><![CDATA[
+            // build checklist section 6.3 - no interface change needed,
+            // BADAT already available. Replaces ZABF_DATE_TO_DAY /
+            // ZABF_ISP_GET_MONTH_NAME. Adjust the date parse to whatever
+            // format SFP actually binds BADAT as once you're in the tool.
+            var wkE = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+            var wkF = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+            var moE = ["January","February","March","April","May","June","July",
+                       "August","September","October","November","December"];
+            var moF = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet",
+                       "Aout","Septembre","Octobre","Novembre","Decembre"];
+
+            var d = Date2Num(BADAT.rawValue, "YYYY-MM-DD");
+            var dow = Mod(d, 7);
+            var mm = Num2Date(d, "MM") - 1;
+            var lang = (xfa.form.language == "fr") ? "F" : "E";
+            var weekday = (lang == "F") ? wkF[dow] : wkE[dow];
+            var month   = (lang == "F") ? moF[mm]  : moE[mm];
+
+            date_text.rawValue = weekday + ", " + month + " " + BADAT.rawValue;
+          ]]></script>
+        </event>
+      </subform>
+
+      <!-- ===================== PAGE FOOTER ===================== -->
+      <subform name="page_footer" x="24.00cm" y="19.83cm" w="4.03cm" h="1.10cm" layout="row">
+        <font typeface="Times New Roman" size="15pt" weight="bold" posture="italic"/>
+        <draw name="page_lbl" w="1.20cm" h="1.10cm">
+          <value><text>Page</text></value>
+        </draw>
+        <field name="page_current" w="0.70cm" h="1.10cm">
+          <ui><numericEdit/></ui>
+          <value><float/></value>
+          <calculate><script contentType="application/x-formcalc">$ = xfa.layout.page(this)</script></calculate>
+        </field>
+        <draw name="page_of" w="0.50cm" h="1.10cm">
+          <value><text>of</text></value>
+        </draw>
+        <field name="page_total" w="0.70cm" h="1.10cm">
+          <ui><numericEdit/></ui>
+          <value><float/></value>
+          <calculate><script contentType="application/x-formcalc">$ = xfa.layout.pageCount()</script></calculate>
+        </field>
+      </subform>
+
+      <!-- ===================== MAIN: LINE-ITEMS TABLE ===================== -->
+      <subform name="main" x="0.50cm" y="6.50cm" w="28.03cm" h="13.20cm" layout="tb">
+
+        <subform name="table_header" w="28.03cm" h="0.60cm" layout="row">
+          <font typeface="Times New Roman" size="10pt" weight="bold"/>
+          <draw name="h01" w="0.80cm" h="0.60cm"><value><text>S.No</text></value></draw>
+          <draw name="h02" w="2.50cm" h="0.60cm"><value><text>Item Code</text></value></draw>
+          <draw name="h03" w="5.66cm" h="0.60cm"><value><text>Description and Part Number</text></value></draw>
+          <draw name="h04" w="1.14cm" h="0.60cm"><value><text>Unit</text></value></draw>
+          <draw name="h05" w="2.22cm" h="0.60cm"><value><text>Req Qty</text></value></draw>
+          <draw name="h06" w="2.40cm" h="0.60cm"><value><text>Present Stock at Hand</text></value></draw>
+          <draw name="h07" w="2.04cm" h="0.60cm"><value><text>Consumption</text></value></draw>
+          <draw name="h08" w="1.99cm" h="0.60cm"><value><text>Last Supplier</text></value></draw>
+          <draw name="h09" w="1.66cm" h="0.60cm"><value><text>Supply Rate</text></value></draw>
+          <draw name="h10" w="1.61cm" h="0.60cm"><value><text>Exchange Rate</text></value></draw>
+          <draw name="h11" w="1.39cm" h="0.60cm"><value><text>Open PR</text></value></draw>
+          <draw name="h12" w="1.33cm" h="0.60cm"><value><text>Open PO</text></value></draw>
+          <draw name="h13" w="1.96cm" h="0.60cm"><value><text>Total Available Stock</text></value></draw>
+          <draw name="h14" w="2.30cm" h="0.60cm"><value><text>Total Value</text></value></draw>
+        </subform>
+
+        <subform name="table_row" w="28.03cm" h="0.55cm" layout="row">
+          <occur min="0" max="-1"/>
+          <bind ref="$.T_FINAL[*]"/>
+          <font typeface="Courier New" size="11pt"/>
+          <field name="c01" w="0.80cm" h="0.55cm"><ui><textEdit/></ui><bind ref="SLNO"/></field>
+          <field name="c02" w="2.50cm" h="0.55cm"><ui><textEdit/></ui><bind ref="MATNR"/></field>
+          <field name="c03" w="5.66cm" h="0.55cm"><ui><textEdit/></ui><bind ref="TXZ01"/></field>
+          <field name="c04" w="1.14cm" h="0.55cm"><ui><textEdit/></ui><bind ref="MEINS"/></field>
+          <field name="c05" w="2.22cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="MENGE"/></field>
+          <field name="c06" w="2.40cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="LABST"/></field>
+          <field name="c07" w="2.04cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="MENGE1"/></field>
+          <field name="c08" w="1.99cm" h="0.55cm"><ui><textEdit/></ui><bind ref="NAME1"/></field>
+          <field name="c09" w="1.66cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="SUPPLY_RATE"/></field>
+          <field name="c10" w="1.61cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="EXCHANGE"/></field>
+          <field name="c11" w="1.39cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="GV_VALUE"/></field>
+          <!-- c12-c14: field names verified at medium confidence only -
+               build checklist section 4/6.5, confirm against a real
+               printout -->
+          <field name="c12" w="1.33cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="LABST1"/></field>
+          <field name="c13" w="1.96cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="TOTAL"/></field>
+          <field name="c14" w="2.30cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="GV_VALUE1"/></field>
+        </subform>
+
+        <subform name="table_total" w="28.03cm" h="0.60cm" layout="row" presence="visible">
+          <font typeface="Times New Roman" size="10pt" weight="bold"/>
+          <draw name="total_label" w="20.24cm" h="0.60cm">
+            <para hAlign="right"/>
+            <value><text>Grand Total</text></value>
+          </draw>
+          <field name="total_value" w="2.30cm" h="0.60cm">
+            <ui><numericEdit/></ui>
+            <calculate>
+              <script contentType="application/x-formcalc">$ = Sum(table_row[*].c14)</script>
+            </calculate>
+          </field>
+        </subform>
+
+      </subform>
+
+    </subform>
+  </template>
+
+  <xfa:datasets xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/">
+    <xfa:data>
+      <!-- Sample/preview data - one representative row, matches the
+           interface + the 2 new optional parameters. Real data comes from
+           the interface at runtime; this is only for LiveCycle Designer's
+           own preview while you build. -->
+      <BANFN>1000012345</BANFN>
+      <BADAT>2026-09-01</BADAT>
+      <EKNAM>Mechanical Maintenance</EKNAM>
+      <BEDNR>MECH-01</BEDNR>
+      <IV_REQ_EMAIL>requisitioner@dangote.com</IV_REQ_EMAIL>
+      <IV_FRGKZ></IV_FRGKZ>
+      <PLANT_NAME>Obajana Cement Plant</PLANT_NAME>
+      <V_EXTTOTAL>125000.00</V_EXTTOTAL>
+      <V_WAERS>NGN</V_WAERS>
+      <T_FINAL>
+        <SLNO>1</SLNO>
+        <MATNR>10004521</MATNR>
+        <TXZ01>Bearing, Roller, 6205-2RS</TXZ01>
+        <MEINS>EA</MEINS>
+        <MENGE>10</MENGE>
+        <LABST>4</LABST>
+        <MENGE1>6</MENGE1>
+        <NAME1>SKF Nigeria Ltd</NAME1>
+        <SUPPLY_RATE>2500.00</SUPPLY_RATE>
+        <EXCHANGE>1.00</EXCHANGE>
+        <GV_VALUE>0</GV_VALUE>
+        <LABST1>0</LABST1>
+        <TOTAL>25000.00</TOTAL>
+        <GV_VALUE1>25000.00</GV_VALUE1>
+      </T_FINAL>
+    </xfa:data>
+  </xfa:datasets>
+
+</xdp:xdp>
