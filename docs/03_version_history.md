@@ -1,5 +1,36 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.0 — scope pivot: design + interface only, driver programs read-only
+
+**Architecture decision, confirmed 2026-09-12** — supersedes the driver
+rewrite described in earlier versions of `docs/01_scope.md`:
+- Driver programs are **read-only inputs forever** — understood, never
+  modified. Multiple drivers can call the same Smart Form for different
+  purposes; rewriting one for one purpose risks silently breaking another.
+- This project's deliverable is the **Adobe Form design + interface only**.
+  The interface is preserved exactly from each snapshot's §2. How an
+  existing driver eventually reaches the new Adobe Form (NACE config
+  repoint, new parallel entry point, or an administrative decision) is a
+  **separate, later, per-driver decision** — not proposed or built here.
+- `docs/01_scope.md` updated throughout: business outcome, §4, §8 (out of
+  scope), §9 (phase plan — added 1c, redefined 2/3/4/5 as design-only, 6
+  reframed as a separate wiring track), risk framework's driver-complexity
+  dimension, definition of done.
+- **New: Global Style & Asset Catalogue** (`docs/04_global_style_catalogue.md`)
+  — instead of a bespoke Adobe style per form, consolidate every logo/style
+  found across all forms into a small reusable set, matched per form rather
+  than designed fresh each time. `docs/06_global_findings.md` is the raw log
+  feeding it.
+- **New: Individual Form Conversion Framework**
+  (`docs/05_individual_form_conversion_framework.md`) — the repeatable
+  per-form design procedure (read → design → match catalogue → validate via
+  OTF/PDF diff → sign-off), with unresolved items becoming a named
+  **Developer Extension Point** + a post-implementation checklist entry,
+  never a silent gap. Special Adobe-specific features may be used at Bolt's
+  judgment, always called out explicitly.
+- `ZSF2AF_R_LEGACY_GRAB` section 3 wording clarified: driver candidates are
+  explicitly labelled READ-ONLY, pointing at `01_scope.md` §8.
+
 ## v0.9 — fix EXTRACT_INCLUDES activation errors (F2)
 
 - `LV_INCLNAME` was inferred `TYPE string` by `DATA(lv_inclname) = to_upper(

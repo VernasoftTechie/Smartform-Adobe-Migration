@@ -543,7 +543,7 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ELSE.
       LOOP AT it_drivers INTO DATA(ls_hit).
         DATA(ls_info) = get_prog_info( ls_hit-progname ).
-        APPEND |- `{ ls_hit-progname }` (contains this form name + SSF_FUNCTION_MODULE_NAME - confirm it is the real driver)| TO lt_lines.
+        APPEND |- `{ ls_hit-progname }` (contains this form name + SSF_FUNCTION_MODULE_NAME - confirm it is the real driver. READ-ONLY: never modified - see docs/01_scope.md section 8)| TO lt_lines.
         IF ls_info-source_file IS NOT INITIAL.
           APPEND |  full source extracted to `{ ls_info-source_file }`| TO lt_lines.
         ELSE.

@@ -10,8 +10,11 @@ applies here as every other Vernasoft SAP build: scoping doc → phases → Comm
 Gate → increment/activate/fix-loop.
 
 Then read [`docs/01_scope.md`](docs/01_scope.md) (requirement, risk framework,
-phase plan) and [`docs/02_legacy_grab_spec.md`](docs/02_legacy_grab_spec.md)
-(what the legacy grab captures automatically vs. manually, and why).
+phase plan), [`docs/02_legacy_grab_spec.md`](docs/02_legacy_grab_spec.md)
+(what the legacy grab captures automatically vs. manually, and why),
+[`docs/04_global_style_catalogue.md`](docs/04_global_style_catalogue.md) and
+[`docs/05_individual_form_conversion_framework.md`](docs/05_individual_form_conversion_framework.md)
+(the per-form design procedure).
 
 ## Project facts
 
@@ -28,9 +31,20 @@ phase plan) and [`docs/02_legacy_grab_spec.md`](docs/02_legacy_grab_spec.md)
 
 ## Working rules
 
+- **Architecture confirmed 2026-09-12 — driver programs are read-only,
+  forever.** This project's deliverable is the Adobe Form **design +
+  interface only**. Driver programs are read to understand calling context
+  (multiple drivers can call the same form for different purposes) — **never
+  modified, never rewritten.** How an existing driver eventually reaches the
+  new Adobe Form is a separate, later, per-driver decision this project does
+  not propose or build (`docs/01_scope.md` §8).
 - Architecture/scope approval before implementation (Rulebook §8 / Playbook §2 Step 3).
 - Every form is risk-scored (docs/01_scope.md §Risk framework) before it is converted.
-- Driver program rewrites preserve the original interface signature — callers
-  (output determination, transactions) must not need to change.
-- Output determination is repointed via a parallel NAST condition / switch, never
-  a hard cutover — Smart Form and Adobe Form run side by side until sign-off.
+- The interface is preserved **exactly** from each snapshot's §2 — whatever
+  eventually calls the Adobe Form must see an unchanged contract.
+- Style/logo needs are matched against the **Global Style Catalogue**
+  (`docs/04_global_style_catalogue.md`) before designing anything form-specific.
+- Anything a form's design can't resolve becomes a named **Developer
+  Extension Point** + a post-implementation checklist entry
+  (`docs/05_individual_form_conversion_framework.md`) — never a silent gap
+  and never a reason to block sign-off.
