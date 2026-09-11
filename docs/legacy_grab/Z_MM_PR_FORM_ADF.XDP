@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Z_MM_PR_FORM.xdp
+  Z_MM_PR_FORM_ADF.XDP
   Hand-authored Adobe LiveCycle Designer template (XFA), built directly
   from the real Smart Form export - not the SFP "Create by Migration"
   wizard. Every position/size/font/field below matches
@@ -8,7 +8,7 @@
 
   IMPORT NOTE: this is the first hand-authored XDP in this project - it
   has not been validated against a live SFP/ADS system. Try importing it
-  (SFP -> Z_MM_PR_FORM -> Layout tab -> Utilities/Import, or the exact
+  (SFP -> Z_MM_PR_FORM_ADF -> Layout tab -> Utilities/Import, or the exact
   path your SFP version uses), and paste back EXACTLY what happens -
   success, or the precise error text - so any schema issue gets fixed
   fast rather than guessed at twice.
@@ -27,7 +27,7 @@
 
   Structure (connectionSet/xsdConnection, xfa:datasets, localeSet) matches
   the real ZHELLO_WORLD_FORM.XDP export from this system - confirmed
-  authentic, not guessed. Z_MM_PR_FORM.XSD is the companion data schema
+  authentic, not guessed. Z_MM_PR_FORM_ADF.XSD is the companion data schema
   this file's connectionSet references.
 -->
 <xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/">
@@ -51,7 +51,7 @@
   </config>
 
   <template xmlns:xliff="urn:oasis:names:tc:xliff:document:1.1" xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
-    <subform name="Z_MM_PR_FORM" layout="tb" locale="en_US" restrict="open">
+    <subform name="Z_MM_PR_FORM_ADF" layout="tb" locale="en_US" restrict="open">
 
       <pageSet>
         <pageArea name="Page1" id="Page1">
@@ -336,7 +336,7 @@
   </template>
 
   <connectionSet xmlns="http://www.xfa.org/schema/xfa-connection-set/2.8/">
-    <xsdConnection dataDescription="data" name="Z_MM_PR_FORM">
+    <xsdConnection dataDescription="data" name="Z_MM_PR_FORM_ADF">
       <uri/>
       <rootElement>data</rootElement>
     </xsdConnection>

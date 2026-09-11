@@ -4,6 +4,26 @@ The repeatable procedure for turning one form's legacy-grab snapshot into a
 signed-off Adobe Form **design**. Confirmed 2026-09-12: design + interface
 only — no driver program is ever touched by this procedure.
 
+## Naming convention — every form's Adobe deliverable
+
+**Confirmed 2026-09-13**: the Adobe Form object and interface both take
+the original Smart Form's exact name with `_ADF` appended — e.g.
+`Z_MM_PR_FORM` → `Z_MM_PR_FORM_ADF`. Applies uniformly to every file for
+that form:
+
+| File | Pattern | Example |
+|---|---|---|
+| Data schema | `<name>_ADF.XSD` | `Z_MM_PR_FORM_ADF.XSD` |
+| Layout template | `<name>_ADF.XDP` | `Z_MM_PR_FORM_ADF.XDP` |
+| Form object (abapGit) | `SFPF_<name>_ADF.XML` | `SFPF_Z_MM_PR_FORM_ADF.XML` |
+| Interface object (abapGit) | `SFPI_<name>_ADF.XML` | `SFPI_Z_MM_PR_FORM_ADF.XML` |
+
+This is deliberately **not** the `Z<STEM>_*` pattern used for this
+project's own tooling objects (`ZSF2AF_R_LEGACY_GRAB`, package
+`ZABAP_UTIL`) — Adobe Form deliverables live in the *client's* existing
+SAP namespace, one-to-one with the Smart Form they replace, not this
+project's own object stem.
+
 ## Prerequisites
 
 - `docs/legacy_grab/<form>.md` is complete (all 11 sections — automated

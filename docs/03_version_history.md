@@ -1,5 +1,24 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.2 — naming convention: `_ADF` suffix, applied and documented
+
+User asked for uniform naming across all object files. **Confirmed
+standing convention**: the Adobe Form object/interface take the original
+Smart Form's exact name with `_ADF` appended — `Z_MM_PR_FORM` →
+`Z_MM_PR_FORM_ADF` — applied to all four file types
+(`docs/05_individual_form_conversion_framework.md` now documents this as
+the rule for every future form, not just this one).
+
+Renamed and rebuilt all four `Z_MM_PR_FORM` deliverables to
+`*_ADF`: `Z_MM_PR_FORM_ADF.XSD`, `Z_MM_PR_FORM_ADF.XDP` (internal
+`subform name` and `xsdConnection name` updated to match, not just the
+filename), `SFPF_Z_MM_PR_FORM_ADF.XML` (base64 payload rebuilt from the
+renamed XDP, `<INTERFACE>` reference updated to
+`Z_MM_PR_FORM_ADF`), `SFPI_Z_MM_PR_FORM_ADF.XML` (filename only — no
+internal object-name references exist in that file, confirmed by
+inspection). Re-validated all four as well-formed XML and re-confirmed the
+base64 round-trip after rebuilding.
+
 ## v2.1 — the real abapGit-importable format (SFPF/SFPI/XDP/XSD)
 
 User confirmed v2.0's plain `.xdp` "can't be addressed by abapGit" and
