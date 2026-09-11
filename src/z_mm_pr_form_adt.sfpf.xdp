@@ -60,10 +60,11 @@
   </config>
 
   <template xmlns:xliff="urn:oasis:names:tc:xliff:document:1.1" xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
-    <subform name="Z_MM_PR_FORM_ADT" layout="tb" locale="en_US" restrict="open">
+    <subform name="Z_MM_PR_FORM_ADT" layout="position" locale="en_US" restrict="open">
 
       <pageSet>
         <pageArea name="Page1" id="Page1">
+          <occur min="0" max="-1"/>
           <contentArea x="0cm" y="0cm" w="29.7cm" h="21cm"/>
           <medium stock="a4" orientation="landscape"/>
         </pageArea>

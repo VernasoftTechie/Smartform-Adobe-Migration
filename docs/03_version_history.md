@@ -1,5 +1,26 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.6 — fix F7: root subform layout="tb" was silently discarding every child's absolute position
+
+User imported successfully (Hierarchy tree showed every subform correctly
+named) but Design View rendered completely blank — at any zoom, with any
+node selected. Root cause: `Z_MM_PR_FORM_ADT`'s root subform was
+`layout="tb"`, which makes the layout engine auto-stack children by
+height and **ignore their explicit `x`/`y`** entirely. The 9 body
+sections' heights (logo/header/type_of_request/pr_header/value_line/
+watermark/date_line/page_footer/main) sum to ~33cm; the single
+`pageArea` was a fixed one-page area only 21cm tall with no room to flow
+onto a second page — so there was nothing valid to paint.
+
+Fixed in `z_mm_pr_form_adt.sfpf.xdp`: root subform changed to
+`layout="position"` (confirmed against how `zhello_world_form_adt.sfpf.xdp`'s
+own body wrapper does it — no `layout` attribute, i.e. XFA's implicit
+default of `position`), so every child's absolute cm coordinate is
+honored as originally designed. Also added `<occur min="0" max="-1"/>`
+to `pageArea` as a defensive multi-page allowance, matching the real
+`Z_ADT_MM_PR_FORM.XDP` reference. Logged as F7 in
+`docs/BUILD_ISSUES_LOG.md`.
+
 ## v2.5 — naming confirmed: _ADT only, form and interface share one name
 
 User confirmed the naming question v2.4 flagged: *"Use _ADT only .. This
