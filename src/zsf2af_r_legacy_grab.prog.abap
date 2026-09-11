@@ -9,14 +9,20 @@
 *& candidates (full source extracted to its own file, their own
 *& INCLUDEs followed one level deep and extracted too, and a
 *& dependency scan of the custom objects they reference), output
-*& determination (NACE/TNAPR), and SSF_READ_FORM's own interface
-*& (section 5, auto-probed via FUPARAREF every run - no separate step
-*& needed), plus a full prerequisite checklist (section 11) covering
-*& everything else a Smart Form can depend on. Still MANUAL: SmartStyle,
-*& logo, form outline themselves (sections 6-8) - FUPARAREF gives
-*& SSF_READ_FORM's parameter NAMES but not their exact TYPES, and
-*& calling it with a guessed type risks the same class of dump as F1;
-*& see docs/02_legacy_grab_spec.md.
+*& determination (NACE/TNAPR), plus a full prerequisite checklist
+*& (section 11) covering everything else a Smart Form can depend on.
+*& SSF_READ_FORM's own interface is auto-probed (section 5, informational
+*& only - its parameters turned out to be header/admin metadata, not a
+*& layout read API - see docs/02_legacy_grab_spec.md). Sections 6-7
+*& (SmartStyle, logo) also attempt an automatic match: probe_form_storage
+*& safely tries a short list of candidate DB tables via RTTI (a wrong
+*& guess is a caught exception, never an activation risk) and scans any
+*& that resolve for this form's name - at 500+-form scale this is meant
+*& to close the "which style/logo does THIS form use" gap in one run
+*& rather than per form. Falls back to the usual manual note if nothing
+*& matches. Section 8 (form outline) and the design itself still come from
+*& the SFP "Create Adobe Form by Migration" wizard, never a background
+*& extraction (docs/05_individual_form_conversion_framework.md).
 *&
 *& P_PROBE: fill it with any OTHER function module name to introspect
 *& its interface via the same FUPARAREF technique instead of running
@@ -191,6 +197,18 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
       RETURNING VALUE(rt_lines) TYPE string_table.
 
     METHODS capture_output_determination
+      IMPORTING iv_formname    TYPE string
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
+    "! Safely tries a short list of candidate table names that might hold
+    "! this form's SmartStyle/logo linkage - none confirmed to exist, but
+    "! trying is zero-risk: RTTI resolves each name at RUNTIME (a bad name
+    "! is a caught exception, not an activation failure the way a static
+    "! SELECT against a wrong table would be), and any table found is read
+    "! generically (SELECT * + dump_any, no column names needed either) and
+    "! scanned for this form's name. Aimed at closing the SmartStyle/logo
+    "! gap for all forms at once, not per form - see docs/02_legacy_grab_spec.md.
+    METHODS probe_form_storage
       IMPORTING iv_formname    TYPE string
       RETURNING VALUE(rt_lines) TYPE string_table.
 
@@ -538,6 +556,76 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
   ENDMETHOD.
 
+  METHOD probe_form_storage.
+    DATA(lt_candidates) = VALUE string_table(
+      ( `STXFOBJECT` ) ( `STXFATTR` ) ( `STXFHEADER` ) ( `SSFOBJ` ) ).
+
+    LOOP AT lt_candidates INTO DATA(lv_tab).
+      DATA lo_struct TYPE REF TO cl_abap_structdescr.
+      CLEAR lo_struct.
+      TRY.
+          lo_struct = CAST cl_abap_structdescr( cl_abap_typedescr=>describe_by_name( lv_tab ) ).
+        CATCH cx_root.
+          CONTINUE.
+      ENDTRY.
+      IF lo_struct IS NOT BOUND.
+        CONTINUE.
+      ENDIF.
+
+      DATA lr_tab TYPE REF TO data.
+      TRY.
+          DATA(lo_tabtype) = cl_abap_tabledescr=>create(
+            p_line_type  = lo_struct
+            p_table_kind = cl_abap_tabledescr=>tablekind_std
+            p_unique     = abap_false ).
+          CREATE DATA lr_tab TYPE HANDLE lo_tabtype.
+        CATCH cx_root.
+          CONTINUE.
+      ENDTRY.
+      ASSIGN lr_tab->* TO FIELD-SYMBOL(<tab>).
+      IF <tab> IS NOT ASSIGNED.
+        CONTINUE.
+      ENDIF.
+
+      TRY.
+          SELECT * FROM (lv_tab) INTO TABLE <tab> UP TO 20000 ROWS.
+        CATCH cx_root.
+          CONTINUE.
+      ENDTRY.
+      IF sy-subrc <> 0 OR <tab> IS INITIAL.
+        CONTINUE.
+      ENDIF.
+
+      DATA lv_hits TYPE i.
+      lv_hits = 0.
+      LOOP AT <tab> ASSIGNING FIELD-SYMBOL(<row>).
+        DATA(lt_dump)   = dump_any( <row> ).
+        DATA(lv_joined) = concat_lines_of( table = lt_dump sep = | | ).
+        IF lv_joined CS iv_formname.
+          lv_hits = lv_hits + 1.
+          IF lv_hits <= 3.
+            APPEND |candidate table { lv_tab } (unverified - confirm relevance):| TO rt_lines.
+            APPEND `-` TO rt_lines.
+            APPEND LINES OF lt_dump TO rt_lines.
+          ENDIF.
+        ENDIF.
+      ENDLOOP.
+      IF lv_hits > 3.
+        APPEND |... and { lv_hits - 3 } more row(s) in { lv_tab }| TO rt_lines.
+      ENDIF.
+    ENDLOOP.
+
+    IF rt_lines IS INITIAL.
+      APPEND `(no candidate table matched - these were speculative guesses (STXFOBJECT,` TO rt_lines.
+      APPEND `STXFATTR, STXFHEADER, SSFOBJ), tried safely: a wrong table name is skipped,` TO rt_lines.
+      APPEND `not fatal. For a DEFINITIVE answer that unlocks safe automation for every` TO rt_lines.
+      APPEND `remaining form at once (not just this one) - set an ABAP debugger` TO rt_lines.
+      APPEND `breakpoint in SE71 at the point the SmartStyle name loads (or ask an` TO rt_lines.
+      APPEND `ABAP/Basis colleague to), inspect which table/field it reads from, and` TO rt_lines.
+      APPEND `share that.` TO rt_lines.
+    ENDIF.
+  ENDMETHOD.
+
   METHOD process_form.
     DATA(lv_fm) = resolve_fm_name( iv_formname ).
 
@@ -610,15 +698,14 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND LINES OF capture_output_determination( iv_formname ) TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 5. SSF_READ_FORM interface (auto-probed via FUPARAREF)` TO lt_lines.
-    APPEND `This is the likely API for sections 6-8 below. Probed automatically every` TO lt_lines.
-    APPEND `run - no separate manual step. Gives parameter NAMES + I/E/T/C/X kind only,` TO lt_lines.
-    APPEND `not each parameter's exact ABAP type, so it is not called for real yet -` TO lt_lines.
-    APPEND `calling it with a guessed type for a deep EXPORTING/TABLES parameter risks` TO lt_lines.
-    APPEND `the same kind of dump SSF_FUNCTION_MODULE_NAME caused earlier (see` TO lt_lines.
-    APPEND `docs/BUILD_ISSUES_LOG.md F1). To unlock the real call: open SE37 -> display` TO lt_lines.
-    APPEND `SSF_READ_FORM -> note the Reference Type shown for the EXPORTING/TABLES` TO lt_lines.
-    APPEND `parameter(s) listed just below, and share that.` TO lt_lines.
+    APPEND `## 5. SSF_READ_FORM interface (auto-probed via FUPARAREF, informational only)` TO lt_lines.
+    APPEND `Correction: this turned out NOT to be the layout/style/graphic read API -` TO lt_lines.
+    APPEND `its EXPORTING fields (CAPTION/VARTEXT/FMNUMB/ACTIVE/ADMDATA) read as form` TO lt_lines.
+    APPEND `header/admin metadata, and there is no TABLES parameter for a node tree.` TO lt_lines.
+    APPEND `Kept for reference (occasionally useful for description/version) - sections` TO lt_lines.
+    APPEND `6-8 stay manual, produced via the SFP "Create Adobe Form by Migration"` TO lt_lines.
+    APPEND `wizard instead (see docs/05_individual_form_conversion_framework.md), not a` TO lt_lines.
+    APPEND `background read.` TO lt_lines.
     IF mt_ssf_read_form_iface IS INITIAL.
       APPEND `(not probed)` TO lt_lines.
     ELSE.
@@ -626,7 +713,10 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
     APPEND `` TO lt_lines.
 
-    APPEND `## 6. SmartStyle(s) used - MANUAL (one name lookup, not fresh research)` TO lt_lines.
+    DATA(lt_storage_probe) = probe_form_storage( iv_formname ).
+
+    APPEND `## 6. SmartStyle(s) used - auto-probe attempted, fallback MANUAL` TO lt_lines.
+    APPEND LINES OF lt_storage_probe TO lt_lines.
     APPEND `SE71 -> Form Attributes -> Output Options shows the SmartStyle name this form` TO lt_lines.
     APPEND `uses. It should already be listed in docs/legacy_grab/global_smartstyles.txt` TO lt_lines.
     APPEND `(from the P_GLOB sweep) - just note WHICH one here and match it against` TO lt_lines.
@@ -634,7 +724,8 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `it isn't in the global catalogue yet.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 7. Graphics / logos - MANUAL (one name lookup, not fresh research)` TO lt_lines.
+    APPEND `## 7. Graphics / logos - auto-probe attempted, fallback MANUAL` TO lt_lines.
+    APPEND LINES OF lt_storage_probe TO lt_lines.
     APPEND `Note any Graphic node in the form's window tree (SE71) and which SE78 object` TO lt_lines.
     APPEND `it points to. It should already be listed in` TO lt_lines.
     APPEND `docs/legacy_grab/global_logos.txt (from the P_GLOB sweep) - just note WHICH` TO lt_lines.

@@ -1,5 +1,44 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.4 — attempt an automatic per-form style/logo match, safely
+
+User pushed back on the manual-per-form fallback at real scale (500+
+forms) — a per-form SE71 lookup 500 times isn't viable. Added
+`probe_form_storage`: safely tries four unverified candidate tables
+(`STXFOBJECT`, `STXFATTR`, `STXFHEADER`, `SSFOBJ`) via
+`cl_abap_typedescr=>describe_by_name` inside `TRY...CATCH cx_root` — a
+wrong guess is a caught runtime exception, not an activation risk (unlike a
+static `SELECT` against a guessed table, e.g. v1.2's `STXBITMAPS`). Any
+table that resolves is read generically (dynamic `SELECT *` + `dump_any`,
+no column names guessed) and scanned for the current form's name. Wired
+into sections 6-7 of every snapshot, ahead of the existing manual fallback.
+
+If none of the four land, the snapshot now states the one action that
+closes this for *every remaining form at once*: an ABAP debugger
+breakpoint in SE71 at the point the SmartStyle name loads reveals the real
+table/field definitively — a single session, not 500 manual lookups.
+
+## v1.3 — correction: SSF_READ_FORM is not the layout read API
+
+First real snapshot back (`Z_MM_PR_FORM`, a Purchase Requisition print form)
+showed `SSF_READ_FORM`'s actual interface: `O_CAPTION`/`O_VARTEXT`/
+`O_FMNUMB`/`O_FMNUMB_TEST`/`O_ACTIVE`/`O_ADMDATA` out, **no `TABLES`
+parameter**. Every field name reads as form header/admin metadata (roughly
+SE71's Form Attributes → General tab), not a page/window/node/style/graphic
+layout tree. **Corrects earlier notes here and in the report that assumed
+this FM was the pending unlock for sections 6-8** — it wasn't; kept as
+informational-only in section 5 (occasionally useful for description/
+version), reworded honestly.
+
+Smart Form layout appears to have no confirmed safe read API at all — unlike
+`TNAPR`/`FUPARAREF` (flat config tables), a form's compiled layout isn't a
+simple table. `docs/05_individual_form_conversion_framework.md` Step 2
+rewritten to make explicit that the design comes from **SFP's "Create Adobe
+Form by Migration" wizard** — SAP's own sanctioned tool for this, not a
+workaround — with a concrete next step to check whether abapGit can
+serialize the resulting Adobe Form object (would become the review channel,
+same as everything else in this project, if it can).
+
 ## v1.2 — global sweep: grab all SmartStyles + logos once, not per form
 
 - New `P_GLOB` mode: ticking it (instead of filling per-form fields) runs a

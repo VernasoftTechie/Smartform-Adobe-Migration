@@ -52,23 +52,54 @@ manual step. `capture_interface( 'SSF_READ_FORM' )` runs once at the top of
 every form's snapshot: parameter names + IMPORTING/EXPORTING/TABLES/CHANGING/
 EXCEPTIONS kind, via the same `FUPARAREF` technique as section 2.
 
-**This alone is not enough to call it for real.** `FUPARAREF` gives parameter
-*names* and *kind* (I/E/T/C/X), not each parameter's exact ABAP *type*.
-Calling a function module with a guessed type for a deep EXPORTING/TABLES
-parameter risks the same class of failure as `SSF_FUNCTION_MODULE_NAME`
-caused in F1 (`docs/BUILD_ISSUES_LOG.md`) — a parameter *name* can be right
-while its *type* assumption is wrong, and that's a runtime dump, not a soft
-miss. Section 5 of every snapshot says exactly what's still needed: open
-SE37 → display `SSF_READ_FORM` → note the **Reference Type** shown next to
-its EXPORTING/TABLES parameter(s) (the ones section 5 already names) and
-share that. That one piece of information is what turns sections 6-8 from
-manual into automated next round.
+**Correction (2026-09-12, first real snapshot back — `Z_MM_PR_FORM`):**
+`SSF_READ_FORM`'s real, probed interface is `I_FORMNAME`/`I_LANGUAGE`/
+`I_ACTIVE` in; `O_CAPTION`/`O_VARTEXT`/`O_FMNUMB`/`O_FMNUMB_TEST`/`O_ACTIVE`/
+`O_ADMDATA` out; **no `TABLES` parameter at all**. Every export field name
+reads as header/admin metadata (description/caption, internal form number,
+a test-variant number, an active-version flag, an "admin data" block) — not
+a page/window/node/style/graphic layout tree. **This was not the API that
+unlocks sections 6-8** the way earlier notes here assumed — it looks like
+the equivalent of SE71's Form Attributes → General tab, not the Layout tab.
+Smart Form layout appears to be stored in a way that doesn't expose a
+simple read API the way `TNAPR`/`FUPARAREF` do (those are flat config
+tables; a form's compiled layout evidently isn't). Kept in every snapshot
+anyway (harmless, occasionally useful for the description/version), but
+sections 6-8 stay manual — not because of a missing type (as first
+assumed), but because there may be no safe read API for the layout itself.
+See `docs/05_individual_form_conversion_framework.md` for how the design
+actually gets produced instead: SFP's **"Create Adobe Form by Migration"**
+wizard, SAP's own sanctioned tool for exactly this, run per form inside the
+system — not a background extraction.
 
 `P_PROBE` still exists as a general-purpose version of the same tool, for
 any *other* unfamiliar FM this project needs to call later — fill it with a
 function module name and the report introspects that FM's interface the same
 way, writes it to `probe_<fmname>.txt`, and stops without running the legacy
 grab.
+
+## Per-form style/logo auto-match attempt (`probe_form_storage`)
+
+At 500+-form scale, a per-form manual SE71 lookup for every form is exactly
+the repeated-effort problem the Global Style Catalogue is meant to avoid —
+so sections 6-7 also attempt an **automatic match**, not just a manual
+fallback. `probe_form_storage` safely tries a short list of *unverified*
+candidate DB tables (`STXFOBJECT`, `STXFATTR`, `STXFHEADER`, `SSFOBJ` — none
+confirmed to exist) via `cl_abap_typedescr=>describe_by_name` **at runtime**,
+inside a `TRY...CATCH cx_root`: a wrong guess is a caught exception and gets
+skipped, **not an activation risk** — unlike a static `SELECT` against a
+guessed table name (the `STXBITMAPS` risk below), which would fail the whole
+program's activation if wrong. Any table that *does* resolve is read
+generically (dynamic `SELECT *` + `dump_any`, so no column names are guessed
+either) and scanned for the current form's name.
+
+If none of the four candidates land, the snapshot says so and gives the
+**one action that solves this for all 500+ forms at once**, not one at a
+time: an ABAP debugger breakpoint set in SE71 at the point the SmartStyle
+name loads (or a Basis/ABAP colleague doing the same) reveals the real
+table/field definitively — a single 5-minute session, after which the real
+table name replaces the guesses here and every remaining form gets matched
+automatically, not manually.
 
 ## Global sweep (`P_GLOB`) — grab all styles/logos once, not per form
 
