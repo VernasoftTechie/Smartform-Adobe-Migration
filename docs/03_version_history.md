@@ -1,5 +1,41 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.3 — fix F5: object files were outside /src/, invisible to abapGit
+
+User reported "unable to view any of the files from the repo, abapGit is
+not able to read." Root cause confirmed against this repo's own
+`.abapgit.xml`: `STARTING_FOLDER=/src/` and `<IGNORE><item>/docs/*</item></IGNORE>`
+— all four `Z_MM_PR_FORM_ADF` deliverables had been placed in
+`docs/legacy_grab/`, which abapGit is explicitly configured to never scan.
+Correct XML content was irrelevant; the files were never being looked at.
+Self-inflicted — authored that `.abapgit.xml` in v1.0, didn't check it
+before placing a new object type there in v2.0-2.2.
+
+Moved all four (`Z_MM_PR_FORM_ADF.XDP/.XSD`,
+`SFPF_/SFPI_Z_MM_PR_FORM_ADF.XML`) to `/src/`. Verified BOM convention
+against the real Hello World reference files before moving (none of the
+four carry a UTF-8 BOM — confirmed by inspection, not assumed by analogy
+to `.prog.xml`/`.clas.xml`).
+
+**Landing zone, confirmed pilot-only**: user directed "use the same repo
+for this sample form, will make a plan for this later" — package
+`ZABAP_UTIL` (this repo's only package) for now, explicitly **not** a
+settled architecture decision; `docs/05_individual_form_conversion_framework.md`
+updated to record this as deferred, not resolved (mixing client deliverable
+forms into Vernasoft's shared utility package long-term is a real
+mismatch worth revisiting once there's more than one form to plan
+around).
+
+Logged as F5 in `docs/BUILD_ISSUES_LOG.md` and G14 in the shared Bolt
+Playbook Appendix A — general lesson beyond this file type: check a
+repo's own `.abapgit.xml` `STARTING_FOLDER`/`IGNORE` before placing any
+new object type, every time, not just once per repo.
+
+Still unresolved and separate from this fix: whether abapGit itself has
+serializer support for `SFPF`/`SFPI` object types at all — proposed
+testing with the (now correctly-placed) Hello World reference files
+first to isolate that question from content correctness.
+
 ## v2.2 — naming convention: `_ADF` suffix, applied and documented
 
 User asked for uniform naming across all object files. **Confirmed

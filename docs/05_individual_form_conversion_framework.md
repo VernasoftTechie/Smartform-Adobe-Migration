@@ -18,11 +18,23 @@ that form:
 | Form object (abapGit) | `SFPF_<name>_ADF.XML` | `SFPF_Z_MM_PR_FORM_ADF.XML` |
 | Interface object (abapGit) | `SFPI_<name>_ADF.XML` | `SFPI_Z_MM_PR_FORM_ADF.XML` |
 
-This is deliberately **not** the `Z<STEM>_*` pattern used for this
-project's own tooling objects (`ZSF2AF_R_LEGACY_GRAB`, package
-`ZABAP_UTIL`) — Adobe Form deliverables live in the *client's* existing
-SAP namespace, one-to-one with the Smart Form they replace, not this
-project's own object stem.
+This naming is deliberately **not** the `Z<STEM>_*` pattern used for this
+project's own tooling objects (`ZSF2AF_R_LEGACY_GRAB`) — Adobe Form
+deliverables live in the *client's* existing SAP namespace, one-to-one with
+the Smart Form they replace, not this project's own object stem.
+
+**Landing zone — confirmed pilot-only, 2026-09-13**: all four files go in
+`/src/` (never `docs/` — this repo's `.abapgit.xml` explicitly ignores
+`docs/*`, and a file placed there is invisible to abapGit no matter how
+correct its content is; hit this as a real trap on `Z_MM_PR_FORM_ADF`,
+logged as F5 in `docs/BUILD_ISSUES_LOG.md`). For now, that means package
+`ZABAP_UTIL` — this repo's only package — **as an explicit, temporary,
+pilot-only decision**, not a settled architecture. Package `ZABAP_UTIL` is
+Vernasoft's own shared utility package (also used by VS-Tower,
+Dangote_Requirements, ZAB_V1_UT, and this project's own tooling); mixing
+client deliverable forms into it long-term is a real mismatch worth
+revisiting once there's more than one form to plan around — the user has
+explicitly deferred that decision, not settled it.
 
 ## Prerequisites
 
