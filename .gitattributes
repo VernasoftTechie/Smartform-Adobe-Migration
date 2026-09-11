@@ -1,0 +1,4 @@
+# abapGit expects LF line endings for serialized objects
+*.abap   text eol=lf
+*.xml    text eol=lf
+*.md     text eol=lf
