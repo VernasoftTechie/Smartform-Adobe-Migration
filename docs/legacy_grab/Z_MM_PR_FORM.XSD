@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xfa="http://www.xfa.org/schema/xfa-template/2.2/" xmlns:xfadata="http://www.xfa.org/schema/xfa-data/1.0/" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+ <xsd:import namespace="http://www.xfa.org/schema/xfa-data/1.0/"/>
+
+ <!-- Line-item row type - T_FINAL / T_TEXT loop structure. Column 12-14
+      field names are medium-confidence (build checklist section 4/6.5). -->
+ <xsd:complexType name="T_FINAL_ROW">
+  <xsd:sequence>
+   <xsd:element name="SLNO" type="xsd:string"/>
+   <xsd:element name="MATNR" type="xsd:string"/>
+   <xsd:element name="TXZ01" type="xsd:string"/>
+   <xsd:element name="MEINS" type="xsd:string"/>
+   <xsd:element name="MENGE" type="xsd:decimal"/>
+   <xsd:element name="LABST" type="xsd:decimal"/>
+   <xsd:element name="MENGE1" type="xsd:decimal"/>
+   <xsd:element name="NAME1" type="xsd:string"/>
+   <xsd:element name="SUPPLY_RATE" type="xsd:decimal"/>
+   <xsd:element name="EXCHANGE" type="xsd:decimal"/>
+   <xsd:element name="GV_VALUE" type="xsd:decimal"/>
+   <xsd:element name="LABST1" type="xsd:decimal"/>
+   <xsd:element name="TOTAL" type="xsd:decimal"/>
+   <xsd:element name="GV_VALUE1" type="xsd:decimal"/>
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <!-- Standard SAPscript/Smart Forms text-line row shape (TDFORMAT +
+      TDLINE) - high confidence, this pattern is ubiquitous across the
+      whole SAP text stack, not form-specific. -->
+ <xsd:complexType name="T_TEXT_ROW">
+  <xsd:sequence>
+   <xsd:element name="TDFORMAT" type="xsd:string"/>
+   <xsd:element name="TDLINE" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:element name="data">
+  <xsd:complexType>
+   <xsd:sequence>
+    <!-- existing interface, unchanged - docs/legacy_grab/Z_MM_PR_FORM.md section 2 -->
+    <xsd:element name="BANFN" type="xsd:string"/>
+    <xsd:element name="BEDNR" type="xsd:string"/>
+    <xsd:element name="BADAT" type="xsd:string"/>
+    <xsd:element name="AFNAM" type="xsd:string"/>
+    <xsd:element name="EKNAM" type="xsd:string"/>
+    <xsd:element name="V_EXTTOTAL" type="xsd:decimal"/>
+    <xsd:element name="PLANT_NAME" type="xsd:string"/>
+    <xsd:element name="IV_LFDAT" type="xsd:string"/>
+    <xsd:element name="V_BSART" type="xsd:string"/>
+    <xsd:element name="V_PSTYP" type="xsd:string"/>
+    <xsd:element name="V_WAERS" type="xsd:string"/>
+    <xsd:element name="LV_COMPANY" type="xsd:string"/>
+    <xsd:element name="GV_ERNAM" type="xsd:string"/>
+    <xsd:element name="V_EXTTOTAL1" type="xsd:decimal"/>
+    <xsd:element name="LV_WAERS_PO" type="xsd:string"/>
+    <xsd:element name="V_KNTTP" type="xsd:string"/>
+
+    <!-- new, optional - build checklist section 6.1/6.2. Safe blank
+         default for any unmodified caller. -->
+    <xsd:element name="IV_REQ_EMAIL" type="xsd:string" minOccurs="0"/>
+    <xsd:element name="IV_FRGKZ" type="xsd:string" minOccurs="0"/>
+
+    <!-- existing TABLES parameters, unchanged -->
+    <xsd:element name="T_FINAL" type="T_FINAL_ROW" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element name="T_TEXT" type="T_TEXT_ROW" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+</xsd:schema>

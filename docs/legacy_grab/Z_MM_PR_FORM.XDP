@@ -24,13 +24,19 @@
   nest fields differently (e.g. under a root context node) - if so, adjust
   every "ref" attribute to match what SFP's Data View actually shows,
   the structure/positions/fonts/scripts stay the same.
+
+  Structure (connectionSet/xsdConnection, xfa:datasets, localeSet) matches
+  the real ZHELLO_WORLD_FORM.XDP export from this system - confirmed
+  authentic, not guessed. Z_MM_PR_FORM.XSD is the companion data schema
+  this file's connectionSet references.
 -->
 <xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/">
 
   <config xmlns="http://www.xfa.org/schema/xci/3.0/">
     <present>
       <pdf>
-        <fontInfo/>
+        <version>1.7</version>
+        <adobeExtensionLevel>8</adobeExtensionLevel>
       </pdf>
       <common>
         <template>
@@ -38,10 +44,13 @@
         </template>
         <locale>en_US</locale>
       </common>
+      <xdp>
+        <packets>*</packets>
+      </xdp>
     </present>
   </config>
 
-  <template xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
+  <template xmlns:xliff="urn:oasis:names:tc:xliff:document:1.1" xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
     <subform name="Z_MM_PR_FORM" layout="tb" locale="en_US" restrict="open">
 
       <pageSet>
@@ -326,6 +335,13 @@
     </subform>
   </template>
 
+  <connectionSet xmlns="http://www.xfa.org/schema/xfa-connection-set/2.8/">
+    <xsdConnection dataDescription="data" name="Z_MM_PR_FORM">
+      <uri/>
+      <rootElement>data</rootElement>
+    </xsdConnection>
+  </connectionSet>
+
   <xfa:datasets xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/">
     <xfa:data>
       <!-- Sample/preview data - one representative row, matches the
@@ -359,5 +375,68 @@
       </T_FINAL>
     </xfa:data>
   </xfa:datasets>
+
+  <localeSet xmlns="http://www.xfa.org/schema/xfa-locale-set/2.7/">
+    <locale desc="English (United States)" name="en_US">
+      <calendarSymbols name="gregorian">
+        <monthNames>
+          <month>January</month><month>February</month><month>March</month>
+          <month>April</month><month>May</month><month>June</month>
+          <month>July</month><month>August</month><month>September</month>
+          <month>October</month><month>November</month><month>December</month>
+        </monthNames>
+        <monthNames abbr="1">
+          <month>Jan</month><month>Feb</month><month>Mar</month><month>Apr</month>
+          <month>May</month><month>Jun</month><month>Jul</month><month>Aug</month>
+          <month>Sep</month><month>Oct</month><month>Nov</month><month>Dec</month>
+        </monthNames>
+        <dayNames>
+          <day>Sunday</day><day>Monday</day><day>Tuesday</day><day>Wednesday</day>
+          <day>Thursday</day><day>Friday</day><day>Saturday</day>
+        </dayNames>
+        <dayNames abbr="1">
+          <day>Sun</day><day>Mon</day><day>Tue</day><day>Wed</day>
+          <day>Thu</day><day>Fri</day><day>Sat</day>
+        </dayNames>
+        <meridiemNames><meridiem>AM</meridiem><meridiem>PM</meridiem></meridiemNames>
+        <eraNames><era>BC</era><era>AD</era></eraNames>
+      </calendarSymbols>
+      <datePatterns>
+        <datePattern name="full">EEEE, MMMM D, YYYY</datePattern>
+        <datePattern name="long">MMMM D, YYYY</datePattern>
+        <datePattern name="med">MMM D, YYYY</datePattern>
+        <datePattern name="short">M/D/YY</datePattern>
+      </datePatterns>
+      <timePatterns>
+        <timePattern name="full">h:MM:SS A Z</timePattern>
+        <timePattern name="long">h:MM:SS A Z</timePattern>
+        <timePattern name="med">h:MM:SS A</timePattern>
+        <timePattern name="short">h:MM A</timePattern>
+      </timePatterns>
+      <dateTimeSymbols>GyMdkHmsSEDFwWahKzZ</dateTimeSymbols>
+      <numberPatterns>
+        <numberPattern name="numeric">zzz,zzz,zz9.zzz</numberPattern>
+        <numberPattern name="currency">$zzz,zzz,zz9.99</numberPattern>
+        <numberPattern name="percent">zzz,zzz,zz9%</numberPattern>
+      </numberPatterns>
+      <numberSymbols>
+        <numberSymbol name="decimal">.</numberSymbol>
+        <numberSymbol name="grouping">,</numberSymbol>
+        <numberSymbol name="percent">%</numberSymbol>
+        <numberSymbol name="minus">-</numberSymbol>
+        <numberSymbol name="zero">0</numberSymbol>
+      </numberSymbols>
+      <currencySymbols>
+        <currencySymbol name="symbol">NGN</currencySymbol>
+        <currencySymbol name="isoname">NGN</currencySymbol>
+        <currencySymbol name="decimal">.</currencySymbol>
+      </currencySymbols>
+      <typefaces>
+        <typeface name="Times New Roman"/>
+        <typeface name="Courier New"/>
+        <typeface name="Arial"/>
+      </typefaces>
+    </locale>
+  </localeSet>
 
 </xdp:xdp>

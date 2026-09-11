@@ -1,5 +1,42 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.1 — the real abapGit-importable format (SFPF/SFPI/XDP/XSD)
+
+User confirmed v2.0's plain `.xdp` "can't be addressed by abapGit" and
+supplied a real reference: `ZHELLO_WORLD_FORM.XDP/.XSD` +
+`SFPF_ZHELLO_WORLD_FORM.XML` + `SFPI_ZHELLO_WORLD.XML` — an actual Adobe
+Form exported from their own system. This is the authoritative abapGit
+serialization format for SAP Adobe/Interactive Forms (object types `SFPF`
+form, `SFPI` interface) — confirms every Smart-Form-to-Adobe-Form migration
+needs these 4 file types, not a bare XDP.
+
+Produced all four for `Z_MM_PR_FORM`:
+- **`Z_MM_PR_FORM.XSD`** — the data schema for the full interface (24
+  existing + 2 new optional params + `T_FINAL`/`T_TEXT` row types). Full
+  confidence — standard XSD, real field list.
+- **`Z_MM_PR_FORM.XDP`** — v2.0's template upgraded to match the reference's
+  authentic structure exactly: `connectionSet`/`xsdConnection` linking to
+  the XSD, `xfa:datasets`, a full `localeSet` block. Full confidence on
+  structure/positions/fields (unchanged from v2.0, verified against real
+  export data throughout).
+- **`SFPF_Z_MM_PR_FORM.XML`** — the form object, matching the reference
+  wrapper exactly (`VERSION`/`INTERFACE`/`CONTEXTT`/`LAYOUTT` with the XDP
+  base64-embedded). Verified: parsed as well-formed XML (PowerShell `[xml]`
+  cast), and the embedded base64 decodes back byte-for-byte identical to
+  the standalone XDP (round-trip checked).
+- **`SFPI_Z_MM_PR_FORM.XML`** — the interface object. **Deliberately left
+  with empty `PARAMETERS`/`CONTEXT`, matching the only verified pattern
+  available** (the Hello World reference's interface is itself empty — no
+  bound fields) — rather than guess the internal structure of a *populated*
+  parameter list/context node tree, which would repeat the exact mistake
+  that produced the unusable v2.0 file. The real field list lives in the
+  XSD; adding it to SFP's own Interface tab stays a manual step, same as
+  always, until a populated reference example is available to verify
+  against.
+
+All four files validated well-formed via PowerShell `[xml]` parsing before
+being handed off.
+
 ## v2.0 — first hand-authored Adobe Form template (XDP)
 
 User asked Bolt to build the actual importable Adobe Form design, not just
