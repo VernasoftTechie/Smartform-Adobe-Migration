@@ -400,7 +400,7 @@
 
   <section>
     <div class="sec-head"><span class="sec-num">03</span><h2>Line-item table &mdash; MAIN</h2></div>
-    <p class="sec-sub">Thirteen real columns, bound to the <code style="font-family:var(--mono);font-size:12.5px;">W_FINAL</code> work area. Column-to-field order confirmed to this level from the export; exact pixel order gets a final check against the OTF/PDF visual diff in &sect;06.</p>
+    <p class="sec-sub">Fourteen real columns, bound to the <code style="font-family:var(--mono);font-size:12.5px;">W_FINAL</code> work area, widths verified to sum exactly to the table's declared 29.00cm. Columns 12&ndash;14's exact field bindings are medium-confidence &mdash; flagged for confirmation in the build checklist.</p>
 
     <div class="colgrid">
       <div class="colcell"><div class="cnum">COL 01</div><div class="clabel">S.No</div><div class="cfield">w_final-slno</div></div>
@@ -414,9 +414,11 @@
       <div class="colcell"><div class="cnum">COL 09</div><div class="clabel">Supply Rate</div><div class="cfield">w_final-supply_rate</div></div>
       <div class="colcell"><div class="cnum">COL 10</div><div class="clabel">Exchange Rate</div><div class="cfield">w_final-exchange</div></div>
       <div class="colcell"><div class="cnum">COL 11</div><div class="clabel">Open PR</div><div class="cfield">w_final-gv_value</div></div>
-      <div class="colcell"><div class="cnum">COL 12</div><div class="clabel">Open PO / Total Available Stock</div><div class="cfield">w_final-labst1</div></div>
-      <div class="colcell"><div class="cnum">COL 13</div><div class="clabel">Total Value</div><div class="cfield">w_final-total</div></div>
+      <div class="colcell"><div class="cnum">COL 12</div><div class="clabel">Open PO</div><div class="cfield">w_final-labst1 ?</div></div>
+      <div class="colcell"><div class="cnum">COL 13</div><div class="clabel">Total Available Stock</div><div class="cfield">w_final-total ?</div></div>
+      <div class="colcell"><div class="cnum">COL 14</div><div class="clabel">Total Value</div><div class="cfield">w_final-gv_value1 ?</div></div>
     </div>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:10px;">Columns 12&ndash;14 (marked <code style="font-family:var(--mono);">?</code>) are medium-confidence &mdash; column widths are verified exactly (sum to 29.00cm), but these three field bindings need confirming against a real printout before build sign-off.</p>
   </section>
 
   <section>
@@ -450,7 +452,7 @@
     <div class="riskgrid">
       <div class="riskcard"><div class="dim">Business criticality</div><div class="lvl low">Low&ndash;Med</div><div class="why">Internal procurement document, not customer-facing or legal</div></div>
       <div class="riskcard"><div class="dim">Interactivity</div><div class="lvl low">Low</div><div class="why">Static print, no scripting nodes found</div></div>
-      <div class="riskcard"><div class="dim">Layout complexity</div><div class="lvl med">Medium</div><div class="why">13-column dynamic table, conditional watermark, 6 code nodes</div></div>
+      <div class="riskcard"><div class="dim">Layout complexity</div><div class="lvl med">Medium</div><div class="why">14-column dynamic table, conditional watermark, 6 code nodes</div></div>
       <div class="riskcard"><div class="dim">Driver complexity</div><div class="lvl med">Unknown</div><div class="why">Not yet located by source scan &mdash; open with functional owner</div></div>
       <div class="riskcard"><div class="dim">Integration touchpoints</div><div class="lvl low">Low</div><div class="why">One embedded BAPI + 2 Z-FMs, no barcode/signature/EDI</div></div>
       <div class="riskcard"><div class="dim">Localization</div><div class="lvl low">Low</div><div class="why">Single-language content observed (EN)</div></div>

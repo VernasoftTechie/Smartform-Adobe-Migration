@@ -1,5 +1,31 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.8 — build checklist: Bolt-authored design, no SFP wizard
+
+**Confirmed 2026-09-13 — user overrode the SFP-wizard design path.** Bolt
+now designs every form from scratch against its real `Utilities → Download`
+export; the wizard's ~80-85% auto-migration is not used for this project.
+`docs/05_individual_form_conversion_framework.md` Step 2 rewritten to
+match.
+
+Extracted the remaining precision data from `z_mm_pr_form.xml` (exact
+window positions/sizes in cm via `WLEFT`/`WTOP`/`WWIDTH`/`WHEIGHT`, all 14
+line-item table column widths — verified to sum exactly to the table's
+declared 29.00cm) and produced
+`docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md`: a literal, numbered
+build spec — master page, style→font mapping, subform-by-subform exact
+coordinates, the 14-column table spec, explicit exclusions (dead code, the
+`break abap1` statement), Developer Extension Points, and a validation
+checklist. User builds from this in SFP/LiveCycle Designer directly (not
+via the migration wizard); Bolt confirms the result against the blueprint
+before UT.
+
+Corrected the blueprint: the line-items table is **14** columns, not 13
+(undercounted in v1.7 — corrected once the column widths were verified to
+sum exactly to the declared table width). Columns 12-14's exact field
+bindings are medium-confidence, flagged for confirmation against a real
+printout.
+
 ## v1.7 — Z_MM_PR_FORM design specification (spec 001 of 500+)
 
 Read the full `Z_MM_PR_FORM` export via byte-offset extraction (the file

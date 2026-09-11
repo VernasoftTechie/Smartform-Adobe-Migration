@@ -27,44 +27,50 @@ only — no driver program is ever touched by this procedure.
 
 ## Step 2 — Design the Adobe Form
 
-**The design comes from the SFP wizard, not from a background extraction.**
-Smart Form layout (pages/windows/nodes/styles/graphics) is stored in a
-compiled, proprietary form — there is no confirmed safe API to read it
-directly (`SSF_READ_FORM` was tried and ruled out — see
-`docs/02_legacy_grab_spec.md`; its interface is header/admin metadata, not a
-layout read). SAP's own sanctioned tool for turning that layout into an
-Adobe Form **is** the migration wizard, so it is the design source, not a
-workaround:
+**Confirmed 2026-09-13 — Bolt designs the form from the real export;
+the SFP wizard is not used.** Earlier drafts of this doc treated the SFP
+"Create Adobe Form by Migration" wizard as the design source. User
+overrode that: Bolt reads the Smart Form's own `Utilities → Download`
+XML export directly (proven working, `docs/02_legacy_grab_spec.md`) and
+produces the full design from it — window-by-window position/size, style
+mapping, field bindings — never SAP's auto-migration. The wizard's ~80-85%
+baseline is no longer the starting point for this project.
 
-1. **Run the wizard** — SFP → "Create Adobe Form by Migration from Smart
-   Form", against the form named in the snapshot (§1's generated FM confirms
-   it's the right one). This produces the ~80-85% baseline layout.
-2. **Get it into Bolt's hands for review.** Bolt has no live GUI/RFC access,
-   so — same pull-based loop as everything else in this project — the
-   result needs to reach the repo somehow. Try, in this order:
-   - **abapGit**: after running the wizard, check whether the new Adobe
-     Form object (transaction `SFP`) shows up as a pullable/stageable object
-     in the package — if abapGit can serialize it, that becomes the review
-     channel (same as every ABAP object in this project) and this bullet
-     gets replaced with the confirmed answer.
-   - If abapGit can't serialize it: a screenshot of SFP's layout/preview
-     screen, or an exported PDF from a test run, gives Bolt something
-     concrete to review and suggest refinements against — not as good as
-     text/XML, but still real data, never a description.
-3. **Match style/logo needs against the Global Style Catalogue**
+1. **Bolt reads the real export.** The form's `Utilities → Download` XML
+   (`<sf:SMARTFORM>`, one `<sf:WINDOW>` per window with position/size in cm
+   and its `<sf:NODE>` children) plus the SmartStyle's own XML export. Large
+   exports (hundreds of KB, essentially one line) get read via byte-offset
+   extraction (`grep -bo` + `tail -c` in Bash), not the normal line-based
+   Read/Grep tools.
+2. **Bolt produces two artifacts per form:**
+   - a **blueprint** (`<form>_blueprint.html`) — the design read: window
+     map, field bindings, findings, risk score, the proof chain tying the
+     form's own references back to the global style/logo catalogue;
+   - a **build checklist** (`<form>_build_checklist.md`) — the literal,
+     numbered build spec: exact subform positions/sizes in cm, exact
+     column widths, font/style mapping, explicit exclusions (dead code,
+     debugger statements), and Developer Extension Points for anything
+     that needs a decision.
+3. **User builds it in SFP/Adobe LiveCycle Designer**, following the
+   checklist field-by-field, and pushes the result (export, screenshot, or
+   whatever abapGit will serialize) back into `docs/legacy_grab/` with any
+   adjustment notes.
+4. **Bolt confirms** the built form against the blueprint, item by item,
+   before it goes to UT.
+5. **Match style/logo needs against the Global Style Catalogue**
    (`04_global_style_catalogue.md`). Apply matched global styles. Where
    nothing fits, create a form-specific override and log it back into the
    catalogue as a candidate.
-4. **Preserve the interface exactly** — same parameter names/shape as
+6. **Preserve the interface exactly** — same parameter names/shape as
    snapshot §2, so whatever eventually calls this form (this project doesn't
    decide what, or when) sees an unchanged contract.
-5. **Where something can't be resolved** — no catalogue match, no way to
+7. **Where something can't be resolved** — no catalogue match, no way to
    verify a layout detail, or a decision needs business input — don't block.
    Leave a clearly named, empty **Developer Extension Point** (a named
    placeholder subform/field with an annotation explaining what belongs
    there) and add it to this form's entry in §Post-implementation checklist
    below.
-6. **Special Adobe-specific features** (dynamic table flow, digital
+8. **Special Adobe-specific features** (dynamic table flow, digital
    signature fields, proper interactive form controls, etc.) may be used at
    Bolt's judgment where they genuinely improve the form and fit its risk
    tier — always called out explicitly as "Enhancement: `<what, why>`" in
