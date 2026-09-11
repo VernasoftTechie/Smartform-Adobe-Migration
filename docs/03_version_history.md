@@ -1,5 +1,42 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.7 — fix F8: invalid bind syntax, two broken initialize scripts, empty Context tab identified
+
+After v2.6's layout fix, Design View was still blank. Found three more
+real bugs in `z_mm_pr_form_adt.sfpf.xdp`, all confirmed against the real
+`Z_ADT_MM_PR_FORM.XDP` reference and general XFA semantics, not guessed:
+
+1. Every top-level `<bind ref="$.FIELDNAME"/>` used an invalid SOM prefix
+   (`$.` is not real XFA bind syntax — the confirmed reference only ever
+   uses `$record.`). Fixed: all 9 occurrences (`PLANT_NAME`, `BANFN`,
+   `BADAT`, `EKNAM`, `BEDNR`, `IV_REQ_EMAIL`, `V_EXTTOTAL`, `V_WAERS`,
+   `T_FINAL[*]`) changed to `$record.`.
+2. The watermark's `initialize` script read `IV_FRGKZ.rawValue`, but no
+   field named `IV_FRGKZ` exists anywhere (only as a data node) —
+   "undefined object" at layout time. Fixed: added a hidden
+   `fld_frgkz` field bound to `$record.IV_FRGKZ`, script now reads that.
+3. The date-line's `initialize` script called `Date2Num`/`Mod`/`Num2Date`
+   — FormCalc built-ins that don't exist in JavaScript at all — and read
+   a bare `BADAT` instead of the real field name `fld_badat`. Fixed:
+   rewritten in plain JS using the native `Date` object and the real
+   field name.
+
+Also removed `restrict="open"` from the root subform — not a real XFA
+attribute (doesn't appear in either confirmed reference), a stray
+leftover from the original hand-authored draft.
+
+**Separately, and likely the bigger factor**: the user's screenshot of
+SFP's own **Context tab** (Form Builder > Context) showed the Interface's
+Import/Tables parameters correctly populated on the left, but a
+completely **empty** tree under the form name on the right. This is a
+different thing from the SFPF file's `CL_FP_CONTEXT` heap node — it's
+SFP's own internal mapping of interface parameters into the form's data
+model, normally built via SFP's own Context-tab sync/generate tooling
+after the interface is defined — not something an abapGit-imported XML
+file populates by itself. Logged as F8 in `docs/BUILD_ISSUES_LOG.md`.
+Next step for the user: use that sync control before re-checking Design
+View, now that the file-level bugs are also fixed.
+
 ## v2.6 — fix F7: root subform layout="tb" was silently discarding every child's absolute position
 
 User imported successfully (Hierarchy tree showed every subform correctly

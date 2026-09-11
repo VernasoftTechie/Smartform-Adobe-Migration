@@ -24,7 +24,7 @@
   additive/optional - the confirmed original 16 IMPORT_PARAMETERS are
   otherwise unchanged (see z_mm_pr_form_adt.sfpi.xml).
 
-  Binding paths below (bind ref="$.FIELDNAME") assume the Adobe
+  Binding paths below (bind ref="$record.FIELDNAME") assume the Adobe
   Interface Context exposes parameters at the top level, matching Smart
   Forms' naming. SFP's own Data View (visible once the interface is
   bound) may nest fields differently - if so, adjust every "ref"
@@ -60,7 +60,7 @@
   </config>
 
   <template xmlns:xliff="urn:oasis:names:tc:xliff:document:1.1" xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
-    <subform name="Z_MM_PR_FORM_ADT" layout="position" locale="en_US" restrict="open">
+    <subform name="Z_MM_PR_FORM_ADT" layout="position" locale="en_US">
 
       <pageSet>
         <pageArea name="Page1" id="Page1">
@@ -105,7 +105,7 @@
           <ui><textEdit/></ui>
           <font typeface="Times New Roman" size="15pt" weight="bold"/>
           <para hAlign="center"/>
-          <bind ref="$.PLANT_NAME"/>
+          <bind ref="$record.PLANT_NAME"/>
         </field>
         <draw name="form_title" w="17.47cm" h="0.70cm">
           <font typeface="Times New Roman" size="15pt" weight="bold"/>
@@ -146,7 +146,7 @@
           <field name="fld_banfn" w="7.00cm" h="0.49cm">
             <ui><textEdit/></ui>
             <font typeface="Courier New" size="11pt"/>
-            <bind ref="$.BANFN"/>
+            <bind ref="$record.BANFN"/>
           </field>
         </subform>
         <subform name="pr_line_lprdate" w="9.60cm" h="0.49cm" layout="row">
@@ -157,7 +157,7 @@
           <field name="fld_badat" w="7.00cm" h="0.49cm">
             <ui><textEdit/></ui>
             <font typeface="Courier New" size="11pt"/>
-            <bind ref="$.BADAT"/>
+            <bind ref="$record.BADAT"/>
           </field>
         </subform>
         <subform name="pr_line_dept" w="9.60cm" h="0.49cm" layout="row">
@@ -168,7 +168,7 @@
           <field name="fld_eknam" w="7.00cm" h="0.49cm">
             <ui><textEdit/></ui>
             <font typeface="Courier New" size="11pt"/>
-            <bind ref="$.EKNAM"/>
+            <bind ref="$record.EKNAM"/>
           </field>
         </subform>
         <subform name="pr_line_section" w="9.60cm" h="0.49cm" layout="row">
@@ -179,7 +179,7 @@
           <field name="fld_bednr" w="7.00cm" h="0.49cm">
             <ui><textEdit/></ui>
             <font typeface="Courier New" size="11pt"/>
-            <bind ref="$.BEDNR"/>
+            <bind ref="$record.BEDNR"/>
           </field>
         </subform>
         <subform name="pr_line_email" w="9.60cm" h="0.51cm" layout="row">
@@ -191,7 +191,7 @@
             <ui><textEdit/></ui>
             <font typeface="Courier New" size="11pt"/>
             <!-- new optional interface parameter - build checklist 6.1 -->
-            <bind ref="$.IV_REQ_EMAIL"/>
+            <bind ref="$record.IV_REQ_EMAIL"/>
           </field>
         </subform>
       </subform>
@@ -205,12 +205,12 @@
         <field name="fld_exttotal" w="4.50cm" h="0.50cm">
           <ui><numericEdit/></ui>
           <font typeface="Times New Roman" size="10pt"/>
-          <bind ref="$.V_EXTTOTAL"/>
+          <bind ref="$record.V_EXTTOTAL"/>
         </field>
         <field name="fld_waers" w="1.97cm" h="0.50cm">
           <ui><textEdit/></ui>
           <font typeface="Times New Roman" size="10pt"/>
-          <bind ref="$.V_WAERS"/>
+          <bind ref="$record.V_WAERS"/>
         </field>
       </subform>
 
@@ -236,13 +236,22 @@
             // that reference doesn't implement the watermark, or it is
             // resolved further upstream than this interface exposes.
             // Unresolved - see docs/reference_examples_z_adt_mm_pr_form/README.md.
-            if (IV_FRGKZ.rawValue == "R" || IV_FRGKZ.rawValue == "2") {
+            //
+            // FIX (v2.7): this referenced a bare "IV_FRGKZ" object that
+            // does not exist anywhere in the form's field hierarchy (only
+            // as a data node) - "IV_FRGKZ is not defined" would throw at
+            // initialize time. Reads the actual hidden field below instead.
+            if (fld_frgkz.rawValue == "R" || fld_frgkz.rawValue == "2") {
                 this.presence = "visible";
             } else {
                 this.presence = "hidden";
             }
           ]]></script>
         </event>
+        <field name="fld_frgkz" w="0cm" h="0cm" presence="invisible">
+          <ui><textEdit/></ui>
+          <bind ref="$record.IV_FRGKZ"/>
+        </field>
       </subform>
 
       <!-- ===================== DATE LINE (computed) ===================== -->
@@ -258,6 +267,12 @@
             // BADAT already available. Replaces ZABF_DATE_TO_DAY /
             // ZABF_ISP_GET_MONTH_NAME. Adjust the date parse to whatever
             // format SFP actually binds BADAT as once you're in the tool.
+            //
+            // FIX (v2.7): this called Date2Num/Mod/Num2Date - FormCalc
+            // built-ins that do not exist in JavaScript, and referenced a
+            // bare "BADAT" object that does not exist (the actual field is
+            // "fld_badat") - both would throw at initialize time. Rewritten
+            // in plain JS using the native Date object and the real field name.
             var wkE = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
             var wkF = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
             var moE = ["January","February","March","April","May","June","July",
@@ -265,14 +280,14 @@
             var moF = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet",
                        "Aout","Septembre","Octobre","Novembre","Decembre"];
 
-            var d = Date2Num(BADAT.rawValue, "YYYY-MM-DD");
-            var dow = Mod(d, 7);
-            var mm = Num2Date(d, "MM") - 1;
+            var dObj = new Date(fld_badat.rawValue);
+            var dow = dObj.getDay();
+            var mm = dObj.getMonth();
             var lang = (xfa.form.language == "fr") ? "F" : "E";
             var weekday = (lang == "F") ? wkF[dow] : wkE[dow];
             var month   = (lang == "F") ? moF[mm]  : moE[mm];
 
-            date_text.rawValue = weekday + ", " + month + " " + BADAT.rawValue;
+            date_text.rawValue = weekday + ", " + month + " " + fld_badat.rawValue;
           ]]></script>
         </event>
       </subform>
@@ -321,7 +336,7 @@
 
         <subform name="table_row" w="28.03cm" h="0.55cm" layout="row">
           <occur min="0" max="-1"/>
-          <bind ref="$.T_FINAL[*]"/>
+          <bind ref="$record.T_FINAL[*]"/>
           <font typeface="Courier New" size="11pt"/>
           <field name="c01" w="0.80cm" h="0.55cm"><ui><textEdit/></ui><bind ref="SLNO"/></field>
           <field name="c02" w="2.50cm" h="0.55cm"><ui><textEdit/></ui><bind ref="MATNR"/></field>
