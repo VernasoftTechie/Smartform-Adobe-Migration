@@ -4,12 +4,16 @@
 *& Smart Form -> Adobe Form migration: Legacy Grab (Phase 1a).
 *&
 *& For every Smart Form in scope, writes one markdown snapshot file to
-*& the local frontend, capturing what this report can read safely and
-*& automatically, plus clearly labelled MANUAL sections for anything
-*& that needs a read API this has not been confirmed against your
-*& system yet (interface parameter list, output determination, style,
-*& logo, form outline) - see docs/02_legacy_grab_spec.md for why those
-*& stay manual in v1.
+*& the local frontend. Automated: generated function module, form
+*& interface (import/export/tables/exceptions), driver-program
+*& candidates, output determination (NACE/TNAPR). Still MANUAL:
+*& SmartStyle, logo, form outline - no read API for those has been
+*& confirmed against this system yet; see docs/02_legacy_grab_spec.md.
+*&
+*& Performance: driver-program candidates are found by scanning every
+*& Z*/Y* program's source ONCE for the whole run (build_driver_index),
+*& not once per form - the original per-form rescan was the real
+*& bottleneck, not a lack of parallel work processes.
 *&
 *& After running: drop the downloaded .md files into
 *& docs/legacy_grab/ of this repo and push (or hand them to Bolt).
@@ -59,19 +63,42 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
            END OF ty_driver_hit,
            tt_driver_hit TYPE STANDARD TABLE OF ty_driver_hit WITH EMPTY KEY.
 
+    TYPES: BEGIN OF ty_idx,
+             formname TYPE string,
+             progname TYPE tadir-obj_name,
+           END OF ty_idx,
+           tt_idx TYPE STANDARD TABLE OF ty_idx WITH EMPTY KEY.
+
     METHODS get_form_list
       RETURNING VALUE(rt_form) TYPE string_table.
 
+    "! Single pass over every in-scope program's source, checked against
+    "! every form at once - the fix for the original per-form rescan.
+    METHODS build_driver_index
+      IMPORTING it_forms      TYPE string_table
+      RETURNING VALUE(rt_idx) TYPE tt_idx.
+
     METHODS process_form
-      IMPORTING iv_formname TYPE string.
+      IMPORTING iv_formname TYPE string
+                it_idx      TYPE tt_idx.
 
     METHODS resolve_fm_name
       IMPORTING iv_formname   TYPE string
       RETURNING VALUE(rv_fm)  TYPE char30.
 
-    METHODS find_driver_candidates
-      IMPORTING iv_formname  TYPE string
-      RETURNING VALUE(rt_hit) TYPE tt_driver_hit.
+    "! Generic reflection-based dump of any structure's fields - used so
+    "! the report never has to hard-code an uncertain DDIC field name.
+    METHODS dump_any
+      IMPORTING iv_data        TYPE any
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
+    METHODS capture_interface
+      IMPORTING iv_fm_name     TYPE char30
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
+    METHODS capture_output_determination
+      IMPORTING iv_formname    TYPE string
+      RETURNING VALUE(rt_lines) TYPE string_table.
 
     METHODS write_snapshot
       IMPORTING iv_formname TYPE string
@@ -92,8 +119,11 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
 
     w( |Legacy grab starting for { lines( lt_forms ) } form(s).| ).
+    DATA(lt_idx) = build_driver_index( lt_forms ).
+    w( |Driver-program index built: { lines( lt_idx ) } form/program match(es).| ).
+
     LOOP AT lt_forms INTO DATA(lv_form).
-      process_form( lv_form ).
+      process_form( iv_formname = lv_form it_idx = lt_idx ).
     ENDLOOP.
     w( |Done. Snapshots written under { p_path }.| ).
     w( |Drop them into docs/legacy_grab/ of Smartform-Adobe-Migration and push.| ).
@@ -130,6 +160,46 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     rt_form = lt_result.
   ENDMETHOD.
 
+  METHOD build_driver_index.
+    DATA lt_source  TYPE TABLE OF string.
+    DATA lv_pattern TYPE string.
+
+    lv_pattern = p_pref && '%'.
+    SELECT obj_name FROM tadir INTO TABLE @DATA(lt_prog)
+      WHERE pgmid = 'R3TR' AND object = 'PROG' AND obj_name LIKE @lv_pattern.
+    IF sy-subrc <> 0.
+      RETURN.
+    ENDIF.
+
+    w( |Scanning { lines( lt_prog ) } program(s) once for driver candidates (this is the slow step)...| ).
+
+    LOOP AT lt_prog INTO DATA(ls_prog).
+      CLEAR lt_source.
+      READ REPORT ls_prog-obj_name INTO lt_source.
+      IF sy-subrc <> 0 OR lt_source IS INITIAL.
+        CONTINUE.
+      ENDIF.
+
+      DATA(lv_has_ssf) = abap_false.
+      LOOP AT lt_source INTO DATA(lv_line).
+        IF lv_line CS 'SSF_FUNCTION_MODULE_NAME'.
+          lv_has_ssf = abap_true.
+          EXIT.
+        ENDIF.
+      ENDLOOP.
+      IF lv_has_ssf = abap_false.
+        CONTINUE.
+      ENDIF.
+
+      DATA(lv_joined) = concat_lines_of( table = lt_source sep = | | ).
+      LOOP AT it_forms INTO DATA(lv_form).
+        IF lv_joined CS lv_form.
+          APPEND VALUE #( formname = lv_form progname = ls_prog-obj_name ) TO rt_idx.
+        ENDIF.
+      ENDLOOP.
+    ENDLOOP.
+  ENDMETHOD.
+
   METHOD resolve_fm_name.
     " SSF_FUNCTION_MODULE_NAME's FORMNAME parameter is a fixed-length
     " classic type, not STRING - passing a STRING actual directly dumps
@@ -149,44 +219,91 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
   ENDMETHOD.
 
-  METHOD find_driver_candidates.
-    DATA lt_source  TYPE TABLE OF string.
-    DATA lv_pattern TYPE string.
+  METHOD dump_any.
+    DATA(lo_type) = cl_abap_typedescr=>describe_by_data( iv_data ).
+    IF lo_type->kind = cl_abap_typedescr=>kind_struct.
+      DATA(lo_struct) = CAST cl_abap_structdescr( lo_type ).
+      LOOP AT lo_struct->components INTO DATA(ls_comp).
+        ASSIGN COMPONENT ls_comp-name OF STRUCTURE iv_data TO FIELD-SYMBOL(<fs>).
+        IF sy-subrc = 0.
+          APPEND |{ ls_comp-name } = { <fs> }| TO rt_lines.
+        ENDIF.
+      ENDLOOP.
+    ELSE.
+      APPEND |{ iv_data }| TO rt_lines.
+    ENDIF.
+  ENDMETHOD.
 
-    lv_pattern = p_pref && '%'.
-    SELECT obj_name FROM tadir INTO TABLE @DATA(lt_prog)
-      WHERE pgmid = 'R3TR' AND object = 'PROG' AND obj_name LIKE @lv_pattern.
-    IF sy-subrc <> 0.
+  METHOD capture_interface.
+    IF iv_fm_name IS INITIAL.
+      APPEND `(no generated function module - see section 1)` TO rt_lines.
       RETURN.
     ENDIF.
 
-    LOOP AT lt_prog INTO DATA(ls_prog).
-      CLEAR lt_source.
-      READ REPORT ls_prog-obj_name INTO lt_source.
-      IF sy-subrc <> 0 OR lt_source IS INITIAL.
-        CONTINUE.
-      ENDIF.
+    " FM interface introspection without guessing a signature - verified
+    " pattern already proven in the ZAB_V1_UT engineering log (A18):
+    " FUPARAREF, not a guessed FUNCTION_IMPORT_INTERFACE call.
+    SELECT parameter, paramtype FROM fupararef INTO TABLE @DATA(lt_params)
+      WHERE funcname = @iv_fm_name AND r3state = 'A'.
+    IF sy-subrc <> 0 OR lt_params IS INITIAL.
+      APPEND |(no FUPARAREF rows for { iv_fm_name } - confirm manually via SE37)| TO rt_lines.
+      RETURN.
+    ENDIF.
 
-      DATA(lv_has_ssf)  = abap_false.
-      DATA(lv_has_form) = abap_false.
-      LOOP AT lt_source INTO DATA(lv_line).
-        IF lv_line CS 'SSF_FUNCTION_MODULE_NAME'.
-          lv_has_ssf = abap_true.
-        ENDIF.
-        IF lv_line CS iv_formname.
-          lv_has_form = abap_true.
-        ENDIF.
-      ENDLOOP.
-
-      IF lv_has_ssf = abap_true AND lv_has_form = abap_true.
-        APPEND VALUE #( progname = ls_prog-obj_name ) TO rt_hit.
-      ENDIF.
+    APPEND `IMPORTING:` TO rt_lines.
+    LOOP AT lt_params INTO DATA(ls_p) WHERE paramtype = 'I'.
+      APPEND |- { ls_p-parameter }| TO rt_lines.
+    ENDLOOP.
+    APPEND `EXPORTING:` TO rt_lines.
+    LOOP AT lt_params INTO ls_p WHERE paramtype = 'E'.
+      APPEND |- { ls_p-parameter }| TO rt_lines.
+    ENDLOOP.
+    APPEND `TABLES:` TO rt_lines.
+    LOOP AT lt_params INTO ls_p WHERE paramtype = 'T'.
+      APPEND |- { ls_p-parameter }| TO rt_lines.
+    ENDLOOP.
+    APPEND `CHANGING:` TO rt_lines.
+    LOOP AT lt_params INTO ls_p WHERE paramtype = 'C'.
+      APPEND |- { ls_p-parameter }| TO rt_lines.
+    ENDLOOP.
+    APPEND `EXCEPTIONS:` TO rt_lines.
+    LOOP AT lt_params INTO ls_p WHERE paramtype = 'X'.
+      APPEND |- { ls_p-parameter }| TO rt_lines.
     ENDLOOP.
   ENDMETHOD.
 
+  METHOD capture_output_determination.
+    SELECT * FROM tnapr INTO TABLE @DATA(lt_tnapr) UP TO 50000 ROWS.
+    IF sy-subrc <> 0 OR lt_tnapr IS INITIAL.
+      APPEND `(no TNAPR rows read - table may not exist/be authorized here; confirm manually via NACE)` TO rt_lines.
+      RETURN.
+    ENDIF.
+
+    DATA lv_hits TYPE i.
+    LOOP AT lt_tnapr INTO DATA(ls_row).
+      DATA(lt_dump)   = dump_any( ls_row ).
+      DATA(lv_joined) = concat_lines_of( table = lt_dump sep = | | ).
+      IF lv_joined CS iv_formname.
+        lv_hits = lv_hits + 1.
+        APPEND `-` TO rt_lines.
+        APPEND LINES OF lt_dump TO rt_lines.
+      ENDIF.
+    ENDLOOP.
+
+    IF lv_hits = 0.
+      APPEND `(no TNAPR row mentions this form name - confirm manually via NACE; the` TO rt_lines.
+      APPEND `output type may reference a driver routine rather than the form name directly)` TO rt_lines.
+    ENDIF.
+  ENDMETHOD.
+
   METHOD process_form.
-    DATA(lv_fm)      = resolve_fm_name( iv_formname ).
-    DATA(lt_drivers) = find_driver_candidates( iv_formname ).
+    DATA(lv_fm) = resolve_fm_name( iv_formname ).
+
+    DATA lt_drivers TYPE tt_driver_hit.
+    LOOP AT it_idx INTO DATA(ls_idx) WHERE formname = iv_formname.
+      APPEND VALUE #( progname = ls_idx-progname ) TO lt_drivers.
+    ENDLOOP.
+
     write_snapshot( iv_formname = iv_formname
                      iv_fm_name  = lv_fm
                      it_drivers  = lt_drivers ).
@@ -212,9 +329,8 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
     APPEND `` TO lt_lines.
 
-    APPEND `## 2. Form interface (import/export/tables/exceptions) - MANUAL` TO lt_lines.
-    APPEND `Not auto-captured - no confirmed read API yet (see docs/02_legacy_grab_spec.md).` TO lt_lines.
-    APPEND |Capture from SE71/SFP -> Interface tab, or SE37 -> display `{ iv_fm_name }`, and paste below.| TO lt_lines.
+    APPEND `## 2. Form interface (import/export/tables/exceptions)` TO lt_lines.
+    APPEND LINES OF capture_interface( iv_fm_name ) TO lt_lines.
     APPEND `` TO lt_lines.
 
     APPEND `## 3. Driver program candidates (source-scan match)` TO lt_lines.
@@ -228,9 +344,8 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
     APPEND `` TO lt_lines.
 
-    APPEND `## 4. Output determination (NACE) - MANUAL` TO lt_lines.
-    APPEND `Not auto-captured. In NACE, find the application + output type whose Processing` TO lt_lines.
-    APPEND `Routines row names this form/driver, and list the output type(s) here.` TO lt_lines.
+    APPEND `## 4. Output determination (NACE / TNAPR)` TO lt_lines.
+    APPEND LINES OF capture_output_determination( iv_formname ) TO lt_lines.
     APPEND `` TO lt_lines.
 
     APPEND `## 5. SmartStyle(s) used - MANUAL` TO lt_lines.

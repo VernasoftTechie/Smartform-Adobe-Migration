@@ -1,5 +1,34 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.5 — automate interface + output-determination capture; fix the real perf bug
+
+- **Fixed the actual bottleneck**: driver-program candidates were being found
+  by rescanning every Z*/Y* program's source **once per form**
+  (O(forms × programs) in redundant `TADIR`/`READ REPORT` calls).
+  `build_driver_index` now does one pass over every program, checked against
+  every form name in memory. This was the real slowdown, not a lack of
+  parallel work processes.
+- **Form interface (section 2) is now automated**, via
+  `SELECT parameter, paramtype FROM fupararef WHERE funcname = @fm AND
+  r3state = 'A'` — a pattern already verified in the `ZAB_V1_UT` engineering
+  log (A18), specifically built to avoid guessing an FM signature like
+  `FUNCTION_IMPORT_INTERFACE`'s.
+- **Output determination / NACE (section 4) is now automated**, via
+  `SELECT * FROM tnapr` (no field-name guess needed — there's no `WHERE`)
+  plus a new generic reflection-based dump helper (`dump_any`, built on
+  `cl_abap_typedescr`) that scans every column of every row for the form
+  name, so no `TNAPR` column name has to be assumed either.
+- SmartStyle / logo / form-outline (sections 5-7) stay manual — the likely
+  API (`SSF_READ_FORM`) isn't confirmed on this system yet; see
+  `docs/02_legacy_grab_spec.md` for the 2-minute SE37 lookup that unlocks it.
+- **True multi-work-process parallel dispatch investigated, deliberately
+  deferred to its own increment** — `GUI_DOWNLOAD` can't run in a parallel
+  work process (no GUI), and inspecting `ZCL_AB_V1_UT_BULK`'s real
+  implementation found its `iv_context` parameter is never actually delivered
+  to handler instances (logged in `Utility-Class-and-Method/docs/00_engineering_log.md`
+  A25). See `docs/02_legacy_grab_spec.md` "Performance" section for the full
+  reasoning.
+
 ## v0.4 — fix CALL_FUNCTION_CONFLICT_TYPE dump in RESOLVE_FM_NAME
 
 - `SSF_FUNCTION_MODULE_NAME`'s `FORMNAME` parameter is a fixed-length classic
