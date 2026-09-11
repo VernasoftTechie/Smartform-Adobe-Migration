@@ -2,8 +2,9 @@
 
 `ZSF2AF_R_LEGACY_GRAB` produces one markdown snapshot per Smart Form
 (`docs/legacy_grab/<form>.md`). This is the source of truth Bolt reads before
-designing any driver-program rewrite or conversion mapping — never a
-description of the form, the actual extracted facts.
+designing any Adobe Form conversion mapping — never a description of the
+form, the actual extracted facts. Driver programs are read-only inputs here,
+never a target for change (`docs/01_scope.md` §8).
 
 ## Why some sections are automated and others aren't
 
@@ -27,7 +28,7 @@ stays a clearly labelled manual section rather than a guess.
 | Form list (optional auto-discovery) | `TADIR` where `PGMID = 'R3TR'`, `OBJECT = 'SSFO'` | best-effort — verify hit count against SE71 the first time |
 | **Form interface** (import/export/tables/exceptions) | `SELECT parameter, paramtype FROM fupararef WHERE funcname = @fm AND r3state = 'A'` | **verified** — this exact pattern is already proven in `Utility-Class-and-Method/docs/00_engineering_log.md` A18, built precisely to avoid guessing a `FUNCTION_IMPORT_INTERFACE`-style signature |
 | Driver-program candidates, **full source + one level of includes + dependencies** | Single pass over every Z*/Y* program's source (`READ REPORT`), checked against every form name at once (see performance note below). For every match: the program's **full source is downloaded to its own file** (`driver_<progname>.txt`); its `INCLUDE Z.../Y...` statements are followed **one level deep** (`extract_includes`) and those programs' sources extracted too; a plain substring scan (`scan_dependencies`, no regex) on the driver **and** its includes flags lines that reference another custom object — `CALL FUNCTION 'Z.../Y...'`, `CALL METHOD ZCL_.../YCL_...`, `NEW`/`TYPE ZCL_.../YCL_...`, `INCLUDE Z.../Y...`, external `PERFORM (Z.../Y...)` | high — plain ABAP statements, no DDIC/FM guess. Dependency lines are raw evidence (the matching source line), not a parsed object name — deliberately, to avoid mis-extracting one. Include-following is bounded to one level so a chain can't run away |
-| **Full prerequisite checklist** (section 10) | Static, always emitted — enumerates every category a Smart Form can depend on (SmartStyle, formats, graphics, SO10 texts, barcodes/fonts, languages, signatures, plus everything already automated above) with exact navigation per item | not automation — a completeness net so nothing gets missed in the manual pass |
+| **Full prerequisite checklist** (section 11) | Static, always emitted — enumerates every category a Smart Form can depend on (SmartStyle, formats, graphics, SO10 texts, barcodes/fonts, languages, signatures, plus everything already automated above) with exact navigation per item | not automation — a completeness net so nothing gets missed in the manual pass |
 | **Output determination (NACE)** | `SELECT * FROM tnapr` (no field-name guess in the `WHERE` — there isn't one) + a generic reflection-based dump (`dump_any`, via `cl_abap_typedescr`) that scans every column of every row for the form name | high — `SELECT *` needs no field names; RTTI reflection needs no assumed column names either |
 | Snapshot delivery | `GUI_DOWNLOAD` to the local frontend | high — standard, ubiquitous |
 
@@ -39,25 +40,35 @@ stays a clearly labelled manual section rather than a guess.
 | Logos/graphics | MIME Repository object names live inside the form definition, not a simple table read | SE71 window tree → Graphic node, export via SE80 MIME Repository |
 | Form outline (pages/windows/node types) | Same reason | Walk the SE71 navigation tree |
 
-**Unlocking these next round:** the likely API is `SSF_READ_FORM` (reads the
-whole form definition into one deep structure — page/window/node tree, style
-name, graphic references). Its exact signature isn't confirmed on this
-system yet. **A 2-minute SE37 lookup** (search `SSF_READ_FORM`, or pattern
-`SSF_*`, and check its parameters) is enough to wire it in safely next round —
-once confirmed, it can likely also feed the generic `dump_any` reflection
-dump the way TNAPR does now, so no field names need to be guessed there
-either.
+These live in section 6-8 of every snapshot. See the next section for exactly
+what's needed to unlock automating them.
 
-## Confirming an unfamiliar FM's interface (e.g. `SSF_READ_FORM`) — safely
+## SSF_READ_FORM's interface — probed automatically, every run
 
-`ZSF2AF_R_LEGACY_GRAB` has a `P_PROBE` field on its selection screen. Fill it
-with a function module name and run the report: it introspects that FM's
-interface via the same `FUPARAREF` technique as section 2 (`capture_interface`)
-and writes the parameter list (names + IMPORTING/EXPORTING/TABLES/CHANGING/
-EXCEPTIONS) to the list and to `probe_<fmname>.txt`, then stops — it does not
-run the legacy grab. This is how `SSF_READ_FORM`'s real parameter list gets
-confirmed before any code calls it for real, instead of guessing a signature
-a third time.
+`SSF_READ_FORM` (confirmed by the user as the likely form-read API) has its
+interface probed **automatically as part of every normal run** — no separate
+manual step. `capture_interface( 'SSF_READ_FORM' )` runs once at the top of
+`run()` (not once per form) and the result is included as **section 5** of
+every form's snapshot: parameter names + IMPORTING/EXPORTING/TABLES/CHANGING/
+EXCEPTIONS kind, via the same `FUPARAREF` technique as section 2.
+
+**This alone is not enough to call it for real.** `FUPARAREF` gives parameter
+*names* and *kind* (I/E/T/C/X), not each parameter's exact ABAP *type*.
+Calling a function module with a guessed type for a deep EXPORTING/TABLES
+parameter risks the same class of failure as `SSF_FUNCTION_MODULE_NAME`
+caused in F1 (`docs/BUILD_ISSUES_LOG.md`) — a parameter *name* can be right
+while its *type* assumption is wrong, and that's a runtime dump, not a soft
+miss. Section 5 of every snapshot says exactly what's still needed: open
+SE37 → display `SSF_READ_FORM` → note the **Reference Type** shown next to
+its EXPORTING/TABLES parameter(s) (the ones section 5 already names) and
+share that. That one piece of information is what turns sections 6-8 from
+manual into automated next round.
+
+`P_PROBE` still exists as a general-purpose version of the same tool, for
+any *other* unfamiliar FM this project needs to call later — fill it with a
+function module name and the report introspects that FM's interface the same
+way, writes it to `probe_<fmname>.txt`, and stops without running the legacy
+grab.
 
 ## OTF is not a design source — don't try to "redesign from OTF"
 
@@ -70,7 +81,7 @@ Form with the SSF control parameter `GETOTF = 'X'` (captures
 `JOB_OUTPUT_INFO-OTFDATA`), convert it to PDF via `CONVERT_OTF`, and diff it
 visually against the new Adobe Form's PDF output for that same document. This
 needs a real business document key per form, so it isn't something Phase 1a's
-generic legacy-grab can supply — each snapshot's section 9 documents the
+generic legacy-grab can supply — each snapshot's section 10 documents the
 mechanism so it's ready to use once a pilot form is picked.
 
 ## Performance: the real bottleneck, and what was and wasn't done about it
@@ -112,5 +123,6 @@ deferred**, not skipped:
    themselves in; fill the Tier 2 sections of each downloaded `.md` while the
    form is open in SE71/NACE.
 2. Drop the completed files into `docs/legacy_grab/` in this repo, commit, push.
-3. Bolt reads the snapshots directly and produces the risk score, the driver
-   rewrite, and the conversion checklist from them — never from a description.
+3. Bolt reads the snapshots directly and produces the risk score and the
+   Adobe Form design from them — never from a description, and never by
+   touching the driver program (`docs/01_scope.md` §8).

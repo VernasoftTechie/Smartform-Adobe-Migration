@@ -9,16 +9,19 @@
 *& candidates (full source extracted to its own file, their own
 *& INCLUDEs followed one level deep and extracted too, and a
 *& dependency scan of the custom objects they reference), output
-*& determination (NACE/TNAPR), plus a full prerequisite checklist
-*& (section 10) covering everything else a Smart Form can depend on.
-*& Still MANUAL: SmartStyle, logo, form outline themselves - no read
-*& API for those has been confirmed against this system yet; see
-*& docs/02_legacy_grab_spec.md.
+*& determination (NACE/TNAPR), and SSF_READ_FORM's own interface
+*& (section 5, auto-probed via FUPARAREF every run - no separate step
+*& needed), plus a full prerequisite checklist (section 11) covering
+*& everything else a Smart Form can depend on. Still MANUAL: SmartStyle,
+*& logo, form outline themselves (sections 6-8) - FUPARAREF gives
+*& SSF_READ_FORM's parameter NAMES but not their exact TYPES, and
+*& calling it with a guessed type risks the same class of dump as F1;
+*& see docs/02_legacy_grab_spec.md.
 *&
-*& P_PROBE: fill it with a function module name (e.g. SSF_READ_FORM)
-*& to introspect its interface via FUPARAREF instead of running the
-*& legacy grab - the safe way to learn an unfamiliar FM's parameter
-*& list before it gets called for real.
+*& P_PROBE: fill it with any OTHER function module name to introspect
+*& its interface via the same FUPARAREF technique instead of running
+*& the legacy grab - a general-purpose tool for learning an unfamiliar
+*& FM's parameter list before it gets called for real.
 *&
 *& Performance: driver-program candidates are found by scanning every
 *& Z*/Y* program's source ONCE for the whole run (build_driver_index),
@@ -74,9 +77,12 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
 
     "! If P_PROBE is filled: introspect that function module's interface
     "! (reusing the same proven FUPARAREF technique as capture_interface)
-    "! and stop - does not run the legacy grab. Use this to safely learn
-    "! an unfamiliar FM's parameter list (names + I/E/T/C/X kind) before
-    "! Bolt calls it for real, instead of guessing a signature.
+    "! and stop - does not run the legacy grab. General-purpose tool for
+    "! learning any unfamiliar FM's parameter list (names + I/E/T/C/X
+    "! kind) before Bolt calls it for real, instead of guessing a
+    "! signature. SSF_READ_FORM itself no longer needs this - it's
+    "! probed automatically every normal run (section 5 of every
+    "! snapshot).
     METHODS probe_fm
       IMPORTING iv_fm_name TYPE char30.
 
@@ -103,6 +109,11 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
            tt_prog_info TYPE STANDARD TABLE OF ty_prog_info WITH EMPTY KEY.
 
     DATA mt_prog_info TYPE tt_prog_info.
+
+    "! SSF_READ_FORM's interface (names + I/E/T/C/X kind), probed once per
+    "! run via FUPARAREF and reused in every form's snapshot - folded into
+    "! the main process instead of a separate manual step.
+    DATA mt_ssf_read_form_iface TYPE string_table.
 
     METHODS get_form_list
       RETURNING VALUE(rt_form) TYPE string_table.
@@ -190,6 +201,12 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
 
     w( |Legacy grab starting for { lines( lt_forms ) } form(s).| ).
+
+    " Probed once (not per form) via the same FUPARAREF technique as
+    " section 2 - folded into the main process so SSF_READ_FORM's
+    " interface never needs a separate manual step.
+    mt_ssf_read_form_iface = capture_interface( 'SSF_READ_FORM' ).
+
     DATA(lt_idx) = build_driver_index( lt_forms ).
     w( |Driver-program index built: { lines( lt_idx ) } form/program match(es), | &&
        |{ lines( mt_prog_info ) } driver source(s) extracted.| ).
@@ -571,27 +588,43 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND LINES OF capture_output_determination( iv_formname ) TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 5. SmartStyle(s) used - MANUAL` TO lt_lines.
+    APPEND `## 5. SSF_READ_FORM interface (auto-probed via FUPARAREF)` TO lt_lines.
+    APPEND `This is the likely API for sections 6-8 below. Probed automatically every` TO lt_lines.
+    APPEND `run - no separate manual step. Gives parameter NAMES + I/E/T/C/X kind only,` TO lt_lines.
+    APPEND `not each parameter's exact ABAP type, so it is not called for real yet -` TO lt_lines.
+    APPEND `calling it with a guessed type for a deep EXPORTING/TABLES parameter risks` TO lt_lines.
+    APPEND `the same kind of dump SSF_FUNCTION_MODULE_NAME caused earlier (see` TO lt_lines.
+    APPEND `docs/BUILD_ISSUES_LOG.md F1). To unlock the real call: open SE37 -> display` TO lt_lines.
+    APPEND `SSF_READ_FORM -> note the Reference Type shown for the EXPORTING/TABLES` TO lt_lines.
+    APPEND `parameter(s) listed just below, and share that.` TO lt_lines.
+    IF mt_ssf_read_form_iface IS INITIAL.
+      APPEND `(not probed)` TO lt_lines.
+    ELSE.
+      APPEND LINES OF mt_ssf_read_form_iface TO lt_lines.
+    ENDIF.
+    APPEND `` TO lt_lines.
+
+    APPEND `## 6. SmartStyle(s) used - MANUAL` TO lt_lines.
     APPEND `SE71 -> Form Attributes -> Output Options -> note the SmartStyle name(s), then` TO lt_lines.
     APPEND `print the style's paragraph/character format list from SMARTSTYLES.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 6. Graphics / logos - MANUAL` TO lt_lines.
+    APPEND `## 7. Graphics / logos - MANUAL` TO lt_lines.
     APPEND `Note any Graphic node in the form's window tree (SE71) and the MIME Repository` TO lt_lines.
     APPEND `object it points to; export the image from SE80 MIME Repository.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 7. Form outline (pages / windows / node types) - MANUAL` TO lt_lines.
+    APPEND `## 8. Form outline (pages / windows / node types) - MANUAL` TO lt_lines.
     APPEND `Walk the SE71 navigation tree and note each page/window/node (text, table,` TO lt_lines.
     APPEND `loop, graphic) as a short outline here.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 8. Risk score` TO lt_lines.
+    APPEND `## 9. Risk score` TO lt_lines.
     APPEND `Business criticality / Interactivity / Layout complexity / Driver complexity /` TO lt_lines.
     APPEND `Integration touchpoints / Localization / Volume -> composite: Low / Medium / High / Critical.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 9. Output comparison (OTF) - Phase 2 pilot only, not auto-captured here` TO lt_lines.
+    APPEND `## 10. Output comparison (OTF) - Phase 2 pilot only, not auto-captured here` TO lt_lines.
     APPEND `OTF is a rendered print stream, not a design source - it cannot be used to` TO lt_lines.
     APPEND `rebuild the form. Its correct role is validation: once the Adobe Form exists,` TO lt_lines.
     APPEND `run this form for one real document (SSF control param GETOTF = 'X' captures` TO lt_lines.
@@ -599,10 +632,10 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `diff it visually against the new Adobe Form's PDF for the same document.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 10. Full prerequisite checklist - confirm every item before converting` TO lt_lines.
-    APPEND `[ ] SmartStyle name(s) (section 5)` TO lt_lines.
+    APPEND `## 11. Full prerequisite checklist - confirm every item before converting` TO lt_lines.
+    APPEND `[ ] SmartStyle name(s) (section 6)` TO lt_lines.
     APPEND `[ ] Paragraph/character formats used by each SmartStyle` TO lt_lines.
-    APPEND `[ ] Graphics/logos referenced (section 6) - MIME Repository object + binary export` TO lt_lines.
+    APPEND `[ ] Graphics/logos referenced (section 7) - MIME Repository object + binary export` TO lt_lines.
     APPEND `[ ] Standard texts (SO10) referenced by any TEXT/INCLUDE TEXT node -` TO lt_lines.
     APPEND `    check each TDOBJECT/TDNAME/TDID/TDSPRAS via SO10` TO lt_lines.
     APPEND `[ ] Barcode / font resources (if the form prints barcodes or labels)` TO lt_lines.

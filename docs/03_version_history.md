@@ -1,5 +1,27 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.1 — fold SSF_READ_FORM's interface probe into the main process
+
+- `SSF_READ_FORM`'s interface is now probed **automatically as part of every
+  normal run** — no separate `P_PROBE` step needed for it specifically.
+  `capture_interface( 'SSF_READ_FORM' )` runs once per run (not once per
+  form) and the result becomes **section 5** of every snapshot.
+- Sections renumbered to make room: SmartStyle (6), Graphics/logos (7), Form
+  outline (8), Risk score (9), Output comparison/OTF (10), Full prerequisite
+  checklist (11).
+- **Honest limit, spelled out in section 5 itself**: `FUPARAREF` gives
+  parameter *names* and *kind* (I/E/T/C/X), not each parameter's exact ABAP
+  *type* — not enough to safely call `SSF_READ_FORM` for real data yet
+  (a wrong type guess on a deep EXPORTING/TABLES parameter risks the same
+  class of dump as F1). Section 5 states exactly what's still needed: the
+  **Reference Type** shown in SE37 next to the EXPORTING/TABLES parameter(s)
+  it already names — a targeted look, not blind exploration.
+- `P_PROBE` kept as a general-purpose version of the same tool, for any
+  *other* unfamiliar FM this project needs later.
+- `docs/02_legacy_grab_spec.md` updated to match; also fixed stale
+  "driver-program rewrite" language left over from before the v1.0 scope
+  pivot.
+
 ## v1.0 — scope pivot: design + interface only, driver programs read-only
 
 **Architecture decision, confirmed 2026-09-12** — supersedes the driver
