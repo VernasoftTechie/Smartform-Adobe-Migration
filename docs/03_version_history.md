@@ -1,5 +1,29 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.7 — Z_MM_PR_FORM design specification (spec 001 of 500+)
+
+Read the full `Z_MM_PR_FORM` export via byte-offset extraction (the file
+is ~363KB as essentially one line; `grep -bo` + `tail -c` in Bash, since
+both Read and Grep's line-based tools truncate very long single-line
+matches). Produced the first complete design specification:
+- All 10 windows with real field bindings (not inferred): HEADER,
+  LOGO → `DANGOTE LOGO`, PRHEADER (BANFN/BADAT/EKNAM/BEDNR + an embedded
+  `BAPI_USER_GET_DETAIL` call), TYPE, DATE (2 embedded custom Z-FMs), MAIN
+  (line-items table), VALUE, PAGE, WATER_MARK (conditional on
+  `EBAN-FRGKZ`), unused `%WINDOW1`.
+- MAIN window's line-items table: all 13 columns mapped to their
+  `W_FINAL-*` field bindings.
+- 4 real findings: a live `break abap1` debugger statement, dead code in 3
+  nodes, an SO10 header-text read (`object=EBANH`, `id=B01`) not
+  previously in the checklist, and 2 form-owned custom Z-FM dependencies
+  invisible to the driver-only source scan.
+- Risk re-scored against the framework using real data (composite: Medium).
+
+Published as `docs/legacy_grab/Z_MM_PR_FORM_blueprint.html` — a designed
+specification page (not raw markdown), meant to read cleanly for both a
+technical and an executive audience, and to serve as the visual/structural
+template for the remaining 500+ forms' spec sheets.
+
 ## v1.6 — confirmed: SE71/SMARTSTYLES "Utilities → Download" is the real design source
 
 User provided real exports for `Z_MM_PR_FORM`: the form's own
