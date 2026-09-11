@@ -1,5 +1,19 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.3 — F4 folder picker for the output path
+
+- `ZSF2AF_R_LEGACY_GRAB`: `AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_path` now
+  opens a folder-browse dialog (`CL_GUI_FRONTEND_SERVICES=>DIRECTORY_BROWSE`)
+  instead of requiring the path to be typed by hand. Auto-appends a trailing
+  `\` to whatever folder is picked.
+
+## v0.2 — use existing ZABAP_UTIL package
+
+- Reused the existing shared `ZABAP_UTIL` package (already used by VS-Tower,
+  Dangote_Requirements, ZAB_V1_UT) instead of creating a dedicated
+  `ZFORM_UTIL`. `src/package.devc.xml` carries its own `CTEXT`, matching the
+  Dangote precedent for a package shared across repos.
+
 ## v0.1 — Phase 1a: repo scaffold + legacy-grab tooling
 
 - Repo created, registered in the Bolt Playbook Project Register

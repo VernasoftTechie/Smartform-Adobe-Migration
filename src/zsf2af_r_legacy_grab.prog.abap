@@ -28,6 +28,27 @@ SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-b02.
 PARAMETERS p_path TYPE char100 LOWER CASE OBLIGATORY DEFAULT 'C:\Legacy_Grab\'.
 SELECTION-SCREEN END OF BLOCK b2.
 
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_path.
+  DATA lv_folder TYPE string.
+  lv_folder = p_path.
+  CALL METHOD cl_gui_frontend_services=>directory_browse
+    EXPORTING
+      window_title    = 'Select the legacy-grab output folder'
+      initial_folder  = lv_folder
+    CHANGING
+      selected_folder = lv_folder
+    EXCEPTIONS
+      cntl_error            = 1
+      error_no_gui          = 2
+      not_supported_by_gui  = 3
+      OTHERS                = 4.
+  IF sy-subrc = 0 AND lv_folder IS NOT INITIAL.
+    IF substring( val = lv_folder off = strlen( lv_folder ) - 1 len = 1 ) <> '\'.
+      lv_folder = lv_folder && '\'.
+    ENDIF.
+    p_path = lv_folder.
+  ENDIF.
+
 CLASS lcl_legacy_grab DEFINITION FINAL.
   PUBLIC SECTION.
     METHODS run.
