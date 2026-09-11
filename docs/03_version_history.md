@@ -1,5 +1,32 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.8 — fix F9: populate CL_FP_REFERENCE_FIELDS, confirms live that T_FINAL really is the full ZTABLE_PR_PRINT
+
+User manually dragged `T_FINAL` into SFP's Context tree (working around
+F8's empty-Context problem via drag from the Interface's Tables folder),
+which also confirmed live — not just from the colleague's reference file
+— that `T_FINAL` really does carry the full `ZTABLE_PR_PRINT` structure
+(the dragged Context tree showed `MATNR`/`SRVPOS`/`WERKS`/`TXZ01`/`MEINS`/
+`MENGE`, matching that structure exactly). This produced 11 activation
+errors, all the same shape: *"Reference field EBAN-MEINS of field
+T_FINAL-MENGE cannot be used here"* — standard ABAP Dictionary behavior:
+QUAN/CURR fields need a resolvable unit/currency reference field, and
+these fields' inherited references point at their original source
+tables (`EBAN`, `MARA`, `EKKO`), which aren't part of this Context.
+
+Fixed by pointing each at a field that actually exists in `T_FINAL`
+instead: `MENGE`/`MENGE1`/`BSMNG`/`MENGE2`/`LABST`/`LABST1` → `MEINS`;
+`NETPR`/`PREIS`/`EXCHANGE`/`SUPPLY_RATE` → `WAERS`; `V_EXTTOTAL`
+(top-level) → `V_WAERS`. Deliberately did NOT copy the colleague's
+reference file's own `CL_FP_REFERENCE_FIELDS` values verbatim here —
+they're internally inconsistent (e.g. `LABST` self-referencing itself as
+its own unit, `SUPPLY_RATE` typed CURR but pointing at a unit-of-measure
+field instead of a currency one), reads as an unresolved artifact of
+that wizard-generated form rather than something worth propagating.
+Added the corrected 11 entries to `z_mm_pr_form_adt.sfpi.xml`'s
+`CL_FP_REFERENCE_FIELDS` so this survives the next re-import. Logged as
+F9 in `docs/BUILD_ISSUES_LOG.md`.
+
 ## v2.7 — fix F8: invalid bind syntax, two broken initialize scripts, empty Context tab identified
 
 After v2.6's layout fix, Design View was still blank. Found three more
