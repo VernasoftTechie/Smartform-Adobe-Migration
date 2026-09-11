@@ -70,6 +70,27 @@ function module name and the report introspects that FM's interface the same
 way, writes it to `probe_<fmname>.txt`, and stops without running the legacy
 grab.
 
+## Global sweep (`P_GLOB`) — grab all styles/logos once, not per form
+
+SmartStyles and SE78 graphics don't need per-form re-discovery the way a
+form's own internal definition does — they're each independently enumerable
+system-wide:
+- **SmartStyles**: `TADIR` where `OBJECT = 'SSST'` (mirrors `SSFO` for
+  forms) — best-effort, but zero risk: a wrong object-type guess just
+  returns zero rows, it can't error.
+- **SE78 graphics**: `SELECT * FROM stxbitmaps` — same safe `SELECT *` +
+  `dump_any` reflection pattern already proven for `TNAPR`, so no column
+  name is guessed. The table *name* itself is a best-effort guess (unlike
+  `TNAPR`, not previously used in this project) — if wrong, the `SELECT`
+  fails to activate, a clean fixable error, not a silent wrong answer.
+
+Tick `P_GLOB` (instead of filling the per-form fields) and the report writes
+`global_smartstyles.txt` and `global_logos.txt` to `P_PATH` in one pass,
+then stops — does not run the legacy grab. Do this **once, up front**; see
+`docs/04_global_style_catalogue.md` for how it feeds the catalogue. Each
+form's own section 6/7 then only needs one name looked up in SE71 and
+matched against this inventory — not fresh research every time.
+
 ## OTF is not a design source — don't try to "redesign from OTF"
 
 OTF is the **rendered print stream** for one specific document instance (real

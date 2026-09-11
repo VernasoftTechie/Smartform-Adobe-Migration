@@ -18,28 +18,33 @@ and far less design work per form after the first few.
 
 ## Process
 
-1. **Collect** — for every completed `docs/legacy_grab/<form>.md`, read
-   section 5 (SmartStyle) and section 6 (Graphics/logos) once they're filled
-   in (manually today, pending `SSF_READ_FORM` automation — see
-   `02_legacy_grab_spec.md`).
-2. **Log** — every distinct style/logo found gets one row in
-   [`06_global_findings.md`](06_global_findings.md), the running raw log,
-   tagged with which form(s) use it.
-3. **Propose** — once enough forms are logged (or at natural review points,
+0. **Sweep first, system-wide, once** — run `ZSF2AF_R_LEGACY_GRAB` with
+   `P_GLOB` ticked (instead of per-form fields). One pass produces
+   `global_smartstyles.txt` (every SmartStyle name in the system, via
+   TADIR object type `SSST`) and `global_logos.txt` (every SE78-registered
+   graphic, via `SELECT * FROM stxbitmaps`). This is the master inventory —
+   built once, not rediscovered per form. Drop both files into
+   `docs/legacy_grab/` and roll them into
+   [`06_global_findings.md`](06_global_findings.md).
+1. **Match per form, don't research** — for each form, section 6/7 of its
+   snapshot only needs ONE thing looked up in SE71 (which SmartStyle name /
+   which graphic it uses) — that name should already be in the sweep output,
+   so it's a lookup, not fresh research. Log the match in
+   `06_global_findings.md`.
+2. **Propose** — once enough forms are matched (or at natural review points,
    e.g. after Phase 1b/1c or after each wave), Bolt proposes a **rationalized
    set of Global Adobe Styles** in this doc's §Catalogue below — each one
    named for its purpose (not its source SmartStyle), with the SmartStyles it
    supersedes and its status.
-4. **Build once** — each Global Adobe Style gets built **once**, in SFP/Adobe
+3. **Build once** — each Global Adobe Style gets built **once**, in SFP/Adobe
    LiveCycle Designer, as a small fixed set of paragraph/character formats +
    a cleaned logo asset library (correctly sized/cropped for Adobe forms) —
-   not per form.
-5. **Match, don't design** — converting an individual form
-   (`05_individual_form_conversion_framework.md`) starts by matching its
-   logged style/logo needs against this catalogue. Reuse whatever matches.
-   Only create a form-specific override where the catalogue genuinely doesn't
-   fit — and when that happens, log the override back into §Findings as a
-   candidate new global style if it looks reusable elsewhere.
+   not per form. When converting an individual form
+   (`05_individual_form_conversion_framework.md`), reuse whatever it matched
+   to in step 1. Only create a form-specific override where the catalogue
+   genuinely doesn't fit — and when that happens, log the override back into
+   `06_global_findings.md` as a candidate new global style if it looks
+   reusable elsewhere.
 
 ## §Catalogue (proposed Global Adobe Styles)
 

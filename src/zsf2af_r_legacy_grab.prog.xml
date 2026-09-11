@@ -64,6 +64,18 @@
      <ENTRY>Probe this FM's interface instead (e.g. SSF_READ_FORM)</ENTRY>
      <LENGTH>56</LENGTH>
     </item>
+    <item>
+     <ID>I</ID>
+     <KEY>B04</KEY>
+     <ENTRY>Global sweep (optional - skips legacy grab)</ENTRY>
+     <LENGTH>44</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_GLOB</KEY>
+     <ENTRY>Sweep all SmartStyles + SE78 graphics instead</ENTRY>
+     <LENGTH>46</LENGTH>
+    </item>
    </TPOOL>
   </asx:values>
  </asx:abap>

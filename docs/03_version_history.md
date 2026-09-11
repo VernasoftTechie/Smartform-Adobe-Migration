@@ -1,5 +1,24 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.2 — global sweep: grab all SmartStyles + logos once, not per form
+
+- New `P_GLOB` mode: ticking it (instead of filling per-form fields) runs a
+  system-wide sweep instead of the legacy grab — every SmartStyle name
+  (`TADIR` object type `SSST`) and every SE78-registered graphic
+  (`SELECT * FROM stxbitmaps`, same safe pattern as `TNAPR`) in one pass,
+  written to `global_smartstyles.txt` / `global_logos.txt`.
+- Per-form sections 6/7 (SmartStyle, Graphics/logos) reworded: now a lookup
+  against the sweep output ("which one does this form use"), not fresh
+  research each time.
+- `docs/06_global_findings.md` restructured: §0 holds the system-wide
+  inventory (paste the sweep's output there once), §1 holds per-form matches
+  against it.
+- `docs/04_global_style_catalogue.md` process updated: sweep first,
+  system-wide, once (step 0), *then* match per form.
+- `STXBITMAPS` is a best-effort table-name guess (unlike `TNAPR`, not
+  previously used here) — flagged in `docs/BUILD_ISSUES_LOG.md` as an
+  activation-time risk to watch, not yet a confirmed trap.
+
 ## v1.1 — fold SSF_READ_FORM's interface probe into the main process
 
 - `SSF_READ_FORM`'s interface is now probed **automatically as part of every

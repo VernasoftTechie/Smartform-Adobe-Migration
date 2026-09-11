@@ -9,6 +9,15 @@ Playbook §0.4) — mirror the one-row summary into the Playbook's Appendix A to
 | F1 | Dump `CALL_FUNCTION_CONFLICT_TYPE` (`CX_SY_DYN_CALL_ILLEGAL_TYPE`) calling `SSF_FUNCTION_MODULE_NAME` from `RESOLVE_FM_NAME`, passing `IV_FORMNAME TYPE string` directly to `FORMNAME` | `SSF_FUNCTION_MODULE_NAME` is a classic, pre-STRING-era function module — its `FORMNAME` parameter is a fixed-length `C`-like type, not `STRING`. `CALL FUNCTION`'s static type-check rejects a `STRING` actual there even though an ordinary `MOVE`/assignment would convert it fine | Declare a fixed `CHAR30` local, assign the string to it (`lv_formname = iv_formname.`), pass *that* to `FORMNAME` instead of the string variable directly (fixed in v0.4) |
 | F2 | Activation errors in `EXTRACT_INCLUDES`: *"LV_INCLNAME must be a character-like field (data type C, N, D, or T)"* on the offset/length access, and *"LV_INCLNAME is not type-compatible with formal parameter IV_PROGNAME"* on the `write_driver_source( iv_progname = lv_inclname ... )` call | `DATA(lv_inclname) = to_upper( lt_words[ 2 ] ).` inferred `lv_inclname` as `TYPE string` (the return type of `to_upper( )`). Classic offset/length notation (`field+off(len)`) is **not valid on `STRING`**, only on fixed `C/N/D/T` types. Separately, `write_driver_source`'s `IV_PROGNAME` formal is `TYPE tadir-obj_name` (a by-reference `IMPORTING` param) — passing a `STRING` actual there fails type-compatibility even though a plain assignment would convert fine (same class of trap as ZAB_V1_UT engineering-log T2/T3) | Declare `lv_inclname` explicitly as `TYPE tadir-obj_name` (not inline `DATA()`), assign via `=` (plain assignment allows the conversion), *then* do the offset/length trim and pass it to `write_driver_source` — fixed in v0.9 |
 
+## Unverified table name to watch (not yet a confirmed trap)
+
+`global_sweep` (P_GLOB, v1.2) reads `STXBITMAPS` for SE78-registered
+graphics via `SELECT *` — this table name has not been used anywhere else in
+this project and is a best-effort guess. If it's wrong, expect an
+**activation-time** error naming the table (not a runtime dump, since
+`SELECT *` needs no field names) — paste it back and it's a one-line fix
+(swap the table name).
+
 ## Lesson for future calls in this project
 
 Any **classic** (pre-Unicode-era) function module — `SSF_*`, most `SAPscript`/

@@ -23,6 +23,12 @@
 *& the legacy grab - a general-purpose tool for learning an unfamiliar
 *& FM's parameter list before it gets called for real.
 *&
+*& P_GLOB: tick to run a system-wide sweep instead of the legacy grab -
+*& every SmartStyle name (TADIR SSST) + every SE78 graphic (STXBITMAPS)
+*& in one pass, written to global_smartstyles.txt / global_logos.txt.
+*& Grab this ONCE, up front, rather than rediscovering styles/logos per
+*& form - see docs/04_global_style_catalogue.md.
+*&
 *& Performance: driver-program candidates are found by scanning every
 *& Z*/Y* program's source ONCE for the whole run (build_driver_index),
 *& not once per form.
@@ -47,6 +53,10 @@ SELECTION-SCREEN END OF BLOCK b2.
 SELECTION-SCREEN BEGIN OF BLOCK b3 WITH FRAME TITLE TEXT-b03.
 PARAMETERS p_probe TYPE char30 LOWER CASE.
 SELECTION-SCREEN END OF BLOCK b3.
+
+SELECTION-SCREEN BEGIN OF BLOCK b4 WITH FRAME TITLE TEXT-b04.
+PARAMETERS p_glob AS CHECKBOX DEFAULT abap_false.
+SELECTION-SCREEN END OF BLOCK b4.
 
 AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_path.
   DATA lv_folder TYPE string.
@@ -85,6 +95,13 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
     "! snapshot).
     METHODS probe_fm
       IMPORTING iv_fm_name TYPE char30.
+
+    "! If P_GLOB is ticked: build the Global Style & Asset Catalogue's raw
+    "! inventory - every SmartStyle name and every SE78-registered graphic
+    "! - once, system-wide, instead of per form. Feeds
+    "! docs/06_global_findings.md (see docs/04_global_style_catalogue.md).
+    "! Does not run the legacy grab.
+    METHODS global_sweep.
 
     TYPES: BEGIN OF ty_driver_hit,
              progname TYPE tadir-obj_name,
@@ -191,6 +208,11 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
   METHOD run.
     IF p_probe IS NOT INITIAL.
       probe_fm( p_probe ).
+      RETURN.
+    ENDIF.
+
+    IF p_glob = abap_true.
+      global_sweep( ).
       RETURN.
     ENDIF.
 
@@ -604,14 +626,19 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
     APPEND `` TO lt_lines.
 
-    APPEND `## 6. SmartStyle(s) used - MANUAL` TO lt_lines.
-    APPEND `SE71 -> Form Attributes -> Output Options -> note the SmartStyle name(s), then` TO lt_lines.
-    APPEND `print the style's paragraph/character format list from SMARTSTYLES.` TO lt_lines.
+    APPEND `## 6. SmartStyle(s) used - MANUAL (one name lookup, not fresh research)` TO lt_lines.
+    APPEND `SE71 -> Form Attributes -> Output Options shows the SmartStyle name this form` TO lt_lines.
+    APPEND `uses. It should already be listed in docs/legacy_grab/global_smartstyles.txt` TO lt_lines.
+    APPEND `(from the P_GLOB sweep) - just note WHICH one here and match it against` TO lt_lines.
+    APPEND `docs/04_global_style_catalogue.md. Only research its format details fresh if` TO lt_lines.
+    APPEND `it isn't in the global catalogue yet.` TO lt_lines.
     APPEND `` TO lt_lines.
 
-    APPEND `## 7. Graphics / logos - MANUAL` TO lt_lines.
-    APPEND `Note any Graphic node in the form's window tree (SE71) and the MIME Repository` TO lt_lines.
-    APPEND `object it points to; export the image from SE80 MIME Repository.` TO lt_lines.
+    APPEND `## 7. Graphics / logos - MANUAL (one name lookup, not fresh research)` TO lt_lines.
+    APPEND `Note any Graphic node in the form's window tree (SE71) and which SE78 object` TO lt_lines.
+    APPEND `it points to. It should already be listed in` TO lt_lines.
+    APPEND `docs/legacy_grab/global_logos.txt (from the P_GLOB sweep) - just note WHICH` TO lt_lines.
+    APPEND `one here and match it against docs/04_global_style_catalogue.md.` TO lt_lines.
     APPEND `` TO lt_lines.
 
     APPEND `## 8. Form outline (pages / windows / node types) - MANUAL` TO lt_lines.
@@ -661,6 +688,85 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     IF sy-subrc <> 0.
       w( |WARNING: download failed for { iv_formname } to { lv_filename }, sy-subrc { sy-subrc }.| ).
     ENDIF.
+  ENDMETHOD.
+
+  METHOD global_sweep.
+    w( `Global prerequisites sweep starting (SmartStyles + SE78 graphics)...` ).
+
+    " --- SmartStyles: best-effort via TADIR, object type SSST (mirrors
+    " SSFO for forms) - unverified guess, but zero risk: a wrong object
+    " type value just returns zero rows, it doesn't error.
+    DATA lv_pattern TYPE string.
+    lv_pattern = p_pref && '%'.
+    SELECT obj_name FROM tadir INTO TABLE @DATA(lt_tadir_style)
+      WHERE pgmid = 'R3TR' AND object = 'SSST' AND obj_name LIKE @lv_pattern.
+
+    DATA lt_style_out TYPE TABLE OF string.
+    APPEND `# Global SmartStyle inventory` TO lt_style_out.
+    APPEND `` TO lt_style_out.
+    APPEND `TADIR object type SSST, best effort - verify count against` TO lt_style_out.
+    APPEND `SMARTSTYLES/SE71 the first time this is run.` TO lt_style_out.
+    APPEND `` TO lt_style_out.
+    IF sy-subrc <> 0 OR lt_tadir_style IS INITIAL.
+      APPEND `(none found - verify object type SSST in SE16/SMARTSTYLES, or list manually)` TO lt_style_out.
+      w( `SmartStyle inventory: 0 found via TADIR SSST - verify the object type, or list manually.` ).
+    ELSE.
+      LOOP AT lt_tadir_style INTO DATA(ls_style).
+        APPEND |- { ls_style-obj_name }| TO lt_style_out.
+      ENDLOOP.
+      w( |SmartStyle inventory: { lines( lt_tadir_style ) } found.| ).
+    ENDIF.
+
+    DATA(lv_style_file) = |{ p_path }global_smartstyles.txt|.
+    CALL FUNCTION 'GUI_DOWNLOAD'
+      EXPORTING
+        filename = lv_style_file
+        filetype = 'ASC'
+      TABLES
+        data_tab = lt_style_out
+      EXCEPTIONS
+        OTHERS   = 1.
+    IF sy-subrc = 0.
+      w( |Saved to { lv_style_file }| ).
+    ENDIF.
+
+    " --- Graphics/logos: SE78-registered, table STXBITMAPS. SELECT * -
+    " no field-name guess, same safe pattern already proven for TNAPR.
+    " The table NAME itself is a best-effort guess (unlike TNAPR, not yet
+    " used in this project) - if wrong, this SELECT fails to activate,
+    " a clean fixable error, not a guess baked silently into results.
+    SELECT * FROM stxbitmaps INTO TABLE @DATA(lt_bitmaps) UP TO 10000 ROWS.
+
+    DATA lt_logo_out TYPE TABLE OF string.
+    APPEND `# Global logo/graphic inventory (SE78 / STXBITMAPS)` TO lt_logo_out.
+    APPEND `` TO lt_logo_out.
+    IF sy-subrc <> 0 OR lt_bitmaps IS INITIAL.
+      APPEND `(no STXBITMAPS rows read - table may not exist/be authorized here;` TO lt_logo_out.
+      APPEND `list manually via SE78)` TO lt_logo_out.
+      w( `Logo inventory: STXBITMAPS read failed or empty - see file for manual fallback.` ).
+    ELSE.
+      LOOP AT lt_bitmaps INTO DATA(ls_bmp).
+        APPEND `-` TO lt_logo_out.
+        APPEND LINES OF dump_any( ls_bmp ) TO lt_logo_out.
+      ENDLOOP.
+      w( |Logo inventory: { lines( lt_bitmaps ) } row(s) found.| ).
+    ENDIF.
+
+    DATA(lv_logo_file) = |{ p_path }global_logos.txt|.
+    CALL FUNCTION 'GUI_DOWNLOAD'
+      EXPORTING
+        filename = lv_logo_file
+        filetype = 'ASC'
+      TABLES
+        data_tab = lt_logo_out
+      EXCEPTIONS
+        OTHERS   = 1.
+    IF sy-subrc = 0.
+      w( |Saved to { lv_logo_file }| ).
+    ENDIF.
+
+    w( `Global sweep done. Drop both files into docs/legacy_grab/, roll their` ).
+    w( `contents into docs/06_global_findings.md, and push.` ).
   ENDMETHOD.
 
   METHOD probe_fm.
