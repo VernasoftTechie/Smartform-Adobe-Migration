@@ -62,10 +62,10 @@ coordinates. `%WINDOW1` is a leftover default node — skip it, don't build it.
 | `logo` | 0.60 | 0.20 | 5.42 | 2.82 | Logo image, §2 |
 | `header` | 6.60 | 0.40 | 17.47 | 2.20 | Two centered bold (P2/P6) lines: `&lv_company&`, then `&PLANT_NAME&`, then plain-text line "PURCHASE REQUISITION FORM" (P2) |
 | `type_of_request` | 0.53 | 4.00 | 15.73 | 1.20 | Static text (C1 labels): "Type of Request : Revenue/Capital Spares/General Consumables", "Equipment Details:" |
-| `pr_header` | 19.33 | 4.00 | 9.60 | 2.47 | 5 label/value lines (all C1 label + P1 value): `LPR No: &BANFN&`, `LPR Date: &BADAT&`, `Department: &EKNAM&`, `Section: &BEDNR&`, `Email: &GS_ADDSMTP-E_MAIL&` — **build note**: the email needs a `BAPI_USER_GET_DETAIL` call somewhere upstream of the form (script object or interface change — flag as Developer Extension Point, see §6) |
+| `pr_header` | 19.33 | 4.00 | 9.60 | 2.47 | 5 label/value lines (all C1 label + P1 value): `LPR No: &BANFN&`, `LPR Date: &BADAT&`, `Department: &EKNAM&`, `Section: &BEDNR&`, `Email: &IV_REQ_EMAIL&` — **resolved, see §6.1** |
 | `value_line` | 0.50 | 5.47 | 13.97 | 0.50 | "Estimated Value of this LPR : `&V_EXTTOTAL(C)&` `&v_waers&`" |
-| `watermark` | 2.20 | 10.40 | 20.50 | 8.80 | Conditional text, renders only when `EBAN-FRGKZ = 'R'` or `'2'` — **build note**: needs an equivalent read (`SELECT SINGLE FRGKZ FROM EBAN WHERE BANFN = banfn`) reproduced as a script object bound to this subform's visibility, or passed in via the interface — flag as Developer Extension Point |
-| `date_line` | 0.50 | 19.87 | 7.60 | 0.93 | Weekday + month spell-out — **build note**: reproduces `ZABF_DATE_TO_DAY` / `ZABF_ISP_GET_MONTH_NAME` logic; these are custom Z-FMs, confirm they're callable from Adobe's script context or pre-compute the values and pass them in via the interface — flag as Developer Extension Point |
+| `watermark` | 2.20 | 10.40 | 20.50 | 8.80 | Conditional text, presence driven by a JavaScript `initialize` script — **resolved, see §6.2** |
+| `date_line` | 0.50 | 19.87 | 7.60 | 0.93 | Weekday + month spell-out, computed client-side from `BADAT` — **resolved, see §6.3** |
 | `page_footer` | 24.00 | 19.83 | 4.03 | 1.10 | "Page `&SFSY-PAGE&` of `&SFSY-FORMPAGES&`" (C2: bold italic, 15pt) — Adobe has native page-numbering fields, use those directly rather than reproducing SFSY manually |
 | `main` (flowed) | *(fills remaining content area, ~6.5cm to ~19.7cm vertical)* | | | | Line-items table, §4 |
 
@@ -112,26 +112,113 @@ build a merged total row beneath the data rows for the grand total line.
 | `%CODE20` code node | VALUE window | Fully commented out, dead |
 | Commented block in `%CODE15` | TYPE window | Dead code alongside the active `IF v_pstyp = '9'` logic — keep the active logic, drop the comments |
 
-## 6. Developer Extension Points (flag, don't block)
+## 6. Embedded ABAP → FormCalc/JavaScript, decided
 
-Per `docs/05_individual_form_conversion_framework.md` — none of these
-block the build or sign-off; each becomes a named placeholder + a
-post-implementation checklist entry:
+**The governing fact:** Smart Forms' "Program Lines" nodes execute real
+ABAP, with full RFC/BAPI/database access, as the form is processed inside
+the SAP kernel. Adobe's FormCalc/JavaScript run inside the *rendering*
+engine (Adobe Document Services) — they can calculate, format, and show/hide
+based on data already present in the form, but they **cannot** call an
+ABAP function module, run a BAPI, or issue a database SELECT. That single
+fact decides all four items below: anything that only *computes* from data
+already in the interface stays client-side script; anything that *fetches*
+data the interface doesn't already carry needs that data added to the
+interface — as a new **optional** parameter, so an unmodified caller is
+unaffected (empty/default value, graceful degrade) and the "preserve the
+interface exactly" rule (`docs/01_scope.md` §8) isn't broken, only
+extended.
 
-1. **Requisitioner e-mail** (`pr_header`) — currently resolved via an
-   embedded `BAPI_USER_GET_DETAIL` call inside the Smart Form. Decide:
-   reproduce as an Adobe script object, or add it to the interface as a
-   pre-resolved value (note: adding an interface parameter changes the
-   contract — flag to Bolt before doing this, don't decide silently).
-2. **Watermark condition** (`watermark`) — `EBAN-FRGKZ` read reproduced as
-   script or passed in.
-3. **Date spell-out** (`date_line`) — two custom Z-FM calls (`ZABF_DATE_TO_DAY`,
-   `ZABF_ISP_GET_MONTH_NAME`) reproduced or pre-computed.
-4. **SO10 header note** (MAIN window, not yet in a subform above — found in
-   the raw export but not detailed here) — reads standard text object
-   `EBANH` / ID `B01` via `READ_TEXT`. Needs equivalent handling.
-5. **Column 12-14 field bindings** (§4) — confirmed from the export at
-   medium confidence; verify against a real printed PR before sign-off.
+### 6.1 Requisitioner e-mail — new optional interface parameter
+
+`BAPI_USER_GET_DETAIL` is a real ABAP RFC call — can't run in FormCalc/JS.
+**Decision:** add `IV_REQ_EMAIL TYPE STRING OPTIONAL` to the interface.
+Bind the `pr_header` email line directly to it. An unmodified driver that
+doesn't pass it renders a blank email line — safe degrade, nothing breaks.
+*(Whoever eventually wires a caller to this form, per Phase 6, resolves the
+BAPI call once, upstream, and passes the result in.)*
+
+### 6.2 Watermark condition — new optional interface parameter + JavaScript
+
+`SELECT SINGLE FRGKZ FROM EBAN` is a database read — can't run in
+FormCalc/JS either. **Decision:** add `IV_FRGKZ TYPE EBAN-FRGKZ OPTIONAL`
+to the interface. The visibility logic itself **is** exactly what
+JavaScript is for — on the `watermark` subform's `initialize` event:
+
+```javascript
+// watermark :: initialize event
+if (IV_FRGKZ.rawValue == "R" || IV_FRGKZ.rawValue == "2") {
+    this.presence = "visible";
+} else {
+    this.presence = "hidden";
+}
+```
+
+Unmodified caller doesn't pass `IV_FRGKZ` → it's blank → condition is
+false → watermark hidden. Same safe degrade as 6.1.
+
+### 6.3 Date spell-out — pure JavaScript, no interface change needed
+
+Unlike 6.1/6.2, this needs **no new parameter** — `BADAT` is already in the
+interface, and weekday/month-name is a pure computation from a date already
+present, which JavaScript's own `Date` object handles natively. On the
+`date_line` subform's `initialize` event:
+
+```javascript
+// date_line :: initialize event — adjust the BADAT.rawValue parse to
+// whatever date format SFP actually binds it as once you're in the tool
+var wkE = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var wkF = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+var moE = ["January","February","March","April","May","June","July",
+           "August","September","October","November","December"];
+var moF = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet",
+           "Aout","Septembre","Octobre","Novembre","Decembre"];
+
+var d = Date2Num(BADAT.rawValue, "YYYY-MM-DD");   // FormCalc-style parse;
+                                                    // swap for the real bound format
+var dow = Mod(d, 7);                               // 0-6
+var lang = (xfa.form.language == "fr") ? "F" : "E";
+var weekday = (lang == "F") ? wkF[dow] : wkE[dow];
+var month   = (lang == "F") ? moF[Num2Date(d,"MM")-1] : moE[Num2Date(d,"MM")-1];
+```
+
+This replaces `ZABF_DATE_TO_DAY` + `ZABF_ISP_GET_MONTH_NAME` exactly, using
+only data already in the interface. **Verify once in LiveCycle Designer**:
+the tool validates FormCalc/JavaScript interactively as you type — unlike
+the ABAP report, a syntax slip here surfaces immediately, not as a dump
+later, so treat the snippet above as the logic to implement, not a
+guaranteed-exact paste.
+
+### 6.4 SO10 header note — likely already covered, confirm first
+
+`READ_TEXT` (object `EBANH`, ID `B01`) fetches the PR's header long text —
+another live ABAP call FormCalc/JS can't reproduce. **But**: the interface
+already has a `TABLES T_TEXT` parameter (`docs/legacy_grab/Z_MM_PR_FORM.md`
+§2) — a table of text lines is exactly the shape `READ_TEXT` would fill.
+**Before adding a third new parameter, check whether `T_TEXT` already
+carries this content** (likely, given the name) — if so, bind the MAIN
+window's header-note text directly to it, no interface change needed at
+all. Only add `IV_HEADER_NOTE` as a new optional parameter if `T_TEXT`
+turns out to serve a different purpose once you inspect a real call.
+
+### 6.5 Column 12-14 field bindings — verification, not a design decision
+
+Carried over from §4 — these three bindings are medium-confidence from the
+export alone; confirm against a real printed PR. Not resolvable by design
+judgment, needs the real system.
+
+## Interface summary — what changes, what doesn't
+
+| | Count | Detail |
+|---|---|---|
+| Unchanged (existing 24 IMPORTING params) | 24 | Every field in `Z_MM_PR_FORM.md` §2 stays exactly as declared |
+| Unchanged (TABLES, EXPORTING, EXCEPTIONS) | all | `T_FINAL`, `T_TEXT`, `DOCUMENT_OUTPUT_INFO`, etc. — untouched |
+| **New, optional** | 2 (possibly 3, pending §6.4) | `IV_REQ_EMAIL TYPE STRING OPTIONAL`, `IV_FRGKZ TYPE EBAN-FRGKZ OPTIONAL` |
+
+Both new parameters are **optional with a safe blank/hidden default** — an
+unmodified existing caller is unaffected. This is the one interface change
+Bolt is making unilaterally per your authorization; it's additive only,
+never a required-parameter change, so it doesn't conflict with
+`docs/01_scope.md` §8's interface-preservation rule.
 
 ## 7. Still open — not this checklist's job, but blocking full sign-off
 
@@ -144,9 +231,26 @@ post-implementation checklist entry:
 
 1. Visual match against `Z_MM_PR_FORM_blueprint.html` — every subform
    position, every field, every exclusion in §5 accounted for.
-2. Run one real Purchase Requisition through both forms:
+2. Confirm `T_TEXT` covers the SO10 header note (§6.4) before assuming it
+   does — if it doesn't, add `IV_HEADER_NOTE` and note it in the interface
+   summary above.
+3. Test both new optional parameters (§6.1, §6.2) two ways: with a value
+   supplied (email shows, watermark conditionally shows) **and** blank
+   (email line empty, watermark hidden) — the blank case is what every
+   existing, unmodified caller will actually see until Phase 6 wiring.
+4. Run one real Purchase Requisition through both forms:
    old Smart Form → OTF (`GETOTF='X'`) → PDF (`CONVERT_OTF`);
    new Adobe Form → its own PDF, same interface data. Diff visually.
-3. Composite risk is **Medium** (`Z_MM_PR_FORM_blueprint.html` §05) — no
+5. Composite risk is **Medium** (`Z_MM_PR_FORM_blueprint.html` §05) — no
    named sign-off strictly required at Medium, but recommended given this
    is the **first form built with this process** — treat it as the pilot.
+
+## Is it ready to import into SFP?
+
+There's no literal import — SFP doesn't take a markdown spec as input. What
+"ready" means here: every number and decision above is either read directly
+from the real export or a deliberate, reasoned choice (§6) — nothing left
+to *design*. What's left is genuinely manual: building each subform at its
+coordinates, wiring the two new optional parameters into the interface, and
+pasting the two script snippets in. That's real work, but it's execution
+against a finished spec, not open design questions.

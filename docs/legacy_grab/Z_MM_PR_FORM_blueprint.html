@@ -342,7 +342,7 @@
         <div class="win-body">
           <div class="label">Requisition identity block</div>
           <div class="win-fields"><span class="fld">BANFN</span><span class="fld">BADAT</span><span class="fld">EKNAM</span><span class="fld">BEDNR</span><span class="fld code">CODE &middot; BAPI_USER_GET_DETAIL</span></div>
-          <div class="win-note">Embedded code node resolves the requisitioner's e-mail address at render time &mdash; not passed in via the interface.</div>
+          <div class="win-note">Resolved: FormCalc/JavaScript can't call a BAPI, so this becomes a new <em>optional</em> interface parameter (<code>IV_REQ_EMAIL</code>) instead &mdash; build checklist &sect;6.1.</div>
         </div>
       </div>
       <div class="win">
@@ -357,7 +357,7 @@
         <div class="win-body">
           <div class="label">Weekday &amp; month spell-out</div>
           <div class="win-fields"><span class="fld code">ZABF_DATE_TO_DAY</span><span class="fld code">ZABF_ISP_GET_MONTH_NAME</span></div>
-          <div class="win-note">Two custom Z function modules called from inside the form itself &mdash; a dependency class the driver-only source scan cannot see.</div>
+          <div class="win-note">Resolved: no interface change needed &mdash; <code>BADAT</code> is already available, weekday/month-name computed client-side in JavaScript instead of calling these two Z-FMs &mdash; build checklist &sect;6.3.</div>
         </div>
       </div>
       <div class="win">
@@ -365,7 +365,7 @@
         <div class="win-body">
           <div class="label">Conditional release stamp</div>
           <div class="win-fields"><span class="fld">EBAN-FRGKZ = 'R' OR '2'</span></div>
-          <div class="win-note">Renders only while the PR is pending / partially released.</div>
+          <div class="win-note">Resolved: new <em>optional</em> interface parameter (<code>IV_FRGKZ</code>) drives a JavaScript presence check &mdash; build checklist &sect;6.2.</div>
         </div>
       </div>
       <div class="win">
@@ -488,7 +488,7 @@
       <h3>What doesn't change, at any scale</h3>
       <div class="govrules">
         <div class="govrule"><div class="t">Driver programs stay untouched</div><div class="d">Read for context only. Two drivers can call the same form for different reasons &mdash; editing one risks the other.</div></div>
-        <div class="govrule"><div class="t">Interface preserved exactly</div><div class="d">Whatever calls this form later sees the same contract it always has.</div></div>
+        <div class="govrule"><div class="t">Interface extended, never broken</div><div class="d">2 new fields, both optional with a safe blank default &mdash; where the form's own embedded ABAP fetched something FormCalc/JS can't (build checklist &sect;6). Every existing field, and every unmodified caller, is unaffected.</div></div>
         <div class="govrule"><div class="t">Nothing automated without verification</div><div class="d">Every table and API used above was proven against this system first &mdash; a wrong guess fails safely, never silently.</div></div>
         <div class="govrule"><div class="t">Unresolved items are logged, never dropped</div><div class="d">Driver, output determination, and the SO10 text object above are open &mdash; tracked, not hidden.</div></div>
       </div>

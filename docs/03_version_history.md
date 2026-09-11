@@ -1,5 +1,32 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.9 — resolve the embedded ABAP: FormCalc/JavaScript decisions, made
+
+User authorized Bolt to decide the interface where needed and use
+FormCalc/JavaScript for conditions. Resolved all 4 embedded-ABAP items in
+the build checklist §6, governed by one fact: FormCalc/JS can compute from
+data already in the interface, but can't call a BAPI/FM or run a database
+SELECT — so anything that only *computes* stays client-side script, and
+anything that *fetches* new data becomes a new **optional** interface
+parameter (safe blank default, unmodified callers unaffected):
+
+- **6.1 Requisitioner e-mail** — `BAPI_USER_GET_DETAIL` can't run in
+  FormCalc/JS → new `IV_REQ_EMAIL TYPE STRING OPTIONAL`.
+- **6.2 Watermark condition** — `SELECT ... FROM EBAN` can't run in
+  FormCalc/JS → new `IV_FRGKZ TYPE EBAN-FRGKZ OPTIONAL`, with a JavaScript
+  `initialize` script (given, §6.2) driving the subform's `presence`.
+- **6.3 Date spell-out** — no interface change needed at all: `BADAT` is
+  already in the interface, weekday/month-name is pure computation,
+  replaced the two custom Z-FMs (`ZABF_DATE_TO_DAY`,
+  `ZABF_ISP_GET_MONTH_NAME`) with a JavaScript snippet (given, §6.3).
+- **6.4 SO10 header note** — likely already covered by the existing
+  `TABLES T_TEXT` parameter; flagged to confirm before adding a third new
+  parameter, not assumed either way.
+
+Net interface change: 2 new optional parameters (possibly 3, pending 6.4),
+0 existing parameters touched. Blueprint updated to match (window notes,
+governance panel) and republished.
+
 ## v1.8 — build checklist: Bolt-authored design, no SFP wizard
 
 **Confirmed 2026-09-13 — user overrode the SFP-wizard design path.** Bolt
