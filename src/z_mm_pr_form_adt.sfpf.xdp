@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Z_MM_PR_FORM_ADF.XDP
+  Z_MM_PR_FORM_ADT.SFPF - layout (XDP)
+
   Hand-authored Adobe LiveCycle Designer template (XFA), built directly
   from the real Smart Form export - not the SFP "Create by Migration"
-  wizard. Every position/size/font/field below matches
+  wizard. Every position/size/font/field matches
   docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md exactly.
 
-  IMPORT NOTE: this is the first hand-authored XDP in this project - it
-  has not been validated against a live SFP/ADS system. Try importing it
-  (SFP -> Z_MM_PR_FORM_ADF -> Layout tab -> Utilities/Import, or the exact
-  path your SFP version uses), and paste back EXACTLY what happens -
-  success, or the precise error text - so any schema issue gets fixed
-  fast rather than guessed at twice.
+  FORMAT FIX (2026-09-12): this used to be a standalone top-level .XDP
+  file plus a separate SFPF_*.XML with the layout base64-embedded inside
+  it. abapGit could not read either shape. The real abapGit serializer
+  for object type SFPF (LCL_OBJECT_SFPF) splits the object into TWO
+  companion files - this one (the plain, unencoded XDP) and
+  z_mm_pr_form_adt.sfpf.xml (the metadata, wrapped in an <abapGit>
+  root, with LAYOUT left as a stub pointing here). Confirmed against a
+  real abapGit-serialized object pulled into this repo by the user:
+  src/zhello_world_form_adt.sfpf.xdp / .sfpf.xml.
 
   BEFORE importing this layout, add these two fields to the SFP Form
   Interface tab (this file does not create them - it only references
   them): IV_REQ_EMAIL TYPE STRING OPTIONAL, IV_FRGKZ TYPE EBAN-FRGKZ
-  OPTIONAL. See build checklist section 6.1/6.2 for why.
+  OPTIONAL. See build checklist section 6.1/6.2 for why. These are
+  additive/optional - the confirmed original 16 IMPORT_PARAMETERS are
+  otherwise unchanged (see z_mm_pr_form_int_adt.sfpi.xml).
 
-  Binding paths below (bind ref="$.FIELDNAME") assume the Adobe Interface
-  Context exposes parameters at the top level, matching Smart Forms'
-  naming. SFP's own Data View (visible once the interface is bound) may
-  nest fields differently (e.g. under a root context node) - if so, adjust
-  every "ref" attribute to match what SFP's Data View actually shows,
-  the structure/positions/fonts/scripts stay the same.
+  Binding paths below (bind ref="$.FIELDNAME") assume the Adobe
+  Interface Context exposes parameters at the top level, matching Smart
+  Forms' naming. SFP's own Data View (visible once the interface is
+  bound) may nest fields differently - if so, adjust every "ref"
+  attribute to match what SFP's Data View actually shows; the
+  structure/positions/fonts/scripts stay the same.
 
-  Structure (connectionSet/xsdConnection, xfa:datasets, localeSet) matches
-  the real ZHELLO_WORLD_FORM.XDP export from this system - confirmed
-  authentic, not guessed. Z_MM_PR_FORM_ADF.XSD is the companion data schema
-  this file's connectionSet references.
+  Table scope note: a genuinely-migrated sibling reference for this same
+  form (Z_ADT_MM_PR_FORM, staged by the user from Sn/) shows the real
+  line-item structure (T_FINAL TYPE ZTABLE_PR_PRINT) carries 31 fields
+  plus 3 nested long-text loops per row - this layout intentionally
+  binds only the 14 columns already confirmed in the build checklist.
+  Widening to the full structure is a scope decision for the user, not
+  assumed here. See docs/reference_examples_z_adt_mm_pr_form/README.md.
 -->
 <xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/">
 
@@ -51,7 +60,7 @@
   </config>
 
   <template xmlns:xliff="urn:oasis:names:tc:xliff:document:1.1" xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
-    <subform name="Z_MM_PR_FORM_ADF" layout="tb" locale="en_US" restrict="open">
+    <subform name="Z_MM_PR_FORM_ADT" layout="tb" locale="en_US" restrict="open">
 
       <pageSet>
         <pageArea name="Page1" id="Page1">
@@ -65,10 +74,18 @@
         <field name="logo_image" w="5.42cm" h="2.82cm">
           <ui><imageEdit/></ui>
           <value>
-            <!-- Export DANGOTE LOGO (SE78, object GRAPHICS, id BMAP, type
-                 BCOL) and embed it here, or bind to an image data node if
-                 the interface carries the binary. -->
-            <image contentType="image/bmp" href=""/>
+            <!-- Real reference (Z_ADT_MM_PR_FORM.XDP) binds this via a live
+                 URL into the SAP graphics repository rather than an
+                 embedded bitmap:
+                 href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/dangote logo.bmp"
+                 (SE78 object GRAPHICS, id BMAP, type BCOL, name
+                 "dangote logo"). That matches the Global Style/Logo
+                 Catalogue approach (one MIME object, reused by all
+                 500+ forms) better than embedding a copy per form -
+                 adopted here in place of the earlier empty-embed
+                 placeholder. Confirm the exact SE78 path once in the
+                 target system. -->
+            <image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/dangote logo.bmp"/>
           </value>
         </field>
       </subform>
@@ -210,6 +227,14 @@
           <script contentType="application/x-javascript"><![CDATA[
             // build checklist section 6.2 - new optional interface
             // parameter IV_FRGKZ. Unmodified caller -> blank -> hidden.
+            //
+            // Note: the real reference interface (Z_INT_MM_PR_FORM) does
+            // NOT carry an FRGKZ-equivalent import parameter, and its
+            // CL_FP_CODING/INITIALIZATION is only 2 lines (V_DATE,
+            // LV_WERKS) - it does not derive this flag either. Either
+            // that reference doesn't implement the watermark, or it is
+            // resolved further upstream than this interface exposes.
+            // Unresolved - see docs/reference_examples_z_adt_mm_pr_form/README.md.
             if (IV_FRGKZ.rawValue == "R" || IV_FRGKZ.rawValue == "2") {
                 this.presence = "visible";
             } else {
@@ -308,9 +333,8 @@
           <field name="c09" w="1.66cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="SUPPLY_RATE"/></field>
           <field name="c10" w="1.61cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="EXCHANGE"/></field>
           <field name="c11" w="1.39cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="GV_VALUE"/></field>
-          <!-- c12-c14: field names verified at medium confidence only -
-               build checklist section 4/6.5, confirm against a real
-               printout -->
+          <!-- c12-c14: field names verified against the real ZTABLE_PR_PRINT
+               row structure (docs/reference_examples_z_adt_mm_pr_form) -->
           <field name="c12" w="1.33cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="LABST1"/></field>
           <field name="c13" w="1.96cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="TOTAL"/></field>
           <field name="c14" w="2.30cm" h="0.55cm"><ui><numericEdit/></ui><bind ref="GV_VALUE1"/></field>
@@ -336,7 +360,7 @@
   </template>
 
   <connectionSet xmlns="http://www.xfa.org/schema/xfa-connection-set/2.8/">
-    <xsdConnection dataDescription="data" name="Z_MM_PR_FORM_ADF">
+    <xsdConnection dataDescription="data" name="Z_MM_PR_FORM_ADT">
       <uri/>
       <rootElement>data</rootElement>
     </xsdConnection>

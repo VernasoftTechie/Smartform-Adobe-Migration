@@ -1,0 +1,1566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xfa="http://www.xfa.org/schema/xfa-template/2.2/" xmlns:xfadata="http://www.xfa.org/schema/xfa-data/1.0/" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+ <xsd:import namespace="http://www.xfa.org/schema/xfa-data/1.0/"/>
+ <xsd:element name="data">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="X2500_PAGE1_X2500_WINDOW1">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>New Window 1</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>New Window 1</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_WATER_MARK">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>New Window 1</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>New Window 1</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="X2500_CONDITION2">
+        <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+         <xsd:documentation>New Alternative 2</xsd:documentation>
+         <xsd:appinfo>
+          <dc:description>New Alternative 2</dc:description>
+         </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+         <xsd:choice minOccurs="1" maxOccurs="1">
+          <xsd:element name="TRUE">
+           <xsd:complexType>
+            <xsd:sequence/>
+           </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="FALSE">
+           <xsd:complexType>
+            <xsd:sequence/>
+           </xsd:complexType>
+          </xsd:element>
+         </xsd:choice>
+        </xsd:complexType>
+       </xsd:element>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_PAGE">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>page window</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>page window</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_DATE">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>Date Window</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>Date Window</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_PRHEADER">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>PR HEADER WINDOW</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>PR HEADER WINDOW</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_TYPE">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>TYPE WINDOW</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>TYPE WINDOW</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_HEADER">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>HEADER WINDOW</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>HEADER WINDOW</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_LOGO">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>COMPANY LOGO</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>COMPANY LOGO</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="LOGO">
+        <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+         <xsd:documentation>New Graphic 1 
+ &apos;/sap/bc/fp/graphics/public&apos; / 
+ &apos;graphics&apos; / 
+ &apos;bmap&apos; / 
+ &apos;bcol&apos; / 
+ &apos;dangote logo&apos;  
+ &apos;.bmp&apos; </xsd:documentation>
+         <xsd:appinfo>
+          <dc:description>New Graphic 1 
+ &apos;/sap/bc/fp/graphics/public&apos; / 
+ &apos;graphics&apos; / 
+ &apos;bmap&apos; / 
+ &apos;bcol&apos; / 
+ &apos;dangote logo&apos;  
+ &apos;.bmp&apos; </dc:description>
+         </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+         <xsd:attribute ref="xfadata:contentType" default="image/*"/>
+         <xsd:attribute ref="xfadata:href" type="xsd:anyURI" fixed="/sap/bc/fp/graphics/public/graphics/bmap/bcol/dangote logo.bmp"/>
+        </xsd:complexType>
+       </xsd:element>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="MAIN">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>Main Window</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>Main Window</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence>
+       <xsd:element name="X2500_TABLE1" minOccurs="0" maxOccurs="1">
+        <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+         <xsd:documentation>TABLE TYPE FOR PR PRINT</xsd:documentation>
+         <xsd:appinfo>
+          <dc:description>TABLE TYPE FOR PR PRINT</dc:description>
+         </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+         <xsd:sequence>
+          <xsd:element name="W_FINAL" minOccurs="1" maxOccurs="unbounded">
+           <xsd:complexType>
+            <xsd:sequence>
+             <xsd:element name="SLNO">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="BANFN">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchase Requisition Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchase Requisition Number</dc:description>
+                <dc:title>Purch.Req.</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="BNFPO">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Item number of purchase requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Item number of purchase requisition</dc:description>
+                <dc:title>Item</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+                <xsd:pattern value="\d+"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MATNR">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Material Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Material Number</dc:description>
+                <dc:title>Material</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="SRVPOS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Activity Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Activity Number</dc:description>
+                <dc:title>Activity</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="WERKS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Plant</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Plant</dc:description>
+                <dc:title>Plnt</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="TXZ01">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Short Text</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Short Text</dc:description>
+                <dc:title>Short Text</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MEINS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchase requisition unit of measure</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchase requisition unit of measure</dc:description>
+                <dc:title>Un</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MENGE">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchase requisition quantity</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchase requisition quantity</dc:description>
+                <dc:title>Qty requested</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="PREIS1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="PREIS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+                <dc:title>Valn Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="LABST">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Valuated Unrestricted-Use Stock</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Valuated Unrestricted-Use Stock</dc:description>
+                <dc:title>Unrestricted</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EBELN">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchasing Document Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchasing Document Number</dc:description>
+                <dc:title>Pur. Doc.</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="LIFNR">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Account Number of Supplier</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Account Number of Supplier</dc:description>
+                <dc:title>Supplier</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="NAME1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Name</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Name</dc:description>
+                <dc:title>Name 1</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="NETPR">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Price</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Price</dc:description>
+                <dc:title>Net Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="PEINH">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Currency Key</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Currency Key</dc:description>
+                <dc:title>Crcy</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MENGE1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Quantity</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Quantity</dc:description>
+                <dc:title>Quantity</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="KTEXT1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Short Text</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Short Text</dc:description>
+                <dc:title>Short Text</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="BSMNG">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Quantity ordered against this purchase requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Quantity ordered against this purchase requisition</dc:description>
+                <dc:title>Ordered</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MENGE2">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Quantity</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Quantity</dc:description>
+                <dc:title>Quantity</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="GV_VALUE">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                <xsd:totalDigits value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="GV_VALUE1">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                <xsd:totalDigits value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="LABST1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Valuated Unrestricted-Use Stock</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Valuated Unrestricted-Use Stock</dc:description>
+                <dc:title>Unrestricted</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="SUPPLY_RATE">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Price</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Price</dc:description>
+                <dc:title>Net Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="SUPPLY_RATE1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="WAERS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Currency Key</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Currency Key</dc:description>
+                <dc:title>Crcy</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EXCHANGE">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Price</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Price</dc:description>
+                <dc:title>Net Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EXCHANGE1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="WAERS_PO">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Currency Key</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Currency Key</dc:description>
+                <dc:title>Crcy</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="TOTAL">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Value in Document Currency</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Value in Document Currency</dc:description>
+                <dc:title>Net Value</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EBELP">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Item Number of Purchasing Document</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Item Number of Purchasing Document</dc:description>
+                <dc:title>Item</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+                <xsd:pattern value="\d+"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW4">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 4</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 4</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="X2500_LOOP3" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>New Loop 3</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>New Loop 3</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_TEXT" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 1</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 1</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence/>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW2">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 2</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 2</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="X2500_LOOP7" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>New Loop 7</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>New Loop 7</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_TEXT1_LINE" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="X2500_LOOP2" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>New Loop 2</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>New Loop 2</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_TEXT1_LINE" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW3">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 3</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 3</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence/>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW5">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 5</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 5</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="X2500_LOOP1" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>Master Data Long Texts Lines</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>Master Data Long Texts Lines</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_LINETXT" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+            </xsd:sequence>
+           </xsd:complexType>
+          </xsd:element>
+         </xsd:sequence>
+        </xsd:complexType>
+       </xsd:element>
+       <xsd:element name="X2500_TABLE2" minOccurs="0" maxOccurs="1">
+        <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+         <xsd:documentation>TABLE TYPE FOR PR PRINT</xsd:documentation>
+         <xsd:appinfo>
+          <dc:description>TABLE TYPE FOR PR PRINT</dc:description>
+         </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+         <xsd:sequence>
+          <xsd:element name="W_FINAL" minOccurs="1" maxOccurs="unbounded">
+           <xsd:complexType>
+            <xsd:sequence>
+             <xsd:element name="SLNO">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="BANFN">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchase Requisition Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchase Requisition Number</dc:description>
+                <dc:title>Purch.Req.</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="BNFPO">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Item number of purchase requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Item number of purchase requisition</dc:description>
+                <dc:title>Item</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+                <xsd:pattern value="\d+"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MATNR">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Material Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Material Number</dc:description>
+                <dc:title>Material</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="SRVPOS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Activity Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Activity Number</dc:description>
+                <dc:title>Activity</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="WERKS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Plant</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Plant</dc:description>
+                <dc:title>Plnt</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="TXZ01">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Short Text</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Short Text</dc:description>
+                <dc:title>Short Text</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MEINS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchase requisition unit of measure</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchase requisition unit of measure</dc:description>
+                <dc:title>Un</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MENGE">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchase requisition quantity</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchase requisition quantity</dc:description>
+                <dc:title>Qty requested</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="PREIS1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="PREIS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+                <dc:title>Valn Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="LABST">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Valuated Unrestricted-Use Stock</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Valuated Unrestricted-Use Stock</dc:description>
+                <dc:title>Unrestricted</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EBELN">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Purchasing Document Number</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Purchasing Document Number</dc:description>
+                <dc:title>Pur. Doc.</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="LIFNR">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Account Number of Supplier</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Account Number of Supplier</dc:description>
+                <dc:title>Supplier</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="NAME1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Name</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Name</dc:description>
+                <dc:title>Name 1</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="NETPR">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Price</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Price</dc:description>
+                <dc:title>Net Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="PEINH">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Currency Key</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Currency Key</dc:description>
+                <dc:title>Crcy</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MENGE1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Quantity</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Quantity</dc:description>
+                <dc:title>Quantity</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="KTEXT1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Short Text</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Short Text</dc:description>
+                <dc:title>Short Text</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="BSMNG">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Quantity ordered against this purchase requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Quantity ordered against this purchase requisition</dc:description>
+                <dc:title>Ordered</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="MENGE2">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Quantity</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Quantity</dc:description>
+                <dc:title>Quantity</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="GV_VALUE">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                <xsd:totalDigits value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="GV_VALUE1">
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                <xsd:totalDigits value="10"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="LABST1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Valuated Unrestricted-Use Stock</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Valuated Unrestricted-Use Stock</dc:description>
+                <dc:title>Unrestricted</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13"/>
+                <xsd:fractionDigits value="3"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="SUPPLY_RATE">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Price</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Price</dc:description>
+                <dc:title>Net Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="SUPPLY_RATE1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="WAERS">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Currency Key</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Currency Key</dc:description>
+                <dc:title>Crcy</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EXCHANGE">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Price</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Price</dc:description>
+                <dc:title>Net Price</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EXCHANGE1">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Price in Purchase Requisition</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Price in Purchase Requisition</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="11"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="WAERS_PO">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Currency Key</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Currency Key</dc:description>
+                <dc:title>Crcy</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="TOTAL">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Net Value in Document Currency</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Net Value in Document Currency</dc:description>
+                <dc:title>Net Value</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15"/>
+                <xsd:fractionDigits value="2"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="EBELP">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>Item Number of Purchasing Document</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>Item Number of Purchasing Document</dc:description>
+                <dc:title>Item</dc:title>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5"/>
+                <xsd:pattern value="\d+"/>
+               </xsd:restriction>
+              </xsd:simpleType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW6">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 4</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 4</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="X2500_LOOP4" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>New Loop 3</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>New Loop 3</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_TEXT" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW7">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 1</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 1</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence/>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW8">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 2</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 2</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="X2500_LOOP8" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>New Loop 7</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>New Loop 7</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_TEXT1_LINE" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="X2500_LOOP5" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>New Loop 2</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>New Loop 2</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_TEXT1_LINE" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW9">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 3</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 3</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence/>
+              </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="X2500_ROW10">
+              <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+               <xsd:documentation>New Line 5</xsd:documentation>
+               <xsd:appinfo>
+                <dc:description>New Line 5</dc:description>
+               </xsd:appinfo>
+              </xsd:annotation>
+              <xsd:complexType>
+               <xsd:sequence>
+                <xsd:element name="X2500_LOOP6" minOccurs="0" maxOccurs="1">
+                 <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                  <xsd:documentation>Master Data Long Texts Lines</xsd:documentation>
+                  <xsd:appinfo>
+                   <dc:description>Master Data Long Texts Lines</dc:description>
+                  </xsd:appinfo>
+                 </xsd:annotation>
+                 <xsd:complexType>
+                  <xsd:sequence>
+                   <xsd:element name="WA_LINETXT" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                     <xsd:sequence>
+                      <xsd:element name="TDFORMAT">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Tag column</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Tag column</dc:description>
+                         <dc:title>Format</dc:title>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="2"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="TDLINE">
+                       <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <xsd:documentation>Text Line</xsd:documentation>
+                        <xsd:appinfo>
+                         <dc:description>Text Line</dc:description>
+                        </xsd:appinfo>
+                       </xsd:annotation>
+                       <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                         <xsd:maxLength value="132"/>
+                        </xsd:restriction>
+                       </xsd:simpleType>
+                      </xsd:element>
+                     </xsd:sequence>
+                    </xsd:complexType>
+                   </xsd:element>
+                  </xsd:sequence>
+                 </xsd:complexType>
+                </xsd:element>
+               </xsd:sequence>
+              </xsd:complexType>
+             </xsd:element>
+            </xsd:sequence>
+           </xsd:complexType>
+          </xsd:element>
+         </xsd:sequence>
+        </xsd:complexType>
+       </xsd:element>
+      </xsd:sequence>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_VALUE">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>VALUE WINDOW</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>VALUE WINDOW</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X2500_PAGE1_SIGNATURE">
+     <xsd:annotation xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <xsd:documentation>Signature Window</xsd:documentation>
+      <xsd:appinfo>
+       <dc:description>Signature Window</dc:description>
+      </xsd:appinfo>
+     </xsd:annotation>
+     <xsd:complexType>
+      <xsd:sequence/>
+     </xsd:complexType>
+    </xsd:element>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+</xsd:schema>

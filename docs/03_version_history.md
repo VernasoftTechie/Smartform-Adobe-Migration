@@ -1,5 +1,52 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v2.4 — fix F6: real abapGit-native SFPF/SFPI format, adopt confirmed interface types, switch naming to _ADT
+
+User reported abapGit still couldn't clone after F5's folder fix — "still
+not able to clone through ABAPGit bcz of the format concerns" — and staged
+a real abapGit-serialized Hello World object into the repo as ground truth
+(`src/zhello_world_form_adt.sfpf.xdp`/`.sfpf.xml`/`zhello_world_adt.sfpi.xml`).
+Pulling and reading those revealed the actual format: an `<abapGit
+serializer="LCL_OBJECT_SFPF">`/`LCL_OBJECT_SFPI` root wrapper, the SFPF
+layout shipped as a **separate** `.sfpf.xdp` companion file (not
+base64-embedded), and **no standalone `.xsd`** object at all. See
+`docs/BUILD_ISSUES_LOG.md` F6.
+
+Rebuilt all three deliverable files against this exact confirmed shape:
+- `src/z_mm_pr_form_adt.sfpf.xdp` (was `Z_MM_PR_FORM_ADF.XDP`) — same
+  layout content, logo now bound via a live SAP graphics-repository URL
+  (`/sap/bc/fp/graphics/public/graphics/bmap/bcol/dangote logo.bmp`)
+  instead of an empty embed placeholder, matching a genuinely-migrated
+  sibling form (see below).
+- `src/z_mm_pr_form_adt.sfpf.xml` (was `SFPF_Z_MM_PR_FORM_ADF.XML`) —
+  `<abapGit>`-wrapped, `LAYOUT` left as a `CL_FP_LAYOUT` stub pointing at
+  the companion `.sfpf.xdp`.
+- `src/z_mm_pr_form_int_adt.sfpi.xml` (was `SFPI_Z_MM_PR_FORM_ADF.XML`) —
+  `<abapGit>`-wrapped; `CL_FP_PARAMETERS/IMPORT_PARAMETERS` now populated
+  with the real, confirmed ABAP types for all 16 original interface
+  parameters plus the 2 Bolt-proposed extensions, and
+  `TABLE_PARAMETERS` populated (`T_FINAL TYPE ZTABLE_PR_PRINT`,
+  `T_TEXT TYPE FMLINES`) — previously left empty pending exactly this
+  evidence.
+- `Z_MM_PR_FORM_ADF.XSD` moved to `docs/legacy_grab/` as a design
+  reference only — not a real abapGit-tracked object type.
+
+**Source of the confirmed types**: the user also provided 4 files from a
+colleague's already-completed migration of what independent evidence
+(identical 16-parameter interface, captured separately by our own
+legacy-grab) confirms is the same form —
+`docs/reference_examples_z_adt_mm_pr_form/` documents in full what was
+adopted (interface parameter types, table types, MIME-based logo
+pattern), what was deliberately NOT adopted this round (the real
+31-field/dual-table `ZTABLE_PR_PRINT` row structure, a populated
+`CL_FP_CONTEXT` node tree, `CL_FP_REFERENCE_FIELDS`), and why (scope and
+risk reasons, spelled out per item — not silently skipped).
+
+**Naming convention changed from `_ADF` to `_ADT`**, based on evidence
+from both the user's own newly-created Hello World object and the
+colleague's reference (see the reference README's naming section) — a
+judgment call flagged for explicit confirmation, not assumed silently.
+
 ## v2.3 — fix F5: object files were outside /src/, invisible to abapGit
 
 User reported "unable to view any of the files from the repo, abapGit is

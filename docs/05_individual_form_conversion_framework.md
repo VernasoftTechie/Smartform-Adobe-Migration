@@ -6,17 +6,38 @@ only — no driver program is ever touched by this procedure.
 
 ## Naming convention — every form's Adobe deliverable
 
-**Confirmed 2026-09-13**: the Adobe Form object and interface both take
-the original Smart Form's exact name with `_ADF` appended — e.g.
-`Z_MM_PR_FORM` → `Z_MM_PR_FORM_ADF`. Applies uniformly to every file for
-that form:
+**Superseded 2026-09-12 — switched from `_ADF` to `_ADT`** (see
+`docs/reference_examples_z_adt_mm_pr_form/README.md` naming section for
+the evidence: the user's own freshly-created, confirmed-importable Hello
+World object uses `_ADT`, matching the marker letters used by a
+colleague's separately-completed migration of this same form). Flagged
+for the user's explicit confirmation, not silently assumed as final.
+
+The Adobe Form object takes the original Smart Form's exact name with
+`_ADT` appended; the interface currently reuses the same base name
+(`Z_MM_PR_FORM_ADT` for both form and interface types — SFPF/SFPI are
+distinct TADIR object types so this doesn't collide), pending
+confirmation on whether to instead use a distinct interface name (the
+`Z_INT_MM_PR_FORM`-style prefix the reference uses). This project's
+pilot form ended up as `Z_MM_PR_FORM_ADT` (form) /
+`Z_MM_PR_FORM_INT_ADT` (interface) as a middle-ground compromise —
+confirm before this becomes the standing rule for all 500+ forms.
+
+Also superseded: the original table said 4 files per form, each a
+top-level standalone object. The **real abapGit serialization** (per
+`docs/BUILD_ISSUES_LOG.md` F6) splits the form (SFPF) into two companion
+files and tracks no standalone data-schema file at all:
 
 | File | Pattern | Example |
 |---|---|---|
-| Data schema | `<name>_ADF.XSD` | `Z_MM_PR_FORM_ADF.XSD` |
-| Layout template | `<name>_ADF.XDP` | `Z_MM_PR_FORM_ADF.XDP` |
-| Form object (abapGit) | `SFPF_<name>_ADF.XML` | `SFPF_Z_MM_PR_FORM_ADF.XML` |
-| Interface object (abapGit) | `SFPI_<name>_ADF.XML` | `SFPI_Z_MM_PR_FORM_ADF.XML` |
+| Layout (SFPF companion) | `<name_lower>.sfpf.xdp` | `z_mm_pr_form_adt.sfpf.xdp` |
+| Form object (abapGit) | `<name_lower>.sfpf.xml` | `z_mm_pr_form_adt.sfpf.xml` |
+| Interface object (abapGit) | `<interface_name_lower>.sfpi.xml` | `z_mm_pr_form_int_adt.sfpi.xml` |
+
+No `.xsd` file ships to `/src/` — the data schema is derivable from the
+interface's own `CL_FP_PARAMETERS`/`CL_FP_CONTEXT` and is not a real
+abapGit object; keep a copy in `docs/legacy_grab/` purely as a human
+design reference if useful.
 
 This naming is deliberately **not** the `Z<STEM>_*` pattern used for this
 project's own tooling objects (`ZSF2AF_R_LEGACY_GRAB`) — Adobe Form
