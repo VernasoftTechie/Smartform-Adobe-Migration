@@ -131,9 +131,15 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD resolve_fm_name.
+    " SSF_FUNCTION_MODULE_NAME's FORMNAME parameter is a fixed-length
+    " classic type, not STRING - passing a STRING actual directly dumps
+    " CALL_FUNCTION_CONFLICT_TYPE. Convert to a fixed CHAR local first.
+    DATA lv_formname TYPE char30.
+    lv_formname = iv_formname.
+
     CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
       EXPORTING
-        formname = iv_formname
+        formname = lv_formname
       IMPORTING
         fm_name  = rv_fm
       EXCEPTIONS

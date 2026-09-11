@@ -1,5 +1,12 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v0.4 — fix CALL_FUNCTION_CONFLICT_TYPE dump in RESOLVE_FM_NAME
+
+- `SSF_FUNCTION_MODULE_NAME`'s `FORMNAME` parameter is a fixed-length classic
+  type, not `STRING` — passing `IV_FORMNAME TYPE string` directly dumped
+  `CALL_FUNCTION_CONFLICT_TYPE`. Fixed by converting to a `CHAR30` local
+  before the call. See `docs/BUILD_ISSUES_LOG.md` F1.
+
 ## v0.3 — F4 folder picker for the output path
 
 - `ZSF2AF_R_LEGACY_GRAB`: `AT SELECTION-SCREEN ON VALUE-REQUEST FOR p_path` now
