@@ -54,7 +54,7 @@ consultants, Basis (ADS).
 | | Value | Confirmed |
 |---|---|---|
 | Repo | `VernasoftTechie/Smartform-Adobe-Migration` | ✅ NEW, confirmed 2026-09-11 |
-| Package | `ZFORM_UTIL` | ✅ |
+| Package | `ZABAP_UTIL` (existing, shared with VS-Tower / Dangote / ZAB_V1_UT) | ✅ confirmed 2026-09-11 |
 | Object stem | `SF2AF` | ✅ |
 | Branch / push mode | `main`, direct push (matches other Vernasoft repos) | default — confirm if different |
 | Client naming override | none known | confirm before first client-specific object |
@@ -77,7 +77,7 @@ consultants, Basis (ADS).
 ## 9. Phase plan
 | Phase | Goal | Key objects | Done when |
 |---|---|---|---|
-| **1a** | Legacy-grab tooling | `ZSF2AF_R_LEGACY_GRAB` | report activates, runs against ≥1 real form, produces a snapshot |
+| **1a** | Legacy-grab tooling | `ZSF2AF_R_LEGACY_GRAB` (package `ZABAP_UTIL`) | report activates, runs against ≥1 real form, produces a snapshot |
 | **1b** | Discovery: full inventory + risk score every form | `docs/legacy_grab/*.md`, risk register | risk-ranked list approved, pilot form chosen |
 | **2** | Pilot conversion (thin end-to-end slice) | one Adobe Form (SFP migration) + rewritten driver | pilot PDF matches Smart Form output on real data, parallel run live, sign-off |
 | **3** | Wave 1 — Low-risk forms | proven pattern applied per form | all Low-risk forms converted, parallel-run confirmed |
@@ -88,7 +88,7 @@ consultants, Basis (ADS).
 ## 10. Phase 1a — increment plan
 | Increment | Objects | Verify |
 |---|---|---|
-| 1a-i | `ZSF2AF_R_LEGACY_GRAB` in `ZFORM_UTIL` | Activate All → run in test mode against one known form |
+| 1a-i | `ZSF2AF_R_LEGACY_GRAB` in `ZABAP_UTIL` | Activate All → run in test mode against one known form |
 
 ## 11. Risk classification framework
 | Dimension | Low | Medium | High/Critical |
@@ -106,7 +106,7 @@ parallel-run length, and sign-off requirement (Critical = named business
 sign-off, never auto-cutover).
 
 ## 12. Definition of Done (per phase)
-- [ ] Commit Gate passed (repo, branch, package `ZFORM_UTIL`, naming `ZSF2AF_*`/`SF2AF`)
+- [ ] Commit Gate passed (repo, branch, package `ZABAP_UTIL`, naming `ZSF2AF_*`/`SF2AF`)
 - [ ] Activates green (Activate All Inactive, twice); ATC/SLIN clean
 - [ ] For 1a: report runs against a real form and produces a usable snapshot
 - [ ] For 2+: Adobe Form PDF output matches Smart Form output on representative data

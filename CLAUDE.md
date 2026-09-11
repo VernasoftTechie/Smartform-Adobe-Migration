@@ -16,7 +16,9 @@ phase plan) and [`docs/02_legacy_grab_spec.md`](docs/02_legacy_grab_spec.md)
 ## Project facts
 
 - Target: **S/4HANA, on-premise, ADS (Adobe Document Services) already live**.
-- Repo layout: flat `/src/`, abapGit `FOLDER_LOGIC=PREFIX`, package `ZFORM_UTIL`.
+- Repo layout: flat `/src/`, abapGit `FOLDER_LOGIC=PREFIX`, package `ZABAP_UTIL`
+  (existing package, shared with VS-Tower / Dangote_Requirements / ZAB_V1_UT —
+  this repo ships its own `src/package.devc.xml` description, Dangote-style).
 - Object stem: `SF2AF`. Naming per Bolt Playbook §1.4 (`Z<STEM>_*`).
 - Nothing about a specific Smart Form (interface, style, logo, driver program) is
   ever invented — it is read from a legacy-grab snapshot in
