@@ -120,9 +120,9 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
            END OF ty_idx,
            tt_idx TYPE STANDARD TABLE OF ty_idx WITH EMPTY KEY.
 
-    "! Per driver program: where its extracted source landed, what other
-    "! Z*/Y* objects it appears to reference, and which of its own
-    "! INCLUDEs were followed and extracted too (one level deep).
+    " Per driver program: where its extracted source landed, what other
+    " Z*/Y* objects it appears to reference, and which of its own
+    " INCLUDEs were followed and extracted too (one level deep).
     TYPES: BEGIN OF ty_prog_info,
              progname      TYPE tadir-obj_name,
              source_file   TYPE string,
@@ -588,7 +588,7 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
       ENDIF.
 
       TRY.
-          SELECT * FROM (lv_tab) INTO TABLE <tab> UP TO 20000 ROWS.
+          SELECT * FROM (lv_tab) INTO TABLE @<tab> UP TO 20000 ROWS.
         CATCH cx_root.
           CONTINUE.
       ENDTRY.

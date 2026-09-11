@@ -1,5 +1,20 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v1.5 — fix PROBE_FORM_STORAGE activation errors (F3, F4)
+
+- F3: `SELECT * FROM (lv_tab) INTO TABLE <tab> ...` failed activation —
+  *"The variable `<TAB>` must be escaped using `@`"*. Modern strict Open SQL
+  requires every host variable, including an existing field symbol (not
+  just an inline `DATA()`), to be `@`-prefixed as a SELECT target. Fixed:
+  `INTO TABLE @<tab>`.
+- F4: ATC warning *"ABAP Doc comment is in the wrong position"* on the `"!`
+  block preceding `TYPES: BEGIN OF ty_prog_info, ...` — a blank line alone
+  (which fixed the same warning on `PROBE_FM` earlier) wasn't enough here;
+  ABAP Doc doesn't support commenting a compound `TYPES:` chain that
+  declares two types at once. Downgraded to a plain `"` comment.
+- Both logged in `docs/BUILD_ISSUES_LOG.md` and the shared Bolt Playbook
+  Appendix A (D8, D9).
+
 ## v1.4 — attempt an automatic per-form style/logo match, safely
 
 User pushed back on the manual-per-form fallback at real scale (500+
