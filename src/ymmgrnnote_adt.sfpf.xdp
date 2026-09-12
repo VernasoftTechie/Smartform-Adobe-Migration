@@ -9,22 +9,7 @@
             <medium long="11in" short="8.5in" stock="letter"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" layout="position" name="visual_shell" w="8in">
-         <draw h="0.35in" name="form_title" w="8in" x="0in" y="0in">
-            <value>
-               <text>Goods Receipt Note</text>
-            </value>
-            <font size="14pt" typeface="Arial" weight="bold"/>
-            <para hAlign="center"/>
-         </draw>
-         <draw h="0.2in" name="header_placeholder" w="8in" x="0in" y="0.45in">
-            <value>
-               <text>YMMGRNNOTE</text>
-            </value>
-            <font size="8pt" typeface="Arial"/>
-            <para hAlign="center"/>
-         </draw>
-      </subform>
+      <subform h="10.5in" w="8in"/>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>

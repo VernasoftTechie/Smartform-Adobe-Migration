@@ -3,7 +3,7 @@
 **Caption:** Goods Reciept Note (legacy spelling)
 **Evidence source:** `ymmgrnnote.xml`, SAP SMARTFORMS Utilities download, immutable copy.
 **Source checksum:** SHA-256 `9D1F87A664ECFE9B3C936DC38E69922663B2970A696E751792A13429F5648E64` (209,891 bytes).
-**Status:** Design-gated; no Adobe serialization exists or is proposed by this branch.
+**Status:** Exact interface parameters are staged in the SFP-generated interface serialization. Its Context is still empty; bound XDP layout cannot begin until SFP generates and captures that Context.
 
 ## 1. Legacy facts
 
@@ -85,7 +85,7 @@ The XML does not expose usable absolute window coordinates: the relevant positio
 
 ## 6. Absent or unresolved evidence
 
-- No driver-program, NACE/output-determination, live business-document, SAP_BASIS/client, volume, or business-owner sign-off evidence was supplied. Drivers and cutover are out of scope.
+- Legacy program/NACE evidence is preserved unchanged in `ymmgrnnote_legacy_program.md`: generated FM `/1BCDWB/SF00000019`; TNAPR links `WA01`/`WE01` to `YSAPM07DR_GRN` and `ZET1` to `YSLSAPM07DR_GRN`, all through `ENTRY_WA01`. These drivers are read-only and cutover is out of scope.
 - The `YGRNNOTE` SmartStyle definition XML is absent; its paragraph/character definitions (`P0`, `P1`, `P3`, `P5`, `P7`, `P8`, `P9`, `PA`, `PB`, `C1`, `C2`, `C3`, `U1`) cannot be translated from this form XML alone.
 - The global inventory confirms the logo name but not a reusable Adobe asset or size/crop.
 - No text include/SO10 reference is present; all observed text is inline. No barcode or electronic signature node is present.

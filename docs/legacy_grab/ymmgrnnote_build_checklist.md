@@ -2,8 +2,8 @@
 
 **Gate:** Design-gated, High risk. Build only after scope/design approval and an SFP-created baseline has rendered. This checklist creates no SAP object and makes no driver or cutover change.
 
-1. The SFP-generated `YMMGRNNOTE_ADT`/`YMMGRNNOTE_INT` baseline is captured. Confirm its original SAP Design View and activation result before applying the authored visual-shell increment. Do not replace the generated serialization envelope or Context.
-2. Recreate the interface exactly from [snapshot §2](ymmgrnnote.md#2-exact-legacy-interface-contract) through SFP; do not add convenience fields. Generate/capture its Context before adding any bound field or table.
+1. The SFP-generated `YMMGRNNOTE_ADT`/`YMMGRNNOTE_INT` baseline is captured. The branch stages the exact legacy import/export/table parameters in its generated SFPI envelope; pull and activate it in SFP before any layout work. Do not replace the generated envelope or Context.
+2. In SFP, verify every parameter against [snapshot §2](ymmgrnnote.md#2-exact-legacy-interface-contract), add the four exact legacy exceptions using SFP's native UI, then generate and capture Context. No bound XDP element or table may be added before that captured Context exists.
 3. Configure a portrait master page. Do not infer absolute coordinates from the XML: its window positions are blank. Use the legacy output comparison for placement.
 4. Resolve `YGRNNOTE` through SMARTSTYLES and the global catalogue. Capture its XML and map `P0/P1/P3/P5/P7/P8/P9/PA/PB` and `C1/C2/C3/U1`; do not substitute a generic font/style.
 5. Resolve SE78 graphic `GRAPHICS/DANOGATELOGONEW/BMAP/BCOL` from the global inventory, validate its rendition, and add it as the header graphic.

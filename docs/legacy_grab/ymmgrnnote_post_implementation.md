@@ -9,13 +9,14 @@ well-formed XDP visual increments **inside that captured layout only**; it
 must not replace the generated envelope or fabricate `CL_FP_CONTEXT`,
 `CL_FP_PARAMETERS`, or other SFPI heap metadata.
 
-The first authored increment adds only the unbound, evidence-backed title
-shell (`Goods Receipt Note` and `YMMGRNNOTE`) to that layout. It needs SAP
-Design View/activation confirmation before another XDP increment. The
-generated interface currently has no captured parameters or Context children,
-so field bindings, conditional rendering, the line table, and calculation
-logic remain SAP-side Context/interface work—not a license to hand-author a
-baseline for this or future forms.
+The earlier unbound title shell is deliberately removed: with no populated
+interface or Context it was not an accurate conversion. This branch now
+contains only exact import/export/table parameter records, based on the
+legacy XML and the captured SFP serializer pattern. The four legacy
+exceptions are not hand-serialized because their exact SFPI record shape is
+not evidenced. Add them natively in SFP, generate the Context from the
+interface, activate, and pull that generated Context before any bound XDP
+element, conditional rendering, line table, or calculation logic is added.
 
 ## Named Developer Extension Points
 
