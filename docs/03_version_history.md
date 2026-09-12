@@ -1,5 +1,31 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.0 — fix F16: reset to a minimal baseline instead of another full rewrite
+
+v3.1 matched Hello World's exact skeleton and Design View was STILL
+blank. A direct test - dragging a brand-new Text field from the Object
+Library onto the empty canvas, not from our file at all - also showed
+nothing, and the object then started showing as corrupted/unresponsive.
+Since even a UI-placed element didn't render, the problem was no longer
+conclusively isolated to our file's content - continuing to rewrite the
+whole design was the wrong move.
+
+**Reset, not another guess.** Recommended deleting and recreating both
+`Z_MM_PR_FORM_ADT` objects (form + interface) to rule out corrupted
+object state. Stripped `z_mm_pr_form_adt.sfpf.xdp` to a deliberate
+minimal baseline: root "data" -> pageSet/pageArea (geometry only) -> one
+`page_body` subform -> one static draw + one bound field (`BANFN`). No
+image, table, scripts, or HTML blocks - as close to Hello World's proven
+shape as possible while still being the real object.
+
+The full design (logo, header, type-of-request text, PR header fields,
+value line, watermark script, computed date line, page footer, 14-column
+table) is preserved in git history at commit `0b8e141` (v3.1) and in
+`docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md` - it gets added back
+one piece at a time, confirming Design View after each addition, only
+once this baseline is confirmed rendering. Logged as F16 in
+`docs/BUILD_ISSUES_LOG.md`.
+
 ## v3.1 — fix F15: revert pageArea nesting, rebuild on Hello World's confirmed pattern
 
 v3.0's third fix (content nested inside `<pageArea>`) was reasoned from
