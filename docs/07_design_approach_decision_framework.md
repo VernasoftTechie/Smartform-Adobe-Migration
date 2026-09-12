@@ -19,6 +19,18 @@ starting — e.g. that it needed absolute-position layout nested inside
 into a **checklist applied before design starts**, so the next form's
 build issues are the genuinely-new ones, not repeats.
 
+## Reference material
+
+`instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md` — a general
+(India-market-flavored, not Dangote-specific) Adobe Forms design
+reference the user supplied 2026-09-12. Its A/B/C complexity
+classification and SmartForm→Adobe mapping matrix inform Step 0 below.
+Its generic beautification guidance (Helvetica + blue palette) does
+**not** apply to any form with its own captured SmartStyle/brand
+reference, per that file's maintainer's note — flagged there as a
+conflict with the pixel-matching instruction already governing this
+project, not silently adopted.
+
 ## Step 0 — before any design work, classify the form
 
 Run this against the form's legacy-grab snapshot
@@ -32,6 +44,7 @@ the path in Step 1.
 | **QUAN/CURR fields in tables** | Does the line-item table type (e.g. `ZTABLE_PR_PRINT`) carry quantity or currency fields? | Every one needs a resolvable Reference Field (F9/F10) — budget time for this; it has no F4 help in SFP. |
 | **A real sibling reference exists** | Has this exact form, or a close sibling, already been migrated by someone else and can be pulled via abapGit/SE38? | This has been the single biggest accelerant on this pilot (3 real references cracked 8 of the 12 issues). A form with **no** real reference to check against is materially higher-risk than one with one. |
 | **Driver/output-determination complexity** | How many drivers call this form, for how many different purposes? | Doesn't change the design approach, but affects the eventual cutover risk-score already in `docs/01_scope.md`. |
+| **Overall complexity tier** | Static header + one table + fixed footer (**Level A**)? Dynamic tables + conditional sections + running totals (**Level B**)? Nested tables + QR/barcode + watermark + multi-language (**Level C**)? | Borrowed from `instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md` §4. A rough sizing signal, not a design mandate - `Z_MM_PR_FORM_ADT` is roughly Level B/C (watermark, multi-value table, conditional email) and is being hand-authored anyway. |
 
 ## Step 1 — pick the path
 
