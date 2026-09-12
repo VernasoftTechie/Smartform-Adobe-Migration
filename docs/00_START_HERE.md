@@ -171,4 +171,8 @@ an import parameter, or another table column) - see
 ---
 
 **Last Updated:** 2026-09-12
-**Pilot form status:** fixes pushed (v3.0, commit `75a59b5`), rendering **not yet confirmed** - awaiting the user's re-test in SFP.
+**Pilot form status:** the SFP-generated baseline is preserved and the first
+visual-shell increment is published on `main` at `bf5d290`. Its SAP-side
+Layout render and activation are the required next gate; do not add the
+repeatable table, scripts, or Context/reference-field changes until that
+gate passes.
