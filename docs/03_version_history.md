@@ -1,5 +1,41 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v3.0 — fix F11: full XDP structural rebuild, root name / bind syntax / pageArea nesting
+
+Design View was still completely blank after v2.8/v2.9's Context-tab
+fixes - "not a single pixel changed." User provided a third real
+reference, `ZSD_SODETAILS_FORMS` (a Sales Order Details form), small
+enough to read start to finish for the first time rather than in
+size-limited fragments like the two earlier references. Full visibility
+exposed three structural defects fragment-reading had missed:
+
+1. The root template `<subform>` must be named `"data"` - matching
+   Hello World too - not the form's own object name. Ours was
+   `"Z_MM_PR_FORM_ADT"`.
+2. Every `<bind>` needs `match="dataRef"` alongside `ref="$.FIELDNAME"`.
+   v2.7 had dropped the original `"$."` prefix in favor of `$record.`,
+   reasoning from a single data point (a graphic-specific binding in the
+   Z_ADT reference) - the actually-missing piece was the `match`
+   attribute, present on every bind in this new reference and absent
+   from every one of ours the whole time.
+3. Absolutely-positioned content subforms belong nested **directly
+   inside `<pageArea>`**, not as top-level siblings of `<pageSet>` under
+   a `layout="position"` root. The real reference's root is
+   `layout="tb"`, and every one of its x/y-positioned subforms sits
+   inside `<pageArea>`, which supplies the coordinate space they're
+   measured against.
+
+Rewrote `z_mm_pr_form_adt.sfpf.xdp` end to end: root renamed to `data`
+(`layout="tb"`, `restoreState="auto"`); every content subform relocated
+inside `<pageArea>`; every bind corrected to
+`match="dataRef" ref="$.FIELDNAME"` (table row bindings included -
+previously bare, unqualified, no match attribute at all); explicit
+`<bind match="none"/>` added to every non-data-bound layout subform;
+`xfa:datasets` simplified from a populated sample-data block to the
+proven-minimal `<xfa:data xfa:dataNode="dataGroup"/>` pattern, matching
+both known-good references exactly. Logged as F11 in
+`docs/BUILD_ISSUES_LOG.md`.
+
 ## v2.9 — fix F10: reference-field UNIT needs a real declared field, not a bare table-column name
 
 Applying v2.8's `MEINS`/`WAERS` values as the Reference Field for the 10
