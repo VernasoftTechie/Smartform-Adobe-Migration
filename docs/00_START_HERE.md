@@ -19,6 +19,8 @@ below points at what actually exists in this repo today.
 - **Which approach to use for a given form, decided BEFORE design starts**: `docs/07_design_approach_decision_framework.md`
 - **Portfolio organization, gates, and recovery discipline**:
   `docs/08_migration_operating_model.md`
+- **Pilot reusable design framework** (proven baseline, component map, and
+  per-gate build rules): `docs/09_pilot_design_framework.md`
 - **Every build issue hit and how it was fixed** (the real "build checklist"): `docs/BUILD_ISSUES_LOG.md`
 - **Full version-by-version history**: `docs/03_version_history.md`
 - **General Adobe Forms design reference** (apply with judgment - see its own maintainer's note): `instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md`

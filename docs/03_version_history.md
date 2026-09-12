@@ -1,5 +1,14 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.5 — establish the reusable pilot design framework
+
+Created `docs/09_pilot_design_framework.md` from the rendered
+`Z_MM_PR_FORM_ADT` baseline and the captured legacy evidence. It separates
+reusable XDP layout patterns from SFP-generated Context/interface artifacts
+and names every remaining form-specific behavior as an evidence-backed
+extension point. This is the working model for the next form, not an object
+serialization to copy into another form.
+
 ## v4.4 — visual-shell rendering confirmed; begin the `T_FINAL` table increment
 
 The user confirmed that `bf5d290` renders in SFP/Adobe LiveCycle Designer.
