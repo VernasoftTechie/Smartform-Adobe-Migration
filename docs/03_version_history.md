@@ -1,5 +1,16 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.6 — complete the visible pilot-layout framework
+
+Added the verified visible secondary-window elements to the generated pilot
+baseline: the `Approved PR` conditional watermark, signature labels,
+date-display calculation, native XFA Page X of Y calculation, and table
+row/header outlines. The watermark remains hidden for blank or unsupported
+release status, and the date field falls back to the received value when it
+is not in a recognized safe format. `T_TEXT` placement and the grand-total
+semantics stay explicit extension points because no captured output proves
+their intended use.
+
 ## v4.5 — establish the reusable pilot design framework
 
 Created `docs/09_pilot_design_framework.md` from the rendered

@@ -99,10 +99,26 @@
             <font size="11pt" typeface="Courier New"/>
             <bind match="dataRef" ref="$.V_WAERS"/>
          </field>
+         <field h="1mm" name="release_status" presence="hidden" w="1mm" x="0mm" y="0mm">
+            <ui><textEdit/></ui>
+            <bind match="dataRef" ref="$.IV_FRGKZ"/>
+         </field>
+         <subform h="88mm" layout="position" name="watermark" presence="hidden" w="205mm" x="22mm" y="104mm">
+            <event activity="initialize" name="initialize">
+               <script contentType="application/x-javascript">var releaseStatus = this.parent.resolveNode("release_status");
+this.presence = releaseStatus &amp;&amp; (releaseStatus.rawValue === "R" || releaseStatus.rawValue === "2") ? "visible" : "hidden";</script>
+            </event>
+            <draw h="25mm" name="approved_pr_watermark" w="205mm" x="0mm" y="30mm">
+               <font size="69pt" typeface="Courier New" weight="bold"/>
+               <para hAlign="center"/>
+               <value><text>Approved PR</text></value>
+            </draw>
+         </subform>
          <subform layout="tb" name="line_items" w="290mm" x="5mm" y="65mm">
             <bind match="none"/>
             <subform h="9mm" layout="position" name="line_items_header" w="290mm">
                <bind match="none"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                <draw h="9mm" name="header_slno" w="8mm" x="0mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>S.No</text></value></draw>
                <draw h="9mm" name="header_matnr" w="25mm" x="8mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Item Code</text></value></draw>
                <draw h="9mm" name="header_txz01" w="56.6mm" x="33mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Description and Part Number</text></value></draw>
@@ -121,6 +137,7 @@
             <subform h="6mm" layout="position" name="t_final_row" w="290mm">
                <occur min="0" max="-1"/>
                <bind match="dataRef" ref="$.T_FINAL.DATA[*]"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                <field h="6mm" name="slno" w="8mm" x="0mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="SLNO"/></field>
                <field h="6mm" name="matnr" w="25mm" x="8mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="MATNR"/></field>
                <field h="6mm" name="txz01" w="56.6mm" x="33mm" y="0mm"><ui><textEdit multiLine="1"/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="TXZ01"/></field>
@@ -137,6 +154,34 @@
                <field h="6mm" name="gv_value1" w="23mm" x="267mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="GV_VALUE1"/></field>
             </subform>
          </subform>
+         <draw h="9.6mm" name="signature_labels" w="286mm" x="6.3mm" y="186.7mm">
+            <font size="10pt" typeface="Courier New"/>
+            <value><text>Name and Signature of Head of Department                                      Name and Signature</text></value>
+         </draw>
+         <field h="9.3mm" name="date_display" w="76mm" x="5mm" y="198.7mm">
+            <event activity="initialize" name="initialize">
+               <script contentType="application/x-javascript">var sourceDate = this.parent.resolveNode("badat");
+var value = sourceDate ? String(sourceDate.rawValue || "") : "";
+var match = /^(\d{4})(\d{2})(\d{2})$/.exec(value) || /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+if (!match) {
+  this.rawValue = value;
+} else {
+  var date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  this.rawValue = days[date.getDay()] + ", " + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+}</script>
+            </event>
+            <ui><textEdit/></ui>
+            <font size="10pt" typeface="Times New Roman" weight="bold" posture="italic"/>
+         </field>
+         <field h="11mm" name="page_footer" w="40.3mm" x="240mm" y="198.3mm">
+            <event activity="calculate" name="calculate">
+               <script contentType="application/x-javascript">this.rawValue = "Page " + xfa.layout.absPage(this) + " of " + xfa.layout.pageCount();</script>
+            </event>
+            <ui><textEdit/></ui>
+            <font size="10pt" typeface="Times New Roman" weight="bold" posture="italic"/>
+         </field>
          <?templateDesigner expand 1?></subform>
       <proto/>
       <desc>

@@ -51,9 +51,10 @@ would discard the header's captured coordinates.
 | Line-item row | Repeats `$.T_FINAL.DATA[*]`; 14 confirmed row fields | Published for SFP render gate |
 | Long text | `T_TEXT` / `TDLINE` | Extension point: confirm the real output purpose first |
 | Grand-total row | Legacy footer row | Extension point: confirm `V_EXTTOTAL1` and currency semantics on a real PR PDF |
-| Date wording | `BADAT` | Extension point: confirm bound date format before adding a script |
-| Watermark | `IV_FRGKZ` | Extension point: validate both shown and hidden cases in Designer |
-| Page X of Y | Native Adobe pagination | Extension point: add in SFP/Designer, then capture generated output |
+| Date wording | `BADAT` | Implemented with safe `YYYYMMDD`/`YYYY-MM-DD` normalization; validate real data |
+| Watermark | `IV_FRGKZ` | Implemented as `Approved PR` when the captured release status is `R` or `2`; validate both states |
+| Page X of Y | Native XFA layout APIs | Implemented; validate multipage output in Designer |
+| Signature labels | Legacy signature window | Implemented from supplied completed-form reference; business signature fields remain out of scope |
 
 ## 4. Table pattern
 
