@@ -1,5 +1,31 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v3.1 — fix F15: revert pageArea nesting, rebuild on Hello World's confirmed pattern
+
+v3.0's third fix (content nested inside `<pageArea>`) was reasoned from
+`ZSD_SODETAILS_FORMS`, a reference never actually confirmed to render in
+this tool/environment - only assumed because it's a real file. After
+0 activation errors (F9/F10/F13/F14 all fixed), Design View and Print
+Preview both still showed nothing.
+
+Re-checked against `zhello_world_form_adt.sfpf.xdp` - the one file
+directly confirmed by the user to render in this exact SFP session.
+Its `<pageArea>` holds only `<contentArea>`/`<medium>`, nothing else.
+Its real content sits in a separate subform, a *sibling* of `<pageSet>`,
+sized to the full page, with no explicit `layout` (defaults to
+`"position"`). The `"tb"` root flows that one subform to the top of the
+page; its own children then place by explicit x/y because ITS layout is
+`"position"`.
+
+Reverted the pageArea-nesting: `<pageArea>` back to geometry-only; all 9
+content subforms moved into one new `page_body` subform (matching Hello
+World's pattern exactly), sitting after `</pageSet>` as body content.
+Kept v3.0's other two fixes (root named `data`, `match="dataRef"`),
+which remain correct and are orthogonal to this question. Logged as F15
+in `docs/BUILD_ISSUES_LOG.md` - including the general lesson: when two
+real references disagree, only trust the one actually confirmed working
+in the user's own environment.
+
 ## v3.0 — fix F11: full XDP structural rebuild, root name / bind syntax / pageArea nesting
 
 Design View was still completely blank after v2.8/v2.9's Context-tab

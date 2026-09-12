@@ -20,24 +20,35 @@
   STRUCTURE FIX (v3.0, 2026-09-12): the user provided a third, complete
   and fully-readable real reference (ZSD_SODETAILS_FORMS - a Sales Order
   Details form), the first one small enough to read end-to-end rather
-  than in fragments. It exposed three structural defects versus what was
-  built here, all now fixed:
+  than in fragments. It suggested two confirmed fixes plus one that
+  turned out wrong:
     1. The root template subform must be named "data" (matching XFA's
        own root-data-wrapper convention), never the form's own object
-       name. Both Hello World AND this new reference agree - was
-       "Z_MM_PR_FORM_ADT", wrong.
+       name. Confirmed - was "Z_MM_PR_FORM_ADT", wrong.
     2. Every <bind> needs match="dataRef" alongside ref="$.FIELDNAME" -
        the "$." prefix was correct all along (v2.7 wrongly replaced it
        with "$record." based on a single, probably graphic-specific,
        data point from the Z_ADT reference); the actually-missing piece
-       was the match attribute, present on every bind in this new
-       reference and absent from every one of ours.
-    3. Absolutely-positioned content subforms belong nested DIRECTLY
-       INSIDE <pageArea>, not as top-level siblings of <pageSet> under a
-       layout="position" root. The real reference's root is layout="tb"
-       (like Hello World), and every one of its x/y-positioned content
-       subforms sits inside <pageArea> - that's what gives them a fixed
-       coordinate space to be measured against. Restructured to match.
+       was the match attribute. Confirmed.
+    3. v3.0 also moved every content subform INSIDE <pageArea>, reasoning
+       from the ZSD reference's own structure. WRONG - that reference
+       was never actually confirmed to render in this tool/environment,
+       only assumed because it's a real file. Design View stayed blank
+       after v3.0.
+
+  STRUCTURE FIX (v3.1, 2026-09-12): re-checked against Hello World - the
+  ONE file directly confirmed by the user to render in this exact SFP
+  session. Hello World's <pageArea> contains ONLY <contentArea>/<medium>
+  - nothing else. Its actual content sits in a SEPARATE subform, a
+  direct child of the root (sibling of <pageSet>, not nested inside it),
+  with no explicit layout (defaults to "position"), sized to the full
+  page. That single subform is what the "tb" root flows (there's only
+  one, so it lands at the top of the page occupying the full page area);
+  everything INSIDE it then places by its own explicit x/y because ITS
+  layout is "position". Restructured to match: <pageArea> now holds only
+  contentArea/medium again, and all 9 content subforms moved into one
+  new "page_body" subform (matching Hello World's pattern exactly),
+  sized to the full page, sitting after </pageSet> as body content.
 
   BEFORE importing this layout, add these two fields to the SFP Form
   Interface tab (this file does not create them - it only references
@@ -82,6 +93,10 @@
           <occur min="0" max="-1"/>
           <contentArea x="0cm" y="0cm" w="29.7cm" h="21cm"/>
           <medium stock="a4" orientation="landscape"/>
+        </pageArea>
+      </pageSet>
+
+      <subform name="page_body" w="29.7cm" h="21cm" layout="position">
 
           <!-- ===================== LOGO ===================== -->
           <subform name="logo" x="0.60cm" y="0.20cm" w="5.42cm" h="2.82cm" layout="position">
@@ -394,10 +409,7 @@
 
           </subform>
 
-        </pageArea>
-      </pageSet>
-
-      <subform h="21cm" w="29.7cm"/>
+      </subform>
 
     </subform>
   </template>
