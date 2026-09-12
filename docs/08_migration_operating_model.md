@@ -111,3 +111,20 @@ resolved or recorded as Developer Extension Points.
 New SAP/SFP failures are added to `docs/BUILD_ISSUES_LOG.md`; reusable
 process lessons are reflected in this operating model and the relevant
 framework document.
+
+## 7. Main repository and conversion-branch contract
+
+`main` is the shared migration hub. It contains governance, global style/logo
+inventories, naming/package standards, `docs/strategy/`, sample forms, the
+central engineering history, and the central bug log. It contains no
+unrelated individual-form business evidence.
+
+Each conversion branch contains only its form or wave's immutable legacy
+downloads, read-only program/NACE extraction, risk record, blueprint, build
+checklist, validation evidence, and pullable SFPF/SFPI/XDP output. A branch
+reads the shared strategy catalogue before design. When it resolves a new SAP
+or Designer behavior, it records the incident in the central bug log and
+promotes the now-validated pattern to `docs/strategy/` on `main`.
+
+This creates flexibility without allowing branches to silently diverge from
+the safe baseline, naming, asset, or capture rules.

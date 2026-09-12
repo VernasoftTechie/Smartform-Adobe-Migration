@@ -6,16 +6,18 @@ only — no driver program is ever touched by this procedure.
 
 ## Naming convention — every form's Adobe deliverable
 
-**Confirmed 2026-09-12 — standing convention is `_ADT`, and only `_ADT`**
-(supersedes `_ADF`; user's explicit instruction: *"Use _ADT only .. This
-uniqueness I wanted to distinguish between other processes"*). Both the
-Adobe Form object **and** its interface take the original Smart Form's
-exact name with `_ADT` appended — `Z_MM_PR_FORM` → `Z_MM_PR_FORM_ADT`,
-used identically for both the form (SFPF) and the interface (SFPI). No
-extra infix (no `_INT_`, no distinct interface base name) — the object
-type itself (SFPF vs. SFPI) is what distinguishes them in TADIR, so an
-identical name doesn't collide. This is the standing rule for all 500+
+**Confirmed 2026-09-13 — the Adobe Form uses `_ADT`; its interface uses
+`_INT`.** A future conversion of `Z_MM_PR_FORM` therefore creates form
+`Z_MM_PR_FORM_ADT` and interface `Z_MM_PR_FORM_INT`. This distinguishes
+form/interface objects clearly in SFP and is the standing rule for all new
 forms.
+
+**Pilot transition exception:** the currently rendered
+`Z_MM_PR_FORM_ADT` interface has the same name as its form because that is
+the SAP-generated artifact already captured and proven in the pilot. Do not
+rename its SFPI file or edit its SFPF interface reference by hand. If that
+pilot is later aligned to `_INT`, create and capture the renamed interface in
+SFP through the normal baseline procedure.
 
 The original table said 4 files per form, each a top-level standalone
 object. The **real abapGit serialization** (per
@@ -26,7 +28,7 @@ files and tracks no standalone data-schema file at all:
 |---|---|---|
 | Layout (SFPF companion) | `<name_lower>_adt.sfpf.xdp` | `z_mm_pr_form_adt.sfpf.xdp` |
 | Form object (abapGit) | `<name_lower>_adt.sfpf.xml` | `z_mm_pr_form_adt.sfpf.xml` |
-| Interface object (abapGit) | `<name_lower>_adt.sfpi.xml` | `z_mm_pr_form_adt.sfpi.xml` |
+| Interface object (abapGit) | `<name_lower>_int.sfpi.xml` | `z_mm_pr_form_int.sfpi.xml` |
 
 No `.xsd` file ships to `/src/` — the data schema is derivable from the
 interface's own `CL_FP_PARAMETERS`/`CL_FP_CONTEXT` and is not a real

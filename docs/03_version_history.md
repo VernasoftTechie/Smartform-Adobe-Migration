@@ -1,5 +1,14 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.8 — establish the successful-scenario strategy catalogue
+
+Added `docs/strategy/` as the shared `main`-branch catalogue for scenarios
+that have rendered and activated successfully in SFP. Its initial entries
+capture the SFP-generated baseline/capture discipline, A4 landscape geometry,
+and PR composite design. Updated the operating model with the `main` versus
+conversion-branch contract and recorded `_ADT` forms / `_INT` interfaces as
+the future naming standard without renaming the already-proven pilot.
+
 ## v4.7 — correct the landscape master page
 
 The pilot's physical page was rendering in portrait even though its medium

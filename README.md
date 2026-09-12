@@ -12,6 +12,8 @@ read-only inputs, never modified** (confirmed 2026-09-12, `docs/01_scope.md` §8
 - [docs/05_individual_form_conversion_framework.md](docs/05_individual_form_conversion_framework.md) —
   the repeatable per-form design procedure + post-implementation checklist
 - [docs/06_global_findings.md](docs/06_global_findings.md) — raw log of styles/logos found per form
+- [docs/strategy/README.md](docs/strategy/README.md) — SAP-validated baseline,
+  layout, and composite-design patterns reusable by conversion branches
 - [docs/legacy_grab/](docs/legacy_grab/) — one snapshot per Smart Form, produced by
   `ZSF2AF_R_LEGACY_GRAB` and dropped here before any conversion work starts
 - `src/zsf2af_r_legacy_grab.prog.abap` — the legacy-grab extraction report
