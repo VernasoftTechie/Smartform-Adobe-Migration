@@ -9,7 +9,15 @@
             <medium long="11in" short="8.5in" stock="letter"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in"/>
+      <subform h="10.5in" layout="position" name="visual_shell" w="8in">
+         <draw h="0.35in" name="legacy_caption" w="8in" x="0in" y="0in">
+            <value>
+               <text>Goods Reciept Note</text>
+            </value>
+            <font size="14pt" typeface="Arial" weight="bold"/>
+            <para hAlign="center"/>
+         </draw>
+      </subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>

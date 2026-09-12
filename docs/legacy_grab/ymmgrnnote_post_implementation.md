@@ -35,7 +35,7 @@ element, conditional rendering, line table, or calculation logic is added.
 
 1. Confirm the SFP baseline activates and shows a physical portrait page before adding bindings.
 2. Pull `c5bacb5`, open `YMMGRNNOTE_INT`, add the four evidenced exceptions natively, verify every `LT_MSEG`/`LS_MSEG` QUAN/CURR reference against DDIC, and activate the interface.
-3. Activate `YMMGRNNOTE_ADT`, run Context Generate/Synchronize, verify all 20 imports, 3 exports, and `LT_MSEG` appear under Context, then Stage -> Commit -> Push the generated SFPF/SFPI.
+3. Activate `YMMGRNNOTE_ADT`, then manually drag/drop required nodes from the left Interface tree into the right Context tree. Verify every required import/table node appears under Context, then Stage -> Commit -> Push the generated SFPF/SFPI.
 4. Render all five conditional header/template paths, including E and F language records.
 5. Test zero/initial `PEINH`, initial/non-initial `IV_KURSF`, an empty `LT_MSEG`, multiple rows, and a multi-page table.
 6. Compare legacy OTF (`GETOTF = 'X'`, `CONVERT_OTF`) against the Adobe PDF for the same document data, including manual signature lines and page counter.
