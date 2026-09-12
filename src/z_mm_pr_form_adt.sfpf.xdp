@@ -5,36 +5,99 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
+            <contentArea h="206mm" w="285mm" x="5mm" y="2mm"/>
+            <medium long="297mm" short="210mm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in">
-         <field h="9mm" name="USERNAME" w="62mm" x="34.925mm" y="69.85mm">
-            <ui>
-               <textEdit>
-                  <border>
-                     <edge stroke="lowered"/>
-                  </border>
-                  <margin/>
-               </textEdit>
-            </ui>
-            <font typeface="Arial"/>
-            <margin bottomInset="1mm" leftInset="1mm" rightInset="1mm" topInset="1mm"/>
-            <para vAlign="middle"/>
-            <caption reserve="25mm">
-               <para vAlign="middle"/>
-               <value>
-                  <text xliff:rid="D129F3D6-EAD0-46DB-8A18-0A46E982E261">User</text>
-               </value>
-            </caption>
+      <subform h="210mm" name="page_body" w="297mm">
+         <draw h="28.2mm" name="logo" w="54.2mm" x="6mm" y="2mm">
             <value>
-               <text maxChars="12"/>
+               <image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/dangote%20logo.bmp"/>
             </value>
-            <bind match="dataRef" ref="$.SFPSY.USERNAME"/>
-            <desc>
-               <text name="Schema Annotation">User Name</text>
-            </desc>
+         </draw>
+         <field h="8mm" name="company_name" w="174.7mm" x="66mm" y="4mm">
+            <ui><textEdit/></ui>
+            <font size="15pt" typeface="Times New Roman" weight="bold"/>
+            <para hAlign="center"/>
+            <bind match="dataRef" ref="$.LV_COMPANY"/>
+         </field>
+         <field h="8mm" name="plant_name" w="174.7mm" x="66mm" y="12mm">
+            <ui><textEdit/></ui>
+            <font size="15pt" typeface="Times New Roman" weight="bold"/>
+            <para hAlign="center"/>
+            <bind match="dataRef" ref="$.PLANT_NAME"/>
+         </field>
+         <draw h="7mm" name="form_title" w="174.7mm" x="66mm" y="20mm">
+            <font size="15pt" typeface="Times New Roman" weight="bold"/>
+            <para hAlign="center"/>
+            <value><text>PURCHASE REQUISITION FORM</text></value>
+         </draw>
+         <draw h="6mm" name="request_type" w="157.3mm" x="5.3mm" y="40mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>Type of Request : Revenue / Capital Spares / General Consumables</text></value>
+         </draw>
+         <draw h="6mm" name="equipment_details" w="157.3mm" x="5.3mm" y="47mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>Equipment Details:</text></value>
+         </draw>
+         <draw h="5mm" name="label_lpr_no" w="30mm" x="193.3mm" y="40mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>LPR No:</text></value>
+         </draw>
+         <field h="5mm" name="banfn" w="66mm" x="223.3mm" y="40mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.BANFN"/>
+         </field>
+         <draw h="5mm" name="label_lpr_date" w="30mm" x="193.3mm" y="45mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>LPR Date:</text></value>
+         </draw>
+         <field h="5mm" name="badat" w="66mm" x="223.3mm" y="45mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.BADAT"/>
+         </field>
+         <draw h="5mm" name="label_department" w="30mm" x="193.3mm" y="50mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>Department:</text></value>
+         </draw>
+         <field h="5mm" name="eknam" w="66mm" x="223.3mm" y="50mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.EKNAM"/>
+         </field>
+         <draw h="5mm" name="label_section" w="30mm" x="193.3mm" y="55mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>Section:</text></value>
+         </draw>
+         <field h="5mm" name="bednr" w="66mm" x="223.3mm" y="55mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.BEDNR"/>
+         </field>
+         <draw h="5mm" name="label_email" w="30mm" x="193.3mm" y="60mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>Email:</text></value>
+         </draw>
+         <field h="5mm" name="req_email" w="66mm" x="223.3mm" y="60mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.IV_REQ_EMAIL"/>
+         </field>
+         <draw h="5mm" name="label_estimated_value" w="95mm" x="5mm" y="54.7mm">
+            <font size="10pt" typeface="Times New Roman" weight="bold"/>
+            <value><text>Estimated Value of this LPR:</text></value>
+         </draw>
+         <field h="5mm" name="ext_total" w="35mm" x="100mm" y="54.7mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.V_EXTTOTAL"/>
+         </field>
+         <field h="5mm" name="currency" w="25mm" x="135mm" y="54.7mm">
+            <ui><textEdit/></ui>
+            <font size="11pt" typeface="Courier New"/>
+            <bind match="dataRef" ref="$.V_WAERS"/>
          </field>
          <?templateDesigner expand 1?></subform>
       <proto/>

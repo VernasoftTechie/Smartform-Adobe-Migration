@@ -17,6 +17,8 @@ below points at what actually exists in this repo today.
 - **Scope, risk framework, phase plan**: `docs/01_scope.md`
 - **Per-form design procedure** (the "which pattern, which steps" guide): `docs/05_individual_form_conversion_framework.md`
 - **Which approach to use for a given form, decided BEFORE design starts**: `docs/07_design_approach_decision_framework.md`
+- **Portfolio organization, gates, and recovery discipline**:
+  `docs/08_migration_operating_model.md`
 - **Every build issue hit and how it was fixed** (the real "build checklist"): `docs/BUILD_ISSUES_LOG.md`
 - **Full version-by-version history**: `docs/03_version_history.md`
 - **General Adobe Forms design reference** (apply with judgment - see its own maintainer's note): `instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md`
@@ -38,6 +40,7 @@ docs/
 ├── 05_individual_form_conversion_framework.md    ← per-form design procedure + naming convention
 ├── 06_global_findings.md                         ← raw output of the global SmartStyle/logo sweep
 ├── 07_design_approach_decision_framework.md      ← which approach to use, decided before design starts
+├── 08_migration_operating_model.md                ← portfolio queues, delivery gates, pilot recovery
 ├── BUILD_ISSUES_LOG.md                           ← every build issue (F1-F12+) and its fix
 ├── reference_examples/                           ← Hello World baseline (confirmed-importable)
 ├── reference_examples_z_adt_mm_pr_form/          ← real migrated PR form (sibling of the pilot)
@@ -53,8 +56,6 @@ instructions/
 
 ```
 src/
-├── z_mm_pr_form_adt.sfpf.xdp / .sfpf.xml         ← pilot form layout + metadata
-├── z_mm_pr_form_adt.sfpi.xml                     ← pilot form interface
 ├── zhello_world_form_adt.sfpf.xdp / .sfpf.xml    ← reference baseline
 ├── zhello_world_adt.sfpi.xml                     ← reference baseline interface
 └── zsf2af_r_legacy_grab.prog.abap / .prog.xml    ← legacy-grab tool
@@ -68,21 +69,26 @@ src/
 1. Read `CLAUDE.md`, then `docs/00_BOLT_PLAYBOOK.md` - every session, no exceptions.
 2. Read `docs/01_scope.md` and `docs/05_individual_form_conversion_framework.md`.
 3. Starting a *new* form: run its complexity classification in `docs/07_design_approach_decision_framework.md` **before** any design work.
-4. Check `docs/BUILD_ISSUES_LOG.md` before assuming any pattern "should work" - odds are a close variant of it has already been hit and fixed once.
+4. Follow `docs/08_migration_operating_model.md` to place the form in the
+   right delivery state and retain its gate evidence.
+5. Check `docs/BUILD_ISSUES_LOG.md` before assuming any pattern "should work" - odds are a close variant of it has already been hit and fixed once.
 
 ---
 
 ## 🔧 Z_MM_PR_FORM's Layout Issue — Status
 
-**As of this write-up: fixed in the source file, NOT YET CONFIRMED
-rendering in SFP.** Do not treat this as done until it's been verified
-in Design View / Print Preview and reported back.
+**The pilot source is now an SFP-generated baseline.** The safe base was
+pushed at `c507878` after it rendered in Designer. Preserve its populated
+Context and use abapGit **Stage → Commit → Push** after every validated
+layout increment; never Pull an older hand-authored artifact over it.
 
 **Root causes found and fixed** (`docs/BUILD_ISSUES_LOG.md` F9-F11):
-1. Root subform must be named `data` (XFA convention) - was named after the form itself.
-2. Every `<bind>` needs `match="dataRef"` alongside `ref="$.FIELD"` - was missing the `match` attribute on every field.
-3. Absolutely-positioned content subforms must sit inside `<pageArea>`, not as top-level siblings of `<pageSet>`.
-4. `CL_FP_REFERENCE_FIELDS` needed real declared globals (`MEINS`/`WAERS`) as targets, not bare table-column names.
+1. Root subform must be named `data` (XFA convention).
+2. Every data binding needs `match="dataRef"` alongside its data reference.
+3. SFP-generated serialization, not hand-authored serialization, is the
+   authoritative layout baseline.
+4. `CL_FP_REFERENCE_FIELDS` need real declared globals (`MEINS`/`WAERS`) as
+   targets, not bare table-column names.
 
 Full before/after detail: `docs/BUILD_ISSUES_LOG.md` entries F9-F11 and
 `docs/03_version_history.md` v2.8-v3.0.
@@ -103,7 +109,8 @@ Full before/after detail: `docs/BUILD_ISSUES_LOG.md` entries F9-F11 and
 
 ### **Root Template Must Be `<subform name="data">`**
 XFA convention, confirmed against two real reference forms. See
-`src/z_mm_pr_form_adt.sfpf.xdp`.
+`src/zhello_world_form_adt.sfpf.xdp` and the SAP-generated replacement once
+it is pushed.
 
 ### **All Field Bindings Need `match="dataRef"`**
 ```xml
@@ -112,9 +119,10 @@ XFA convention, confirmed against two real reference forms. See
 Without `match="dataRef"`, the `ref` is not applied and the field never
 binds to data.
 
-### **Position-Absolute Content Belongs Inside `<pageArea>`**
-Not as a sibling of `<pageSet>`. `<pageArea>` supplies the coordinate
-space that each child's explicit `x`/`y` is measured against.
+### **Start From an SFP-Generated Page Template**
+The exact nesting and Designer metadata are generated by the target SFP
+release. Do not infer a universal `pageArea` nesting rule from an unrelated
+export; create, render, and push the target-system baseline first.
 
 ### **QUAN/CURR table fields need a resolvable Reference Field**
 Every quantity or currency field needs a paired unit/currency-key field
@@ -131,8 +139,8 @@ an import parameter, or another table column) - see
 - ❌ "How do we handle 500-row tables at scale?" → Architecture / this project's own scope discussion
 - ❌ "Which driver should call the new form, and when?" → out of scope entirely, per `CLAUDE.md` - drivers are read-only forever
 - ✅ "How do I bind a nested table?" → `docs/reference_examples_z_adt_mm_pr_form/` shows a real one
-- ✅ "What's the date formatting script?" → `src/z_mm_pr_form_adt.sfpf.xdp`'s `date_line` subform
-- ✅ "How do I add a watermark condition?" → `src/z_mm_pr_form_adt.sfpf.xdp`'s `watermark` subform
+- ✅ "What's the date formatting requirement?" → `docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md` §6.3
+- ✅ "How do I add a watermark condition?" → `docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md` §6.2
 
 ---
 

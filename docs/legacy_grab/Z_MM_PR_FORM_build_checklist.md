@@ -1,11 +1,13 @@
 # Z_MM_PR_FORM — Adobe Form Build Checklist
 
-**Built from scratch against the real export — not the SFP "Create by Migration"
-wizard.** Bolt owns the design; this checklist is the literal build spec.
-Follow it in SFP/Adobe LiveCycle Designer, note any adjustment you had to
-make, push the result (+ the adjustment notes) to `docs/legacy_grab/`, and
-Bolt confirms it against `Z_MM_PR_FORM_blueprint.html` pixel-by-pixel
-before it goes to UT.
+**Design derived from the real export — not the SFP "Create by Migration"
+wizard.** This checklist is the literal build specification, not an
+abapGit-importable layout. First create and save the minimal form in
+SFP/Adobe LiveCycle Designer, verify the physical page renders, and export
+its generated serialization using abapGit **Stage → Commit → Push**. Then
+follow this checklist in Designer, export each validated increment, record adjustments beside this
+snapshot, and confirm it against `Z_MM_PR_FORM_blueprint.html`
+pixel-by-pixel before UT.
 
 Every number below is read from `z_mm_pr_form.xml` / `sfstyle-zstyle_pr_form.xml`
 — not estimated. Where something is inferred rather than read directly, it's

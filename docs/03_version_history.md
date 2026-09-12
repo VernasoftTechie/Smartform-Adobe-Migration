@@ -1,5 +1,48 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.3 — capture the generated baseline and add visual shell increment
+
+The SFP-created baseline was exported through abapGit and pushed at
+`c507878`. It restores a real XDP `pageSet`/page area and the generated
+SFPF Context graph; these are now the only valid base for pilot design.
+
+The first controlled design increment updates only the generated XDP's visual
+shell: A4 landscape geometry, confirmed logo URL, company/plant/title block,
+request captions, PR header fields, and estimated-value line. It leaves the
+repeatable table, Context changes, reference-field changes, and scripts for
+later independently rendered increments.
+
+## v4.2 — remove the unsafe pilot import artifacts
+
+Removed the three hand-authored `Z_MM_PR_FORM_ADT` artifacts from `/src/`:
+the XDP layout, SFPF metadata, and SFPI metadata. An abapGit Pull had proven
+that these files overwrite an otherwise healthy SFP-generated form and
+produce `Failure to layout form: no pageSet element defined`.
+
+The legacy snapshot, visual blueprint, and build checklist remain available
+under `docs/legacy_grab/`. The replacement artifact set must be created and
+saved in SFP, verified in Designer, then exported through abapGit
+**Stage → Commit → Push**. Logged as F21 in `docs/BUILD_ISSUES_LOG.md`.
+
+## v4.1 — correct the SFP baseline capture direction
+
+The controlled test established the decisive fact: a newly created,
+SFP-activated Adobe Form displayed a physical Designer page and native
+`User` field correctly. After an abapGit **Pull**, that same form reverted to
+the hierarchy-only state and LiveCycle reported `Failure to layout form: no
+pageSet element defined`.
+
+The cause was process direction. Pull imports the repository's old
+hand-authored serialization into SAP, overwriting the working
+SFP-generated layout; it does not capture the new SAP object. The standard
+capture workflow is therefore **Stage → Commit → Push** from abapGit
+immediately after a form first renders, and after each validated increment.
+Only other systems may Pull after that generated serialization has been
+pushed.
+
+This replaces the earlier, incorrect “pull-to-capture” wording in the
+framework documents. Logged as F20 in `docs/BUILD_ISSUES_LOG.md`.
+
 ## v4.0 — fix F16: reset to a minimal baseline instead of another full rewrite
 
 v3.1 matched Hello World's exact skeleton and Design View was STILL

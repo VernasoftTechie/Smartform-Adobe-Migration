@@ -1,21 +1,23 @@
 # 07 – Design Approach Decision Framework
 
-**Status: DRAFT — proposed 2026-09-12, for your adjustment before it
-becomes standing procedure.** Requested directly: *"we need to prepare
-a framework around this before starting the design .. deciding which
-one to go with in the beginning step itself is a big key for us."*
+**Status: APPROVED — controlled-pilot procedure, 2026-09-12.** Requested
+directly: *"we need to prepare a framework around this before starting the
+design .. deciding which one to go with in the beginning step itself is a big
+key for us."* The portfolio queues and mandatory evidence are defined in
+[`08_migration_operating_model.md`](08_migration_operating_model.md).
 
 ## Why this exists
 
-The `Z_MM_PR_FORM_ADT` pilot has gone through 12 logged build issues
-(`docs/BUILD_ISSUES_LOG.md` F1–F12) before reaching a state where the
-layout might actually render. Some of that cost was irreducible (SFP's
+The `Z_MM_PR_FORM_ADT` pilot has gone through 17 logged build issues
+(`docs/BUILD_ISSUES_LOG.md` F1–F17) before reaching a state where the
+layout can be safely rebuilt. Some of that cost was irreducible (SFP's
 own Context/Reference-Field mechanics have no F4 help and had to be
 reverse-engineered from real files). But some of it was **avoidable up
 front** if we'd known this form's specific complexity signals before
-starting — e.g. that it needed absolute-position layout nested inside
-`<pageArea>` (F11), or that its table's QUAN/CURR fields would need
-`CL_FP_REFERENCE_FIELDS` (F9/F10). This framework turns those 12 lessons
+starting — e.g. that absolute-layout structure must be validated in the
+target SFP release before it is generalized (F11/F15), or that its table's
+QUAN/CURR fields would need `CL_FP_REFERENCE_FIELDS` (F9/F10). This
+framework turns those 17 lessons
 into a **checklist applied before design starts**, so the next form's
 build issues are the genuinely-new ones, not repeats.
 
@@ -40,7 +42,7 @@ the path in Step 1.
 | Signal | Check in the legacy-grab snapshot | Why it matters |
 |---|---|---|
 | **Embedded logic** | Does the Smart Form have `CODE` / "Program Lines" nodes with real ABAP (DB reads, BAPI calls, text/TDLINE lookups)? | If yes, that logic has to land somewhere — either `CL_FP_CODING`/`INITIALIZATION` (server-side, proven to work per the `Z_INT_MM_PR_FORM` reference) or FormCalc/JS (client-side, cannot call BAPIs/DB). Pick which, per node, before designing the layout — not after (this project's own watermark/email logic, §6.1/6.2 of the build checklist, is still an open item for exactly this reason). |
-| **Layout shape** | Are windows placed at fixed x/y coordinates (absolute layout), or does content just flow top-to-bottom? | Absolute layout requires the root subform `layout="tb"` + every positioned subform nested **inside `<pageArea>`** (F11). Flow-only content is simpler and closer to what SFP's own wizard produces natively. |
+| **Layout shape** | Are windows placed at fixed x/y coordinates (absolute layout), or does content just flow top-to-bottom? | Absolute layout needs a known-rendering SFP structure for the target release. The repository has conflicting historical reference patterns; F15 established that only the Hello World sibling-of-`pageSet` pattern was verified in this environment. Start from an SFP-created minimal baseline and add content incrementally; do not infer a universal nesting rule from an unverified reference. |
 | **QUAN/CURR fields in tables** | Does the line-item table type (e.g. `ZTABLE_PR_PRINT`) carry quantity or currency fields? | Every one needs a resolvable Reference Field (F9/F10) — budget time for this; it has no F4 help in SFP. |
 | **A real sibling reference exists** | Has this exact form, or a close sibling, already been migrated by someone else and can be pulled via abapGit/SE38? | This has been the single biggest accelerant on this pilot (3 real references cracked 8 of the 12 issues). A form with **no** real reference to check against is materially higher-risk than one with one. |
 | **Driver/output-determination complexity** | How many drivers call this form, for how many different purposes? | Doesn't change the design approach, but affects the eventual cutover risk-score already in `docs/01_scope.md`. |
@@ -48,32 +50,28 @@ the path in Step 1.
 
 ## Step 1 — pick the path
 
-**Path A — Hand-authored from scratch (this pilot's approach).**
-Bolt designs the XDP/XSD/SFPF/SFPI directly from the legacy-grab
-snapshot, matching the build checklist pixel-for-pixel. Full design
-control stays with Bolt, per your original instruction. Best suited to
-forms where: a real reference exists to validate structural conventions
-against, OR the form is simple enough (flow-layout, no embedded logic,
-no QUAN/CURR table fields) that there's little left to get wrong.
+**Path A — Standard SFP-created baseline, blueprint-led build (required).**
+Bolt derives the design from the legacy-grab snapshot and produces the
+pixel-matched checklist. SFP/LiveCycle creates and saves the initial form,
+then abapGit **Stage → Commit → Push** exports that generated SFPF/SFPI/XDP
+serialization. Build the
+checklist on top of that known-rendering baseline. This is the mandatory path
+for every form because it preserves design control without fabricating
+Designer/SFP internal state.
 
-**Path B — Wizard-seeded, Bolt-corrected.** Use SFP's "Create Adobe Form
-by Migration" wizard *only* to generate a structurally-valid skeleton
-(correct root name, bind syntax, `<pageArea>` nesting, Context —
-everything SAP's own tooling gets right by construction, which is
-exactly the class of bug F7/F8/F11 turned out to be), then Bolt
-redesigns every visual/layout/mapping decision on top of it to 100% match
-the blueprint — the wizard only ever supplies plumbing, never the
-design. This directly conflicts with your earlier instruction (*"I'll
-not use SAP tool to design the adobeform .. the entire design has to be
-taken care by you from the scratch"*) — **flagging it, not adopting it
-silently.** Worth considering only for forms with embedded logic +
-absolute layout + no real reference available, where Path A's risk
-compounds with nothing to validate against.
+**Path B — Wizard-seeded skeleton (exception only).** Use SFP's "Create Adobe
+Form by Migration" wizard only after Path A's standard baseline exists and
+only with explicit per-form approval. Bolt redesigns all visual, layout, and
+mapping decisions to match the blueprint; the wizard supplies plumbing, not
+the design.
 
-**Recommendation for right now:** finish `Z_MM_PR_FORM_ADT` via Path A —
-we're close, and switching approach mid-pilot would throw away the
-now-validated structural lessons (F9–F11) that make Path A viable at
-all. Apply this framework starting with the *next* form.
+**Recommendation for right now:** use Path A for `Z_MM_PR_FORM_ADT`. Create
+and save a fresh minimal Adobe Form in SFP/LiveCycle, then export it through
+abapGit **Stage → Commit → Push**. The current object is known to be
+corrupted/unresponsive (F17), so
+it is not close to sign-off. Do not restore the full layout until the
+SFP-created baseline has rendered and become editable, then add only one
+verified checklist section at a time.
 
 ## Step 2 — sign-off gate
 
@@ -82,10 +80,6 @@ written into its own section here (or a per-form addendum), confirmed by
 you. Mirrors the existing per-form risk-scoring in `docs/01_scope.md` —
 this is the design-approach equivalent of that gate.
 
-## Open question for you
-
-Does Path B (wizard-seeded skeleton, Bolt-corrected design) belong in
-this framework at all, given your original instruction ruled it out
-entirely? I've included it because the last 12 issues were almost all
-*plumbing* SAP's own tooling gets right automatically — but the decision
-to reopen that door is yours, not mine to assume.
+Path B remains a documented contingency, not the current pilot choice. It
+requires explicit per-form approval because the project baseline must be
+created and captured by the standard SFP workflow.

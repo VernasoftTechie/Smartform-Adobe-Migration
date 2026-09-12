@@ -74,14 +74,22 @@ explicitly deferred that decision, not settled it.
 
 ## Step 2 — Design the Adobe Form
 
-**Confirmed 2026-09-13 — Bolt designs the form from the real export;
-the SFP wizard is not used.** Earlier drafts of this doc treated the SFP
-"Create Adobe Form by Migration" wizard as the design source. User
-overrode that: Bolt reads the Smart Form's own `Utilities → Download`
-XML export directly (proven working, `docs/02_legacy_grab_spec.md`) and
-produces the full design from it — window-by-window position/size, style
-mapping, field bindings — never SAP's auto-migration. The wizard's ~80-85%
-baseline is no longer the starting point for this project.
+**Standard implementation rule, confirmed 2026-09-12:** legacy exports remain
+the design source, but SAP SFP/Adobe LiveCycle Designer creates and saves the
+initial Adobe Form layout. Earlier hand-authored SFPF/XDP baselines for the
+pilot could populate the hierarchy while producing no Design View canvas. Do
+not use a raw SAP GUI download, a colleague's export, or hand-authored
+serialized metadata as an import baseline. Create the form and interface in
+SFP, add a native static field in Designer, save/activate, verify the page
+renders, then use abapGit **Stage → Commit → Push** to export the generated
+SFPF/SFPI/XDP artifacts to the repository.
+
+The SFP "Create Adobe Form by Migration" wizard is not the design source and
+does not replace the blueprint. It may only be considered as a per-form,
+explicitly approved way to seed plumbing after a standard SFP-created
+baseline renders. Bolt still reads the Smart Form's own `Utilities → Download`
+XML export to produce the layout mapping, field bindings, style mapping, and
+build checklist.
 
 1. **Bolt reads the real export.** The form's `Utilities → Download` XML
    (`<sf:SMARTFORM>`, one `<sf:WINDOW>` per window with position/size in cm
@@ -98,26 +106,30 @@ baseline is no longer the starting point for this project.
      column widths, font/style mapping, explicit exclusions (dead code,
      debugger statements), and Developer Extension Points for anything
      that needs a decision.
-3. **User builds it in SFP/Adobe LiveCycle Designer**, following the
-   checklist field-by-field, and pushes the result (export, screenshot, or
-   whatever abapGit will serialize) back into `docs/legacy_grab/` with any
-   adjustment notes.
-4. **Bolt confirms** the built form against the blueprint, item by item,
+3. **User establishes the standard SFP baseline first.** Create the form and
+   interface in SFP, open Layout, add a native static text field, save and
+   activate. Confirm the physical page and that field appear in Design View.
+   Use abapGit **Stage → Commit → Push** to export the generated serialization
+   to `/src/`; it becomes the baseline before the checklist is applied.
+4. **User builds in SFP/Adobe LiveCycle Designer**, following the checklist
+   field-by-field, and pulls each validated result through abapGit with any
+   adjustment notes recorded beside the snapshot.
+5. **Bolt confirms** the built form against the blueprint, item by item,
    before it goes to UT.
-5. **Match style/logo needs against the Global Style Catalogue**
+6. **Match style/logo needs against the Global Style Catalogue**
    (`04_global_style_catalogue.md`). Apply matched global styles. Where
    nothing fits, create a form-specific override and log it back into the
    catalogue as a candidate.
-6. **Preserve the interface exactly** — same parameter names/shape as
+7. **Preserve the interface exactly** — same parameter names/shape as
    snapshot §2, so whatever eventually calls this form (this project doesn't
    decide what, or when) sees an unchanged contract.
-7. **Where something can't be resolved** — no catalogue match, no way to
+8. **Where something can't be resolved** — no catalogue match, no way to
    verify a layout detail, or a decision needs business input — don't block.
    Leave a clearly named, empty **Developer Extension Point** (a named
    placeholder subform/field with an annotation explaining what belongs
    there) and add it to this form's entry in §Post-implementation checklist
    below.
-8. **Special Adobe-specific features** (dynamic table flow, digital
+9. **Special Adobe-specific features** (dynamic table flow, digital
    signature fields, proper interactive form controls, etc.) may be used at
    Bolt's judgment where they genuinely improve the form and fit its risk
    tier — always called out explicitly as "Enhancement: `<what, why>`" in

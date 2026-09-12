@@ -39,6 +39,12 @@ Playbook §0.4) — mirror the one-row summary into the Playbook's Appendix A to
 
 | F19 | Same class of error as F18, on a different package: *"PREFIX: Unexpected package naming ... child: ZFDP_SCRATCH"* | A second `ZFDP_*` child package under `ZABAP_UTIL`, this one empty/junk. Confirmed only 2 occurrences so far, not (yet) a per-session pattern from Layout/Print Preview testing - worth watching for recurrence, but not treated as systemic yet | Since it was empty, deleted the package outright (SE21) rather than reparenting - simpler and permanent when there's genuinely nothing to preserve. If a third `ZFDP_*` package appears, treat it as a confirmed systemic pattern (likely an SFP/ADS default-package setting worth raising with Basis) rather than another one-off fix |
 
+| F20 | A newly created, activated SFP form showed a normal physical page and native `User` field, but an abapGit Pull reverted it to `Failure to layout form: no pageSet element defined` | Pull imports the repository artifact into SAP and overwrote the working SFP-generated layout with the prior hand-authored form | After a form renders in SFP, use abapGit **Stage → Commit → Push** to export it. Do not Pull over a newly working form |
+
+| F21 | The old pilot artifacts could overwrite the healthy SFP form before its standard serialization was captured | The tracked layout and metadata were hand-authored rather than produced by SFP | Removed them temporarily; the user then pushed the healthy SFP-generated artifact set |
+
+| F22 | The clean SFP-generated pilot baseline was pushed at `c507878` | Its XDP has a real `pageSet`/page area and its SFPF contains the generated Context graph | Preserve the SFPF/SFPI Context artifacts. Design only the XDP in small rendered increments, then **Stage → Commit → Push** each one |
+
 ## Unverified table names to watch (not yet confirmed traps)
 
 `global_sweep` (P_GLOB, v1.2) reads `STXBITMAPS` for SE78-registered
