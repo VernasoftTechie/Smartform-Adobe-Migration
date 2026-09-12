@@ -562,9 +562,25 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
 
     LOOP AT lt_candidates INTO DATA(lv_tab).
       DATA lo_struct TYPE REF TO cl_abap_structdescr.
-      CLEAR lo_struct.
+      DATA lo_descr  TYPE REF TO cl_abap_typedescr.
+      CLEAR: lo_struct, lo_descr.
+      " NOTE (F12): DESCRIBE_BY_NAME's TYPE_NOT_FOUND is a classic,
+      " non-class-based exception - TRY/CATCH cx_root around a functional
+      " call NEVER catches it and dumps instead. Must use classic
+      " CALL METHOD ... EXCEPTIONS syntax and check sy-subrc.
+      CALL METHOD cl_abap_typedescr=>describe_by_name
+        EXPORTING
+          p_name      = lv_tab
+        RECEIVING
+          p_descr_ref = lo_descr
+        EXCEPTIONS
+          type_not_found = 1
+          OTHERS         = 2.
+      IF sy-subrc <> 0.
+        CONTINUE.
+      ENDIF.
       TRY.
-          lo_struct = CAST cl_abap_structdescr( cl_abap_typedescr=>describe_by_name( lv_tab ) ).
+          lo_struct = CAST cl_abap_structdescr( lo_descr ).
         CATCH cx_root.
           CONTINUE.
       ENDTRY.
