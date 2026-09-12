@@ -5,8 +5,8 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="206mm" w="285mm" x="5mm" y="2mm"/>
-            <medium long="297mm" short="210mm" stock="a4"/>
+            <contentArea h="206mm" w="290mm" x="5mm" y="2mm"/>
+            <medium long="297mm" orientation="landscape" short="210mm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
       <subform h="210mm" name="page_body" w="297mm">

@@ -1,5 +1,14 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.7 — correct the landscape master page
+
+The pilot's physical page was rendering in portrait even though its medium
+specified A4's long and short sides. The missing XFA
+`orientation="landscape"` attribute left only 210 mm of visible width, so
+the valid 290 mm legacy table and right-side header appeared to overlap or
+fall beyond the page. Added the explicit landscape orientation and recorded
+the durable check as F24.
+
 ## v4.6 — complete the visible pilot-layout framework
 
 Added the verified visible secondary-window elements to the generated pilot
