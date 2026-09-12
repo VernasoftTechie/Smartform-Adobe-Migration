@@ -1,5 +1,13 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v5.1 — load the initial global SAP asset inventories
+
+Added the supplied SAP-wide `P_GLOB` outputs to `docs/global_data/`: 41
+SmartStyle records and 574 SE78/STXBITMAPS graphic records, plus the supplied
+Dangote logo reference. Recorded SHA-256 values and updated the global
+findings register to link the immutable source inventories rather than
+duplicating them into Markdown.
+
 ## v5.0 — isolate pilot forms from the new package import scope
 
 Aligned the package definition description with `ZAB_ADOBE` and moved the

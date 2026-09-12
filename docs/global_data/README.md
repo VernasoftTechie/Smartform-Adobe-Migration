@@ -42,3 +42,13 @@ docs/global_data/
 └── logos/
     └── README.md
 ```
+
+## Current inventory
+
+The initial SAP-wide extraction was supplied on 2026-09-13:
+
+| Asset | Location | Records | SHA-256 |
+|---|---|---:|---|
+| SmartStyle inventory | `styles/global_smartstyles.txt` | 41 | `FF5B76F9402DE62E7085E04C8C495BC15603B7DD625993F8C3CF07DB61491491` |
+| SE78 graphic inventory | `logos/global_logos.txt` | 574 | `1143FE94333D7CA4D35E22B9240B0BBC18479F233737775163B40D5DE37CE727` |
+| Dangote logo reference | `logos/Dangote_Logo.png` | 4,267 bytes | `B1CAE66D144AE5F17C71371AA8EEB66C2F396DF072742AAE9117822F71A64B3D` |
