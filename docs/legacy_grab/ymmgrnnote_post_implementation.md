@@ -29,14 +29,16 @@ element, conditional rendering, line table, or calculation logic is added.
 | `DEP-YMMGRNNOTE-05` | Conditional legal/branding content | Business owner confirms condition precedence and the static Dangote/Okpella texts for `WE01`, `ZET1`, plants `1000/1100/1021`, country `TZ`, and value `12`. |
 | `DEP-YMMGRNNOTE-06` | SmartStyle translation | Export and approve `YGRNNOTE`; map every evidenced paragraph/character format. |
 | `DEP-YMMGRNNOTE-07` | Geometry and sign-off source | Supply representative legacy output because source XML has blank window positions. |
+| `DEP-YMMGRNNOTE-08` | `ZEXTRA_FIELD` QUAN/CURR references | Inspect every Context component's actual DDIC reference in SFP; configure only the exact generated unit/currency targets and capture them through abapGit. |
 
 ## SAP validation steps
 
 1. Confirm the SFP baseline activates and shows a physical portrait page before adding bindings.
-2. Build and capture SFP Context from the exact legacy interface; set and test all DDIC quantity/currency reference fields.
-3. Render all five conditional header/template paths, including E and F language records.
-4. Test zero/initial `PEINH`, initial/non-initial `IV_KURSF`, an empty `LT_MSEG`, multiple rows, and a multi-page table.
-5. Compare legacy OTF (`GETOTF = 'X'`, `CONVERT_OTF`) against the Adobe PDF for the same document data, including manual signature lines and page counter.
-6. Obtain named business-owner visual sign-off, required for this High-risk form.
+2. Pull `c5bacb5`, open `YMMGRNNOTE_INT`, add the four evidenced exceptions natively, verify every `LT_MSEG`/`LS_MSEG` QUAN/CURR reference against DDIC, and activate the interface.
+3. Activate `YMMGRNNOTE_ADT`, run Context Generate/Synchronize, verify all 20 imports, 3 exports, and `LT_MSEG` appear under Context, then Stage -> Commit -> Push the generated SFPF/SFPI.
+4. Render all five conditional header/template paths, including E and F language records.
+5. Test zero/initial `PEINH`, initial/non-initial `IV_KURSF`, an empty `LT_MSEG`, multiple rows, and a multi-page table.
+6. Compare legacy OTF (`GETOTF = 'X'`, `CONVERT_OTF`) against the Adobe PDF for the same document data, including manual signature lines and page counter.
+7. Obtain named business-owner visual sign-off, required for this High-risk form.
 
 **Out of scope:** driver-program changes, NACE/output-determination changes, and cutover decisions.
