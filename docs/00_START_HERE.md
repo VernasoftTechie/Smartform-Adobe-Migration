@@ -23,6 +23,8 @@ below points at what actually exists in this repo today.
   per-gate build rules): `docs/09_pilot_design_framework.md`
 - **Successful Adobe conversion strategies** (shared across conversion
   branches): `docs/strategy/README.md`
+- **Global SmartStyle and SE78 asset intake library** (one-time SAP export
+  for every conversion branch): `docs/global_data/README.md`
 - **Every build issue hit and how it was fixed** (the real "build checklist"): `docs/BUILD_ISSUES_LOG.md`
 - **Full version-by-version history**: `docs/03_version_history.md`
 - **General Adobe Forms design reference** (apply with judgment - see its own maintainer's note): `instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md`

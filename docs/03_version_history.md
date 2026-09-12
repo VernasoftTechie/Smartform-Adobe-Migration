@@ -1,5 +1,13 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.9 — create the shared global-data intake library
+
+Added `docs/global_data/` as the single `main`-branch home for the one-time
+global SmartStyle inventory, original SmartStyle XML exports, SE78 graphic
+inventory, and approved source graphics. Conversion branches use this
+library after their own Smart Form export identifies the referenced assets;
+they no longer need duplicate style/logo uploads.
+
 ## v4.8 — establish the successful-scenario strategy catalogue
 
 Added `docs/strategy/` as the shared `main`-branch catalogue for scenarios

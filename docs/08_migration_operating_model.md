@@ -25,7 +25,8 @@ blueprints, checklists, screenshots, and comparison evidence stay under
 ## 2. Portfolio intake: do once before Wave 1
 
 1. Run `ZSF2AF_R_LEGACY_GRAB` with `P_GLOB` and commit the resulting
-   `global_smartstyles.txt` and `global_logos.txt` under `docs/legacy_grab/`.
+   `global_smartstyles.txt` and `global_logos.txt` under
+   `docs/global_data/styles/` and `docs/global_data/logos/` respectively.
 2. Populate `docs/06_global_findings.md` from that inventory and propose only
    evidence-backed entries in `docs/04_global_style_catalogue.md`.
 3. For every in-scope form, capture the report snapshot plus the Smart Form
@@ -114,10 +115,11 @@ framework document.
 
 ## 7. Main repository and conversion-branch contract
 
-`main` is the shared migration hub. It contains governance, global style/logo
-inventories, naming/package standards, `docs/strategy/`, sample forms, the
-central engineering history, and the central bug log. It contains no
-unrelated individual-form business evidence.
+`main` is the shared migration hub. It contains governance, the
+`docs/global_data/` SmartStyle/SE78 library, global style/logo inventories,
+naming/package standards, `docs/strategy/`, sample forms, the central
+engineering history, and the central bug log. It contains no unrelated
+individual-form business evidence.
 
 Each conversion branch contains only its form or wave's immutable legacy
 downloads, read-only program/NACE extraction, risk record, blueprint, build
