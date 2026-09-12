@@ -1,5 +1,19 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v4.4 — visual-shell rendering confirmed; begin the `T_FINAL` table increment
+
+The user confirmed that `bf5d290` renders in SFP/Adobe LiveCycle Designer.
+This proves the recovery method: a real SFP-generated baseline, preserved
+generated Context, and a small XDP-only increment can render reliably after
+abapGit import. The root-cause and durable operating rule are recorded as
+F23 in `docs/BUILD_ISSUES_LOG.md`.
+
+The next bounded increment adds the legacy-specified 14-column line-item
+structure backed by the already-generated `T_FINAL` Context. It does not
+alter the interface or Context and deliberately leaves the uncertain legacy
+column mappings (Open PO, Total Available Stock, and Total Value) subject to
+a real-Purchase-Requisition PDF comparison.
+
 ## v4.3 — capture the generated baseline and add visual shell increment
 
 The SFP-created baseline was exported through abapGit and pushed at

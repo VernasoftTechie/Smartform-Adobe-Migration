@@ -99,6 +99,44 @@
             <font size="11pt" typeface="Courier New"/>
             <bind match="dataRef" ref="$.V_WAERS"/>
          </field>
+         <subform layout="tb" name="line_items" w="290mm" x="5mm" y="65mm">
+            <bind match="none"/>
+            <subform h="9mm" layout="position" name="line_items_header" w="290mm">
+               <bind match="none"/>
+               <draw h="9mm" name="header_slno" w="8mm" x="0mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>S.No</text></value></draw>
+               <draw h="9mm" name="header_matnr" w="25mm" x="8mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Item Code</text></value></draw>
+               <draw h="9mm" name="header_txz01" w="56.6mm" x="33mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Description and Part Number</text></value></draw>
+               <draw h="9mm" name="header_meins" w="11.4mm" x="89.6mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Unit</text></value></draw>
+               <draw h="9mm" name="header_menge" w="22.2mm" x="101mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Req Qty</text></value></draw>
+               <draw h="9mm" name="header_labst" w="24mm" x="123.2mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Present Stock at Hand</text></value></draw>
+               <draw h="9mm" name="header_menge1" w="20.4mm" x="147.2mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Consumption</text></value></draw>
+               <draw h="9mm" name="header_name1" w="19.9mm" x="167.6mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Last Supplier</text></value></draw>
+               <draw h="9mm" name="header_supply_rate" w="16.6mm" x="187.5mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Supply Rate</text></value></draw>
+               <draw h="9mm" name="header_exchange" w="16.1mm" x="204.1mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Exchange Rate</text></value></draw>
+               <draw h="9mm" name="header_gv_value" w="13.9mm" x="220.2mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Open PR</text></value></draw>
+               <draw h="9mm" name="header_labst1" w="13.3mm" x="234.1mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Open PO</text></value></draw>
+               <draw h="9mm" name="header_total" w="19.6mm" x="247.4mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Total Available Stock</text></value></draw>
+               <draw h="9mm" name="header_gv_value1" w="23mm" x="267mm" y="0mm"><font size="10pt" typeface="Times New Roman" weight="bold"/><value><text>Total Value</text></value></draw>
+            </subform>
+            <subform h="6mm" layout="position" name="t_final_row" w="290mm">
+               <occur min="0" max="-1"/>
+               <bind match="dataRef" ref="$.T_FINAL.DATA[*]"/>
+               <field h="6mm" name="slno" w="8mm" x="0mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="SLNO"/></field>
+               <field h="6mm" name="matnr" w="25mm" x="8mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="MATNR"/></field>
+               <field h="6mm" name="txz01" w="56.6mm" x="33mm" y="0mm"><ui><textEdit multiLine="1"/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="TXZ01"/></field>
+               <field h="6mm" name="meins" w="11.4mm" x="89.6mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="MEINS"/></field>
+               <field h="6mm" name="menge" w="22.2mm" x="101mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="MENGE"/></field>
+               <field h="6mm" name="labst" w="24mm" x="123.2mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="LABST"/></field>
+               <field h="6mm" name="menge1" w="20.4mm" x="147.2mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="MENGE1"/></field>
+               <field h="6mm" name="name1" w="19.9mm" x="167.6mm" y="0mm"><ui><textEdit multiLine="1"/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="NAME1"/></field>
+               <field h="6mm" name="supply_rate" w="16.6mm" x="187.5mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="SUPPLY_RATE"/></field>
+               <field h="6mm" name="exchange" w="16.1mm" x="204.1mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="EXCHANGE"/></field>
+               <field h="6mm" name="gv_value" w="13.9mm" x="220.2mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="GV_VALUE"/></field>
+               <field h="6mm" name="labst1" w="13.3mm" x="234.1mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="LABST1"/></field>
+               <field h="6mm" name="total" w="19.6mm" x="247.4mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="TOTAL"/></field>
+               <field h="6mm" name="gv_value1" w="23mm" x="267mm" y="0mm"><ui><textEdit/></ui><font size="10pt" typeface="Courier New"/><bind match="dataRef" ref="GV_VALUE1"/></field>
+            </subform>
+         </subform>
          <?templateDesigner expand 1?></subform>
       <proto/>
       <desc>
