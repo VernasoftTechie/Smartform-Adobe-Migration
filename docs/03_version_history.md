@@ -1,5 +1,14 @@
 # 03 – Smart Form to Adobe Form Migration – Version History
 
+## v5.0 — isolate pilot forms from the new package import scope
+
+Aligned the package definition description with `ZAB_ADOBE` and moved the
+already-worked Hello World and Purchase Requisition SFPF/SFPI/XDP artifacts
+from `/src/` to `docs/reference_examples/sfp_generated_archive/`. Because
+`docs/*` is ignored by `.abapgit.xml`, those forms remain available as
+references but cannot be pulled into the new package. `/src/` now contains
+only the package definition and `ZSF2AF_R_LEGACY_GRAB`.
+
 ## v4.9 — create the shared global-data intake library
 
 Added `docs/global_data/` as the single `main`-branch home for the one-time

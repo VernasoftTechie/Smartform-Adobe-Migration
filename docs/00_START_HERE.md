@@ -28,7 +28,10 @@ below points at what actually exists in this repo today.
 - **Every build issue hit and how it was fixed** (the real "build checklist"): `docs/BUILD_ISSUES_LOG.md`
 - **Full version-by-version history**: `docs/03_version_history.md`
 - **General Adobe Forms design reference** (apply with judgment - see its own maintainer's note): `instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md`
-- **Working real-file references**: `docs/reference_examples/` (Hello World baseline), `docs/reference_examples_z_adt_mm_pr_form/` (a real migrated PR form), `docs/reference_examples_zsd_sodetails/` (a real migrated Sales Order form)
+- **Working real-file references**: `docs/reference_examples/` (archived
+  SFP-generated baseline), `docs/reference_examples_z_adt_mm_pr_form/` (a
+  real migrated PR form), `docs/reference_examples_zsd_sodetails/` (a real
+  migrated Sales Order form)
 - **Legacy-grab tool**: `src/zsf2af_r_legacy_grab.prog.abap` + its output for the pilot form, `docs/legacy_grab/Z_MM_PR_FORM.md` and `docs/legacy_grab/Z_MM_PR_FORM_build_checklist.md`
 
 ---
@@ -62,8 +65,6 @@ instructions/
 
 ```
 src/
-├── zhello_world_form_adt.sfpf.xdp / .sfpf.xml    ← reference baseline
-├── zhello_world_adt.sfpi.xml                     ← reference baseline interface
 └── zsf2af_r_legacy_grab.prog.abap / .prog.xml    ← legacy-grab tool
 ```
 
@@ -115,8 +116,8 @@ Full before/after detail: `docs/BUILD_ISSUES_LOG.md` entries F9-F11 and
 
 ### **Root Template Must Be `<subform name="data">`**
 XFA convention, confirmed against two real reference forms. See
-`src/zhello_world_form_adt.sfpf.xdp` and the SAP-generated replacement once
-it is pushed.
+`docs/reference_examples/sfp_generated_archive/zhello_world_form_adt.sfpf.xdp`
+and the SAP-generated replacement once it is pushed.
 
 ### **All Field Bindings Need `match="dataRef"`**
 ```xml

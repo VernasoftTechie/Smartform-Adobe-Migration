@@ -27,10 +27,11 @@ built to match this shape were rejected by abapGit twice. Keep these files
 as content/structure references only (they're genuine, confirmed-authentic
 exports) — never copy their outer wrapper into `/src/`.
 
-### 2. abapGit-native serialization (`/src/zhello_world_*`) — the real target format
+### 2. archived abapGit-native serialization (`sfp_generated_archive/zhello_world_*`) — the real target format
 
-`src/zhello_world_form_adt.sfpf.xdp`, `src/zhello_world_form_adt.sfpf.xml`,
-`src/zhello_world_adt.sfpi.xml` — pulled directly from a commit the user
+`sfp_generated_archive/zhello_world_form_adt.sfpf.xdp`,
+`sfp_generated_archive/zhello_world_form_adt.sfpf.xml`, and
+`sfp_generated_archive/zhello_world_adt.sfpi.xml` — pulled directly from a commit the user
 made by creating this object in SAP and letting **abapGit itself**
 serialize it (`LCL_OBJECT_SFPF` / `LCL_OBJECT_SFPI`, per the files'
 `serializer` attribute). This is the actual, confirmed-working format:
@@ -52,9 +53,9 @@ serialize it (`LCL_OBJECT_SFPF` / `LCL_OBJECT_SFPI`, per the files'
   `CL_FP_PARAMETERS` and is not something we need to hand-maintain
   alongside the source.
 
-**This is the format every `/src/` file in this repo must follow.**
-`src/z_mm_pr_form_adt.sfpf.xdp` / `.sfpf.xml` /
-`z_mm_pr_form_adt.sfpi.xml` were rebuilt against this exact shape —
+**This is the format every new Adobe artifact placed in `/src/` must follow.**
+The archived `sfp_generated_archive/z_mm_pr_form_adt.sfpf.xdp` /
+`.sfpf.xml` / `z_mm_pr_form_adt.sfpi.xml` pilot was rebuilt against this exact shape —
 see `docs/BUILD_ISSUES_LOG.md` entry F6 and
 `docs/reference_examples_z_adt_mm_pr_form/README.md` for the populated
 (non-trivial) `CL_FP_PARAMETERS`/`CL_FP_CONTEXT` reference this Hello
