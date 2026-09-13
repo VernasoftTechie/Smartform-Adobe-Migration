@@ -50,6 +50,168 @@
                <bind match="dataRef" ref="$.LS_MKPF.MBLNR"/>
             </field>
          </subform>
+         <!-- GRN Date - evidence: ymmgrnnote.md section 3, DATE window
+              "GRN Date: &LS_MKPF-BUDAT&". Bound to bare BUDAT (MKPF's
+              own standard posting-date field) as the most likely match;
+              the captured Context also showed a BUDAT_MKPF at a
+              different tree position whose owner is not yet confirmed -
+              verify this binding renders the right value before trusting
+              it, per F33. -->
+         <subform h="0.6cm" layout="row" name="grn_date_line" w="10cm" x="1cm" y="5.3cm">
+            <bind match="none"/>
+            <draw h="0.6cm" name="lbl_grn_date" w="2.5cm">
+               <value><text>GRN Date:</text></value>
+               <font size="10pt" typeface="Arial" weight="bold"/>
+            </draw>
+            <field h="0.6cm" name="fld_budat" w="4cm">
+               <ui><textEdit/></ui>
+               <font size="10pt" typeface="Arial"/>
+               <bind match="dataRef" ref="$.LS_MKPF.BUDAT"/>
+            </field>
+         </subform>
+         <!-- Company/plant identity - evidence: ymmgrnnote.md section 3,
+              HEADERWINDOW: dynamic LV_BUTXT (company name, already
+              computed in CL_FP_CODING/INITIALIZATION) and
+              LS_T001W-NAME1/STRAS/PFACH/ORT01 (plant address). This is
+              the ALWAYS-CORRECT real-data version, deliberately not the
+              5-way conditional Dangote/Okpella static-text branching
+              (DEP-YMMGRNNOTE-05, %CONDITION1/2/3/5/7/8 per
+              ymmgrnnote_interface_scope_ledger.md) - that needs full
+              business sign-off on condition precedence and exact wording
+              before it replaces this real-data default, per build
+              checklist item 6 ("keep every conditional branch visibly
+              annotated until DEP-YMMGRNNOTE-05 is approved"). -->
+         <subform h="1.8cm" layout="tb" name="company_identity" w="14cm" x="1cm" y="6.1cm">
+            <bind match="none"/>
+            <field h="0.5cm" name="fld_company" w="14cm">
+               <ui><textEdit/></ui>
+               <font size="11pt" typeface="Arial" weight="bold"/>
+               <bind match="dataRef" ref="$.LV_BUTXT"/>
+            </field>
+            <field h="0.5cm" name="fld_plant_name" w="14cm">
+               <ui><textEdit/></ui>
+               <font size="10pt" typeface="Arial"/>
+               <bind match="dataRef" ref="$.LS_T001W.NAME1"/>
+            </field>
+            <subform h="0.5cm" layout="row" name="plant_address_line">
+               <bind match="none"/>
+               <field h="0.5cm" name="fld_plant_stras" w="6cm">
+                  <ui><textEdit/></ui>
+                  <font size="10pt" typeface="Arial"/>
+                  <bind match="dataRef" ref="$.LS_T001W.STRAS"/>
+               </field>
+               <field h="0.5cm" name="fld_plant_pfach" w="3cm">
+                  <ui><textEdit/></ui>
+                  <font size="10pt" typeface="Arial"/>
+                  <bind match="dataRef" ref="$.LS_T001W.PFACH"/>
+               </field>
+               <field h="0.5cm" name="fld_plant_ort01" w="5cm">
+                  <ui><textEdit/></ui>
+                  <font size="10pt" typeface="Arial"/>
+                  <bind match="dataRef" ref="$.LS_T001W.ORT01"/>
+               </field>
+            </subform>
+         </subform>
+         <!-- TEMPLATE window - evidence: byte-offset extracted from
+              ymmgrnnote.xml, nodes %TEXT3 (column 1, 10.66cm) and %TEXT4
+              (column 2, 9.54cm) under %TEMPLATE1 (total 20.20cm, matching
+              build checklist item 3's exact width). Every label/field
+              pairing below is the literal legacy text, typos preserved
+              (WAY_BII_NO, VEND_INV, Loding) since these may be the real
+              customer field names, not to be silently corrected. -->
+         <subform h="6.5cm" layout="row" name="template_block" w="20.20cm" x="1cm" y="8.3cm">
+            <bind match="none"/>
+            <subform h="6.5cm" layout="tb" name="template_col1" w="10.66cm">
+               <bind match="none"/>
+               <font size="9pt" typeface="Arial"/>
+               <subform h="0.5cm" layout="row" name="tpl_supplier"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_supplier" w="5cm"><value><text>Name of the Supplier:</text></value></draw>
+                  <field h="0.5cm" name="fld_supplier" w="5.66cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_LFA1.NAME1"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_waybill"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_waybill" w="5cm"><value><text>Way Bill No. and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_waybill_no" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/></field>
+                  <field h="0.5cm" name="fld_waybill_dt" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BIL_DT"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_invoice"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_invoice" w="5cm"><value><text>Invoice No and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_invoice_no" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VENDOR_INV"/></field>
+                  <field h="0.5cm" name="fld_invoice_dt" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_transporter"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_transporter" w="5cm"><value><text>Transporter Name:</text></value></draw>
+                  <field h="0.5cm" name="fld_transporter" w="5.66cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_vehicle"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_vehicle" w="5cm"><value><text>Vehicle No:</text></value></draw>
+                  <field h="0.5cm" name="fld_vehicle" w="5.66cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_lpr"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lpr" w="5cm"><value><text>LPR No. and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_lpr_no" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BANFN"/></field>
+                  <field h="0.5cm" name="fld_lpr_dt" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BADAT"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_lpo"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lpo" w="5cm"><value><text>LPO No. and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_lpo_no" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.EBELN"/></field>
+                  <field h="0.5cm" name="fld_lpo_dt" w="2.83cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.BEDAT"/></field>
+               </subform>
+               <!-- Evidence literally reads "&ls_eban-MFRPN&" for
+                    "Department Name" - MFRPN (Manufacturer Part Number)
+                    is an unusual field for a department, but preserved
+                    exactly as evidenced rather than substituted; flag for
+                    functional-owner confirmation, not silently changed. -->
+               <subform h="0.5cm" layout="row" name="tpl_department"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_department" w="5cm"><value><text>Department Name:</text></value></draw>
+                  <field h="0.5cm" name="fld_department" w="5.66cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.MFRPN"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_section"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_section" w="5cm"><value><text>Section Name or Code:</text></value></draw>
+                  <field h="0.5cm" name="fld_section" w="5.66cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
+               </subform>
+            </subform>
+            <subform h="6.5cm" layout="tb" name="template_col2" w="9.54cm">
+               <bind match="none"/>
+               <font size="9pt" typeface="Arial"/>
+               <subform h="0.5cm" layout="row" name="tpl_awb_no"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_awb_no" w="5cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
+                  <field h="0.5cm" name="fld_awb_no" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_awb_dt" w="5cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_awb_dt" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_ship"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_ship" w="5cm"><value><text>Name of Ship/Flight:</text></value></draw>
+                  <field h="0.5cm" name="fld_ship" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_clearing"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_clearing" w="5cm"><value><text>Name of Clearing Agent:</text></value></draw>
+                  <field h="0.5cm" name="fld_clearing" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_lc"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lc" w="5cm"><value><text>Letter of Credit(LC)No:</text></value></draw>
+                  <field h="0.5cm" name="fld_lc" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.LC_NO"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_formm"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_formm" w="5cm"><value><text>Form M No:</text></value></draw>
+                  <field h="0.5cm" name="fld_formm" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.FORM_M"/></field>
+               </subform>
+               <subform h="0.5cm" layout="row" name="tpl_container"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_container" w="5cm"><value><text>Container No. or Mark No:</text></value></draw>
+                  <field h="0.5cm" name="fld_container" w="4.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CONTAINER"/></field>
+               </subform>
+               <!-- $.IV_WAERS / $.IV_KURSF are bare - both are top-level
+                    interface import parameters, not nested under any
+                    structure, matching the pilot's own $.V_WAERS
+                    convention. -->
+               <subform h="0.5cm" layout="row" name="tpl_currency"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_currency" w="5cm"><value><text>Currency/Exchange Rate:</text></value></draw>
+                  <field h="0.5cm" name="fld_waers" w="2cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.IV_WAERS"/></field>
+                  <field h="0.5cm" name="fld_kursf" w="2.54cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.IV_KURSF"/></field>
+               </subform>
+            </subform>
+         </subform>
       </subform>
       <proto/>
       <desc>
