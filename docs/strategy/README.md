@@ -28,6 +28,7 @@ stay in the relevant conversion branch.
 | [S01 — SFP-generated baseline and safe abapGit capture](S01_sfp_generated_baseline.md) | Every form | F20-F23 |
 | [S02 — A4 landscape fixed-window layout](S02_landscape_fixed_layout.md) | Wide forms and 29 cm tables | F24 |
 | [S03 — Purchase Requisition composite layout](S03_pr_composite_layout.md) | Header, repeating lines, watermark, date, footer, signatures | `Z_MM_PR_FORM_ADT` |
+| [S04 — Interface hand-authoring boundary](S04_interface_hand_authoring_boundary.md) | Every form's `.sfpi.xml` | F28-F30 |
 
 ## Promotion standard
 
