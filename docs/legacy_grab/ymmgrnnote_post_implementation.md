@@ -84,13 +84,16 @@ their own independent script. One script can't accidentally show two
 branches at once or none; N independent scripts can, if the
 discriminator's value set and each script's check ever drift apart.
 
-**Not yet confirmed - do this before implementing**: the exact condition
-extraction above (`ymmgrnnote_interface_scope_ledger.md`) found two
-branches (`%CONDITION4`, `%CONDITION6`) with a dummy `AND 1=2` clause,
-which SmartForms uses to mark a branch disabled without deleting it.
-Confirm in SE71 (Form Painter, Alternative node) which branches actually
-show as enabled before choosing `GV_BRAND_VARIANT`'s real value set -
-this is DEP-05's open item, not something to resolve from XML alone.
+**Resolved 2026-09-13**: user confirmed the two dummy-clause branches
+(`%CONDITION4`, `%CONDITION6`) are voided - excluded from the design.
+`GV_BRAND_VARIANT`'s value set is built from the remaining live
+conditions only (`%CONDITION1`, `%CONDITION2`, `%CONDITION5`,
+`%CONDITION8` for plant/country; `%CONDITION3`/`%CONDITION7` for
+`GV_KSCHL`). Confirming which of those live conditions share the same
+Alternative node group (i.e., are mutually exclusive with each other)
+is still needed before the value set is final - do this when the
+branding block is actually built, after the interface/Context baseline
+is captured.
 
 ## SAP validation steps
 

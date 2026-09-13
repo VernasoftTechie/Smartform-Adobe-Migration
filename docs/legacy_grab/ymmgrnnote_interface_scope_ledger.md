@@ -215,9 +215,9 @@ disabled branch typically renders greyed-out in the Form Painter tree).
 | `%CONDITION1` | `WERKS = '1000' OR WERKS = '1100'` | `NA` ("Not Available") | Needs SE71 visual check - unclear purpose given the label |
 | `%CONDITION2` | `WERKS <> '1000' AND WERKS <> '1100' AND WERKS <> '1021'` | (fallback branch, exact text not yet isolated) | Needs SE71 visual check |
 | `%CONDITION3` | `GV_KSCHL = 'ZET1'` | (output-type gate, not plant-specific) | Live - no dummy clause |
-| `%CONDITION4` | `WERKS<>'1000' AND WERKS<>'1100' AND LAND1<>'TZ' AND WERKS<>'1021' AND 1=2` | `EXCP_CC_1000_1100_1021` | **Disabled** (dummy `1=2` clause) |
+| `%CONDITION4` | `WERKS<>'1000' AND WERKS<>'1100' AND LAND1<>'TZ' AND WERKS<>'1021' AND 1=2` | `EXCP_CC_1000_1100_1021` | **Voided** - user-confirmed 2026-09-13, do not implement |
 | `%CONDITION5` | `(WERKS='1000' OR WERKS='1100') AND LAND1<>'TZ'` | `EXCP_1100_TZ_1021` | Live - no dummy clause |
-| `%CONDITION6` | `WERKS='1021' AND 1=2` | `CC_1021` (Okpella - "OKPELLA CEMENT LIMITED / KM 158, Benin-Abuja Express Road / Okpella Edo State") | **Disabled** (dummy `1=2` clause) |
+| `%CONDITION6` | `WERKS='1021' AND 1=2` | `CC_1021` (Okpella - "OKPELLA CEMENT LIMITED / KM 158, Benin-Abuja Express Road / Okpella Edo State") | **Voided** - user-confirmed 2026-09-13, do not implement |
 | `%CONDITION7` | `GV_KSCHL = 'WE01'` | (output-type gate, not plant-specific) | Live - no dummy clause |
 | `%CONDITION8` | `WERKS = '1021'` (clean, same plant as #6 but no dummy clause) | Not yet isolated - likely the real active gate for the Okpella branch, since #6's version is disabled | Live - needs confirming this is what actually gates `CC_1021` |
 | `%CONDITION11` | `LAND1 <> 'TZ'` | `%TEXT38` = "Container No. or Mark No: &LS_MKPF-CONTAINER&" | **Unrelated to branding** - this is in the `TEMPLATE` window, not `HEADERWINDOW` |
@@ -227,12 +227,16 @@ Fields referenced: `LS_T001W-WERKS` (plant), `LS_T001W-LAND1` (country),
 `OP1`/`OP2` pair references any field not already in the evidenced
 interface contract.
 
-**This is exactly `DEP-YMMGRNNOTE-05`'s open item** - the business owner
-must confirm which branches are genuinely live (matching what SE71 shows
-as enabled) before any of this becomes Adobe conditional logic. Do not
-guess based on the XML condition text alone; the two dummy-clause
-branches prove that condition text and actual live behavior can diverge
-in this specific form.
+**Resolved 2026-09-13**: user confirmed both dummy-clause branches
+(`%CONDITION4`, `%CONDITION6`) are voided and not needed in the design.
+The live branding/condition set is `%CONDITION1`, `%CONDITION2`,
+`%CONDITION3`, `%CONDITION5`, `%CONDITION7`, `%CONDITION8`. `%CONDITION11`
+remains out of scope for branding (it's the `TEMPLATE` window's Container
+No. condition). Still open: confirming exactly which Alternative node
+group each live condition belongs to (i.e., which ones are mutually
+exclusive with which), needed before `GV_BRAND_VARIANT`'s value set can
+be finalized - a layout-stage task, not a blocker for interface/Context
+work.
 
 ## Per-row vs one-time execution — a design decision, not free evidence
 
