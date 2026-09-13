@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <abapGit version="v1.0.0" serializer="LCL_OBJECT_SFPI" serializer_version="v1.0.0">
  <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml">
   <asx:values>
@@ -38,8 +38,28 @@
      <INTERFACE_DATA href="#o1"/>
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_GLOBAL_DEFINITIONS classVersion="1">
-     <GLOBAL_DATA/>
-     <TYPES/>
+     <GLOBAL_DATA>
+      <SFPGDATA>
+       <NAME>WA_HEADER</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>W_HEADER</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+     </GLOBAL_DATA>
+     <TYPES>
+      <FPCLINE> TYPES: BEGIN OF w_header,</FPCLINE>
+      <FPCLINE>        rsnum TYPE rkpf-rsnum,</FPCLINE>
+      <FPCLINE>        rsdat TYPE rkpf-rsdat,</FPCLINE>
+      <FPCLINE>*        USNAM TYPE RKPF-USNAM,</FPCLINE>
+      <FPCLINE>*        NAME_FIRST TYPE ADRP-NAME_FIRST,</FPCLINE>
+      <FPCLINE>*        NAME_LAST TYPE ADRP-NAME_LAST,</FPCLINE>
+      <FPCLINE>        aufnr TYPE resb-aufnr,</FPCLINE>
+      <FPCLINE>        ingrp	 TYPE	ingrp,</FPCLINE>
+      <FPCLINE>        vaplz	 TYPE	gewrk,</FPCLINE>
+      <FPCLINE>        END OF w_header,</FPCLINE>
+      <FPCLINE>        i_header TYPE TABLE OF w_header.</FPCLINE>
+     </TYPES>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
    </cls:CL_FP_GLOBAL_DEFINITIONS>
@@ -49,96 +69,6 @@
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_PARAMETERS classVersion="1">
      <IMPORT_PARAMETERS>
-      <SFPIOPAR>
-       <NAME>ARCHIVE_INDEX</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>TOA_DARA</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>ARCHIVE_INDEX_TAB</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>TSFDARA</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>ARCHIVE_PARAMETERS</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>ARC_PARAMS</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>CONTROL_PARAMETERS</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SSFCTRLOP</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>MAIL_APPL_OBJ</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SWOTOBJID</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>MAIL_RECIPIENT</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SWOTOBJID</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>MAIL_SENDER</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SWOTOBJID</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>OUTPUT_OPTIONS</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SSFCOMPOP</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>USER_SETTINGS</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>TDBOOL</TYPENAME>
-       <OPTIONAL>X</OPTIONAL>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL>&apos;X&apos;</DEFAULTVAL>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
       <SFPIOPAR>
        <NAME>IV_PLANT_NAME</NAME>
        <TYPING>TYPE</TYPING>
@@ -170,38 +100,7 @@
        <CONSTANT/>
       </SFPIOPAR>
      </IMPORT_PARAMETERS>
-     <EXPORT_PARAMETERS>
-      <SFPIOPAR>
-       <NAME>DOCUMENT_OUTPUT_INFO</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SSFCRESPD</TYPENAME>
-       <OPTIONAL/>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>JOB_OUTPUT_INFO</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SSFCRESCL</TYPENAME>
-       <OPTIONAL/>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>JOB_OUTPUT_OPTIONS</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>SSFCRESOP</TYPENAME>
-       <OPTIONAL/>
-       <BYVALUE>X</BYVALUE>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-     </EXPORT_PARAMETERS>
+     <EXPORT_PARAMETERS/>
      <TABLE_PARAMETERS>
       <SFPIOPAR>
        <NAME>IT_FINAL</NAME>
