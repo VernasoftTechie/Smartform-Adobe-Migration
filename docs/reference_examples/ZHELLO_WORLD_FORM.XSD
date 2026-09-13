@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xfa="http://www.xfa.org/schema/xfa-template/2.2/" xmlns:xfadata="http://www.xfa.org/schema/xfa-data/1.0/" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+ <xsd:import namespace="http://www.xfa.org/schema/xfa-data/1.0/"/>
+ <xsd:element name="data">
+  <xsd:complexType>
+   <xsd:sequence/>
+  </xsd:complexType>
+ </xsd:element>
+</xsd:schema>
