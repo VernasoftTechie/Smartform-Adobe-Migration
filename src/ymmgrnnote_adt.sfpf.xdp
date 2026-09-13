@@ -200,134 +200,138 @@
                      <bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/>
                   </field>
                </subform>
-               <subform h="0.63cm" layout="row" name="tpl_invoice">
+               <!-- F44: every row below rebuilt with explicit x/y on
+                    every label/field, per direct instruction - no more
+                    reliance on "row" auto-flow anywhere in this
+                    template, removing the ambiguity entirely rather
+                    than keep diagnosing it. Label always x=0 w=5.5cm;
+                    single-field rows put the field at x=5.5cm; two-field
+                    rows (Invoice/LPR/LPO) put field 1 at x=5.5cm and
+                    field 2 at x=8.08cm (5.5+2.58), ending at 10.66cm -
+                    the column's own width, matching the original
+                    evidenced geometry exactly, just positioned
+                    explicitly instead of via "row". -->
+               <subform h="0.63cm" layout="position" name="tpl_invoice">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_invoice" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_invoice" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="770EBD67-B9F9-4793-898D-F1E3805C7F15">Invoice No and Date:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 20 Invoice No and Date: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_invoice_no" w="2.58cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_invoice_no" w="2.58cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.VENDOR_INV"/>
                   </field>
-                  <field h="0.63cm" name="fld_invoice_dt" w="2.58cm">
+                  <field h="0.63cm" name="fld_invoice_dt" w="2.58cm" x="8.08cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_transporter">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_transporter">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_transporter" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_transporter" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="77B2D477-D2C3-426F-B09F-3CB79FEDF7A8">Transporter Name:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 17 Transporter Name: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_transporter" w="5.16cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_transporter" w="5.16cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_vehicle">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_vehicle">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_vehicle" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_vehicle" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="E5A95949-835F-49BD-BE17-B1DEB219EC7C">Vehicle No:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 11 Vehicle No: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_vehicle" w="5.16cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_vehicle" w="5.16cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_lpr">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_lpr">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_lpr" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_lpr" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="21DDDF17-F722-4EEA-A0DF-9EE9C41E5A73">LPR No. and Date:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 17 LPR No. and Date: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_lpr_no" w="2.58cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_lpr_no" w="2.58cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_EBAN.BANFN"/>
                   </field>
-                  <field h="0.63cm" name="fld_lpr_dt" w="2.58cm">
+                  <field h="0.63cm" name="fld_lpr_dt" w="2.58cm" x="8.08cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_EBAN.BADAT"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_lpo">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_lpo">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_lpo" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_lpo" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="C421D2FE-BBF5-4481-9986-8D0C1CBD2CF4">LPO No. and Date:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 17 LPO No. and Date: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_lpo_no" w="2.58cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_lpo_no" w="2.58cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_EKKO.EBELN"/>
                   </field>
-                  <field h="0.63cm" name="fld_lpo_dt" w="2.58cm">
+                  <field h="0.63cm" name="fld_lpo_dt" w="2.58cm" x="8.08cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_EKKO.BEDAT"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
+               </subform>
                <!-- Evidence literally reads "&ls_eban-MFRPN&" for
                     "Department Name" - MFRPN (Manufacturer Part Number)
                     is an unusual field for a department, but preserved
                     exactly as evidenced rather than substituted; flag for
                     functional-owner confirmation, not silently changed. -->
-               <subform h="0.63cm" layout="row" name="tpl_department">
+               <subform h="0.63cm" layout="position" name="tpl_department">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_department" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_department" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="2DA72FE8-A83B-438D-BBEF-3F2FF153F894">Department Name:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 16 Department Name: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_department" w="5.16cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_department" w="5.16cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_EBAN.MFRPN"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_section">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_section">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_section" w="5.5cm">
+                  <draw h="0.63cm" name="lbl_section" w="5.5cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="7D5D07CE-C2A3-479C-A802-5D9662072B1F">Section Name or Code:</text>
                      </value>
-                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 21 Section Name or Code: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_section" w="5.16cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_section" w="5.16cm" x="5.5cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_EBAN.BEDNR"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
+               </subform>
                <?templateDesigner expand 1?></subform>
             <!-- template_col2 height raised 4.0->4.8cm: the two rows
                  below are 0.9cm instead of the uniform 0.5cm (see their
@@ -343,138 +347,133 @@
                     labels, or truncating the evidenced legacy wording,
                     give exactly these two rows enough height (0.9cm) to
                     show their natural two-line wrap cleanly. -->
-               <subform h="0.9cm" layout="row" name="tpl_awb_no">
+               <!-- F44: same explicit-x/y rebuild as column 1. Label
+                    always x=0 w=6cm; field at x=6cm - matches the
+                    column's own 9.54cm width (6+3.54) exactly.
+                    tpl_currency's 2 fields: x=6cm and x=7.5cm
+                    (6+1.5), ending at 9.54cm. -->
+               <subform h="0.9cm" layout="position" name="tpl_awb_no">
                   <bind match="none"/>
-                  <draw h="0.9cm" name="lbl_awb_no" w="6cm">
+                  <draw h="0.9cm" name="lbl_awb_no" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="BDE9D445-BF3B-44A7-94FA-AC3AA58A4E9E">Air Way Bill No/Bill of Loding No:</text>
                      </value>
-                     <?renderCache.bounds 170079 25512 0 0 0 0 0 0?>
-                     <?renderCache.textRun 24 Air Way Bill No/Bill of  0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?>
-                     <?renderCache.textRun 10 Loding No: 0 0 19010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.9cm" name="fld_awb_no" w="3.54cm">
+                  </draw>
+                  <field h="0.9cm" name="fld_awb_no" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.9cm" layout="row" name="tpl_awb_dt">
+               </subform>
+               <subform h="0.9cm" layout="position" name="tpl_awb_dt">
                   <bind match="none"/>
-                  <draw h="0.9cm" name="lbl_awb_dt" w="6cm">
+                  <draw h="0.9cm" name="lbl_awb_dt" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="DA1CB333-7B0D-4C9D-B90C-832383592772">Air Way Bill/Bill of Loading Date:</text>
                      </value>
-                     <?renderCache.bounds 170079 25512 0 0 0 0 0 0?>
-                     <?renderCache.textRun 29 Air Way Bill/Bill of Loading  0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?>
-                     <?renderCache.textRun 5 Date: 0 0 19010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.9cm" name="fld_awb_dt" w="3.54cm">
+                  </draw>
+                  <field h="0.9cm" name="fld_awb_dt" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_ship">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_ship">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_ship" w="6cm">
+                  <draw h="0.63cm" name="lbl_ship" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="B67BC164-73AA-449E-9D6C-BF0B3054C571">Name of Ship/Flight:</text>
                      </value>
-                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 20 Name of Ship/Flight: 0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_ship" w="3.54cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_ship" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_clearing">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_clearing">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_clearing" w="6cm">
+                  <draw h="0.63cm" name="lbl_clearing" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="B29D7C11-3902-42B0-AFDD-680CA248D811">Name of Clearing Agent:</text>
                      </value>
-                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 23 Name of Clearing Agent: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_clearing" w="3.54cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_clearing" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_lc">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_lc">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_lc" w="6cm">
+                  <draw h="0.63cm" name="lbl_lc" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="22B18E9E-C51D-4027-AFA7-99A2AEB3AC1D">Letter of Credit(LC)No:</text>
                      </value>
-                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 23 Letter of Credit(LC)No: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_lc" w="3.54cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_lc" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.LC_NO"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_formm">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_formm">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_formm" w="6cm">
+                  <draw h="0.63cm" name="lbl_formm" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="B5B7627A-512B-4CFA-A714-6314FAC45859">Form M No:</text>
                      </value>
-                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 10 Form M No: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_formm" w="3.54cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_formm" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.FORM_M"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" layout="row" name="tpl_container">
+               </subform>
+               <subform h="0.63cm" layout="position" name="tpl_container">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_container" w="6cm">
+                  <draw h="0.63cm" name="lbl_container" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="A40B88D6-97E2-4211-AF5A-83890D205AC7">Container No. or Mark No:</text>
                      </value>
-                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 25 Container No. or Mark No: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_container" w="3.54cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_container" w="3.54cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.LS_MKPF.CONTAINER"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
+               </subform>
                <!-- $.IV_WAERS / $.IV_KURSF are bare - both are top-level
                     interface import parameters, not nested under any
                     structure, matching the pilot's own $.V_WAERS
                     convention. -->
-               <subform h="0.63cm" layout="row" name="tpl_currency">
+               <subform h="0.63cm" layout="position" name="tpl_currency">
                   <bind match="none"/>
-                  <draw h="0.63cm" name="lbl_currency" w="6cm">
+                  <draw h="0.63cm" name="lbl_currency" w="6cm" x="0cm" y="0cm">
                      <value>
                         <text xliff:rid="A80B4ECB-4CB3-4F18-81FE-906CF8F63A20">Currency/Exchange Rate:</text>
                      </value>
-                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
-                     <?renderCache.textRun 23 Currency/Exchange Rate: 0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
-                  <field h="0.63cm" name="fld_waers" w="1.5cm">
+                  </draw>
+                  <field h="0.63cm" name="fld_waers" w="1.5cm" x="6cm" y="0cm">
                      <ui>
                         <textEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.IV_WAERS"/>
                   </field>
-                  <field h="0.63cm" name="fld_kursf" w="2.04cm">
+                  <field h="0.63cm" name="fld_kursf" w="2.04cm" x="7.5cm" y="0cm">
                      <ui>
                         <numericEdit/>
                      </ui>
                      <bind match="dataRef" ref="$.IV_KURSF"/>
                   </field>
-                  <?templateDesigner expand 1?></subform>
+               </subform>
                <?templateDesigner expand 1?></subform>
             <?templateDesigner expand 1?></subform>
 
