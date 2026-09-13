@@ -76,6 +76,16 @@ explicitly deferred that decision, not settled it.
 
 ## Step 2 — Design the Adobe Form
 
+**Mandatory, before writing any XDP content:** read the full strategy
+catalogue at `docs/strategy/README.md` (S01-S07). It is not optional
+background reading — it is the accumulated set of standing rules this
+program has already paid for in real debugging rounds, most expensively
+S06/S07 (explicit `x`/`y` position by default, and the reusable pattern
+library) after three separate rounds of overlap defects on one template
+block alone. Author every row, table, totals line, and signature block
+by copying the closest matching S07 pattern, not by re-deriving a
+layout approach from scratch.
+
 **Standard implementation rule, confirmed 2026-09-12:** legacy exports remain
 the design source, but SAP SFP/Adobe LiveCycle Designer creates and saves the
 initial Adobe Form layout. Earlier hand-authored SFPF/XDP baselines for the

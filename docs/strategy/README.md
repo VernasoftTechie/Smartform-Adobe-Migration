@@ -30,6 +30,8 @@ stay in the relevant conversion branch.
 | [S03 — Purchase Requisition composite layout](S03_pr_composite_layout.md) | Header, repeating lines, watermark, date, footer, signatures | `Z_MM_PR_FORM_ADT` |
 | [S04 — Interface hand-authoring boundary](S04_interface_hand_authoring_boundary.md) | Every form's `.sfpi.xml` | F28-F30 |
 | [S05 — Diff after every native SFP/Designer save](S05_post_native_edit_diff_discipline.md) | Every form, after every native SFP/Designer edit | F41 |
+| [S06 — Explicit `x`/`y` position is the default for every row](S06_explicit_position_layout_default.md) | Every form's `.sfpf.xdp`, from the first line written | F35, F41, F44 |
+| [S07 — Reusable XDP patterns](S07_reusable_xdp_patterns.md) | Every form — copy-paste library for rows, tables, totals, signatures, page footers | F34-F44, pilot `Z_MM_PR_FORM_ADT` |
 
 ## Promotion standard
 
