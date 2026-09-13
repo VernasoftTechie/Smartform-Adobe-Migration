@@ -152,15 +152,7 @@
        <CONSTANT/>
       </SFPGDATA>
      </GLOBAL_DATA>
-     <TYPES>
-      <SFPGDATA>
-       <NAME>LT_MSEG_1</NAME>
-       <TYPING>TYPE</TYPING>
-       <TYPENAME>ZEXTRA_FIELD</TYPENAME>
-       <DEFAULTVAL/>
-       <CONSTANT/>
-      </SFPGDATA>
-     </TYPES>
+     <TYPES/>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
    </cls:CL_FP_GLOBAL_DEFINITIONS>
@@ -415,48 +407,7 @@
        <CONSTANT/>
       </SFPIOPAR>
      </TABLE_PARAMETERS>
-     <EXCEPTIONS>
-      <SFPIOPAR>
-       <NAME>FORMATTING_ERROR</NAME>
-       <TYPING/>
-       <TYPENAME/>
-       <OPTIONAL/>
-       <BYVALUE/>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>INTERNAL_ERROR</NAME>
-       <TYPING/>
-       <TYPENAME/>
-       <OPTIONAL/>
-       <BYVALUE/>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>SEND_ERROR</NAME>
-       <TYPING/>
-       <TYPENAME/>
-       <OPTIONAL/>
-       <BYVALUE/>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-      <SFPIOPAR>
-       <NAME>USER_CANCELED</NAME>
-       <TYPING/>
-       <TYPENAME/>
-       <OPTIONAL/>
-       <BYVALUE/>
-       <DEFAULTVAL/>
-       <STANDARD>X</STANDARD>
-       <CONSTANT/>
-      </SFPIOPAR>
-     </EXCEPTIONS>
+     <EXCEPTIONS/>
     </CL_FP_PARAMETERS>
    </cls:CL_FP_PARAMETERS>
    <cls:CL_FP_CODING id="o5">
