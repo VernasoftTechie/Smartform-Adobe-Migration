@@ -135,7 +135,7 @@
               needing per-row exceptions. template_col1 (9 rows) is
               4.5cm tall, template_col2 (8 rows) is 4.0cm - template_block
               sized to the taller of the two. -->
-         <subform h="4.5cm" layout="position" name="template_block" w="20.20cm" x="0.4cm" y="8.3cm">
+         <subform h="4.8cm" layout="position" name="template_block" w="20.20cm" x="0.4cm" y="8.3cm">
             <bind match="none"/>
             <subform h="4.5cm" layout="tb" name="template_col1" w="10.66cm" x="0cm" y="0cm">
                <bind match="none"/>
@@ -186,16 +186,27 @@
                   <field h="0.5cm" name="fld_section" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
                </subform>
             </subform>
-            <subform h="4.0cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
+            <!-- template_col2 height raised 4.0->4.8cm: the two rows
+                 below are 0.9cm instead of the uniform 0.5cm (see their
+                 own comment). -->
+            <subform h="4.8cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
                <bind match="none"/>
                <font size="7pt" typeface="Arial"/>
-               <subform h="0.5cm" layout="row" name="tpl_awb_no"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
-                  <field h="0.5cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
+               <!-- These two labels are the outliers: even at 7pt they
+                    don't fit 6cm on one line (confirmed - every other
+                    label in this template does fit at 7pt/0.5cm, only
+                    these two still showed the overflow "+" badge).
+                    Rather than keep shrinking font project-wide for two
+                    labels, or truncating the evidenced legacy wording,
+                    give exactly these two rows enough height (0.9cm) to
+                    show their natural two-line wrap cleanly. -->
+               <subform h="0.9cm" layout="row" name="tpl_awb_no"><bind match="none"/>
+                  <draw h="0.9cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
+                  <field h="0.9cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
                </subform>
-               <subform h="0.5cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
-                  <field h="0.5cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
+               <subform h="0.9cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
+                  <draw h="0.9cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
+                  <field h="0.9cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
                </subform>
                <subform h="0.5cm" layout="row" name="tpl_ship"><bind match="none"/>
                   <draw h="0.5cm" name="lbl_ship" w="6cm"><value><text>Name of Ship/Flight:</text></value></draw>
