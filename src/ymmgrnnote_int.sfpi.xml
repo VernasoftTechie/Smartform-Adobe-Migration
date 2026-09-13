@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <abapGit version="v1.0.0" serializer="LCL_OBJECT_SFPI" serializer_version="v1.0.0">
  <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml">
   <asx:values>
@@ -46,8 +46,121 @@
        <DEFAULTVAL/>
        <CONSTANT/>
       </SFPGDATA>
+      <SFPGDATA>
+       <NAME>WA_MSEG</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ZEXTRA_FIELD</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>LV_UNIT</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ZERFMG</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>TOT_AMNT</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>DMBTR</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>MONTH</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>T247-KTX</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>DATE</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>CHAR20</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>FINAL_AMT</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>DMBTR</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>FINAL_AMT1</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>DMBTR</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>VAT</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>KWERT</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>DIS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>KWERT</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>SUM</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>BNBTR</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>LV_DMBTR</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>BNBTR</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>LV_BUTXT</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>T001-BUTXT</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>GV_KSCHL</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>KSCHL</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>LV_NAME</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>STRING</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>LV_UNIT1</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ZERFMG</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
      </GLOBAL_DATA>
-     <TYPES/>
+     <TYPES>
+      <SFPGDATA>
+       <NAME>LT_MSEG_1</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ZEXTRA_FIELD</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+     </TYPES>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
    </cls:CL_FP_GLOBAL_DEFINITIONS>
@@ -67,10 +180,283 @@
        <STANDARD/>
        <CONSTANT/>
       </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>ARCHIVE_INDEX</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>TOA_DARA</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>ARCHIVE_INDEX_TAB</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>TSFDARA</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>ARCHIVE_PARAMETERS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ARC_PARAMS</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>CONTROL_PARAMETERS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SSFCTRLOP</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>MAIL_APPL_OBJ</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SWOTOBJID</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>MAIL_RECIPIENT</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SWOTOBJID</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>MAIL_SENDER</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SWOTOBJID</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>OUTPUT_OPTIONS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SSFCOMPOP</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>USER_SETTINGS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>TDBOOL</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL>X</DEFAULTVAL>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_MSEG</NAME>
+       <TYPING>LIKE</TYPING>
+       <TYPENAME>ZEXTRA_FIELD</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_ADRC</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ADRC</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_T001W</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>T001W</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_T001</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>T001</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_EBAN</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>EBAN</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_EKKO</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>EKKO</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LV_MAKTX</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>MAKTX</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_LFA1</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>LFA1</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>IV_WAERS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>WAERS</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>IV_KURSF</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>BAPICURR_D</TYPENAME>
+       <OPTIONAL>X</OPTIONAL>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
      </IMPORT_PARAMETERS>
-     <EXPORT_PARAMETERS/>
-     <TABLE_PARAMETERS/>
-     <EXCEPTIONS/>
+     <EXPORT_PARAMETERS>
+      <SFPIOPAR>
+       <NAME>DOCUMENT_OUTPUT_INFO</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SSFCRESPD</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>JOB_OUTPUT_INFO</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SSFCRESCL</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>JOB_OUTPUT_OPTIONS</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>SSFCRESOP</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE>X</BYVALUE>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+     </EXPORT_PARAMETERS>
+     <TABLE_PARAMETERS>
+      <SFPIOPAR>
+       <NAME>LT_MSEG</NAME>
+       <TYPING>LIKE</TYPING>
+       <TYPENAME>ZEXTRA_FIELD</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+     </TABLE_PARAMETERS>
+     <EXCEPTIONS>
+      <SFPIOPAR>
+       <NAME>FORMATTING_ERROR</NAME>
+       <TYPING/>
+       <TYPENAME/>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>INTERNAL_ERROR</NAME>
+       <TYPING/>
+       <TYPENAME/>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>SEND_ERROR</NAME>
+       <TYPING/>
+       <TYPENAME/>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>USER_CANCELED</NAME>
+       <TYPING/>
+       <TYPENAME/>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD>X</STANDARD>
+       <CONSTANT/>
+      </SFPIOPAR>
+     </EXCEPTIONS>
     </CL_FP_PARAMETERS>
    </cls:CL_FP_PARAMETERS>
    <cls:CL_FP_CODING id="o5">
@@ -79,14 +465,64 @@
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_CODING classVersion="1">
      <INPUT_PARAMETERS>
-      <FPPARAMETER>LV_MBLNR</FPPARAMETER>
+      <FPPARAMETER>GV_KSCHL</FPPARAMETER>
+      <FPPARAMETER>LS_MKPF</FPPARAMETER>
+      <FPPARAMETER>LV_NAME</FPPARAMETER>
+      <FPPARAMETER>LS_MSEG</FPPARAMETER>
      </INPUT_PARAMETERS>
      <OUTPUT_PARAMETERS>
-      <FPPARAMETER>LV_MBLNR</FPPARAMETER>
+      <FPPARAMETER>GV_KSCHL</FPPARAMETER>
+      <FPPARAMETER>LV_NAME</FPPARAMETER>
+      <FPPARAMETER>LV_BUTXT</FPPARAMETER>
+      <FPPARAMETER>MONTH</FPPARAMETER>
+      <FPPARAMETER>DATE</FPPARAMETER>
      </OUTPUT_PARAMETERS>
      <INITIALIZATION>
+      <FPCLINE>IMPORT p1 TO gv_kschl FROM MEMORY ID &apos;YSN_YM07DRAUS&apos;.</FPCLINE>
+      <FPCLINE>FREE MEMORY ID &apos;YSN_YM07DRAUS&apos;.</FPCLINE>
       <FPCLINE/>
-      <FPCLINE>Lv_mblnr = &apos;12345&apos;.</FPCLINE>
+      <FPCLINE>IF gv_kschl = &apos;WE01&apos;.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  DATA: lv_pers_no TYPE ad_persnum.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  CLEAR lv_name.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  SELECT SINGLE persnumber</FPCLINE>
+      <FPCLINE>    FROM usr21</FPCLINE>
+      <FPCLINE>    INTO lv_pers_no</FPCLINE>
+      <FPCLINE>    WHERE bname = ls_mkpf-usnam.</FPCLINE>
+      <FPCLINE>  IF sy-subrc = 0.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>    SELECT SINGLE name_text</FPCLINE>
+      <FPCLINE>      FROM adrp</FPCLINE>
+      <FPCLINE>      INTO lv_name</FPCLINE>
+      <FPCLINE>      WHERE persnumber = lv_pers_no.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>select single  butxt from t001 into lv_butxt where bukrs = ls_mseg-bukrs.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CALL FUNCTION &apos;ZABF_ISP_GET_MONTH_NAME&apos;</FPCLINE>
+      <FPCLINE>  EXPORTING</FPCLINE>
+      <FPCLINE>   DATE               = ls_mkpf-bldat</FPCLINE>
+      <FPCLINE>    LANGUAGE           = SY-LANGU</FPCLINE>
+      <FPCLINE> IMPORTING</FPCLINE>
+      <FPCLINE>   SHORTTEXT          = MONTH</FPCLINE>
+      <FPCLINE> EXCEPTIONS</FPCLINE>
+      <FPCLINE>   CALENDAR_ID        = 1</FPCLINE>
+      <FPCLINE>   DATE_ERROR         = 2</FPCLINE>
+      <FPCLINE>   NOT_FOUND          = 3</FPCLINE>
+      <FPCLINE>   WRONG_INPUT        = 4</FPCLINE>
+      <FPCLINE>   OTHERS             = 5</FPCLINE>
+      <FPCLINE>          .</FPCLINE>
+      <FPCLINE>IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CONCATENATE ls_mkpf-bldat+6(2) &apos;-&apos; month &apos;-&apos; ls_mkpf-bldat+0(4)</FPCLINE>
+      <FPCLINE>   into date.</FPCLINE>
      </INITIALIZATION>
      <FORMS/>
     </CL_FP_CODING>
