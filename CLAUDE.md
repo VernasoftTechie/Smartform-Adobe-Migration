@@ -16,6 +16,17 @@ phase plan), [`docs/02_legacy_grab_spec.md`](docs/02_legacy_grab_spec.md)
 [`docs/05_individual_form_conversion_framework.md`](docs/05_individual_form_conversion_framework.md)
 (the per-form design procedure).
 
+**Before writing a single line of any form's `.sfpf.xdp` or `.sfpi.xml`,
+read [`docs/strategy/README.md`](docs/strategy/README.md) (S01-S07) in
+full.** This is the accumulated, hard-won technical rulebook for this
+program — which `CL_FP_*` sections are safe to hand-author (S04), the
+mandatory default of explicit `x`/`y` positioning over `row`/`tb`
+auto-flow (S06), copy-paste XDP patterns for every common construct
+(S07), and the discipline of diffing after every native SFP/Designer
+save (S05). These exist specifically so every new form skips debugging
+rounds already paid for once — treat every strategy here as a standing
+rule, not a suggestion, until the catalogue itself says otherwise.
+
 ## Project facts
 
 - Target: **S/4HANA, on-premise, ADS (Adobe Document Services) already live**.
