@@ -61,6 +61,8 @@ Playbook §0.4) — mirror the one-row summary into the Playbook's Appendix A to
 
 | F32 | After F31's fix, 3 remaining errors: "Field ERFME does not exist" for the three `PBAMG` reference entries | Same lesson as the pilot's F10: a reference field's `UNIT` must resolve to an actually-declared, uniquely-addressable field - a bare name doesn't auto-resolve to a sibling component of the same structure as `VALUE`. `LS_EBAN-MEINS`/`LS_EKKO-WAERS` (already prefix-qualified) didn't error in F31, confirming the pattern | Qualified all three: `ERFME` -> `LS_MSEG-ERFME`, `LT_MSEG-ERFME`, `WA_MSEG-ERFME` respectively, matching each entry's own `VALUE` prefix |
 
+| F33 | Milestone, not a bug: `YMMGRNNOTE_ADT`'s Context was fully built natively and captured via Stage -> Commit -> Push (`17bd45c`) - 3,420 real `CL_FP_NODE` entries, 6,788 `CL_FP_DATA` fields, well-formed | First form on this branch to reach the "Build baseline" gate with a genuinely SFP-generated, non-empty Context. Design View also renders real content ("Goods Reciept Note") for the first time on this form | Began the first XDP increment on top of it: A4 portrait page geometry (was Letter, SFP's own default - no evidence either way, but matches every other Dangote form's convention), the SE78 logo, and exactly one bound field (`LS_MKPF.MBLNR`) as a live test of the `$.<structure>.<field>` addressing convention before binding anything else. The captured Context showed both a bare `BUDAT` and a `BUDAT_MKPF` at different tree positions - not yet resolved which one this form's own `LS_MKPF-BUDAT` maps to; deliberately not guessing at that binding yet |
+
 ## Unverified table names to watch (not yet confirmed traps)
 
 `global_sweep` (P_GLOB, v1.2) reads `STXBITMAPS` for SE78-registered

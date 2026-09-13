@@ -5,18 +5,51 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
+            <contentArea h="29.7cm" w="21cm" x="0cm" y="0cm"/>
+            <medium long="29.7cm" short="21cm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" layout="position" name="visual_shell" w="8in">
-         <draw h="0.35in" name="legacy_caption" w="8in" x="0in" y="0in">
+      <subform h="29.7cm" layout="position" name="visual_shell" w="21cm">
+         <!-- Logo: SE78 GRAPHICS/DANOGATELOGONEW/BMAP/BCOL per
+              docs/legacy_grab/ymmgrnnote.md section 1 and the global
+              logo inventory. Position is a reasonable top-left default,
+              not evidenced - the legacy XML's own window coordinates are
+              blank (checklist item 3); confirm against a real printed
+              GRN before treating this as final. -->
+         <field h="2.2cm" name="logo_image" w="4.5cm" x="1cm" y="1cm">
+            <ui><imageEdit/></ui>
+            <bind match="none"/>
+            <value>
+               <image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/DANOGATELOGONEW.bmp"/>
+            </value>
+         </field>
+         <draw h="0.9cm" name="legacy_caption" w="21cm" x="0cm" y="3.4cm">
             <value>
                <text>Goods Reciept Note</text>
             </value>
             <font size="14pt" typeface="Arial" weight="bold"/>
             <para hAlign="center"/>
          </draw>
+         <!-- GRN No / Date - evidence: ymmgrnnote.md section 3, DATE
+              window: "GRN NO. &LS_MKPF-MBLNR&" / "GRN Date:
+              &LS_MKPF-BUDAT&". Binding test: MBLNR only, to confirm the
+              $.LS_MKPF.<field> addressing convention against the real
+              captured Context before binding every other field the same
+              way - the Context capture showed both a bare BUDAT and a
+              BUDAT_MKPF at different tree positions, not yet resolved
+              which this form's own LS_MKPF-BUDAT actually maps to. -->
+         <subform h="0.6cm" layout="row" name="grn_no_line" w="10cm" x="1cm" y="4.6cm">
+            <bind match="none"/>
+            <draw h="0.6cm" name="lbl_grn_no" w="2.5cm">
+               <value><text>GRN NO.</text></value>
+               <font size="10pt" typeface="Arial" weight="bold"/>
+            </draw>
+            <field h="0.6cm" name="fld_mblnr" w="4cm">
+               <ui><textEdit/></ui>
+               <font size="10pt" typeface="Arial"/>
+               <bind match="dataRef" ref="$.LS_MKPF.MBLNR"/>
+            </field>
+         </subform>
       </subform>
       <proto/>
       <desc>
