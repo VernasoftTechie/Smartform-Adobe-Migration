@@ -114,3 +114,26 @@ one, convert it to a fixed-length local first. Modern function modules
 but if a new `CALL_FUNCTION_CONFLICT_TYPE` dump shows up anywhere else in this
 report, the fix is the same pattern: add a fixed-length local, assign, pass
 that instead of the raw `string`.
+
+## YMM_ISSUE_RESERVATION (branch `vernasofttechie-ymmissuereservation`)
+
+Everything above this point is shared history from the legacy-grab
+tooling, the pilot `Z_MM_PR_FORM_ADT`, and `YMMGRNNOTE_ADT` — read it
+first; the strategy catalogue (`docs/strategy/README.md`, S01-S07)
+distills the standing rules from it. This section tracks only what's
+new to this specific form.
+
+**Sequencing note (proactive flag, not yet an incident):**
+`YMM_ISSUE_RESERVATION`'s `GLOBAL_DATA` block references 7 locally-
+declared `TYPES` (`W_HEADER`/`I_HEADER`/`W_ITEM`/`I_ITEM`/`GTY_T001K`/
+`GTY_T001`/`GTY_ADRC`), unlike YMMGRNNOTE where every `GLOBAL_DATA`
+entry referenced an already-existing DDIC structure. Per S04, `TYPES`
+can only be entered natively — so for this form specifically,
+`GLOBAL_DATA`/`CL_FP_CODING` cannot be safely hand-authored and pushed
+until `TYPES` exists in the live interface first. The first interface
+push (`ymm_issue_reservation_int.sfpi.xml`) deliberately contains only
+`IMPORT_PARAMETERS`/`EXPORT_PARAMETERS`/`TABLE_PARAMETERS` — see
+`docs/legacy_grab/ymm_issue_reservation_interface_scope_ledger.md` §3
+for the full reasoning. Flagged here per S06's "proactive complexity
+triggers" discipline, before it becomes a deserialize failure, not
+after.
