@@ -9,17 +9,19 @@ change the interface contract.
 
 The SFP-generated `ymmgrnnote_int.sfpi.xml` retains its generated envelope,
 references, coding, global-definition, reference-field, and empty
-`CL_FP_CONTEXT` metadata. Only its established `CL_FP_PARAMETERS/SFPIOPAR`
-records are populated, using the exact legacy XML type and flag evidence.
-The record structure is corroborated by the captured SFP-generated reference
-interface at `docs/reference_examples/sfp_generated_archive/z_mm_pr_form_adt.sfpi.xml`.
+`CL_FP_CONTEXT` metadata. The earlier hand-authored
+`CL_FP_PARAMETERS/SFPIOPAR` records are reverted: although their element
+shape matches a captured reference, the target SFP interface remained blank
+after Pull, so this branch does not claim that manual records imported
+successfully. The detailed, complete native-entry ledger is
+[ymmgrnnote_interface_scope_ledger.md](ymmgrnnote_interface_scope_ledger.md).
 
 | Section | Count | Exact contents |
 |---|---:|---|
-| Import | 20 | `ARCHIVE_INDEX`, `ARCHIVE_INDEX_TAB`, `ARCHIVE_PARAMETERS`, `CONTROL_PARAMETERS`, `MAIL_APPL_OBJ`, `MAIL_RECIPIENT`, `MAIL_SENDER`, `OUTPUT_OPTIONS`, `USER_SETTINGS`, `LS_MKPF`, `LS_MSEG`, `LS_ADRC`, `LS_T001W`, `LS_T001`, `LS_EBAN`, `LS_EKKO`, `LV_MAKTX`, `LS_LFA1`, `IV_WAERS`, `IV_KURSF` |
-| Export | 3 | `DOCUMENT_OUTPUT_INFO`, `JOB_OUTPUT_INFO`, `JOB_OUTPUT_OPTIONS` |
-| Table | 1 | `LT_MSEG` |
-| Exception | 4 | `FORMATTING_ERROR`, `INTERNAL_ERROR`, `SEND_ERROR`, `USER_CANCELED`; add only through SFP UI because this branch has no generated exception serialization example. |
+| Import | 20 | Enter natively from the exact ledger. |
+| Export | 3 | Enter natively from the exact ledger. |
+| Table | 1 | Enter natively from the exact ledger. |
+| Exception | 4 | Enter natively from the exact ledger; no generated exception serialization example exists. |
 
 ## Exact type and flag mapping
 
@@ -54,12 +56,11 @@ interface at `docs/reference_examples/sfp_generated_archive/z_mm_pr_form_adt.sfp
 
 Perform this sequence in the target SAP system:
 
-1. Pull commit `c5bacb5` (or its descendant) to import the exact parameter
-   records into `YMMGRNNOTE_INT`.
-2. Open `YMMGRNNOTE_INT` in SFP and add `FORMATTING_ERROR`,
-   `INTERNAL_ERROR`, `SEND_ERROR`, and `USER_CANCELED` with SFP's native
-   exception editor.
-3. Verify the interface parameter names/types against the table above.
+1. Pull the current branch to restore the SFP-generated empty serialization
+   envelope; do not rely on it to populate interface records.
+2. Open `YMMGRNNOTE_INT` in SFP and enter every interface/global item from
+   `ymmgrnnote_interface_scope_ledger.md`, including the four exceptions.
+3. Activate and verify the visible interface parameter names/types in SFP.
 4. In the generated Context, inspect every component of `LT_MSEG` and the
    imported `LS_MSEG`. For every component whose DDIC type is `QUAN`, set its
    SFP Reference Field to the exact unit component shown by that component's

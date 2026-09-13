@@ -9,14 +9,13 @@ well-formed XDP visual increments **inside that captured layout only**; it
 must not replace the generated envelope or fabricate `CL_FP_CONTEXT`,
 `CL_FP_PARAMETERS`, or other SFPI heap metadata.
 
-The earlier unbound title shell is deliberately removed: with no populated
-interface or Context it was not an accurate conversion. This branch now
-contains only exact import/export/table parameter records, based on the
-legacy XML and the captured SFP serializer pattern. The four legacy
-exceptions are not hand-serialized because their exact SFPI record shape is
-not evidenced. Add them natively in SFP, generate the Context from the
-interface, activate, and pull that generated Context before any bound XDP
-element, conditional rendering, line table, or calculation logic is added.
+The static, unbound legacy-caption shell is safe because it has no Context
+dependency; it does not prove interface import. The previous hand-authored
+interface parameter records are reverted because the active target interface
+remained blank after Pull. Enter the complete evidenced interface/global scope
+from `ymmgrnnote_interface_scope_ledger.md` natively in SFP, activate, and
+capture its generated serialization before adding any bound XDP element,
+conditional rendering, line table, or calculation logic.
 
 ## Named Developer Extension Points
 
@@ -30,11 +29,12 @@ element, conditional rendering, line table, or calculation logic is added.
 | `DEP-YMMGRNNOTE-06` | SmartStyle translation | Export and approve `YGRNNOTE`; map every evidenced paragraph/character format. |
 | `DEP-YMMGRNNOTE-07` | Geometry and sign-off source | Supply representative legacy output because source XML has blank window positions. |
 | `DEP-YMMGRNNOTE-08` | `ZEXTRA_FIELD` QUAN/CURR references | Inspect every Context component's actual DDIC reference in SFP; configure only the exact generated unit/currency targets and capture them through abapGit. |
+| `DEP-YMMGRNNOTE-09` | Interface initialization and output-node code | Retain the evidenced memory, DB, custom-FM, calculation, and condition code as a ledger; implement only approved native SFP interface code after generated capture. |
 
 ## SAP validation steps
 
 1. Confirm the SFP baseline activates and shows a physical portrait page before adding bindings.
-2. Pull `c5bacb5`, open `YMMGRNNOTE_INT`, add the four evidenced exceptions natively, verify every `LT_MSEG`/`LS_MSEG` QUAN/CURR reference against DDIC, and activate the interface.
+2. Pull the current branch, then enter/activate all exact parameters, exceptions, globals, and type from `ymmgrnnote_interface_scope_ledger.md` natively in `YMMGRNNOTE_INT`. Verify every `LT_MSEG`/`LS_MSEG` QUAN/CURR reference against DDIC.
 3. Activate `YMMGRNNOTE_ADT`, then manually drag/drop required nodes from the left Interface tree into the right Context tree. Verify every required import/table node appears under Context, then Stage -> Commit -> Push the generated SFPF/SFPI.
 4. Render all five conditional header/template paths, including E and F language records.
 5. Test zero/initial `PEINH`, initial/non-initial `IV_KURSF`, an empty `LT_MSEG`, multiple rows, and a multi-page table.
