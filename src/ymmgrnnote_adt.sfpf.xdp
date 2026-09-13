@@ -557,17 +557,23 @@
                  nested under a "tb" parent (table_total's own parent,
                  line_items, is layout="tb") - removing the dependency
                  entirely rather than assume it's fine. -->
-            <subform h="0.6cm" layout="position" name="table_total" w="19.70cm">
+            <!-- Height raised 0.6->1.0cm (F43): "Freight and other
+                 charge:"/"Total Amount:" wrap to 2 lines at 8pt bold in
+                 their widths - same wrap-needs-height fix already
+                 proven twice in this file (TEMPLATE F37/F39, table
+                 header F42), applied here instead of re-guessing
+                 widths a third time. -->
+            <subform h="1.0cm" layout="position" name="table_total" w="19.70cm">
                <bind match="none"/>
                <font size="8pt" typeface="Arial" weight="bold"/>
-               <draw h="0.6cm" name="lbl_gross" w="2cm" x="0cm" y="0cm"><value><text>Gross:</text></value></draw>
-               <field h="0.6cm" name="fld_gross" w="2.5cm" x="2cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
-               <draw h="0.6cm" name="lbl_vat" w="2cm" x="4.5cm" y="0cm"><value><text>Vat:</text></value></draw>
-               <field h="0.6cm" name="fld_vat_total" w="2.5cm" x="6.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.VAT"/></field>
-               <draw h="0.6cm" name="lbl_freight" w="3.5cm" x="9cm" y="0cm"><value><text>Freight and other charge:</text></value></draw>
-               <field h="0.6cm" name="fld_freight" w="2.2cm" x="12.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.SUM"/></field>
-               <draw h="0.6cm" name="lbl_total" w="2.5cm" x="14.7cm" y="0cm"><value><text>Total Amount:</text></value></draw>
-               <field h="0.6cm" name="fld_total" w="2.5cm" x="17.2cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
+               <draw h="1.0cm" name="lbl_gross" w="2cm" x="0cm" y="0cm"><value><text>Gross:</text></value></draw>
+               <field h="1.0cm" name="fld_gross" w="2.5cm" x="2cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
+               <draw h="1.0cm" name="lbl_vat" w="2cm" x="4.5cm" y="0cm"><value><text>Vat:</text></value></draw>
+               <field h="1.0cm" name="fld_vat_total" w="2.5cm" x="6.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.VAT"/></field>
+               <draw h="1.0cm" name="lbl_freight" w="3.5cm" x="9cm" y="0cm"><value><text>Freight and other charge:</text></value></draw>
+               <field h="1.0cm" name="fld_freight" w="2.2cm" x="12.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.SUM"/></field>
+               <draw h="1.0cm" name="lbl_total" w="2.5cm" x="14.7cm" y="0cm"><value><text>Total Amount:</text></value></draw>
+               <field h="1.0cm" name="fld_total" w="2.5cm" x="17.2cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
             </subform>
          </subform>
 
@@ -591,7 +597,13 @@
               (an empty draw with only its bottom edge visible) instead
               of underscore glyphs - removes all text-width guessing and
               all row-layout-nesting risk in one change. -->
-         <subform h="2.1cm" layout="tb" name="signature_block" w="19.70cm" x="0.65cm" y="23cm">
+         <!-- sig_row2/sig_row3 heights raised (F43): "Head (User
+              Department):" and the full supplier-end sentence both
+              wrap to 2 lines at 9pt in their widths - same wrap-needs-
+              height fix as table_total above. sig_row1 unchanged -
+              "Prepared By:"/"Checked By:" fit on one line, no defect
+              reported there. -->
+         <subform h="2.9cm" layout="tb" name="signature_block" w="19.70cm" x="0.65cm" y="23cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial"/>
             <subform h="0.7cm" layout="position" name="sig_row1" w="19.70cm">
@@ -601,18 +613,18 @@
                <draw h="0.5cm" name="lbl_checked" w="3cm" x="9.85cm" y="0cm"><value><text>Checked By:</text></value></draw>
                <draw h="0.5cm" name="line_checked" w="6.85cm" x="12.85cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
             </subform>
-            <subform h="0.7cm" layout="position" name="sig_row2" w="19.70cm">
+            <subform h="1.1cm" layout="position" name="sig_row2" w="19.70cm">
                <bind match="none"/>
                <draw h="0.5cm" name="lbl_head_store" w="3.2cm" x="0cm" y="0cm"><value><text>Head (Store):</text></value></draw>
                <draw h="0.5cm" name="line_head_store" w="6.65cm" x="3.2cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
-               <draw h="0.5cm" name="lbl_head_dept" w="4.5cm" x="9.85cm" y="0cm"><value><text>Head (User Department):</text></value></draw>
-               <draw h="0.5cm" name="line_head_dept" w="5.35cm" x="14.35cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+               <draw h="1.0cm" name="lbl_head_dept" w="4.5cm" x="9.85cm" y="0cm"><value><text>Head (User Department):</text></value></draw>
+               <draw h="0.5cm" name="line_head_dept" w="5.35cm" x="14.35cm" y="0.6cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
             </subform>
             <!-- Placeholder wording - see comment above; still unconfirmed. -->
-            <subform h="0.6cm" layout="position" name="sig_row3" w="19.70cm">
+            <subform h="1.1cm" layout="position" name="sig_row3" w="19.70cm">
                <bind match="none"/>
-               <draw h="0.5cm" name="lbl_supplier_end" w="13cm" x="0cm" y="0cm"><value><text>Received the above goods in good condition. (Supplier's Signature):</text></value></draw>
-               <draw h="0.5cm" name="line_supplier_end" w="6.70cm" x="13cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+               <draw h="1.0cm" name="lbl_supplier_end" w="13cm" x="0cm" y="0cm"><value><text>Received the above goods in good condition. (Supplier's Signature):</text></value></draw>
+               <draw h="0.5cm" name="line_supplier_end" w="6.70cm" x="13cm" y="0.6cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
             </subform>
          </subform>
 
