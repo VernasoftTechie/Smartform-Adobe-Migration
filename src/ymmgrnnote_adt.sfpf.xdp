@@ -477,6 +477,143 @@
                   <?templateDesigner expand 1?></subform>
                <?templateDesigner expand 1?></subform>
             <?templateDesigner expand 1?></subform>
+
+         <!-- MAIN table - evidence: ymmgrnnote.md section 3, MAIN
+              window, %TABLE1 bound to LT_MSEG, width 19.70cm. Row
+              fields: WA_MSEG-ZEILE/MATNR/SGTXT/ERFME/ERFMG/LGPLA(C)/
+              LV_UNIT1(C)/FINAL_AMT1. Wrapped in a layout="tb" subform
+              (matching the pilot's own "main" pattern) so the repeating
+              table_row actually flows/stacks as rows are added - a
+              "position"-layout parent (like visual_shell) does not
+              auto-stack repeating content, it would render every row
+              instance at the same fixed y. table_header/table_row use
+              layout="row" for their flat leaf-field children only (no
+              nested subforms) - the pattern already proven safe
+              throughout this file; F35's nesting problem was
+              specifically about subform-within-subform columns. -->
+         <subform h="8cm" layout="tb" name="line_items" w="19.70cm" x="0.65cm" y="14.5cm">
+            <bind match="none"/>
+            <subform h="0.6cm" layout="row" name="table_header" w="19.70cm">
+               <bind match="none"/>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <draw h="0.6cm" name="h01" w="0.86cm"><value><text>SNo</text></value></draw>
+               <draw h="0.6cm" name="h02" w="2.30cm"><value><text>Material Code</text></value></draw>
+               <draw h="0.6cm" name="h03" w="7.05cm"><value><text>Item Description</text></value></draw>
+               <draw h="0.6cm" name="h04" w="1.05cm"><value><text>Unit</text></value></draw>
+               <draw h="0.6cm" name="h05" w="2.05cm"><value><text>Accepted Qty</text></value></draw>
+               <draw h="0.6cm" name="h06" w="1.49cm"><value><text>St.Bin</text></value></draw>
+               <draw h="0.6cm" name="h07" w="1.64cm"><value><text>Unit Rate</text></value></draw>
+               <draw h="0.6cm" name="h08" w="3.26cm"><value><text>Amount</text></value></draw>
+            </subform>
+            <subform h="0.55cm" layout="row" name="table_row" w="19.70cm">
+               <occur min="0" max="-1"/>
+               <bind match="dataRef" ref="$.LT_MSEG[*]"/>
+               <font size="8pt" typeface="Arial"/>
+               <field h="0.55cm" name="c01" w="0.86cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.ZEILE"/></field>
+               <field h="0.55cm" name="c02" w="2.30cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.MATNR"/></field>
+               <field h="0.55cm" name="c03" w="7.05cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.SGTXT"/></field>
+               <field h="0.55cm" name="c04" w="1.05cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.ERFME"/></field>
+               <field h="0.55cm" name="c05" w="2.05cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.ERFMG"/></field>
+               <field h="0.55cm" name="c06" w="1.49cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LGPLA"/></field>
+               <field h="0.55cm" name="c07" w="1.64cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.LV_UNIT1"/></field>
+               <field h="0.55cm" name="c08" w="3.26cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.FINAL_AMT1"/></field>
+            </subform>
+            <!-- Totals row - evidence literally reads "Gross (TOT_AMNT),
+                 Vat (VAT), Freight and other charge (SUM), and Total
+                 Amount (TOT_AMNT)" - Gross and Total Amount share the
+                 SAME variable in the legacy evidence. This is a real
+                 open concern (DEP-YMMGRNNOTE-03): SmartForms prints
+                 whatever a variable holds at each sequential point in
+                 processing, so "Gross" may have shown TOT_AMNT's value
+                 BEFORE %CODE4 adds VAT+freight, while "Total Amount"
+                 shows it AFTER - two different moments, one variable.
+                 Adobe's data binding has no equivalent "moment" concept;
+                 both fields below get whatever single TOT_AMNT value is
+                 passed in, so they may print identically unless a
+                 second variable capturing the pre-VAT figure is
+                 introduced. Bound literally as evidenced rather than
+                 guessing a fix - flagged for functional-owner input. -->
+            <subform h="0.6cm" layout="row" name="table_total" w="19.70cm">
+               <bind match="none"/>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <draw h="0.6cm" name="lbl_gross" w="2cm"><value><text>Gross:</text></value></draw>
+               <field h="0.6cm" name="fld_gross" w="2.5cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
+               <draw h="0.6cm" name="lbl_vat" w="2cm"><value><text>Vat:</text></value></draw>
+               <field h="0.6cm" name="fld_vat_total" w="2.5cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.VAT"/></field>
+               <draw h="0.6cm" name="lbl_freight" w="3.5cm"><value><text>Freight and other charge:</text></value></draw>
+               <field h="0.6cm" name="fld_freight" w="2.2cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.SUM"/></field>
+               <draw h="0.6cm" name="lbl_total" w="2.5cm"><value><text>Total Amount:</text></value></draw>
+               <field h="0.6cm" name="fld_total" w="2.5cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
+            </subform>
+         </subform>
+
+         <!-- Signature block - evidence: ymmgrnnote.md section 3,
+              SIGN_MANUAL/SIGNATURE windows: "Manual signature labels:
+              Prepared/Checked By, Head (Store), Head (User Department),
+              plus a supplier end-of-report line. Preserve as print-only
+              labels/lines; no electronic signature is evidenced." No
+              barcode/digital signature control exists in the export.
+              The exact supplier end-of-report wording was not captured
+              verbatim in the earlier extraction pass - the line below
+              is a reasonable placeholder, not evidenced text; confirm
+              the real wording before sign-off. -->
+         <subform h="2cm" layout="tb" name="signature_block" w="19.70cm" x="0.65cm" y="23cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.6cm" layout="row" name="sig_row1">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_prepared" w="9.85cm"><value><text>Prepared By: _____________________</text></value></draw>
+               <draw h="0.6cm" name="lbl_checked" w="9.85cm"><value><text>Checked By: _____________________</text></value></draw>
+            </subform>
+            <subform h="0.6cm" layout="row" name="sig_row2">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_head_store" w="9.85cm"><value><text>Head (Store): _____________________</text></value></draw>
+               <draw h="0.6cm" name="lbl_head_dept" w="9.85cm"><value><text>Head (User Department): _____________________</text></value></draw>
+            </subform>
+            <!-- Placeholder wording - see comment above. -->
+            <draw h="0.6cm" name="lbl_supplier_end" w="19.70cm">
+               <value><text>Received the above goods in good condition. (Supplier's Signature): _____________________</text></value>
+            </draw>
+         </subform>
+
+         <!-- Footer - evidence: ymmgrnnote.md section 3, FOOTER window:
+              "Date/time and GRN No., plus page &SFSY-PAGE& of
+              &SFSY-FORMPAGES&". SmartForms' own SFSY-PAGE/FORMPAGES
+              system variables have no Adobe equivalent - reused the
+              pilot's own proven xfa.layout.page(this)/pageCount()
+              FormCalc pattern instead of guessing an SFPSY binding path.
+              Date/time likewise use FormCalc's own Date()/Time() rather
+              than an unconfirmed system-field Context path. -->
+         <subform h="0.6cm" layout="row" name="page_footer" w="19.70cm" x="0.65cm" y="28.5cm">
+            <bind match="none"/>
+            <font size="8pt" typeface="Arial"/>
+            <field h="0.6cm" name="fld_footer_date" w="3.5cm">
+               <ui><textEdit/></ui>
+               <bind match="none"/>
+               <calculate><script contentType="application/x-formcalc">$ = Date()</script></calculate>
+            </field>
+            <field h="0.6cm" name="fld_footer_time" w="2.5cm">
+               <ui><textEdit/></ui>
+               <bind match="none"/>
+               <calculate><script contentType="application/x-formcalc">$ = Time()</script></calculate>
+            </field>
+            <draw h="0.6cm" name="lbl_footer_grn" w="1.8cm"><value><text>GRN No:</text></value></draw>
+            <field h="0.6cm" name="fld_footer_grn" w="3cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.MBLNR"/></field>
+            <draw h="0.6cm" name="lbl_page_pre" w="1.2cm"><value><text>Page</text></value></draw>
+            <field h="0.6cm" name="fld_page_current" w="1.2cm">
+               <ui><numericEdit/></ui>
+               <bind match="none"/>
+               <value><float/></value>
+               <calculate><script contentType="application/x-formcalc">$ = xfa.layout.page(this)</script></calculate>
+            </field>
+            <draw h="0.6cm" name="lbl_page_of" w="0.8cm"><value><text>of</text></value></draw>
+            <field h="0.6cm" name="fld_page_total" w="1.2cm">
+               <ui><numericEdit/></ui>
+               <bind match="none"/>
+               <value><float/></value>
+               <calculate><script contentType="application/x-formcalc">$ = xfa.layout.pageCount()</script></calculate>
+            </field>
+         </subform>
          <?templateDesigner expand 1?></subform>
       <proto/>
       <desc>

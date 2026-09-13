@@ -156,3 +156,45 @@ binding - a pattern not yet tested on this form) and the
 footer/signature block. Full end-to-end sign-off (steps 4-7 above) only
 happens once those exist and the whole form has been compared against a
 real printed GRN.
+
+**Done (F40, not yet SFP-tested)**: the table/totals/signature/footer
+sections have been authored in the XDP and pushed, but never Pulled into
+SFP or checked in Layout/Design View - run increment 3's checklist below
+before treating any of it as confirmed.
+
+## Increment 3 checklist — MAIN table, totals, signature, footer (F40)
+
+Run this in SFP after pulling `467929b`'s follow-on commit. This is the
+first check of anything in this increment - nothing below has been
+visually confirmed yet.
+
+### E. Structural/rendering checks
+
+| # | Check | Pass looks like |
+|---|---|---|
+| E1 | `line_items` table | Header row renders once, 8 columns aligned to their widths (0.86/2.30/7.05/1.05/2.05/1.49/1.64/3.26cm), total 19.70cm - no overlap with `template_block` above it |
+| E2 | Add 2+ rows of test `LT_MSEG` data | `table_row` repeats - a second row appears below the first, not overlapping it. This confirms the `layout="tb"` auto-stack assumption (the one part of F40 with no precedent elsewhere in this file) |
+| E3 | Multi-page overflow | If test data has enough rows to exceed one page, confirm the table continues on a second page rather than clipping or disappearing - `pageArea`'s own `occur` allowance needs checking here too |
+| E4 | Totals row | Gross/Vat/Freight/Total Amount all render on one row, no clipping - flag if `Gross` and `Total Amount` show the same number (expected per DEP-YMMGRNNOTE-03, not a bug) |
+| E5 | Signature block | Four labels (Prepared By/Checked By/Head (Store)/Head (User Department)) plus the supplier line, all readable, no overlap with the table above |
+| E6 | Footer | Date, time, GRN No., and "Page X of Y" all render on one row near the bottom of the page, not overlapping the signature block |
+
+### F. Data/binding checks
+
+| # | Field | Bound to | What to verify |
+|---|---|---|---|
+| F1 | Row S.No/Material/Description/Unit/Qty/Bin/Rate/Amount | `LT_MSEG[*].ZEILE/MATNR/SGTXT/ERFME/ERFMG/LGPLA/LV_UNIT1/FINAL_AMT1` | Each column shows the right value for the right row - not shifted by one column |
+| F2 | Gross / Total Amount | `TOT_AMNT` | Confirm with a real document whether these should actually differ (pre-VAT vs post-VAT) - if so, this needs a second variable, not a layout fix |
+| F3 | GRN No. (footer) | `LS_MKPF.MBLNR` | Matches the header's own GRN No. field |
+| F4 | Page X of Y | `xfa.layout.page(this)`/`pageCount()` | Shows correct numbers on a multi-page test document, not just "1 of 1" |
+
+### G. If E2 (row repeat) fails
+
+This is the one genuinely new pattern in this increment - if rows don't
+stack, don't guess a fix blind. Compare `line_items`'s XDP against the
+pilot `Z_MM_PR_FORM_ADT`'s own repeating-table subform structure
+line-by-line before changing anything; the two known candidates are (a)
+`occur` needs to sit on the same subform as the `bind`, not a parent, or
+(b) `line_items`'s own `layout="tb"` needs to be `layout="position"`
+with the repeating subform doing its own internal flow instead - do not
+assume which without checking the proven reference first.
