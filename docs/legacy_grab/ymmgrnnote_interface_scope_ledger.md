@@ -60,16 +60,175 @@ nodes. Neither source is modified by this branch.
 | Data | `LV_UNIT1 TYPE ZERFMG` | `item[15]` | Enter natively; unit reference not evidenced. |
 | Field symbols | none | No field-symbol element in XML global scope | Do not add. |
 
-## Initialization and output-node code
+## Initialization and output-node code — exact literal source
 
-| Scope / node | Exact dependency evidence | Adobe treatment |
-|---|---|---|
-| Global initialization | `IMPORT p1 TO gv_kschl FROM MEMORY ID 'YSN_YM07DRAUS'`; `FREE MEMORY ID`; for `WE01`, `USR21` and `ADRP` selects based on `LS_MKPF-USNAM` to fill `LV_NAME` | `DEP-YMMGRNNOTE-01`. Do not copy until SFP interface initialization behavior, authorization, memory scope, and `p1` producer are approved. |
-| `%CODE5` | `LS_MSEG` in; `LV_BUTXT` out; `SELECT SINGLE BUTXT FROM T001 ... BUKRS = LS_MSEG-BUKRS` | `DEP-YMMGRNNOTE-02`; native SFP coding only after DDIC/authorization confirmation. |
-| `%CODE1` | Inputs `WA_MSEG-ERFMG/DMBTR/LV_URATE/PEINH`, `IV_KURSF`; outputs `LV_UNIT/LV_UNIT1` | `DEP-YMMGRNNOTE-03`; no calculation copied before references/divisor behavior are verified. |
-| `%CODE3` / `%CODE4` | Uses `VAT`, `SUM`, `TOT_AMNT`, `FINAL_AMT`, `FINAL_AMT1`, and `WA_MSEG-VAT/BNBTR`; includes commented legacy paths | `DEP-YMMGRNNOTE-03`; carry no commented paths or debugger statement. |
-| `%CODE2` | `LS_MKPF-BLDAT`, `MONTH`, `DATE`; custom FM `ZABF_ISP_GET_MONTH_NAME` | `DEP-YMMGRNNOTE-04`; native SFP coding only after helper availability and error behavior are approved. |
-| Global parameter list | Inputs `GV_KSCHL`, `LS_MKPF`, `LV_NAME`; outputs `GV_KSCHL`, `LV_NAME` | `/GPLIST/item[1..5]`; documents legacy global-code flow, not an Adobe interface parameter. |
+Extracted directly from `ymmgrnnote.xml` by byte offset (not the condensed
+report), so this is the complete ABAP text, comments and dead lines
+included, not a paraphrase.
+
+**Global initialization** (runs once, before any window renders) —
+`GCODING`, params: in `GV_KSCHL`/`LS_MKPF`/`LV_NAME`, out `GV_KSCHL`/`LV_NAME`:
+
+```abap
+IMPORT p1 TO gv_kschl FROM MEMORY ID 'YSN_YM07DRAUS'.
+FREE MEMORY ID 'YSN_YM07DRAUS'.
+
+IF gv_kschl = 'WE01'.
+
+  DATA: lv_pers_no TYPE ad_persnum.
+
+  CLEAR lv_name.
+
+  SELECT SINGLE persnumber
+    FROM usr21
+    INTO lv_pers_no
+    WHERE bname = ls_mkpf-usnam.
+  IF sy-subrc = 0.
+
+    SELECT SINGLE name_text
+      FROM adrp
+      INTO lv_name
+      WHERE persnumber = lv_pers_no.
+
+  ENDIF.
+
+ENDIF.
+```
+`DEP-YMMGRNNOTE-01`. **Authorization question, not just an evidence gap**:
+this reads another user's personal data (name) via a cross-program memory
+handoff (`MEMORY ID 'YSN_YM07DRAUS'`) whose *producer* is not this form —
+some other program sets `p1` before this form runs. Two things need an
+explicit answer before this is typed into SFP: (1) is Basis/security aware
+this form reads `USR21`/`ADRP` for another user's name, and is that still
+approved when the caller is Adobe/ADS instead of the original SmartForm
+driver; (2) does the memory ID still get set at all when this GRN prints
+through the Adobe path — a memory ID is only populated if the actual
+calling program still performs that `EXPORT ... TO MEMORY ID` step, which
+this evidence doesn't show and the driver is out of scope to change.
+
+**`%CODE5`** (header window `HEADERWINDOW`) — in `LS_MSEG`, out `LV_BUTXT`:
+```abap
+select single  butxt from t001 into lv_butxt where bukrs = ls_mseg-bukrs.
+```
+`DEP-YMMGRNNOTE-02`; single DDIC read, no authorization concern evidenced
+beyond normal `T001` read access.
+
+**`%CODE1`** (inside the `MAIN`/`%TABLE1` row loop — `WA_MSEG` is the loop
+work area) — in `WA_MSEG-ERFMG/DMBTR/LV_URATE/PEINH`, `IV_KURSF`; out
+`LV_UNIT`/`LV_UNIT1`:
+```abap
+lv_unit = wa_mseg-dmbtr * iv_kursf.
+"Added By Veeresh on 01/11/2022
+lv_unit1 = ( wa_mseg-dmbtr / wa_mseg-peinh ) * iv_kursf.
+*lv_unit = wa_mseg-lv_urate.
+```
+Note: `ERFMG` is declared as an input in the parameter list but is not
+actually read in this node's own code (it's used by `%CODE3` instead) —
+likely SmartForms tracking the whole processing route, not a discrepancy
+to resolve. The commented `*lv_unit = wa_mseg-lv_urate.` confirms the
+active formula is the `DMBTR * IV_KURSF` line above it, not a rate lookup.
+**`PEINH` is a divisor** (`lv_unit1`) — zero/initial `PEINH` on any row
+would divide-by-zero at runtime; this is `DEP-YMMGRNNOTE-03`'s open
+question, now precisely located.
+
+**`%CODE3`** (also inside the `MAIN` row loop, runs after `%CODE1` per
+row) — in `WA_MSEG-DMBTR/ERFMG/LV_URATE`, `WA_MSEG`, `VAT`, `SUM`,
+`IV_KURSF`, `LV_UNIT`, `LV_UNIT1`; out `FINAL_AMT`, `VAT`, `SUM`,
+`TOT_AMNT`, `FINAL_AMT1`:
+```abap
+vat = wa_mseg-vat.
+sum = sum + wa_mseg-bnbtr.
+*FRI = wa_mseg-FRI.
+*OTH = wa_mseg-OTH.
+*DIS = wa_mseg-DIS.
+*FINAL_AMT = ( WA_MSEG-DMBTR * WA_MSEG-ERFMG ).
+*final_amt = ( wa_mseg-lv_urate * wa_mseg-erfmg ).
+final_amt = ( lv_unit * wa_mseg-erfmg )."#EC CI_FLDEXT_OK[2610650]
+final_amt1 = ( lv_unit1 * wa_mseg-erfmg ).
+```
+`SUM` is a **running accumulator across rows** (`sum = sum + ...`), not a
+per-row value — it must start at zero before the first row and carry
+forward. `DIS` is declared globally but its only assignment is commented
+out (`*DIS = wa_mseg-DIS.`) — it is a dead field in the current active
+logic; do not invent a value for it. `FRI`/`OTH` (freight/other charge)
+are referenced only in commented lines — evidence of a prior design, not
+current behavior.
+
+**`%CODE4`** (runs once, after the row loop finishes — table footer) —
+in `TOT_AMNT`, `VAT`, `SUM`, `WA_MSEG-BNBTR`; out `TOT_AMNT`, `VAT`,
+`WA_MSEG-BNBTR`, `DIS`:
+```abap
+*BREAK-POINT.
+TOT_AMNT =  TOT_AMNT + sum + vat.
+```
+`DEP-YMMGRNNOTE-03`; do not carry the commented `BREAK-POINT` forward.
+`TOT_AMNT` accumulates across pages too if the table spans more than one
+— confirm during multi-page testing.
+
+**`%CODE2`** (footer window `FOOTER`, runs once) — in `LS_MKPF-BLDAT`;
+out `MONTH`, `DATE`:
+```abap
+*break developer.
+***SOC by kalyan on 25.07.2025
+*CALL FUNCTION 'ISP_GET_MONTH_NAME'"#EC CI_USAGE_OK[2469385]
+CALL FUNCTION 'ZABF_ISP_GET_MONTH_NAME'"#EC CI_USAGE_OK[2469385]
+***EOC by kalyan on 25.07.2025
+  EXPORTING
+   DATE               = ls_mkpf-bldat
+    LANGUAGE           = SY-LANGU
+*   MONTH_NUMBER       = MON_NO
+ IMPORTING
+*   LANGU_BACK         =
+*   LONGTEXT           = MONTH
+   SHORTTEXT          = MONTH
+ EXCEPTIONS
+   CALENDAR_ID        = 1
+   DATE_ERROR         = 2
+   NOT_FOUND          = 3
+   WRONG_INPUT        = 4
+   OTHERS             = 5
+          .
+IF SY-SUBRC <> 0.
+* Implement suitable error handling here
+ENDIF.
+
+CONCATENATE ls_mkpf-bldat+6(2)'-' month'-'ls_mkpf-bldat+0(4)
+   into date.
+```
+`DEP-YMMGRNNOTE-04`. **Important distinction, easy to miss**: this
+computes `DATE` from `LS_MKPF-BLDAT` (document date) for the FOOTER only.
+The separate `DATE` *window* (§3 of `ymmgrnnote.md`) prints
+`&LS_MKPF-BUDAT&` (posting date) directly, unformatted — a different
+field, not this computed string. Both must be carried into the Adobe
+design; they are not the same value.
+
+## Per-row vs one-time execution — a design decision, not free evidence
+
+`%CODE1`/`%CODE3` run **per `LT_MSEG` row** (they use `WA_MSEG`, the
+SmartForms loop work area); the global initialization, `%CODE5`, and
+`%CODE2` run **once**. Adobe's `CL_FP_CODING`/`INITIALIZATION` runs once,
+before layout rendering — there is no native per-row hook there. Two ways
+to realize the per-row math, both legitimate, not yet chosen:
+
+- **FormCalc on the layout** — `LV_UNIT`/`LV_UNIT1`/`FINAL_AMT`/
+  `FINAL_AMT1` computed per row directly from `DMBTR`/`PEINH`/`ERFMG`
+  (already present as row columns) and `IV_KURSF` (top-level parameter),
+  in a `calculate` script on each cell. `SUM`/`TOT_AMNT` as a
+  `Sum(table_row[*].field)` FormCalc expression, matching the pilot's own
+  grand-total pattern. No ABAP loop needed; keeps `CL_FP_CODING` limited
+  to the true one-time items (init, `%CODE5`, `%CODE2`).
+- **ABAP loop in `CL_FP_CODING`/`INITIALIZATION`** — loop over the
+  imported `LT_MSEG`, compute the same fields per row, write them back
+  into the table (or export an enriched copy) before rendering. Keeps all
+  business logic server-side, matching this project's own Adobe Forms
+  Rulebook guidance (`instructions/ADOBE_FORMS_DESIGN_MASTER_RULEBOOK.md`
+  §5: "keep business logic inside ABAP whenever possible").
+
+**Recommendation, not yet confirmed**: FormCalc for the pure arithmetic
+(simpler, no new table plumbing, and division-by-zero on `PEINH` is
+easier to guard client-side with an `if` in FormCalc than to add
+exception handling to a server-side loop) — but this is your call, not
+assumed here.
 
 ## Currency and quantity evidence
 
