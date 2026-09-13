@@ -31,6 +31,67 @@ conditional rendering, line table, or calculation logic.
 | `DEP-YMMGRNNOTE-08` | `ZEXTRA_FIELD` QUAN/CURR references | Inspect every Context component's actual DDIC reference in SFP; configure only the exact generated unit/currency targets and capture them through abapGit. |
 | `DEP-YMMGRNNOTE-09` | Interface initialization and output-node code | Retain the evidenced memory, DB, custom-FM, calculation, and condition code as a ledger; implement only approved native SFP interface code after generated capture. |
 
+## Conditional visibility pattern — check variable + FormCalc/JS
+
+Answers the recurring design question of *how* server-side conditions
+(condition precedence, DEP-05's plant/country/output-type branches)
+become visible/hidden behavior on the Adobe layout. This is a general
+pattern, not specific to one field - apply it to every conditional
+element in this form, and consider promoting it to
+`docs/strategy/` once it's proven end to end in SFP.
+
+**Split of responsibility:**
+
+1. **ABAP side (`CL_FP_CODING`/`INITIALIZATION`, runs once)** computes a
+   compact **discriminator variable** per independent condition group -
+   not a flag per leaf branch, one value that names *which* branch
+   applies. For this form's header/branding group:
+   `GV_BRAND_VARIANT TYPE CHAR2`, e.g. `'10'` = plant 1000/1100 with
+   country not TZ, `'11'` = plant 1021 (Okpella), `'99'` = none matched.
+   `GV_KSCHL` (output type) is already a global from the existing
+   initialization - reuse it directly for the `WE01`/`ZET1` gate rather
+   than inventing a second variable for the same fact.
+2. **Export that discriminator** as an `OUTPUT_PARAMETER` of
+   `CL_FP_CODING` so it lands in the form's bound data, visible to the
+   layout.
+3. **On the layout**, bind it into one small field (zero size or
+   `presence="invisible"`), exactly like the pilot's `fld_frgkz` pattern
+   for the watermark.
+4. **Each conditional block** gets an `initialize` event script reading
+   that field's `rawValue` and comparing it to its own expected value(s),
+   then setting `this.presence`.
+
+**Which `presence` value, and why it matters** - XFA has four real
+states, not two:
+
+| Value | Renders? | Reserves layout space? |
+|---|---|---|
+| `visible` | yes | yes |
+| `hidden` | no | **no** - space collapses |
+| `invisible` | no | yes - space stays reserved |
+| `inactive` | no | no, and excluded from calculations entirely |
+
+For this form's mutually-exclusive branding variants, use `hidden` (a
+non-matching branch should collapse cleanly, not leave a gap in the
+header). Use `invisible` only where a fixed layout position must not
+shift when content is absent.
+
+**Mutual exclusivity, concretely**: for a "show exactly one of N" group
+like the branding variants, prefer **one subform at that position with a
+single `initialize` script choosing the text via a JS `switch`/`if`
+chain on the discriminator**, over N overlapping subforms each with
+their own independent script. One script can't accidentally show two
+branches at once or none; N independent scripts can, if the
+discriminator's value set and each script's check ever drift apart.
+
+**Not yet confirmed - do this before implementing**: the exact condition
+extraction above (`ymmgrnnote_interface_scope_ledger.md`) found two
+branches (`%CONDITION4`, `%CONDITION6`) with a dummy `AND 1=2` clause,
+which SmartForms uses to mark a branch disabled without deleting it.
+Confirm in SE71 (Form Painter, Alternative node) which branches actually
+show as enabled before choosing `GV_BRAND_VARIANT`'s real value set -
+this is DEP-05's open item, not something to resolve from XML alone.
+
 ## SAP validation steps
 
 1. Confirm the SFP baseline activates and shows a physical portrait page before adding bindings.

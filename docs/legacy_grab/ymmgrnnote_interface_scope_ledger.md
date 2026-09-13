@@ -202,6 +202,38 @@ The separate `DATE` *window* (§3 of `ymmgrnnote.md`) prints
 field, not this computed string. Both must be carried into the Adobe
 design; they are not the same value.
 
+## DEP-YMMGRNNOTE-05 — exact condition definitions (byte-offset extracted)
+
+All 9 `%CONDITION` objects in the form, verbatim. Two carry a trailing
+`AND 1 = 2` clause (always false) — this is SmartForms' own way of
+marking a branch **disabled without deleting it**; do not treat those as
+live logic without visual confirmation in SE71 (an Alternative node's
+disabled branch typically renders greyed-out in the Form Painter tree).
+
+| Condition | Logic | Linked text | Status |
+|---|---|---|---|
+| `%CONDITION1` | `WERKS = '1000' OR WERKS = '1100'` | `NA` ("Not Available") | Needs SE71 visual check - unclear purpose given the label |
+| `%CONDITION2` | `WERKS <> '1000' AND WERKS <> '1100' AND WERKS <> '1021'` | (fallback branch, exact text not yet isolated) | Needs SE71 visual check |
+| `%CONDITION3` | `GV_KSCHL = 'ZET1'` | (output-type gate, not plant-specific) | Live - no dummy clause |
+| `%CONDITION4` | `WERKS<>'1000' AND WERKS<>'1100' AND LAND1<>'TZ' AND WERKS<>'1021' AND 1=2` | `EXCP_CC_1000_1100_1021` | **Disabled** (dummy `1=2` clause) |
+| `%CONDITION5` | `(WERKS='1000' OR WERKS='1100') AND LAND1<>'TZ'` | `EXCP_1100_TZ_1021` | Live - no dummy clause |
+| `%CONDITION6` | `WERKS='1021' AND 1=2` | `CC_1021` (Okpella - "OKPELLA CEMENT LIMITED / KM 158, Benin-Abuja Express Road / Okpella Edo State") | **Disabled** (dummy `1=2` clause) |
+| `%CONDITION7` | `GV_KSCHL = 'WE01'` | (output-type gate, not plant-specific) | Live - no dummy clause |
+| `%CONDITION8` | `WERKS = '1021'` (clean, same plant as #6 but no dummy clause) | Not yet isolated - likely the real active gate for the Okpella branch, since #6's version is disabled | Live - needs confirming this is what actually gates `CC_1021` |
+| `%CONDITION11` | `LAND1 <> 'TZ'` | `%TEXT38` = "Container No. or Mark No: &LS_MKPF-CONTAINER&" | **Unrelated to branding** - this is in the `TEMPLATE` window, not `HEADERWINDOW` |
+
+Fields referenced: `LS_T001W-WERKS` (plant), `LS_T001W-LAND1` (country),
+`GV_KSCHL` (output type, already derived in global initialization). No
+`OP1`/`OP2` pair references any field not already in the evidenced
+interface contract.
+
+**This is exactly `DEP-YMMGRNNOTE-05`'s open item** - the business owner
+must confirm which branches are genuinely live (matching what SE71 shows
+as enabled) before any of this becomes Adobe conditional logic. Do not
+guess based on the XML condition text alone; the two dummy-clause
+branches prove that condition text and actual live behavior can diverge
+in this specific form.
+
 ## Per-row vs one-time execution — a design decision, not free evidence
 
 `%CODE1`/`%CODE3` run **per `LT_MSEG` row** (they use `WA_MSEG`, the
