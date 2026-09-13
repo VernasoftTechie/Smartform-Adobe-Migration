@@ -46,6 +46,76 @@
        <DEFAULTVAL/>
        <CONSTANT/>
       </SFPGDATA>
+      <SFPGDATA>
+       <NAME>IT_HEADER</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>I_HEADER</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>WA_ITEM</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>W_ITEM</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>IT_ITEM</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>I_ITEM</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>FINAL_NAME</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>CHAR80</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>FIRST_NAME</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>CHAR40</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>LAST_NAME</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>CHAR40</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>WA_T001K</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>GTY_T001K</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>WA_FINAL</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>YMM_ISSUE_RESERVATION</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>WA_T001</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>GTY_T001</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
+      <SFPGDATA>
+       <NAME>WA_ADRC</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>GTY_ADRC</TYPENAME>
+       <DEFAULTVAL/>
+       <CONSTANT/>
+      </SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
       <FPCLINE> TYPES: BEGIN OF w_header,</FPCLINE>
@@ -59,6 +129,36 @@
       <FPCLINE>        vaplz	 TYPE	gewrk,</FPCLINE>
       <FPCLINE>        END OF w_header,</FPCLINE>
       <FPCLINE>        i_header TYPE TABLE OF w_header.</FPCLINE>
+      <FPCLINE> TYPES: BEGIN OF w_item,</FPCLINE>
+      <FPCLINE>         rspos TYPE resb-rspos,</FPCLINE>
+      <FPCLINE>         matnr TYPE resb-matnr,</FPCLINE>
+      <FPCLINE>         maktx TYPE makt-maktx,</FPCLINE>
+      <FPCLINE>         bdmng TYPE resb-bdmng,</FPCLINE>
+      <FPCLINE>         meins TYPE resb-meins,</FPCLINE>
+      <FPCLINE>         lbkum TYPE mbew-lbkum,</FPCLINE>
+      <FPCLINE>         lgpbe TYPE mard-lgpbe,</FPCLINE>
+      <FPCLINE>***  BOC By Veeresh On 01/09/2022</FPCLINE>
+      <FPCLINE>*         verpr type verpr,  "&lt;Mod02&gt; JHARIHARAN 07.09.2017</FPCLINE>
+      <FPCLINE>         verpr TYPE resb-bdmng,</FPCLINE>
+      <FPCLINE>***  EOC By Veeresh On 01/09/2022</FPCLINE>
+      <FPCLINE>" Added by Zubin on 22.04.2021 (TYPE CHAR12 - for brackets)</FPCLINE>
+      <FPCLINE>         charg(12) TYPE c,     " resb-charg,</FPCLINE>
+      <FPCLINE>         END OF w_item,</FPCLINE>
+      <FPCLINE>         i_item TYPE TABLE OF w_item,</FPCLINE>
+      <FPCLINE>         BEGIN OF gty_t001k,</FPCLINE>
+      <FPCLINE>         bwkey  TYPE bwkey,</FPCLINE>
+      <FPCLINE>         bukrs  TYPE bukrs,</FPCLINE>
+      <FPCLINE>         END OF gty_t001k,</FPCLINE>
+      <FPCLINE>         BEGIN OF gty_t001,</FPCLINE>
+      <FPCLINE>         bukrs TYPE bukrs,</FPCLINE>
+      <FPCLINE>         adrnr TYPE adrnr,</FPCLINE>
+      <FPCLINE>         END OF gty_t001,</FPCLINE>
+      <FPCLINE>         BEGIN OF gty_adrc,</FPCLINE>
+      <FPCLINE>         ADDRNUMBER	Type AD_ADDRNUM,</FPCLINE>
+      <FPCLINE>         DATE_FROM  Type AD_DATE_FR,</FPCLINE>
+      <FPCLINE>         NATION	TYPE AD_NATION,</FPCLINE>
+      <FPCLINE>         name1 Type AD_NAME1,</FPCLINE>
+      <FPCLINE>         END OF gty_adrc.</FPCLINE>
      </TYPES>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
@@ -121,9 +221,48 @@
      <INTERFACE_DATA href="#o1"/>
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_CODING classVersion="1">
-     <INPUT_PARAMETERS/>
-     <OUTPUT_PARAMETERS/>
-     <INITIALIZATION/>
+     <INPUT_PARAMETERS>
+      <FPPARAMETER>WA_HEADER</FPPARAMETER>
+      <FPPARAMETER>IT_HEADER</FPPARAMETER>
+      <FPPARAMETER>WA_ITEM</FPPARAMETER>
+      <FPPARAMETER>IT_ITEM</FPPARAMETER>
+      <FPPARAMETER>IT_FINAL</FPPARAMETER>
+     </INPUT_PARAMETERS>
+     <OUTPUT_PARAMETERS>
+      <FPPARAMETER>WA_HEADER</FPPARAMETER>
+      <FPPARAMETER>IT_HEADER</FPPARAMETER>
+      <FPPARAMETER>WA_ITEM</FPPARAMETER>
+      <FPPARAMETER>IT_ITEM</FPPARAMETER>
+      <FPPARAMETER>IT_FINAL</FPPARAMETER>
+     </OUTPUT_PARAMETERS>
+     <INITIALIZATION>
+      <FPCLINE>LOOP AT it_final.</FPCLINE>
+      <FPCLINE>  ON CHANGE OF it_final-rsnum.</FPCLINE>
+      <FPCLINE>    wa_header-rsnum = it_final-rsnum.</FPCLINE>
+      <FPCLINE>    wa_header-rsdat = it_final-rsdat.</FPCLINE>
+      <FPCLINE>*   WA_HEADER-USNAM = IT_FINAL-USNAM.</FPCLINE>
+      <FPCLINE>    wa_header-aufnr = it_final-aufnr.</FPCLINE>
+      <FPCLINE>    wa_header-ingrp = it_final-ingrp.</FPCLINE>
+      <FPCLINE>    wa_header-vaplz = it_final-vaplz.</FPCLINE>
+      <FPCLINE>    IF it_header[] IS INITIAL.</FPCLINE>
+      <FPCLINE>      APPEND wa_header TO it_header.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>    CLEAR  wa_header.</FPCLINE>
+      <FPCLINE>  ENDON.</FPCLINE>
+      <FPCLINE>  wa_item-rspos = it_final-rspos.</FPCLINE>
+      <FPCLINE>  wa_item-matnr = it_final-matnr.</FPCLINE>
+      <FPCLINE>  wa_item-maktx = it_final-maktx.</FPCLINE>
+      <FPCLINE>  wa_item-bdmng = it_final-bdmng.</FPCLINE>
+      <FPCLINE>  wa_item-meins = it_final-meins.</FPCLINE>
+      <FPCLINE>  wa_item-lbkum = it_final-lbkum.</FPCLINE>
+      <FPCLINE>  wa_item-lgpbe = it_final-lgpbe.</FPCLINE>
+      <FPCLINE>  wa_item-verpr = it_final-verpr. "&lt;Mod02&gt; JHARIHARAN 07.09.2017</FPCLINE>
+      <FPCLINE>** Added by Zubin on 22.04.2021</FPCLINE>
+      <FPCLINE>  wa_item-charg = it_final-charg.</FPCLINE>
+      <FPCLINE>  APPEND wa_item TO it_item.</FPCLINE>
+      <FPCLINE>  CLEAR  wa_item.</FPCLINE>
+      <FPCLINE>ENDLOOP.</FPCLINE>
+     </INITIALIZATION>
      <FORMS/>
     </CL_FP_CODING>
    </cls:CL_FP_CODING>

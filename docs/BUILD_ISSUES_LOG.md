@@ -137,3 +137,34 @@ push (`ymm_issue_reservation_int.sfpi.xml`) deliberately contains only
 for the full reasoning. Flagged here per S06's "proactive complexity
 triggers" discipline, before it becomes a deserialize failure, not
 after.
+
+**F45 — two real findings from the user's native `TYPES` entry (commit
+`180a7ec`), resolving both open questions above.** The user natively
+entered the first `TYPES` structure (`w_header`/`i_header`) and one
+matching `GLOBAL_DATA` entry (`WA_HEADER`), activated, and pushed. Two
+things confirmed by reading the captured result, not guessed: (1)
+**`TYPES`'s real XML shape is a list of `<FPCLINE>` elements** — literal
+ABAP source, one per line, the *same* shape as `INITIALIZATION` — not a
+structured component list like `GLOBAL_DATA`'s `SFPGDATA`. This is the
+first real, confirmed evidence for this section's schema anywhere in
+the project; S04 has flagged it "unconfirmed" since YMMGRNNOTE's F28.
+(2) **The classic SSF envelope parameters don't survive into an Adobe
+interface at all** — none of the 8 `STANDARD="X"` import parameters or
+3 `STANDARD="X"` export parameters from the original hand-authored push
+appear in the captured result; SFP silently substituted its own
+auto-generated `/1BCDWB/DOCPARAMS` (`TYPE SFPDOCPARAMS`) instead. User
+separately confirmed this is intentionally out of scope ("Print output
+control is something we can handle manually.. dont include it in your
+scope") — logged as `DEP-YMMISSUERES-01` in
+`docs/legacy_grab/ymm_issue_reservation_post_implementation.md`, not
+attempted on any future form either. | Completed the interface using
+finding (1): hand-authored the remaining 4 `TYPES` structures
+(`w_item`/`i_item`/`gty_t001k`/`gty_t001`/`gty_adrc`) as `FPCLINE`
+entries on top of the user's proven single-structure test, all 11
+`GLOBAL_DATA` entries, and `CL_FP_CODING` (`INPUT_PARAMETERS`/
+`OUTPUT_PARAMETERS` = the 5 `GPLIST` names, `INITIALIZATION` = the
+literal `GCODING` loop minus the dead `*BREAK ABAP8.` line). **Not yet
+SFP-tested** — confirm this activates cleanly before promoting finding
+(1) to S04 as a confirmed-safe section; if it deserializes cleanly,
+this removes TYPES from S04's "never hand-author" list entirely, a
+meaningful scope expansion for every future form. |
