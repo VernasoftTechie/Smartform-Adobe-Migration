@@ -121,8 +121,8 @@ to look at and what a pass looks like.
 | A3 | Title | "Goods Reciept Note" centered, one line, no overlap with anything below it |
 | A4 | GRN No / GRN Date rows | Two label+field rows, stacked, each readable on its own line |
 | A5 | Company identity block | Three stacked field boxes (company name, plant name, address line) - no visual overlap between them |
-| A6 | TEMPLATE section | **The specific thing F35 fixed** - two clearly separated columns side by side, left column ending around the 10.66cm mark, right column starting there. No garbled/overlapping text. No warning triangles anywhere in this block |
-| A7 | Zoom to 100% and re-check A6 | Confirms the overlap in the previous screenshot is actually gone, not just less visible at a different zoom level |
+| A6 | TEMPLATE section | ✅ **Confirmed 2026-09-13** (commit `c34a5ea`, F44) - two clearly separated columns side by side, left column ending around the 10.66cm mark, right column starting there, every row's own label/field on one line with no overlap. User confirmed at 100% zoom: "TEMPLATE fix is fine. Worked as expected." |
+| A7 | Zoom to 100% and re-check A6 | ✅ Done as part of A6's confirmation above |
 
 ### B. Data/binding checks (requires a real or test GRN document number)
 
