@@ -119,123 +119,112 @@
               pairing below is the literal legacy text, typos preserved
               (WAY_BII_NO, VEND_INV, Loding) since these may be the real
               customer field names, not to be silently corrected. -->
-         <!-- Overflow fix (reported after v2): template_block was at
-              x=1cm with w=20.20cm, spanning to 21.2cm on a 21cm-wide
-              page - overflowing the right edge by 0.2cm, which is what
-              the warning triangles at the page edge were marking. Now
-              centered: x=0.4cm, 0.4+20.20+0.4=21.0cm exactly.
+         <!-- Overflow fix (v2->v3): template_block was at x=1cm with
+              w=20.20cm, overflowing the 21cm page by 0.2cm. Centered:
+              x=0.4cm, 0.4+20.20+0.4=21.0cm exactly.
 
-              Label-width fix: several labels (e.g. "Way Bill No. and
-              Date:", "Air Way Bill No/Bill of Loding No:") were wider
-              than their allocated 5cm, squeezing fields out of visible
-              space in some rows but not others - inconsistent and hard
-              to spot from width math alone. Rather than re-guess exact
-              single-line widths again, every row height is now 0.8cm
-              (was 0.5cm) so a label that still doesn't fit on one line
-              wraps to two without colliding with the row below - a
-              tolerant fix, not dependent on precise font-metric
-              assumptions. -->
-         <subform h="7.2cm" layout="position" name="template_block" w="20.20cm" x="0.4cm" y="8.3cm">
+              Density fix (this round, per explicit request - "reduce
+              the font styles ... show max possible details, since it's
+              a template we stick to how much we can show"): the earlier
+              9pt attempt needed ever-taller rows to avoid wrapping/
+              clipping (F36, F37), fighting the font size instead of
+              just reducing it. Dropped to 7pt, which lets every label -
+              including the two long "Air Way Bill" ones - fit on a
+              single line within its existing width, so every row goes
+              back to one compact, uniform height (0.5cm) instead of
+              needing per-row exceptions. template_col1 (9 rows) is
+              4.5cm tall, template_col2 (8 rows) is 4.0cm - template_block
+              sized to the taller of the two. -->
+         <subform h="4.5cm" layout="position" name="template_block" w="20.20cm" x="0.4cm" y="8.3cm">
             <bind match="none"/>
-            <subform h="7.2cm" layout="tb" name="template_col1" w="10.66cm" x="0cm" y="0cm">
+            <subform h="4.5cm" layout="tb" name="template_col1" w="10.66cm" x="0cm" y="0cm">
                <bind match="none"/>
-               <font size="9pt" typeface="Arial"/>
-               <subform h="0.8cm" layout="row" name="tpl_supplier"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_supplier" w="5.5cm"><value><text>Name of the Supplier:</text></value></draw>
-                  <field h="0.8cm" name="fld_supplier" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_LFA1.NAME1"/></field>
+               <font size="7pt" typeface="Arial"/>
+               <subform h="0.5cm" layout="row" name="tpl_supplier"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_supplier" w="5.5cm"><value><text>Name of the Supplier:</text></value></draw>
+                  <field h="0.5cm" name="fld_supplier" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_LFA1.NAME1"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_waybill"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_waybill" w="5.5cm"><value><text>Way Bill No. and Date:</text></value></draw>
-                  <field h="0.8cm" name="fld_waybill_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/></field>
-                  <field h="0.8cm" name="fld_waybill_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BIL_DT"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_waybill"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_waybill" w="5.5cm"><value><text>Way Bill No. and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_waybill_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/></field>
+                  <field h="0.5cm" name="fld_waybill_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BIL_DT"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_invoice"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_invoice" w="5.5cm"><value><text>Invoice No and Date:</text></value></draw>
-                  <field h="0.8cm" name="fld_invoice_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VENDOR_INV"/></field>
-                  <field h="0.8cm" name="fld_invoice_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_invoice"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_invoice" w="5.5cm"><value><text>Invoice No and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_invoice_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VENDOR_INV"/></field>
+                  <field h="0.5cm" name="fld_invoice_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_transporter"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_transporter" w="5.5cm"><value><text>Transporter Name:</text></value></draw>
-                  <field h="0.8cm" name="fld_transporter" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_transporter"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_transporter" w="5.5cm"><value><text>Transporter Name:</text></value></draw>
+                  <field h="0.5cm" name="fld_transporter" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_vehicle"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_vehicle" w="5.5cm"><value><text>Vehicle No:</text></value></draw>
-                  <field h="0.8cm" name="fld_vehicle" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_vehicle"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_vehicle" w="5.5cm"><value><text>Vehicle No:</text></value></draw>
+                  <field h="0.5cm" name="fld_vehicle" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_lpr"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_lpr" w="5.5cm"><value><text>LPR No. and Date:</text></value></draw>
-                  <field h="0.8cm" name="fld_lpr_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BANFN"/></field>
-                  <field h="0.8cm" name="fld_lpr_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BADAT"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_lpr"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lpr" w="5.5cm"><value><text>LPR No. and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_lpr_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BANFN"/></field>
+                  <field h="0.5cm" name="fld_lpr_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BADAT"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_lpo"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_lpo" w="5.5cm"><value><text>LPO No. and Date:</text></value></draw>
-                  <field h="0.8cm" name="fld_lpo_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.EBELN"/></field>
-                  <field h="0.8cm" name="fld_lpo_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.BEDAT"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_lpo"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lpo" w="5.5cm"><value><text>LPO No. and Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_lpo_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.EBELN"/></field>
+                  <field h="0.5cm" name="fld_lpo_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.BEDAT"/></field>
                </subform>
                <!-- Evidence literally reads "&ls_eban-MFRPN&" for
                     "Department Name" - MFRPN (Manufacturer Part Number)
                     is an unusual field for a department, but preserved
                     exactly as evidenced rather than substituted; flag for
                     functional-owner confirmation, not silently changed. -->
-               <subform h="0.8cm" layout="row" name="tpl_department"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_department" w="5.5cm"><value><text>Department Name:</text></value></draw>
-                  <field h="0.8cm" name="fld_department" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.MFRPN"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_department"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_department" w="5.5cm"><value><text>Department Name:</text></value></draw>
+                  <field h="0.5cm" name="fld_department" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.MFRPN"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_section"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_section" w="5.5cm"><value><text>Section Name or Code:</text></value></draw>
-                  <field h="0.8cm" name="fld_section" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_section"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_section" w="5.5cm"><value><text>Section Name or Code:</text></value></draw>
+                  <field h="0.5cm" name="fld_section" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
                </subform>
             </subform>
-            <!-- template_col2 height raised 6.4->7.2cm to absorb the two
-                 taller rows below (0.8->1.2cm each), keeping it level
-                 with template_col1's own 7.2cm. -->
-            <subform h="7.2cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
+            <subform h="4.0cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
                <bind match="none"/>
-               <font size="9pt" typeface="Arial"/>
-               <!-- These two labels are long enough to wrap to a second
-                    line even at 6cm width ("...Bill of" / "Loding No:") -
-                    the F36 fix gave every row 0.8cm, enough for one line
-                    but not two, so the wrapped second line was being
-                    clipped (LiveCycle's own overflow "+" badge). These
-                    two rows specifically get 1.2cm to comfortably fit
-                    both wrapped lines; every other row's label fits on
-                    one line at 0.8cm and doesn't need the extra height. -->
-               <subform h="1.2cm" layout="row" name="tpl_awb_no"><bind match="none"/>
-                  <draw h="1.2cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
-                  <field h="1.2cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
+               <font size="7pt" typeface="Arial"/>
+               <subform h="0.5cm" layout="row" name="tpl_awb_no"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
+                  <field h="0.5cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
                </subform>
-               <subform h="1.2cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
-                  <draw h="1.2cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
-                  <field h="1.2cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
+                  <field h="0.5cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_ship"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_ship" w="6cm"><value><text>Name of Ship/Flight:</text></value></draw>
-                  <field h="0.8cm" name="fld_ship" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_ship"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_ship" w="6cm"><value><text>Name of Ship/Flight:</text></value></draw>
+                  <field h="0.5cm" name="fld_ship" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_clearing"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_clearing" w="6cm"><value><text>Name of Clearing Agent:</text></value></draw>
-                  <field h="0.8cm" name="fld_clearing" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_clearing"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_clearing" w="6cm"><value><text>Name of Clearing Agent:</text></value></draw>
+                  <field h="0.5cm" name="fld_clearing" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_lc"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_lc" w="6cm"><value><text>Letter of Credit(LC)No:</text></value></draw>
-                  <field h="0.8cm" name="fld_lc" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.LC_NO"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_lc"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lc" w="6cm"><value><text>Letter of Credit(LC)No:</text></value></draw>
+                  <field h="0.5cm" name="fld_lc" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.LC_NO"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_formm"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_formm" w="6cm"><value><text>Form M No:</text></value></draw>
-                  <field h="0.8cm" name="fld_formm" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.FORM_M"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_formm"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_formm" w="6cm"><value><text>Form M No:</text></value></draw>
+                  <field h="0.5cm" name="fld_formm" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.FORM_M"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_container"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_container" w="6cm"><value><text>Container No. or Mark No:</text></value></draw>
-                  <field h="0.8cm" name="fld_container" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CONTAINER"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_container"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_container" w="6cm"><value><text>Container No. or Mark No:</text></value></draw>
+                  <field h="0.5cm" name="fld_container" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CONTAINER"/></field>
                </subform>
                <!-- $.IV_WAERS / $.IV_KURSF are bare - both are top-level
                     interface import parameters, not nested under any
                     structure, matching the pilot's own $.V_WAERS
                     convention. -->
-               <subform h="0.8cm" layout="row" name="tpl_currency"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_currency" w="6cm"><value><text>Currency/Exchange Rate:</text></value></draw>
-                  <field h="0.8cm" name="fld_waers" w="1.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.IV_WAERS"/></field>
-                  <field h="0.8cm" name="fld_kursf" w="2.04cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.IV_KURSF"/></field>
+               <subform h="0.5cm" layout="row" name="tpl_currency"><bind match="none"/>
+                  <draw h="0.5cm" name="lbl_currency" w="6cm"><value><text>Currency/Exchange Rate:</text></value></draw>
+                  <field h="0.5cm" name="fld_waers" w="1.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.IV_WAERS"/></field>
+                  <field h="0.5cm" name="fld_kursf" w="2.04cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.IV_KURSF"/></field>
                </subform>
             </subform>
          </subform>
