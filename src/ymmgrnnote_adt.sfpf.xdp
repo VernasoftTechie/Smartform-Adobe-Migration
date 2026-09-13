@@ -81,19 +81,19 @@
               before it replaces this real-data default, per build
               checklist item 6 ("keep every conditional branch visibly
               annotated until DEP-YMMGRNNOTE-05 is approved"). -->
-         <subform h="1.8cm" layout="tb" name="company_identity" w="14cm" x="1cm" y="6.1cm">
+         <subform h="1.8cm" layout="position" name="company_identity" w="14cm" x="1cm" y="6.1cm">
             <bind match="none"/>
-            <field h="0.5cm" name="fld_company" w="14cm">
+            <field h="0.5cm" name="fld_company" w="14cm" x="0cm" y="0cm">
                <ui><textEdit/></ui>
                <font size="11pt" typeface="Arial" weight="bold"/>
                <bind match="dataRef" ref="$.LV_BUTXT"/>
             </field>
-            <field h="0.5cm" name="fld_plant_name" w="14cm">
+            <field h="0.5cm" name="fld_plant_name" w="14cm" x="0cm" y="0.5cm">
                <ui><textEdit/></ui>
                <font size="10pt" typeface="Arial"/>
                <bind match="dataRef" ref="$.LS_T001W.NAME1"/>
             </field>
-            <subform h="0.5cm" layout="row" name="plant_address_line">
+            <subform h="0.5cm" layout="row" name="plant_address_line" x="0cm" y="1cm">
                <bind match="none"/>
                <field h="0.5cm" name="fld_plant_stras" w="6cm">
                   <ui><textEdit/></ui>
@@ -119,9 +119,9 @@
               pairing below is the literal legacy text, typos preserved
               (WAY_BII_NO, VEND_INV, Loding) since these may be the real
               customer field names, not to be silently corrected. -->
-         <subform h="6.5cm" layout="row" name="template_block" w="20.20cm" x="1cm" y="8.3cm">
+         <subform h="6.5cm" layout="position" name="template_block" w="20.20cm" x="1cm" y="8.3cm">
             <bind match="none"/>
-            <subform h="6.5cm" layout="tb" name="template_col1" w="10.66cm">
+            <subform h="6.5cm" layout="tb" name="template_col1" w="10.66cm" x="0cm" y="0cm">
                <bind match="none"/>
                <font size="9pt" typeface="Arial"/>
                <subform h="0.5cm" layout="row" name="tpl_supplier"><bind match="none"/>
@@ -170,7 +170,7 @@
                   <field h="0.5cm" name="fld_section" w="5.66cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
                </subform>
             </subform>
-            <subform h="6.5cm" layout="tb" name="template_col2" w="9.54cm">
+            <subform h="6.5cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
                <bind match="none"/>
                <font size="9pt" typeface="Arial"/>
                <subform h="0.5cm" layout="row" name="tpl_awb_no"><bind match="none"/>
