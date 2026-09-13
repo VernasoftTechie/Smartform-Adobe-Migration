@@ -97,12 +97,62 @@ is captured.
 
 ## SAP validation steps
 
-1. Confirm the SFP baseline activates and shows a physical portrait page before adding bindings.
-2. Pull the current branch, then enter/activate all exact parameters, exceptions, globals, and type from `ymmgrnnote_interface_scope_ledger.md` natively in `YMMGRNNOTE_INT`. Verify every `LT_MSEG`/`LS_MSEG` QUAN/CURR reference against DDIC.
-3. Activate `YMMGRNNOTE_ADT`, then manually drag/drop required nodes from the left Interface tree into the right Context tree. Verify every required import/table node appears under Context, then Stage -> Commit -> Push the generated SFPF/SFPI.
-4. Render all five conditional header/template paths, including E and F language records.
-5. Test zero/initial `PEINH`, initial/non-initial `IV_KURSF`, an empty `LT_MSEG`, multiple rows, and a multi-page table.
-6. Compare legacy OTF (`GETOTF = 'X'`, `CONVERT_OTF`) against the Adobe PDF for the same document data, including manual signature lines and page counter.
-7. Obtain named business-owner visual sign-off, required for this High-risk form.
+1. ✅ Confirm the SFP baseline activates and shows a physical portrait page before adding bindings.
+2. ✅ Enter/activate all exact parameters, exceptions, globals, and type from `ymmgrnnote_interface_scope_ledger.md` natively in `YMMGRNNOTE_INT`. Verify every `LT_MSEG`/`LS_MSEG` QUAN/CURR reference against DDIC.
+3. ✅ Activate `YMMGRNNOTE_ADT`, drag required nodes from the left Interface tree into the right Context tree, verify they appear, then Stage -> Commit -> Push the generated SFPF/SFPI.
+4. Render all five conditional header/template paths, including E and F language records. **Deferred** - current build uses real-data fields (`LV_BUTXT`/`LS_T001W`) rather than the 5-way conditional branding, per `DEP-YMMGRNNOTE-05`.
+5. Test zero/initial `PEINH`, initial/non-initial `IV_KURSF`, an empty `LT_MSEG`, multiple rows, and a multi-page table. **Deferred** - the `MAIN` table isn't built yet (F34).
+6. Compare legacy OTF (`GETOTF = 'X'`, `CONVERT_OTF`) against the Adobe PDF for the same document data, including manual signature lines and page counter. **Deferred** - needs the table and footer/signature block first.
+7. Obtain named business-owner visual sign-off, required for this High-risk form. **Deferred** - not ready for business review until the full layout exists.
 
 **Out of scope:** driver-program changes, NACE/output-determination changes, and cutover decisions.
+
+## Increment 2 checklist — header, GRN date, TEMPLATE window (v2/F34, fixed F35)
+
+Run this now, in SFP, before moving on to the table. Each item names what
+to look at and what a pass looks like.
+
+### A. Structural/rendering checks
+
+| # | Check | Pass looks like |
+|---|---|---|
+| A1 | Open Layout, Design View | Page renders as A4 portrait (21 x 29.7cm), not Letter |
+| A2 | Logo box | A single image placeholder box near top-left, not overlapping the title |
+| A3 | Title | "Goods Reciept Note" centered, one line, no overlap with anything below it |
+| A4 | GRN No / GRN Date rows | Two label+field rows, stacked, each readable on its own line |
+| A5 | Company identity block | Three stacked field boxes (company name, plant name, address line) - no visual overlap between them |
+| A6 | TEMPLATE section | **The specific thing F35 fixed** - two clearly separated columns side by side, left column ending around the 10.66cm mark, right column starting there. No garbled/overlapping text. No warning triangles anywhere in this block |
+| A7 | Zoom to 100% and re-check A6 | Confirms the overlap in the previous screenshot is actually gone, not just less visible at a different zoom level |
+
+### B. Data/binding checks (requires a real or test GRN document number)
+
+| # | Field | Bound to | What to verify |
+|---|---|---|---|
+| B1 | GRN No. | `LS_MKPF.MBLNR` | Shows the real material document number |
+| B2 | GRN Date | `LS_MKPF.BUDAT` | Shows a real date, not blank/error - **this is the one flagged unconfirmed** (F33's `BUDAT`/`BUDAT_MKPF` question). If it's blank or wrong, check whether `BUDAT_MKPF` should be used instead |
+| B3 | Company name | `LV_BUTXT` | Shows the real company name (computed by `CL_FP_CODING`/`INITIALIZATION`'s `T001` lookup) - if blank, the initialization code isn't running or `LS_MSEG-BUKRS` isn't populated for this test document |
+| B4 | Plant name/address | `LS_T001W.NAME1/STRAS/PFACH/ORT01` | Shows the real plant address, not the SAP demo default |
+| B5 | Supplier | `LS_LFA1.NAME1` | Real supplier name |
+| B6 | Waybill/Invoice/Transporter/Vehicle | `LS_MKPF.WAY_BII_NO/WAY_BIL_DT/VENDOR_INV/VEND_INV/TRANSPORTER/VEHICLE_NO` | Each shows real data or blank (not an error) if the source field is genuinely empty for this document |
+| B7 | LPR / LPO | `LS_EBAN.BANFN/BADAT`, `LS_EKKO.EBELN/BEDAT` | Real PR/PO number and date |
+| B8 | Department | `LS_EBAN.MFRPN` | **Flagged in F34** - confirm with the functional owner whether this is really the intended source for "Department Name," since MFRPN is Manufacturer Part Number, not an obvious department field |
+| B9 | Section | `LS_EBAN.BEDNR` | Real section code |
+| B10 | Air waybill/Ship/Clearing/LC/Form M/Container | `LS_MKPF.AWB_NO_BOL/AWB_DT_BOL/SHIP_FLIGHT/CLEAR_AGNT/LC_NO/FORM_M/CONTAINER` | Real data where the document has it, blank otherwise |
+| B11 | Currency/Exchange Rate | `IV_WAERS`/`IV_KURSF` | Real currency code and rate |
+
+### C. If anything in section B fails
+
+Do not guess a fix. Capture the exact field, the exact error (if any), and
+whether the *binding* is wrong (points at the wrong field) or the
+*underlying data* is wrong (the field itself is empty/incorrect for that
+test document) - these need different fixes, and conflating them wastes a
+round trip.
+
+### D. After A and B pass
+
+Stage -> Commit -> Push the confirmed-working layout, then move to the
+next increment: the `MAIN` repeating table (8 columns, `occur`/loop
+binding - a pattern not yet tested on this form) and the
+footer/signature block. Full end-to-end sign-off (steps 4-7 above) only
+happens once those exist and the whole form has been compared against a
+real printed GRN.
