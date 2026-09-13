@@ -110,7 +110,7 @@
                <font typeface="Arial"/>
                <bind match="dataRef" ref="$.LS_T001W.NAME1"/>
             </field>
-            <subform h="0.5cm" name="plant_address_line" x="0cm" y="1cm">
+            <subform h="0.5cm" layout="row" name="plant_address_line" x="0cm" y="1cm">
                <bind match="none"/>
                <field h="0.5cm" name="fld_plant_stras" w="6cm">
                   <ui>
@@ -500,18 +500,26 @@
               that (e.g. ref="MATNR", not ref="$.MATNR"). -->
          <subform h="8cm" layout="tb" name="line_items" w="19.70cm" x="0.65cm" y="14.5cm">
             <bind match="none"/>
-            <subform h="0.6cm" layout="position" name="table_header" w="19.70cm">
+            <!-- Header height raised 0.6->0.9cm: "Material Code" and
+                 "Accepted Qty" wrap to 2 lines at 8pt in their evidenced
+                 column widths (2.30cm/2.05cm) - same class of issue as
+                 the TEMPLATE block's F37/F39 (a static label needing
+                 more height to show its natural wrap, not a layout
+                 bug). Uniform height applied to all 8 headers, matching
+                 the file's own established "fix the row, not just the
+                 outlier" convention. -->
+            <subform h="0.9cm" layout="position" name="table_header" w="19.70cm">
                <bind match="none"/>
                <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                <font size="8pt" typeface="Arial" weight="bold"/>
-               <draw h="0.6cm" name="h01" w="0.86cm" x="0cm" y="0cm"><value><text>SNo</text></value></draw>
-               <draw h="0.6cm" name="h02" w="2.30cm" x="0.86cm" y="0cm"><value><text>Material Code</text></value></draw>
-               <draw h="0.6cm" name="h03" w="7.05cm" x="3.16cm" y="0cm"><value><text>Item Description</text></value></draw>
-               <draw h="0.6cm" name="h04" w="1.05cm" x="10.21cm" y="0cm"><value><text>Unit</text></value></draw>
-               <draw h="0.6cm" name="h05" w="2.05cm" x="11.26cm" y="0cm"><value><text>Accepted Qty</text></value></draw>
-               <draw h="0.6cm" name="h06" w="1.49cm" x="13.31cm" y="0cm"><value><text>St.Bin</text></value></draw>
-               <draw h="0.6cm" name="h07" w="1.64cm" x="14.80cm" y="0cm"><value><text>Unit Rate</text></value></draw>
-               <draw h="0.6cm" name="h08" w="3.26cm" x="16.44cm" y="0cm"><value><text>Amount</text></value></draw>
+               <draw h="0.9cm" name="h01" w="0.86cm" x="0cm" y="0cm"><value><text>SNo</text></value></draw>
+               <draw h="0.9cm" name="h02" w="2.30cm" x="0.86cm" y="0cm"><value><text>Material Code</text></value></draw>
+               <draw h="0.9cm" name="h03" w="7.05cm" x="3.16cm" y="0cm"><value><text>Item Description</text></value></draw>
+               <draw h="0.9cm" name="h04" w="1.05cm" x="10.21cm" y="0cm"><value><text>Unit</text></value></draw>
+               <draw h="0.9cm" name="h05" w="2.05cm" x="11.26cm" y="0cm"><value><text>Accepted Qty</text></value></draw>
+               <draw h="0.9cm" name="h06" w="1.49cm" x="13.31cm" y="0cm"><value><text>St.Bin</text></value></draw>
+               <draw h="0.9cm" name="h07" w="1.64cm" x="14.80cm" y="0cm"><value><text>Unit Rate</text></value></draw>
+               <draw h="0.9cm" name="h08" w="3.26cm" x="16.44cm" y="0cm"><value><text>Amount</text></value></draw>
             </subform>
             <subform h="0.55cm" layout="position" name="table_row" w="19.70cm">
                <occur min="0" max="-1"/>
@@ -542,17 +550,24 @@
                  second variable capturing the pre-VAT figure is
                  introduced. Bound literally as evidenced rather than
                  guessing a fix - flagged for functional-owner input. -->
-            <subform h="0.6cm" layout="row" name="table_total" w="19.70cm">
+            <!-- Converted row->position with explicit cumulative x
+                 (F41 follow-up): while "row" layout is proven safe for
+                 a simple 2-child draw+field (grn_no_line/grn_date_line),
+                 it has not been confirmed reliable for an 8-child row
+                 nested under a "tb" parent (table_total's own parent,
+                 line_items, is layout="tb") - removing the dependency
+                 entirely rather than assume it's fine. -->
+            <subform h="0.6cm" layout="position" name="table_total" w="19.70cm">
                <bind match="none"/>
                <font size="8pt" typeface="Arial" weight="bold"/>
-               <draw h="0.6cm" name="lbl_gross" w="2cm"><value><text>Gross:</text></value></draw>
-               <field h="0.6cm" name="fld_gross" w="2.5cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
-               <draw h="0.6cm" name="lbl_vat" w="2cm"><value><text>Vat:</text></value></draw>
-               <field h="0.6cm" name="fld_vat_total" w="2.5cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.VAT"/></field>
-               <draw h="0.6cm" name="lbl_freight" w="3.5cm"><value><text>Freight and other charge:</text></value></draw>
-               <field h="0.6cm" name="fld_freight" w="2.2cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.SUM"/></field>
-               <draw h="0.6cm" name="lbl_total" w="2.5cm"><value><text>Total Amount:</text></value></draw>
-               <field h="0.6cm" name="fld_total" w="2.5cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
+               <draw h="0.6cm" name="lbl_gross" w="2cm" x="0cm" y="0cm"><value><text>Gross:</text></value></draw>
+               <field h="0.6cm" name="fld_gross" w="2.5cm" x="2cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
+               <draw h="0.6cm" name="lbl_vat" w="2cm" x="4.5cm" y="0cm"><value><text>Vat:</text></value></draw>
+               <field h="0.6cm" name="fld_vat_total" w="2.5cm" x="6.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.VAT"/></field>
+               <draw h="0.6cm" name="lbl_freight" w="3.5cm" x="9cm" y="0cm"><value><text>Freight and other charge:</text></value></draw>
+               <field h="0.6cm" name="fld_freight" w="2.2cm" x="12.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.SUM"/></field>
+               <draw h="0.6cm" name="lbl_total" w="2.5cm" x="14.7cm" y="0cm"><value><text>Total Amount:</text></value></draw>
+               <field h="0.6cm" name="fld_total" w="2.5cm" x="17.2cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.TOT_AMNT"/></field>
             </subform>
          </subform>
 
@@ -566,23 +581,39 @@
               verbatim in the earlier extraction pass - the line below
               is a reasonable placeholder, not evidenced text; confirm
               the real wording before sign-off. -->
-         <subform h="2cm" layout="tb" name="signature_block" w="19.70cm" x="0.65cm" y="23cm">
+         <!-- Rebuilt (F41 follow-up): the original underscore-character
+              "signature lines" ("_____________________" baked into the
+              label text) risked exceeding their own draw's width at
+              9pt, and each row relied on layout="row" nested two levels
+              inside signature_block's "tb" - the same unproven nesting
+              risk flagged on table_total above. Rebuilt every row as
+              explicit layout="position" with a real bottom-border line
+              (an empty draw with only its bottom edge visible) instead
+              of underscore glyphs - removes all text-width guessing and
+              all row-layout-nesting risk in one change. -->
+         <subform h="2.1cm" layout="tb" name="signature_block" w="19.70cm" x="0.65cm" y="23cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial"/>
-            <subform h="0.6cm" layout="row" name="sig_row1">
+            <subform h="0.7cm" layout="position" name="sig_row1" w="19.70cm">
                <bind match="none"/>
-               <draw h="0.6cm" name="lbl_prepared" w="9.85cm"><value><text>Prepared By: _____________________</text></value></draw>
-               <draw h="0.6cm" name="lbl_checked" w="9.85cm"><value><text>Checked By: _____________________</text></value></draw>
+               <draw h="0.5cm" name="lbl_prepared" w="3cm" x="0cm" y="0cm"><value><text>Prepared By:</text></value></draw>
+               <draw h="0.5cm" name="line_prepared" w="6.85cm" x="3cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+               <draw h="0.5cm" name="lbl_checked" w="3cm" x="9.85cm" y="0cm"><value><text>Checked By:</text></value></draw>
+               <draw h="0.5cm" name="line_checked" w="6.85cm" x="12.85cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
             </subform>
-            <subform h="0.6cm" layout="row" name="sig_row2">
+            <subform h="0.7cm" layout="position" name="sig_row2" w="19.70cm">
                <bind match="none"/>
-               <draw h="0.6cm" name="lbl_head_store" w="9.85cm"><value><text>Head (Store): _____________________</text></value></draw>
-               <draw h="0.6cm" name="lbl_head_dept" w="9.85cm"><value><text>Head (User Department): _____________________</text></value></draw>
+               <draw h="0.5cm" name="lbl_head_store" w="3.2cm" x="0cm" y="0cm"><value><text>Head (Store):</text></value></draw>
+               <draw h="0.5cm" name="line_head_store" w="6.65cm" x="3.2cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+               <draw h="0.5cm" name="lbl_head_dept" w="4.5cm" x="9.85cm" y="0cm"><value><text>Head (User Department):</text></value></draw>
+               <draw h="0.5cm" name="line_head_dept" w="5.35cm" x="14.35cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
             </subform>
-            <!-- Placeholder wording - see comment above. -->
-            <draw h="0.6cm" name="lbl_supplier_end" w="19.70cm">
-               <value><text>Received the above goods in good condition. (Supplier's Signature): _____________________</text></value>
-            </draw>
+            <!-- Placeholder wording - see comment above; still unconfirmed. -->
+            <subform h="0.6cm" layout="position" name="sig_row3" w="19.70cm">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_supplier_end" w="13cm" x="0cm" y="0cm"><value><text>Received the above goods in good condition. (Supplier's Signature):</text></value></draw>
+               <draw h="0.5cm" name="line_supplier_end" w="6.70cm" x="13cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+            </subform>
          </subform>
 
          <!-- Footer - evidence: ymmgrnnote.md section 3, FOOTER window:
@@ -593,30 +624,35 @@
               FormCalc pattern instead of guessing an SFPSY binding path.
               Date/time likewise use FormCalc's own Date()/Time() rather
               than an unconfirmed system-field Context path. -->
-         <subform h="0.6cm" layout="row" name="page_footer" w="19.70cm" x="0.65cm" y="28.5cm">
+         <!-- Converted row->position with explicit cumulative x (F41
+              follow-up) - same reasoning as table_total/signature_block:
+              8 children is more than any other "row"-layout subform in
+              this file has ever been confirmed to render correctly,
+              so remove the guesswork rather than assume it scales. -->
+         <subform h="0.6cm" layout="position" name="page_footer" w="19.70cm" x="0.65cm" y="28.5cm">
             <bind match="none"/>
             <font size="8pt" typeface="Arial"/>
-            <field h="0.6cm" name="fld_footer_date" w="3.5cm">
+            <field h="0.6cm" name="fld_footer_date" w="3.5cm" x="0cm" y="0cm">
                <ui><textEdit/></ui>
                <bind match="none"/>
                <calculate><script contentType="application/x-formcalc">$ = Date()</script></calculate>
             </field>
-            <field h="0.6cm" name="fld_footer_time" w="2.5cm">
+            <field h="0.6cm" name="fld_footer_time" w="2.5cm" x="3.5cm" y="0cm">
                <ui><textEdit/></ui>
                <bind match="none"/>
                <calculate><script contentType="application/x-formcalc">$ = Time()</script></calculate>
             </field>
-            <draw h="0.6cm" name="lbl_footer_grn" w="1.8cm"><value><text>GRN No:</text></value></draw>
-            <field h="0.6cm" name="fld_footer_grn" w="3cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.MBLNR"/></field>
-            <draw h="0.6cm" name="lbl_page_pre" w="1.2cm"><value><text>Page</text></value></draw>
-            <field h="0.6cm" name="fld_page_current" w="1.2cm">
+            <draw h="0.6cm" name="lbl_footer_grn" w="1.8cm" x="6cm" y="0cm"><value><text>GRN No:</text></value></draw>
+            <field h="0.6cm" name="fld_footer_grn" w="3cm" x="7.8cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.MBLNR"/></field>
+            <draw h="0.6cm" name="lbl_page_pre" w="1.2cm" x="10.8cm" y="0cm"><value><text>Page</text></value></draw>
+            <field h="0.6cm" name="fld_page_current" w="1.2cm" x="12cm" y="0cm">
                <ui><numericEdit/></ui>
                <bind match="none"/>
                <value><float/></value>
                <calculate><script contentType="application/x-formcalc">$ = xfa.layout.page(this)</script></calculate>
             </field>
-            <draw h="0.6cm" name="lbl_page_of" w="0.8cm"><value><text>of</text></value></draw>
-            <field h="0.6cm" name="fld_page_total" w="1.2cm">
+            <draw h="0.6cm" name="lbl_page_of" w="0.8cm" x="13.2cm" y="0cm"><value><text>of</text></value></draw>
+            <field h="0.6cm" name="fld_page_total" w="1.2cm" x="14cm" y="0cm">
                <ui><numericEdit/></ui>
                <bind match="none"/>
                <value><float/></value>
