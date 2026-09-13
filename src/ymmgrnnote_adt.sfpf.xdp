@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xfa generator="AdobeLiveCycleDesigner_V11.0.9.20240701.1.52_SAP" APIVersion="3.6.24183.0"?><xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2026-09-12T19:37:33Z" uuid="0fa629a9-14e9-4ec1-b81a-3a612fcc253b">
-<template xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
+<?xfa generator="AdobeLiveCycleDesigner_V11.0.9.20240701.1.52_SAP" APIVersion="3.6.24183.0"?><xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2026-09-13T09:58:46Z" uuid="0fa629a9-14e9-4ec1-b81a-3a612fcc253b">
+<template xmlns:xliff="urn:oasis:names:tc:xliff:document:1.1" xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
    <?formServer defaultPDFRenderFormat acrobat10.0dynamic?>
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
@@ -9,7 +9,7 @@
             <medium long="29.7cm" short="21cm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="29.7cm" layout="position" name="visual_shell" w="21cm">
+      <subform h="29.7cm" name="visual_shell" w="21cm">
          <!-- Logo: SE78 GRAPHICS/DANOGATELOGONEW/BMAP/BCOL per
               docs/legacy_grab/ymmgrnnote.md section 1 and the global
               logo inventory. Position is a reasonable top-left default,
@@ -17,7 +17,9 @@
               blank (checklist item 3); confirm against a real printed
               GRN before treating this as final. -->
          <field h="2.2cm" name="logo_image" w="4.5cm" x="1cm" y="1cm">
-            <ui><imageEdit/></ui>
+            <ui>
+               <imageEdit/>
+            </ui>
             <bind match="none"/>
             <value>
                <image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/DANOGATELOGONEW.bmp"/>
@@ -25,11 +27,12 @@
          </field>
          <draw h="0.9cm" name="legacy_caption" w="21cm" x="0cm" y="3.4cm">
             <value>
-               <text>Goods Reciept Note</text>
+               <text xliff:rid="07B52A08-5700-4D78-87A5-2E046FE755C5">Goods Reciept Note</text>
             </value>
             <font size="14pt" typeface="Arial" weight="bold"/>
             <para hAlign="center"/>
-         </draw>
+            <?renderCache.bounds 595276 25512 0 0 0 0 0 0?>
+            <?renderCache.textRun 18 Goods Reciept Note 0 230742 11054 0 0 0 "Arial" 1 0 14000 ISO-8859-1?></draw>
          <!-- GRN No / Date - evidence: ymmgrnnote.md section 3, DATE
               window: "GRN NO. &LS_MKPF-MBLNR&" / "GRN Date:
               &LS_MKPF-BUDAT&". Binding test: MBLNR only, to confirm the
@@ -38,18 +41,23 @@
               way - the Context capture showed both a bare BUDAT and a
               BUDAT_MKPF at different tree positions, not yet resolved
               which this form's own LS_MKPF-BUDAT actually maps to. -->
-         <subform h="0.6cm" layout="row" name="grn_no_line" w="10cm" x="1cm" y="4.6cm">
+         <subform h="0.6cm" name="grn_no_line" w="10cm" x="1cm" y="4.6cm">
             <bind match="none"/>
             <draw h="0.6cm" name="lbl_grn_no" w="2.5cm">
-               <value><text>GRN NO.</text></value>
-               <font size="10pt" typeface="Arial" weight="bold"/>
-            </draw>
+               <value>
+                  <text xliff:rid="D4539927-DA98-4F1F-A72F-EFD48D1EFA7A">GRN NO.</text>
+               </value>
+               <font typeface="Arial" weight="bold"/>
+               <?renderCache.bounds 70866 17008 0 0 0 0 0 0?>
+               <?renderCache.textRun 7 GRN NO. 0 0 7896 0 0 0 "Arial" 1 0 10000 ISO-8859-1?></draw>
             <field h="0.6cm" name="fld_mblnr" w="4cm">
-               <ui><textEdit/></ui>
-               <font size="10pt" typeface="Arial"/>
+               <ui>
+                  <textEdit/>
+               </ui>
+               <font typeface="Arial"/>
                <bind match="dataRef" ref="$.LS_MKPF.MBLNR"/>
             </field>
-         </subform>
+            <?templateDesigner expand 0?></subform>
          <!-- GRN Date - evidence: ymmgrnnote.md section 3, DATE window
               "GRN Date: &LS_MKPF-BUDAT&". Bound to bare BUDAT (MKPF's
               own standard posting-date field) as the most likely match;
@@ -57,18 +65,23 @@
               different tree position whose owner is not yet confirmed -
               verify this binding renders the right value before trusting
               it, per F33. -->
-         <subform h="0.6cm" layout="row" name="grn_date_line" w="10cm" x="1cm" y="5.3cm">
+         <subform h="0.6cm" name="grn_date_line" w="10cm" x="1cm" y="5.3cm">
             <bind match="none"/>
             <draw h="0.6cm" name="lbl_grn_date" w="2.5cm">
-               <value><text>GRN Date:</text></value>
-               <font size="10pt" typeface="Arial" weight="bold"/>
-            </draw>
+               <value>
+                  <text xliff:rid="73C42536-2C42-48B9-B20A-442FDACF20B9">GRN Date:</text>
+               </value>
+               <font typeface="Arial" weight="bold"/>
+               <?renderCache.bounds 70866 17008 0 0 0 0 0 0?>
+               <?renderCache.textRun 9 GRN Date: 0 0 7896 0 0 0 "Arial" 1 0 10000 ISO-8859-1?></draw>
             <field h="0.6cm" name="fld_budat" w="4cm">
-               <ui><textEdit/></ui>
-               <font size="10pt" typeface="Arial"/>
+               <ui>
+                  <textEdit/>
+               </ui>
+               <font typeface="Arial"/>
                <bind match="dataRef" ref="$.LS_MKPF.BUDAT"/>
             </field>
-         </subform>
+            <?templateDesigner expand 0?></subform>
          <!-- Company/plant identity - evidence: ymmgrnnote.md section 3,
               HEADERWINDOW: dynamic LV_BUTXT (company name, already
               computed in CL_FP_CODING/INITIALIZATION) and
@@ -81,37 +94,47 @@
               before it replaces this real-data default, per build
               checklist item 6 ("keep every conditional branch visibly
               annotated until DEP-YMMGRNNOTE-05 is approved"). -->
-         <subform h="1.8cm" layout="position" name="company_identity" w="14cm" x="1cm" y="6.1cm">
+         <subform h="1.8cm" name="company_identity" w="14cm" x="1cm" y="6.1cm">
             <bind match="none"/>
             <field h="0.5cm" name="fld_company" w="14cm" x="0cm" y="0cm">
-               <ui><textEdit/></ui>
+               <ui>
+                  <textEdit/>
+               </ui>
                <font size="11pt" typeface="Arial" weight="bold"/>
                <bind match="dataRef" ref="$.LV_BUTXT"/>
             </field>
             <field h="0.5cm" name="fld_plant_name" w="14cm" x="0cm" y="0.5cm">
-               <ui><textEdit/></ui>
-               <font size="10pt" typeface="Arial"/>
+               <ui>
+                  <textEdit/>
+               </ui>
+               <font typeface="Arial"/>
                <bind match="dataRef" ref="$.LS_T001W.NAME1"/>
             </field>
-            <subform h="0.5cm" layout="row" name="plant_address_line" x="0cm" y="1cm">
+            <subform h="0.5cm" name="plant_address_line" x="0cm" y="1cm">
                <bind match="none"/>
                <field h="0.5cm" name="fld_plant_stras" w="6cm">
-                  <ui><textEdit/></ui>
-                  <font size="10pt" typeface="Arial"/>
+                  <ui>
+                     <textEdit/>
+                  </ui>
+                  <font typeface="Arial"/>
                   <bind match="dataRef" ref="$.LS_T001W.STRAS"/>
                </field>
                <field h="0.5cm" name="fld_plant_pfach" w="3cm">
-                  <ui><textEdit/></ui>
-                  <font size="10pt" typeface="Arial"/>
+                  <ui>
+                     <textEdit/>
+                  </ui>
+                  <font typeface="Arial"/>
                   <bind match="dataRef" ref="$.LS_T001W.PFACH"/>
                </field>
                <field h="0.5cm" name="fld_plant_ort01" w="5cm">
-                  <ui><textEdit/></ui>
-                  <font size="10pt" typeface="Arial"/>
+                  <ui>
+                     <textEdit/>
+                  </ui>
+                  <font typeface="Arial"/>
                   <bind match="dataRef" ref="$.LS_T001W.ORT01"/>
                </field>
             </subform>
-         </subform>
+            <?templateDesigner expand 0?></subform>
          <!-- TEMPLATE window - evidence: byte-offset extracted from
               ymmgrnnote.xml, nodes %TEXT3 (column 1, 10.66cm) and %TEXT4
               (column 2, 9.54cm) under %TEMPLATE1 (total 20.20cm, matching
@@ -135,57 +158,177 @@
               needing per-row exceptions. template_col1 (9 rows) is
               4.5cm tall, template_col2 (8 rows) is 4.0cm - template_block
               sized to the taller of the two. -->
-         <subform h="4.8cm" layout="position" name="template_block" w="20.20cm" x="0.4cm" y="8.3cm">
+         <subform h="4.8cm" name="template_block" w="20.20cm" x="0.4cm" y="8.3cm">
             <bind match="none"/>
             <subform h="4.5cm" layout="tb" name="template_col1" w="10.66cm" x="0cm" y="0cm">
                <bind match="none"/>
                <font size="7pt" typeface="Arial"/>
-               <subform h="0.5cm" layout="row" name="tpl_supplier"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_supplier" w="5.5cm"><value><text>Name of the Supplier:</text></value></draw>
-                  <field h="0.5cm" name="fld_supplier" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_LFA1.NAME1"/></field>
+               <subform h="6.343mm" name="tpl_supplier" w="100.679mm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_supplier" w="49.975mm" y="0.45mm">
+                     <value>
+                        <text xliff:rid="5141F7E7-7363-44BB-BAB8-539343457FA9">Name of the Supplier:</text>
+                     </value>
+                     <?renderCache.bounds 141661 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 21 Name of the Supplier: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="5.9mm" name="fld_supplier" w="50.8mm" x="49.975mm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_LFA1.NAME1"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="6.329mm" name="tpl_waybill" w="100.775mm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_waybill" w="49.975mm" y="1.329mm">
+                     <value>
+                        <text xliff:rid="8974C017-D851-46FE-A08F-7A5AF0059B33">Way Bill No. and Date:</text>
+                     </value>
+                     <?renderCache.bounds 141661 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 22 Way Bill No. and Date: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <?templateDesigner expand 0?>
+                  <field h="5mm" name="fld_waybill_dt" w="25.4mm" x="75.375mm" y="0.443mm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.WAY_BIL_DT"/>
+                  </field>
+                  <field h="0.5cm" name="fld_waybill_no" w="2.58cm" x="49.975mm" y="0mm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/>
+                  </field>
                </subform>
-               <subform h="0.5cm" layout="row" name="tpl_waybill"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_waybill" w="5.5cm"><value><text>Way Bill No. and Date:</text></value></draw>
-                  <field h="0.5cm" name="fld_waybill_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/></field>
-                  <field h="0.5cm" name="fld_waybill_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.WAY_BIL_DT"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_invoice"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_invoice" w="5.5cm"><value><text>Invoice No and Date:</text></value></draw>
-                  <field h="0.5cm" name="fld_invoice_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VENDOR_INV"/></field>
-                  <field h="0.5cm" name="fld_invoice_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_transporter"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_transporter" w="5.5cm"><value><text>Transporter Name:</text></value></draw>
-                  <field h="0.5cm" name="fld_transporter" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_vehicle"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_vehicle" w="5.5cm"><value><text>Vehicle No:</text></value></draw>
-                  <field h="0.5cm" name="fld_vehicle" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_lpr"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_lpr" w="5.5cm"><value><text>LPR No. and Date:</text></value></draw>
-                  <field h="0.5cm" name="fld_lpr_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BANFN"/></field>
-                  <field h="0.5cm" name="fld_lpr_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BADAT"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_lpo"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_lpo" w="5.5cm"><value><text>LPO No. and Date:</text></value></draw>
-                  <field h="0.5cm" name="fld_lpo_no" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.EBELN"/></field>
-                  <field h="0.5cm" name="fld_lpo_dt" w="2.58cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.BEDAT"/></field>
-               </subform>
+               <subform h="0.5cm" name="tpl_invoice">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_invoice" w="5.5cm">
+                     <value>
+                        <text xliff:rid="770EBD67-B9F9-4793-898D-F1E3805C7F15">Invoice No and Date:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 20 Invoice No and Date: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_invoice_no" w="2.58cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.VENDOR_INV"/>
+                  </field>
+                  <field h="0.5cm" name="fld_invoice_dt" w="2.58cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_transporter">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_transporter" w="5.5cm">
+                     <value>
+                        <text xliff:rid="77B2D477-D2C3-426F-B09F-3CB79FEDF7A8">Transporter Name:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 17 Transporter Name: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_transporter" w="5.16cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_vehicle">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_vehicle" w="5.5cm">
+                     <value>
+                        <text xliff:rid="E5A95949-835F-49BD-BE17-B1DEB219EC7C">Vehicle No:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 11 Vehicle No: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_vehicle" w="5.16cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_lpr">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lpr" w="5.5cm">
+                     <value>
+                        <text xliff:rid="21DDDF17-F722-4EEA-A0DF-9EE9C41E5A73">LPR No. and Date:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 17 LPR No. and Date: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_lpr_no" w="2.58cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_EBAN.BANFN"/>
+                  </field>
+                  <field h="0.5cm" name="fld_lpr_dt" w="2.58cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_EBAN.BADAT"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_lpo">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lpo" w="5.5cm">
+                     <value>
+                        <text xliff:rid="C421D2FE-BBF5-4481-9986-8D0C1CBD2CF4">LPO No. and Date:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 17 LPO No. and Date: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_lpo_no" w="2.58cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_EKKO.EBELN"/>
+                  </field>
+                  <field h="0.5cm" name="fld_lpo_dt" w="2.58cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_EKKO.BEDAT"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
                <!-- Evidence literally reads "&ls_eban-MFRPN&" for
                     "Department Name" - MFRPN (Manufacturer Part Number)
                     is an unusual field for a department, but preserved
                     exactly as evidenced rather than substituted; flag for
                     functional-owner confirmation, not silently changed. -->
-               <subform h="0.5cm" layout="row" name="tpl_department"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_department" w="5.5cm"><value><text>Department Name:</text></value></draw>
-                  <field h="0.5cm" name="fld_department" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.MFRPN"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_section"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_section" w="5.5cm"><value><text>Section Name or Code:</text></value></draw>
-                  <field h="0.5cm" name="fld_section" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
-               </subform>
-            </subform>
+               <subform h="0.5cm" name="tpl_department">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_department" w="5.5cm">
+                     <value>
+                        <text xliff:rid="2DA72FE8-A83B-438D-BBEF-3F2FF153F894">Department Name:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 16 Department Name: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_department" w="5.16cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_EBAN.MFRPN"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_section">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_section" w="5.5cm">
+                     <value>
+                        <text xliff:rid="7D5D07CE-C2A3-479C-A802-5D9662072B1F">Section Name or Code:</text>
+                     </value>
+                     <?renderCache.bounds 155906 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 21 Section Name or Code: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_section" w="5.16cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_EBAN.BEDNR"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <?templateDesigner expand 1?></subform>
             <!-- template_col2 height raised 4.0->4.8cm: the two rows
                  below are 0.9cm instead of the uniform 0.5cm (see their
                  own comment). -->
@@ -200,62 +343,159 @@
                     labels, or truncating the evidenced legacy wording,
                     give exactly these two rows enough height (0.9cm) to
                     show their natural two-line wrap cleanly. -->
-               <subform h="0.9cm" layout="row" name="tpl_awb_no"><bind match="none"/>
-                  <draw h="0.9cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
-                  <field h="0.9cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
-               </subform>
-               <subform h="0.9cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
-                  <draw h="0.9cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
-                  <field h="0.9cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_ship"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_ship" w="6cm"><value><text>Name of Ship/Flight:</text></value></draw>
-                  <field h="0.5cm" name="fld_ship" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_clearing"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_clearing" w="6cm"><value><text>Name of Clearing Agent:</text></value></draw>
-                  <field h="0.5cm" name="fld_clearing" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_lc"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_lc" w="6cm"><value><text>Letter of Credit(LC)No:</text></value></draw>
-                  <field h="0.5cm" name="fld_lc" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.LC_NO"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_formm"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_formm" w="6cm"><value><text>Form M No:</text></value></draw>
-                  <field h="0.5cm" name="fld_formm" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.FORM_M"/></field>
-               </subform>
-               <subform h="0.5cm" layout="row" name="tpl_container"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_container" w="6cm"><value><text>Container No. or Mark No:</text></value></draw>
-                  <field h="0.5cm" name="fld_container" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.CONTAINER"/></field>
-               </subform>
+               <subform h="0.9cm" name="tpl_awb_no">
+                  <bind match="none"/>
+                  <draw h="0.9cm" name="lbl_awb_no" w="6cm">
+                     <value>
+                        <text xliff:rid="BDE9D445-BF3B-44A7-94FA-AC3AA58A4E9E">Air Way Bill No/Bill of Loding No:</text>
+                     </value>
+                     <?renderCache.bounds 170079 25512 0 0 0 0 0 0?>
+                     <?renderCache.textRun 24 Air Way Bill No/Bill of  0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?>
+                     <?renderCache.textRun 10 Loding No: 0 0 19010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.9cm" name="fld_awb_no" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.9cm" name="tpl_awb_dt">
+                  <bind match="none"/>
+                  <draw h="0.9cm" name="lbl_awb_dt" w="6cm">
+                     <value>
+                        <text xliff:rid="DA1CB333-7B0D-4C9D-B90C-832383592772">Air Way Bill/Bill of Loading Date:</text>
+                     </value>
+                     <?renderCache.bounds 170079 25512 0 0 0 0 0 0?>
+                     <?renderCache.textRun 29 Air Way Bill/Bill of Loading  0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?>
+                     <?renderCache.textRun 5 Date: 0 0 19010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.9cm" name="fld_awb_dt" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_ship">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_ship" w="6cm">
+                     <value>
+                        <text xliff:rid="B67BC164-73AA-449E-9D6C-BF0B3054C571">Name of Ship/Flight:</text>
+                     </value>
+                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 20 Name of Ship/Flight: 0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_ship" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_clearing">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_clearing" w="6cm">
+                     <value>
+                        <text xliff:rid="B29D7C11-3902-42B0-AFDD-680CA248D811">Name of Clearing Agent:</text>
+                     </value>
+                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 23 Name of Clearing Agent: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_clearing" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_lc">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_lc" w="6cm">
+                     <value>
+                        <text xliff:rid="22B18E9E-C51D-4027-AFA7-99A2AEB3AC1D">Letter of Credit(LC)No:</text>
+                     </value>
+                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 23 Letter of Credit(LC)No: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_lc" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.LC_NO"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_formm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_formm" w="6cm">
+                     <value>
+                        <text xliff:rid="B5B7627A-512B-4CFA-A714-6314FAC45859">Form M No:</text>
+                     </value>
+                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 10 Form M No: 0 0 6270 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_formm" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.FORM_M"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <subform h="0.5cm" name="tpl_container">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_container" w="6cm">
+                     <value>
+                        <text xliff:rid="A40B88D6-97E2-4211-AF5A-83890D205AC7">Container No. or Mark No:</text>
+                     </value>
+                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 25 Container No. or Mark No: 0 0 6540 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_container" w="3.54cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.LS_MKPF.CONTAINER"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
                <!-- $.IV_WAERS / $.IV_KURSF are bare - both are top-level
                     interface import parameters, not nested under any
                     structure, matching the pilot's own $.V_WAERS
                     convention. -->
-               <subform h="0.5cm" layout="row" name="tpl_currency"><bind match="none"/>
-                  <draw h="0.5cm" name="lbl_currency" w="6cm"><value><text>Currency/Exchange Rate:</text></value></draw>
-                  <field h="0.5cm" name="fld_waers" w="1.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.IV_WAERS"/></field>
-                  <field h="0.5cm" name="fld_kursf" w="2.04cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.IV_KURSF"/></field>
-               </subform>
-            </subform>
-         </subform>
-      </subform>
+               <subform h="0.5cm" name="tpl_currency">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="lbl_currency" w="6cm">
+                     <value>
+                        <text xliff:rid="A80B4ECB-4CB3-4F18-81FE-906CF8F63A20">Currency/Exchange Rate:</text>
+                     </value>
+                     <?renderCache.bounds 170079 14173 0 0 0 0 0 0?>
+                     <?renderCache.textRun 23 Currency/Exchange Rate: 0 0 7010 0 0 0 "Courier Std" 0 0 10000 ISO-8859-1?></draw>
+                  <field h="0.5cm" name="fld_waers" w="1.5cm">
+                     <ui>
+                        <textEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.IV_WAERS"/>
+                  </field>
+                  <field h="0.5cm" name="fld_kursf" w="2.04cm">
+                     <ui>
+                        <numericEdit/>
+                     </ui>
+                     <bind match="dataRef" ref="$.IV_KURSF"/>
+                  </field>
+                  <?templateDesigner expand 1?></subform>
+               <?templateDesigner expand 1?></subform>
+            <?templateDesigner expand 1?></subform>
+         <?templateDesigner expand 1?></subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>
       </desc>
-      <?templateDesigner expand 1?></subform>
+      <?templateDesigner expand 1?>
+      <?renderCache.subset "Arial" 1 0 ISO-8859-1 4 68 17 00030011001D0027002A0031003200350044004600470048004C0052005300560057 .:DGNORacdeiopst?>
+      <?renderCache.subset "Courier Std" 0 0 ISO-8859-1 4 176 44 00010009000A000F0010001B002200230024002500260027002A002D002E002F00300031003300340035003700380042004400450046004700480049004A004C004D004E004F00500051005300540055005600570059005A ()./:ABCDEFILMNOPRSTVWacdefghiklmnoprstuvxy?></subform>
    <?templateDesigner DefaultPreviewDynamic 1?>
    <?templateDesigner DefaultRunAt client?>
    <?templateDesigner Grid show:1, snap:1, units:0, color:ff8080, origin:(0,0), interval:(125000,125000)?>
-   <?templateDesigner FormTargetVersion 33?>
    <?templateDesigner WidowOrphanControl 0?>
    <?templateDesigner DefaultCaptionFontSettings face:Arial;size:10;weight:normal;style:normal?>
    <?templateDesigner DefaultValueFontSettings face:Arial;size:10;weight:normal;style:normal?>
    <?templateDesigner DefaultLanguage JavaScript?>
    <?acrobat JavaScript strictScoping?>
+   <?templateDesigner FormTargetVersion 33?>
    <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?>
-   <?templateDesigner Zoom 125?></template>
+   <?templateDesigner Zoom 68?></template>
 <config xmlns="http://www.xfa.org/schema/xci/3.0/">
    <agent name="designer">
       <!--  [0..n]  -->
@@ -272,10 +512,8 @@
    </agent>
    <present>
       <!--  [0..n]  -->
-      <destination>pdf</destination>
       <pdf>
          <!--  [0..n]  -->
-         <fontInfo/>
          <version>1.7</version>
          <adobeExtensionLevel>8</adobeExtensionLevel>
       </pdf>
@@ -303,7 +541,1729 @@
 <xfa:datasets xmlns:xfa="http://www.xfa.org/schema/xfa-data/1.0/">
    <xfa:data xfa:dataNode="dataGroup"/>
    <dd:dataDescription xmlns:dd="http://ns.adobe.com/data-description/" dd:name="data">
-      <data dd:dataNode="dataGroup"/>
+      <data>
+         <LS_MKPF>
+            <MANDT/>
+            <MBLNR/>
+            <MJAHR/>
+            <VGART/>
+            <BLART/>
+            <BLAUM/>
+            <BLDAT/>
+            <BUDAT/>
+            <CPUDT/>
+            <CPUTM/>
+            <AEDAT/>
+            <USNAM/>
+            <TCODE/>
+            <XBLNR/>
+            <BKTXT/>
+            <FRATH/>
+            <FRBNR/>
+            <WEVER/>
+            <XABLN/>
+            <AWSYS/>
+            <BLA2D/>
+            <TCODE2/>
+            <BFWMS/>
+            <EXNUM/>
+            <SPE_BUDAT_UHR/>
+            <SPE_BUDAT_ZONE/>
+            <LE_VBELN/>
+            <SPE_LOGSYS/>
+            <SPE_MDNUM_EWM/>
+            <GTS_CUSREF_NO/>
+            <FLS_RSTO/>
+            <MSR_ACTIVE/>
+            <KNUMV/>
+            <XCOMPL/>
+            <TRUCK_FRE/>
+            <TRANSPORTER/>
+            <WEIGH_BRID/>
+            <SHIP_FLIGHT/>
+            <BRGEW/>
+            <TARE_WT/>
+            <NTGEW/>
+            <VENDOR_INV/>
+            <FORM_M/>
+            <CONTAINER/>
+            <DRIVER/>
+            <FLEET_NO/>
+            <CAB_NO/>
+            <ATC_NO/>
+            <DESTINATION/>
+            <WAY_BII_NO/>
+            <WAY_BIL_DT/>
+            <WAY_BIL_QTY/>
+            <VEHICLE_NO/>
+            <VEND_INV/>
+            <DEPT_NAME/>
+            <SECT_NAME/>
+            <AWB_NO_BOL/>
+            <AWB_DT_BOL/>
+            <CLEAR_AGNT/>
+            <LC_NO/>
+            <GEWEI/>
+            <RAR_NO/>
+            <PO_NO/>
+            <TRIP_ID/>
+            <TRANS_ID/>
+            <ZREMOTE_SYS_TXNID/>
+            <ZZACTUAL_DDS_MENGE/>
+            <ZZRECIEPT_STATUS/>
+            <ZZSUPP_WAYBILL/>
+         </LS_MKPF>
+         <LS_MSEG>
+            <MANDT/>
+            <MBLNR/>
+            <MJAHR/>
+            <ZEILE/>
+            <LINE_ID/>
+            <PARENT_ID/>
+            <LINE_DEPTH/>
+            <MAA_URZEI/>
+            <BWART/>
+            <XAUTO/>
+            <MATNR/>
+            <WERKS/>
+            <LGORT/>
+            <CHARG/>
+            <INSMK/>
+            <ZUSCH/>
+            <ZUSTD/>
+            <SOBKZ/>
+            <LIFNR/>
+            <KUNNR/>
+            <KDAUF/>
+            <KDPOS/>
+            <KDEIN/>
+            <PLPLA/>
+            <SHKZG/>
+            <WAERS/>
+            <DMBTR/>
+            <BNBTR/>
+            <BUALT/>
+            <SHKUM/>
+            <DMBUM/>
+            <BWTAR/>
+            <MENGE/>
+            <MEINS/>
+            <ERFMG/>
+            <ERFME/>
+            <BPMNG/>
+            <BPRME/>
+            <EBELN/>
+            <EBELP/>
+            <LFBJA/>
+            <LFBNR/>
+            <LFPOS/>
+            <SJAHR/>
+            <SMBLN/>
+            <SMBLP/>
+            <ELIKZ/>
+            <SGTXT/>
+            <EQUNR/>
+            <WEMPF/>
+            <ABLAD/>
+            <GSBER/>
+            <KOKRS/>
+            <PARGB/>
+            <PARBU/>
+            <KOSTL/>
+            <PROJN/>
+            <AUFNR/>
+            <ANLN1/>
+            <ANLN2/>
+            <XSKST/>
+            <XSAUF/>
+            <XSPRO/>
+            <XSERG/>
+            <GJAHR/>
+            <XRUEM/>
+            <XRUEJ/>
+            <BUKRS/>
+            <BELNR/>
+            <BUZEI/>
+            <BELUM/>
+            <BUZUM/>
+            <RSNUM/>
+            <RSPOS/>
+            <KZEAR/>
+            <PBAMG/>
+            <KZSTR/>
+            <UMMAT/>
+            <UMWRK/>
+            <UMLGO/>
+            <UMCHA/>
+            <UMZST/>
+            <UMZUS/>
+            <UMBAR/>
+            <UMSOK/>
+            <KZBEW/>
+            <KZVBR/>
+            <KZZUG/>
+            <WEUNB/>
+            <PALAN/>
+            <LGNUM/>
+            <LGTYP/>
+            <LGPLA/>
+            <BESTQ/>
+            <BWLVS/>
+            <TBNUM/>
+            <TBPOS/>
+            <XBLVS/>
+            <VSCHN/>
+            <NSCHN/>
+            <DYPLA/>
+            <UBNUM/>
+            <TBPRI/>
+            <TANUM/>
+            <WEANZ/>
+            <GRUND/>
+            <EVERS/>
+            <EVERE/>
+            <IMKEY/>
+            <KSTRG/>
+            <PAOBJNR/>
+            <PRCTR/>
+            <PS_PSP_PNR/>
+            <NPLNR/>
+            <AUFPL/>
+            <APLZL/>
+            <AUFPS/>
+            <VPTNR/>
+            <FIPOS/>
+            <SAKTO/>
+            <BSTMG/>
+            <BSTME/>
+            <XWSBR/>
+            <EMLIF/>
+            <DUMMY_INCL_EEW_COBL/>
+            <EXBWR/>
+            <VKWRT/>
+            <AKTNR/>
+            <ZEKKN/>
+            <VFDAT/>
+            <CUOBJ_CH/>
+            <EXVKW/>
+            <PPRCTR/>
+            <RSART/>
+            <GEBER/>
+            <FISTL/>
+            <MATBF/>
+            <UMMAB/>
+            <BUSTM/>
+            <BUSTW/>
+            <MENGU/>
+            <WERTU/>
+            <LBKUM/>
+            <SALK3/>
+            <VPRSV/>
+            <FKBER/>
+            <DABRBZ/>
+            <VKWRA/>
+            <DABRZ/>
+            <XBEAU/>
+            <LSMNG/>
+            <LSMEH/>
+            <KZBWS/>
+            <QINSPST/>
+            <URZEI/>
+            <J_1BEXBASE/>
+            <MWSKZ/>
+            <TXJCD/>
+            <EMATN/>
+            <J_1AGIRUPD/>
+            <VKMWS/>
+            <HSDAT/>
+            <BERKZ/>
+            <MAT_KDAUF/>
+            <MAT_KDPOS/>
+            <MAT_PSPNR/>
+            <XWOFF/>
+            <BEMOT/>
+            <PRZNR/>
+            <LLIEF/>
+            <LSTAR/>
+            <XOBEW/>
+            <GRANT_NBR/>
+            <ZUSTD_T156M/>
+            <SPE_GTS_STOCK_TY/>
+            <KBLNR/>
+            <KBLPOS/>
+            <XMACC/>
+            <VGART_MKPF/>
+            <BUDAT_MKPF/>
+            <CPUDT_MKPF/>
+            <CPUTM_MKPF/>
+            <USNAM_MKPF/>
+            <XBLNR_MKPF/>
+            <TCODE2_MKPF/>
+            <VBELN_IM/>
+            <VBELP_IM/>
+            <SGT_SCAT/>
+            <SGT_UMSCAT/>
+            <SGT_RCAT/>
+            <SERVICEPERFORMER/>
+            <PERNR/>
+            <KNTTP_GR/>
+            <WORK_ITEM_ID/>
+            <FBUDA/>
+            <XPRINT/>
+            <NROFLABELS/>
+            <XCWMXMENGE/>
+            <XCWMXMEINS/>
+            <XCWMXERFMG/>
+            <XCWMXERFME/>
+            <SERVICE_DOC_TYPE/>
+            <SERVICE_DOC_ID/>
+            <SERVICE_DOC_ITEM_ID/>
+            <EWM_LGNUM/>
+            <EWM_GMDOC/>
+            <RESOURCENAME_SID/>
+            <RESOURCENAME_CID/>
+            <DUMMY_MATDOC_INCL_EEW_PS/>
+            <DISUB_OWNER/>
+            <FSH_SEASON_YEAR/>
+            <FSH_SEASON/>
+            <FSH_COLLECTION/>
+            <FSH_THEME/>
+            <FSH_UMSEA_YR/>
+            <FSH_UMSEA/>
+            <FSH_UMCOLL/>
+            <FSH_UMTHEME/>
+            <SGT_CHINT/>
+            <COMPL_MARK/>
+            <FZGLS_MARK/>
+            <ETANP_MARK/>
+            <POPUP_MARK/>
+            <OINAVNW/>
+            <OICONDCOD/>
+            <CONDI/>
+            <WRF_CHARSTC1/>
+            <WRF_CHARSTC2/>
+            <WRF_CHARSTC3/>
+            <VAT/>
+            <FRI/>
+            <OTH/>
+            <DIS/>
+            <LV_URATE/>
+            <PEINH/>
+         </LS_MSEG>
+         <LS_ADRC>
+            <CLIENT/>
+            <ADDRNUMBER/>
+            <DATE_FROM/>
+            <NATION/>
+            <DATE_TO/>
+            <TITLE/>
+            <NAME1/>
+            <NAME2/>
+            <NAME3/>
+            <NAME4/>
+            <NAME_TEXT/>
+            <NAME_CO/>
+            <CITY1/>
+            <CITY2/>
+            <CITY_CODE/>
+            <CITYP_CODE/>
+            <HOME_CITY/>
+            <CITYH_CODE/>
+            <CHCKSTATUS/>
+            <REGIOGROUP/>
+            <POST_CODE1/>
+            <POST_CODE2/>
+            <POST_CODE3/>
+            <PCODE1_EXT/>
+            <PCODE2_EXT/>
+            <PCODE3_EXT/>
+            <PO_BOX/>
+            <DONT_USE_P/>
+            <PO_BOX_NUM/>
+            <PO_BOX_LOC/>
+            <CITY_CODE2/>
+            <PO_BOX_REG/>
+            <PO_BOX_CTY/>
+            <POSTALAREA/>
+            <TRANSPZONE/>
+            <STREET/>
+            <DONT_USE_S/>
+            <STREETCODE/>
+            <STREETABBR/>
+            <HOUSE_NUM1/>
+            <HOUSE_NUM2/>
+            <HOUSE_NUM3/>
+            <STR_SUPPL1/>
+            <STR_SUPPL2/>
+            <STR_SUPPL3/>
+            <LOCATION/>
+            <BUILDING/>
+            <FLOOR/>
+            <ROOMNUMBER/>
+            <COUNTRY/>
+            <LANGU/>
+            <REGION/>
+            <ADDR_GROUP/>
+            <FLAGGROUPS/>
+            <PERS_ADDR/>
+            <SORT1/>
+            <SORT2/>
+            <SORT_PHN/>
+            <DEFLT_COMM/>
+            <TEL_NUMBER/>
+            <TEL_EXTENS/>
+            <FAX_NUMBER/>
+            <FAX_EXTENS/>
+            <FLAGCOMM2/>
+            <FLAGCOMM3/>
+            <FLAGCOMM4/>
+            <FLAGCOMM5/>
+            <FLAGCOMM6/>
+            <FLAGCOMM7/>
+            <FLAGCOMM8/>
+            <FLAGCOMM9/>
+            <FLAGCOMM10/>
+            <FLAGCOMM11/>
+            <FLAGCOMM12/>
+            <FLAGCOMM13/>
+            <ADDRORIGIN/>
+            <MC_NAME1/>
+            <MC_CITY1/>
+            <MC_STREET/>
+            <EXTENSION1/>
+            <EXTENSION2/>
+            <TIME_ZONE/>
+            <TAXJURCODE/>
+            <ADDRESS_ID/>
+            <LANGU_CREA/>
+            <ADRC_UUID/>
+            <UUID_BELATED/>
+            <ID_CATEGORY/>
+            <ADRC_ERR_STATUS/>
+            <PO_BOX_LOBBY/>
+            <DELI_SERV_TYPE/>
+            <DELI_SERV_NUMBER/>
+            <COUNTY_CODE/>
+            <COUNTY/>
+            <TOWNSHIP_CODE/>
+            <TOWNSHIP/>
+            <MC_COUNTY/>
+            <MC_TOWNSHIP/>
+            <XPCPT/>
+            <X_DATAAGING/>
+            <ADDRESSCREATEDBYUSER/>
+            <ADDRESSCREATEDONDATETIME/>
+            <ADDRESSCHANGEDBYUSER/>
+            <ADDRESSCHANGEDONDATETIME/>
+            <DUNS/>
+            <DUNSP4/>
+         </LS_ADRC>
+         <LS_T001W>
+            <MANDT/>
+            <WERKS/>
+            <NAME1/>
+            <BWKEY/>
+            <KUNNR/>
+            <LIFNR/>
+            <FABKL/>
+            <NAME2/>
+            <STRAS/>
+            <PFACH/>
+            <PSTLZ/>
+            <ORT01/>
+            <EKORG/>
+            <VKORG/>
+            <CHAZV/>
+            <KKOWK/>
+            <KORDB/>
+            <BEDPL/>
+            <LAND1/>
+            <REGIO/>
+            <COUNC/>
+            <CITYC/>
+            <ADRNR/>
+            <IWERK/>
+            <TXJCD/>
+            <VTWEG/>
+            <SPART/>
+            <SPRAS/>
+            <WKSOP/>
+            <AWSLS/>
+            <CHAZV_OLD/>
+            <VLFKZ/>
+            <BZIRK/>
+            <ZONE1/>
+            <TAXIW/>
+            <BZQHL/>
+            <LET01/>
+            <LET02/>
+            <LET03/>
+            <TXNAM_MA1/>
+            <TXNAM_MA2/>
+            <TXNAM_MA3/>
+            <BETOL/>
+            <J_1BBRANCH/>
+            <VTBFI/>
+            <FPRFW/>
+            <ACHVM/>
+            <DVSART/>
+            <NODETYPE/>
+            <NSCHEMA/>
+            <PKOSA/>
+            <MISCH/>
+            <MGVUPD/>
+            <VSTEL/>
+            <MGVLAUPD/>
+            <MGVLAREVAL/>
+            <SOURCING/>
+            <NO_DEFAULT_BATCH_MANAGEMENT/>
+            <FSH_MG_ARUN_REQ/>
+            <FSH_SEAIM/>
+            <FSH_BOM_MAINTENANCE/>
+            <FSH_GROUP_PR/>
+            <ARUN_FIX_BATCH/>
+            <OILIVAL/>
+            <OIHVTYPE/>
+            <OIHCREDIPI/>
+            <STORETYPE/>
+            <DEP_STORE/>
+         </LS_T001W>
+         <LS_T001>
+            <MANDT/>
+            <BUKRS/>
+            <BUTXT/>
+            <ORT01/>
+            <LAND1/>
+            <WAERS/>
+            <SPRAS/>
+            <KTOPL/>
+            <WAABW/>
+            <PERIV/>
+            <KOKFI/>
+            <RCOMP/>
+            <ADRNR/>
+            <STCEG/>
+            <FIKRS/>
+            <XFMCO/>
+            <XFMCB/>
+            <XFMCA/>
+            <TXJCD/>
+            <FMHRDATE/>
+            <XTEMPLT/>
+            <TRANSIT_PLANT/>
+            <BUVAR/>
+            <FDBUK/>
+            <XFDIS/>
+            <XVALV/>
+            <XSKFN/>
+            <KKBER/>
+            <XMWSN/>
+            <MREGL/>
+            <XGSBE/>
+            <XGJRV/>
+            <XKDFT/>
+            <XPROD/>
+            <XEINK/>
+            <XJVAA/>
+            <XVVWA/>
+            <XSLTA/>
+            <XFDMM/>
+            <XFDSD/>
+            <XEXTB/>
+            <EBUKR/>
+            <KTOP2/>
+            <UMKRS/>
+            <BUKRS_GLOB/>
+            <FSTVA/>
+            <OPVAR/>
+            <XCOVR/>
+            <TXKRS/>
+            <WFVAR/>
+            <XBBBF/>
+            <XBBBE/>
+            <XBBBA/>
+            <XBBKO/>
+            <XSTDT/>
+            <MWSKV/>
+            <MWSKA/>
+            <IMPDA/>
+            <XNEGP/>
+            <XKKBI/>
+            <WT_NEWWT/>
+            <PP_PDATE/>
+            <INFMT/>
+            <FSTVARE/>
+            <KOPIM/>
+            <DKWEG/>
+            <OFFSACCT/>
+            <BAPOVAR/>
+            <XCOS/>
+            <XCESSION/>
+            <XSPLT/>
+            <SURCCM/>
+            <DTPROV/>
+            <DTAMTC/>
+            <DTTAXC/>
+            <DTTDSP/>
+            <DTAXR/>
+            <XVATDATE/>
+            <PST_PER_VAR/>
+            <XBBSC/>
+            <F_OBSOLETE/>
+            <FM_DERIVE_ACC/>
+         </LS_T001>
+         <LS_EBAN>
+            <MANDT/>
+            <BANFN/>
+            <BNFPO/>
+            <BSART/>
+            <BSTYP/>
+            <BSAKZ/>
+            <LOEKZ/>
+            <STATU/>
+            <ESTKZ/>
+            <FRGKZ/>
+            <FRGZU/>
+            <FRGST/>
+            <EKGRP/>
+            <ERNAM/>
+            <ERDAT/>
+            <AFNAM/>
+            <TXZ01/>
+            <MATNR/>
+            <EMATN/>
+            <WERKS/>
+            <LGORT/>
+            <BEDNR/>
+            <MATKL/>
+            <RESWK/>
+            <MENGE/>
+            <MEINS/>
+            <BUMNG/>
+            <BADAT/>
+            <LPEIN/>
+            <LFDAT/>
+            <FRGDT/>
+            <WEBAZ/>
+            <PREIS/>
+            <PEINH/>
+            <PSTYP/>
+            <KNTTP/>
+            <KZVBR/>
+            <KFLAG/>
+            <VRTKZ/>
+            <TWRKZ/>
+            <WEPOS/>
+            <WEUNB/>
+            <REPOS/>
+            <LIFNR/>
+            <FLIEF/>
+            <EKORG/>
+            <VRTYP/>
+            <KONNR/>
+            <KTPNR/>
+            <INFNR/>
+            <ZUGBA/>
+            <QUNUM/>
+            <QUPOS/>
+            <DISPO/>
+            <SERNR/>
+            <BVDAT/>
+            <BATOL/>
+            <BVDRK/>
+            <EBELN/>
+            <EBELP/>
+            <BEDAT/>
+            <BSMNG/>
+            <LIMIT_CONSUMPTION_VALUE/>
+            <LBLNI/>
+            <BWTAR/>
+            <XOBLR/>
+            <EBAKZ/>
+            <RSNUM/>
+            <SOBKZ/>
+            <ARSNR/>
+            <ARSPS/>
+            <FIXKZ/>
+            <BMEIN/>
+            <REVLV/>
+            <VORAB/>
+            <PACKNO/>
+            <KANBA/>
+            <BPUEB/>
+            <CUOBJ/>
+            <FRGGR/>
+            <FRGRL/>
+            <AKTNR/>
+            <CHARG/>
+            <UMSOK/>
+            <VERID/>
+            <FIPOS/>
+            <FISTL/>
+            <GEBER/>
+            <KZKFG/>
+            <SATNR/>
+            <MNG02/>
+            <DAT01/>
+            <ATTYP/>
+            <ADRNR/>
+            <ADRN2/>
+            <KUNNR/>
+            <EMLIF/>
+            <LBLKZ/>
+            <KZBWS/>
+            <WAERS/>
+            <IDNLF/>
+            <GSFRG/>
+            <MPROF/>
+            <KZFME/>
+            <SPRAS/>
+            <TECHS/>
+            <MFRPN/>
+            <MFRNR/>
+            <EMNFR/>
+            <FORDN/>
+            <FORDP/>
+            <PLIFZ/>
+            <BERID/>
+            <UZEIT/>
+            <FKBER/>
+            <GRANT_NBR/>
+            <MEMORY/>
+            <BANPR/>
+            <RLWRT/>
+            <BLCKD/>
+            <REVNO/>
+            <BLCKT/>
+            <BESWK/>
+            <EPROFILE/>
+            <EPREFDOC/>
+            <EPREFITM/>
+            <GMMNG/>
+            <WRTKZ/>
+            <RESLO/>
+            <KBLNR/>
+            <KBLPOS/>
+            <PRIO_URG/>
+            <PRIO_REQ/>
+            <MEMORYTYPE/>
+            <ANZSN/>
+            <MHDRZ/>
+            <IPRKZ/>
+            <NODISP/>
+            <SRM_CONTRACT_ID/>
+            <SRM_CONTRACT_ITM/>
+            <BUDGET_PD/>
+            <ELDAT/>
+            <EXPERT_MODE/>
+            <CENTRAL_PURREQN_PROC/>
+            <SPE_CRM_REF_SO/>
+            <SPE_CRM_REF_ITEM/>
+            <INDELEGATEAPPROVAL/>
+            <DUMMY_EBAN_INCL_EEW_PS/>
+            <STORENETWORKID/>
+            <STORESUPPLIERID/>
+            <CREATIONDATE/>
+            <CREATIONTIME/>
+            <PRODUCTTYPE/>
+            <SERVICEPERFORMER/>
+            <ISEOPBLOCKED/>
+            <EXT_REV_TMSTMP/>
+            <FMFGUS_KEY/>
+            <STARTDATE/>
+            <ENDDATE/>
+            <EXTMATERIALFORPURG/>
+            <EXTFIXEDSUPPLIERFORPURG/>
+            <EXTDESIREDSUPPLIERFORPURG/>
+            <EXTCONTRACTFORPURG/>
+            <EXTCONTRACTITEMFORPURG/>
+            <EXTINFORECORDFORPURG/>
+            <EXTPLANTFORPURG/>
+            <EXTSTORAGELOCATIONFORPURG/>
+            <EXTCOMPANYCODEFORPURG/>
+            <EXTPURGORGFORPURG/>
+            <EXTSOURCESYSTEM/>
+            <EXT_BE_SOURCE_SYS/>
+            <EXT_BE_PRCHANGEINDICATOR/>
+            <EXTDOCTYPEFORPURG/>
+            <ISCRREPLICATIONBEFOREAPPROVAL/>
+            <MMPUR_PR_CEN_REQN_APP_RPLD_PR/>
+            <EXTAPPROVALSTATUS/>
+            <STAGINGFLDEXTAPPROVALSTATUS/>
+            <PURCHASEREQNITEMUNIQUEID/>
+            <LASTCHANGEDATETIME/>
+            <ISONBEHALFCART/>
+            <SDM_VERSION/>
+            <SAKTO/>
+            <KOSTL/>
+            <EXPECTED_VALUE/>
+            <LIMIT_AMOUNT/>
+            <CONTRACT_FOR_LIMIT/>
+            <DELIVERYADDRTYPE/>
+            <MWSKZ/>
+            <PFMTRANSDATAFOOTPRINTUUID/>
+            <HASTRADECOMPLIANCEISSUE/>
+            <PURREQNDESCRIPTION/>
+            <ISOUTLINE/>
+            <PARENT_ITEM_NO/>
+            <OUTLINE_TYPE/>
+            <EXLIN/>
+            <EXSNR/>
+            <ADVCODE/>
+            <STACODE/>
+            <BANFN_CS/>
+            <BNFPO_CS/>
+            <ITEM_CS/>
+            <BSMNG_SND/>
+            <NO_MARD_DATA/>
+            <ADMOI/>
+            <ADPRI/>
+            <LPRIO/>
+            <ADACN/>
+            <ADDNS/>
+            <SERRU/>
+            <DISUB_SOBKZ/>
+            <DISUB_PSPNR/>
+            <DISUB_KUNNR/>
+            <DISUB_VBELN/>
+            <DISUB_POSNR/>
+            <DISUB_OWNER/>
+            <FLDLOGSSUPPLYPROCESS/>
+            <FLDLOGSDELIVISHELDONSHORE/>
+            <FLDLOGSVERSION/>
+            <FSH_SEASON_YEAR/>
+            <FSH_SEASON/>
+            <FSH_COLLECTION/>
+            <FSH_THEME/>
+            <FSH_VAS_REL/>
+            <FSH_VAS_PRNT_ID/>
+            <FSH_TRANSACTION/>
+            <FSH_ITEM_GROUP/>
+            <FSH_ITEM/>
+            <IUID_RELEVANT/>
+            <SC_SR_ITEM_KEY/>
+            <SC_CATALOGID/>
+            <SC_CATALOGITEM/>
+            <SC_REQUESTOR/>
+            <SC_AUTHOR/>
+            <SGT_SCAT/>
+            <SGT_RCAT/>
+            <WRF_CHARSTC1/>
+            <WRF_CHARSTC2/>
+            <WRF_CHARSTC3/>
+         </LS_EBAN>
+         <LS_EKKO>
+            <MANDT/>
+            <EBELN/>
+            <BUKRS/>
+            <BSTYP/>
+            <BSART/>
+            <BSAKZ/>
+            <LOEKZ/>
+            <STATU/>
+            <AEDAT/>
+            <ERNAM/>
+            <LASTCHANGEDATETIME/>
+            <PINCR/>
+            <LPONR/>
+            <LIFNR/>
+            <SPRAS/>
+            <ZTERM/>
+            <ZBD1T/>
+            <ZBD2T/>
+            <ZBD3T/>
+            <ZBD1P/>
+            <ZBD2P/>
+            <EKORG/>
+            <EKGRP/>
+            <WAERS/>
+            <WKURS/>
+            <KUFIX/>
+            <BEDAT/>
+            <KDATB/>
+            <KDATE/>
+            <BWBDT/>
+            <ANGDT/>
+            <BNDDT/>
+            <GWLDT/>
+            <AUSNR/>
+            <ANGNR/>
+            <IHRAN/>
+            <IHREZ/>
+            <VERKF/>
+            <TELF1/>
+            <LLIEF/>
+            <KUNNR/>
+            <ACTIVE_ID/>
+            <KONNR/>
+            <ABGRU/>
+            <AUTLF/>
+            <WEAKT/>
+            <RESWK/>
+            <LBLIF/>
+            <INCO1/>
+            <INCO2/>
+            <KTWRT/>
+            <DISTRIBUTIONTYPE/>
+            <SUBMI/>
+            <KNUMV/>
+            <KALSM/>
+            <STAFO/>
+            <LIFRE/>
+            <EXNUM/>
+            <UNSEZ/>
+            <LOGSY/>
+            <UPINC/>
+            <STAKO/>
+            <FRGGR/>
+            <FRGSX/>
+            <FRGKE/>
+            <FRGZU/>
+            <FRGRL/>
+            <LANDS/>
+            <LPHIS/>
+            <ADRNR/>
+            <STCEG_L/>
+            <STCEG/>
+            <ABSGR/>
+            <ADDNR/>
+            <KORNR/>
+            <MEMORY/>
+            <PROCSTAT/>
+            <PROCESS_INDICATOR/>
+            <RLWRT/>
+            <CR_STAT/>
+            <REVNO/>
+            <SCMPROC/>
+            <REASON_CODE/>
+            <MEMORYTYPE/>
+            <RETTP/>
+            <RETPC/>
+            <DPTYP/>
+            <DPPCT/>
+            <DPAMT/>
+            <DPDAT/>
+            <MSR_ID/>
+            <HIERARCHY_EXISTS/>
+            <GROUPING_ID/>
+            <PARENT_ID/>
+            <THRESHOLD_EXISTS/>
+            <LEGAL_CONTRACT/>
+            <DESCRIPTION/>
+            <RELEASE_DATE/>
+            <VSART/>
+            <HANDOVERLOC/>
+            <SHIPCOND/>
+            <HAS_CATALOG_RELEVANT_ITEMS/>
+            <INCOV/>
+            <INCO2_L/>
+            <INCO3_L/>
+            <INCO2_KEY/>
+            <INCO3_KEY/>
+            <INCO4_KEY/>
+            <GRWCU/>
+            <INTRA_REL/>
+            <INTRA_EXCL/>
+            <TOTAL_STATUS_PCS/>
+            <TOTAL_STATUS_PMA/>
+            <TOTAL_STATUS_DG/>
+            <TOTAL_STATUS_SDS/>
+            <QTN_ERLST_SUBMSN_DATE/>
+            <FOLLOWON_DOC_CAT/>
+            <FOLLOWON_DOC_TYPE/>
+            <DUMMY_EKKO_INCL_EEW_PS/>
+            <EXTERNALSYSTEM/>
+            <EXTERNALREFERENCEID/>
+            <EXT_REV_TMSTMP/>
+            <ISEOPBLOCKED/>
+            <ISAGED/>
+            <FORCE_ID/>
+            <FORCE_CNT/>
+            <RELOC_ID/>
+            <RELOC_SEQ_ID/>
+            <SOURCE_LOGSYS/>
+            <FSH_TRANSACTION/>
+            <FSH_ITEM_GROUP/>
+            <FSH_VAS_LAST_ITEM/>
+            <FSH_OS_STG_CHANGE/>
+            <TMS_REF_UUID/>
+            <XDMBEXPAYMENTDEEMED/>
+            <XDMBEXDEALNUMBER/>
+            <XDMBEXEVGIDRENEWAL/>
+            <XDMBEXEVGIDCANCEL/>
+            <ZAPCGK/>
+            <APCGK_EXTEND/>
+            <ZBAS_DATE/>
+            <ZADATTYP/>
+            <ZSTART_DAT/>
+            <Z_DEV/>
+            <ZINDANX/>
+            <ZLIMIT_DAT/>
+            <NUMERATOR/>
+            <HASHCAL_BDAT/>
+            <HASHCAL/>
+            <NEGATIVE/>
+            <HASHCAL_EXISTS/>
+            <KNOWN_INDEX/>
+            <POSTAT/>
+            <VZSKZ/>
+            <FSH_SNST_STATUS/>
+            <PROCE/>
+            <CONC/>
+            <CONT/>
+            <COMP/>
+            <OUTR/>
+            <DESP/>
+            <DESP_DAT/>
+            <DESP_CARGO/>
+            <PARE/>
+            <PARE_DAT/>
+            <PARE_CARGO/>
+            <PFM_CONTRACT/>
+            <POHF_TYPE/>
+            <EQ_EINDT/>
+            <EQ_WERKS/>
+            <FIXPO/>
+            <EKGRP_ALLOW/>
+            <WERKS_ALLOW/>
+            <CONTRACT_ALLOW/>
+            <PSTYP_ALLOW/>
+            <FIXPO_ALLOW/>
+            <KEY_ID_ALLOW/>
+            <AUREL_ALLOW/>
+            <DELPER_ALLOW/>
+            <EINDT_ALLOW/>
+            <LTSNR_ALLOW/>
+            <OTB_LEVEL/>
+            <OTB_COND_TYPE/>
+            <KEY_ID/>
+            <OTB_VALUE/>
+            <OTB_CURR/>
+            <OTB_RES_VALUE/>
+            <OTB_SPEC_VALUE/>
+            <SPR_RSN_PROFILE/>
+            <BUDG_TYPE/>
+            <OTB_STATUS/>
+            <OTB_REASON/>
+            <CHECK_TYPE/>
+            <CON_OTB_REQ/>
+            <CON_PREBOOK_LEV/>
+            <CON_DISTR_LEV/>
+         </LS_EKKO>
+         <LV_MAKTX/>
+         <LS_LFA1>
+            <MANDT/>
+            <LIFNR/>
+            <LAND1/>
+            <NAME1/>
+            <NAME2/>
+            <NAME3/>
+            <NAME4/>
+            <ORT01/>
+            <ORT02/>
+            <PFACH/>
+            <PSTL2/>
+            <PSTLZ/>
+            <REGIO/>
+            <SORTL/>
+            <STRAS/>
+            <ADRNR/>
+            <MCOD1/>
+            <MCOD2/>
+            <MCOD3/>
+            <ANRED/>
+            <BAHNS/>
+            <BBBNR/>
+            <BBSNR/>
+            <BEGRU/>
+            <BRSCH/>
+            <BUBKZ/>
+            <DATLT/>
+            <DTAMS/>
+            <DTAWS/>
+            <ERDAT/>
+            <ERNAM/>
+            <ESRNR/>
+            <KONZS/>
+            <KTOKK/>
+            <KUNNR/>
+            <LNRZA/>
+            <LOEVM/>
+            <SPERR/>
+            <SPERM/>
+            <SPRAS/>
+            <STCD1/>
+            <STCD2/>
+            <STKZA/>
+            <STKZU/>
+            <TELBX/>
+            <TELF1/>
+            <TELF2/>
+            <TELFX/>
+            <TELTX/>
+            <TELX1/>
+            <XCPDK/>
+            <XZEMP/>
+            <VBUND/>
+            <FISKN/>
+            <STCEG/>
+            <STKZN/>
+            <SPERQ/>
+            <GBORT/>
+            <GBDAT/>
+            <SEXKZ/>
+            <KRAUS/>
+            <REVDB/>
+            <QSSYS/>
+            <KTOCK/>
+            <PFORT/>
+            <WERKS/>
+            <LTSNA/>
+            <WERKR/>
+            <PLKAL/>
+            <DUEFL/>
+            <TXJCD/>
+            <SPERZ/>
+            <SCACD/>
+            <SFRGR/>
+            <LZONE/>
+            <XLFZA/>
+            <DLGRP/>
+            <FITYP/>
+            <STCDT/>
+            <REGSS/>
+            <ACTSS/>
+            <STCD3/>
+            <STCD4/>
+            <STCD5/>
+            <STCD6/>
+            <IPISP/>
+            <TAXBS/>
+            <PROFS/>
+            <STGDL/>
+            <EMNFR/>
+            <LFURL/>
+            <J_1KFREPRE/>
+            <J_1KFTBUS/>
+            <J_1KFTIND/>
+            <CONFS/>
+            <UPDAT/>
+            <UPTIM/>
+            <NODEL/>
+            <QSSYSDAT/>
+            <PODKZB/>
+            <FISKU/>
+            <STENR/>
+            <CARRIER_CONF/>
+            <MIN_COMP/>
+            <TERM_LI/>
+            <CRC_NUM/>
+            <CVP_XBLCK/>
+            <WEORA/>
+            <RG/>
+            <EXP/>
+            <UF/>
+            <RGDATE/>
+            <RIC/>
+            <RNE/>
+            <RNEDATE/>
+            <CNAE/>
+            <LEGALNAT/>
+            <CRTN/>
+            <ICMSTAXPAY/>
+            <INDTYP/>
+            <TDT/>
+            <COMSIZE/>
+            <DECREGPC/>
+            <ALLOWANCE_TYPE/>
+            <PAYTRSN/>
+            <LFA1_EEW_SUPP/>
+            <DATA_CTRLR1/>
+            <DATA_CTRLR2/>
+            <DATA_CTRLR3/>
+            <DATA_CTRLR4/>
+            <DATA_CTRLR5/>
+            <DATA_CTRLR6/>
+            <DATA_CTRLR7/>
+            <DATA_CTRLR8/>
+            <DATA_CTRLR9/>
+            <DATA_CTRLR10/>
+            <XDCSET/>
+            <DUMMY_LFA1_ADDR_INCL_EEW_PS/>
+            <J_SC_CAPITAL/>
+            <J_SC_CURRENCY/>
+            <ALC/>
+            <PMT_OFFICE/>
+            <PPA_RELEVANT/>
+            <SAM_UE_ID/>
+            <SAM_EFT_IND/>
+            <PSOFG/>
+            <PSOIS/>
+            <PSON1/>
+            <PSON2/>
+            <PSON3/>
+            <PSOVN/>
+            <PSOTL/>
+            <PSOHS/>
+            <PSOST/>
+            <BORGR_DATUN/>
+            <BORGR_YEAUN/>
+            <AU_CARRYING_ENT/>
+            <AU_IND_UNDER_18/>
+            <AU_PAYMENT_NOT_EXCEED_75/>
+            <AU_WHOLLY_INP_TAXED/>
+            <AU_PARTNER_WITHOUT_GAIN/>
+            <AU_NOT_ENTITLED_ABN/>
+            <AU_PAYMENT_EXEMPT/>
+            <AU_PRIVATE_HOBBY/>
+            <AU_DOMESTIC_NATURE/>
+            <ADDR2_STREET/>
+            <ADDR2_HOUSE_NUM/>
+            <ADDR2_POST/>
+            <ADDR2_CITY/>
+            <ADDR2_COUNTRY/>
+            <CATEG/>
+            <PARTNER_NAME/>
+            <PARTNER_UTR/>
+            <STATUS/>
+            <VFNUM/>
+            <VFNID/>
+            <CRN/>
+            <FR_OCCUPATION/>
+            <J_1IEXCD/>
+            <J_1IEXRN/>
+            <J_1IEXRG/>
+            <J_1IEXDI/>
+            <J_1IEXCO/>
+            <J_1ICSTNO/>
+            <J_1ILSTNO/>
+            <J_1IPANNO/>
+            <J_1IEXCIVE/>
+            <J_1ISSIST/>
+            <J_1IVTYP/>
+            <J_1IVENCRE/>
+            <AEDAT/>
+            <USNAM/>
+            <J_1ISERN/>
+            <J_1IPANREF/>
+            <J_1IPANVALDT/>
+            <J_1I_CUSTOMS/>
+            <J_1IDEDREF/>
+            <VEN_CLASS/>
+            <ENTPUB/>
+            <ESCRIT/>
+            <DVALSS/>
+            <FRMCSS/>
+            <CODCAE/>
+            <AUSDIV/>
+            <SC_CAPITAL/>
+            <SC_CURRENCY/>
+            <TRANSPORT_CHAIN/>
+            <STAGING_TIME/>
+            <SCHEDULING_TYPE/>
+            <SUBMI_RELEVANT/>
+         </LS_LFA1>
+         <IV_WAERS/>
+         <IV_KURSF/>
+         <LT_MSEG dd:minOccur="0">
+            <DATA dd:maxOccur="-1">
+               <MANDT/>
+               <MBLNR/>
+               <MJAHR/>
+               <ZEILE/>
+               <LINE_ID/>
+               <PARENT_ID/>
+               <LINE_DEPTH/>
+               <MAA_URZEI/>
+               <BWART/>
+               <XAUTO/>
+               <MATNR/>
+               <WERKS/>
+               <LGORT/>
+               <CHARG/>
+               <INSMK/>
+               <ZUSCH/>
+               <ZUSTD/>
+               <SOBKZ/>
+               <LIFNR/>
+               <KUNNR/>
+               <KDAUF/>
+               <KDPOS/>
+               <KDEIN/>
+               <PLPLA/>
+               <SHKZG/>
+               <WAERS/>
+               <DMBTR/>
+               <BNBTR/>
+               <BUALT/>
+               <SHKUM/>
+               <DMBUM/>
+               <BWTAR/>
+               <MENGE/>
+               <MEINS/>
+               <ERFMG/>
+               <ERFME/>
+               <BPMNG/>
+               <BPRME/>
+               <EBELN/>
+               <EBELP/>
+               <LFBJA/>
+               <LFBNR/>
+               <LFPOS/>
+               <SJAHR/>
+               <SMBLN/>
+               <SMBLP/>
+               <ELIKZ/>
+               <SGTXT/>
+               <EQUNR/>
+               <WEMPF/>
+               <ABLAD/>
+               <GSBER/>
+               <KOKRS/>
+               <PARGB/>
+               <PARBU/>
+               <KOSTL/>
+               <PROJN/>
+               <AUFNR/>
+               <ANLN1/>
+               <ANLN2/>
+               <XSKST/>
+               <XSAUF/>
+               <XSPRO/>
+               <XSERG/>
+               <GJAHR/>
+               <XRUEM/>
+               <XRUEJ/>
+               <BUKRS/>
+               <BELNR/>
+               <BUZEI/>
+               <BELUM/>
+               <BUZUM/>
+               <RSNUM/>
+               <RSPOS/>
+               <KZEAR/>
+               <PBAMG/>
+               <KZSTR/>
+               <UMMAT/>
+               <UMWRK/>
+               <UMLGO/>
+               <UMCHA/>
+               <UMZST/>
+               <UMZUS/>
+               <UMBAR/>
+               <UMSOK/>
+               <KZBEW/>
+               <KZVBR/>
+               <KZZUG/>
+               <WEUNB/>
+               <PALAN/>
+               <LGNUM/>
+               <LGTYP/>
+               <LGPLA/>
+               <BESTQ/>
+               <BWLVS/>
+               <TBNUM/>
+               <TBPOS/>
+               <XBLVS/>
+               <VSCHN/>
+               <NSCHN/>
+               <DYPLA/>
+               <UBNUM/>
+               <TBPRI/>
+               <TANUM/>
+               <WEANZ/>
+               <GRUND/>
+               <EVERS/>
+               <EVERE/>
+               <IMKEY/>
+               <KSTRG/>
+               <PAOBJNR/>
+               <PRCTR/>
+               <PS_PSP_PNR/>
+               <NPLNR/>
+               <AUFPL/>
+               <APLZL/>
+               <AUFPS/>
+               <VPTNR/>
+               <FIPOS/>
+               <SAKTO/>
+               <BSTMG/>
+               <BSTME/>
+               <XWSBR/>
+               <EMLIF/>
+               <DUMMY_INCL_EEW_COBL/>
+               <EXBWR/>
+               <VKWRT/>
+               <AKTNR/>
+               <ZEKKN/>
+               <VFDAT/>
+               <CUOBJ_CH/>
+               <EXVKW/>
+               <PPRCTR/>
+               <RSART/>
+               <GEBER/>
+               <FISTL/>
+               <MATBF/>
+               <UMMAB/>
+               <BUSTM/>
+               <BUSTW/>
+               <MENGU/>
+               <WERTU/>
+               <LBKUM/>
+               <SALK3/>
+               <VPRSV/>
+               <FKBER/>
+               <DABRBZ/>
+               <VKWRA/>
+               <DABRZ/>
+               <XBEAU/>
+               <LSMNG/>
+               <LSMEH/>
+               <KZBWS/>
+               <QINSPST/>
+               <URZEI/>
+               <J_1BEXBASE/>
+               <MWSKZ/>
+               <TXJCD/>
+               <EMATN/>
+               <J_1AGIRUPD/>
+               <VKMWS/>
+               <HSDAT/>
+               <BERKZ/>
+               <MAT_KDAUF/>
+               <MAT_KDPOS/>
+               <MAT_PSPNR/>
+               <XWOFF/>
+               <BEMOT/>
+               <PRZNR/>
+               <LLIEF/>
+               <LSTAR/>
+               <XOBEW/>
+               <GRANT_NBR/>
+               <ZUSTD_T156M/>
+               <SPE_GTS_STOCK_TY/>
+               <KBLNR/>
+               <KBLPOS/>
+               <XMACC/>
+               <VGART_MKPF/>
+               <BUDAT_MKPF/>
+               <CPUDT_MKPF/>
+               <CPUTM_MKPF/>
+               <USNAM_MKPF/>
+               <XBLNR_MKPF/>
+               <TCODE2_MKPF/>
+               <VBELN_IM/>
+               <VBELP_IM/>
+               <SGT_SCAT/>
+               <SGT_UMSCAT/>
+               <SGT_RCAT/>
+               <SERVICEPERFORMER/>
+               <PERNR/>
+               <KNTTP_GR/>
+               <WORK_ITEM_ID/>
+               <FBUDA/>
+               <XPRINT/>
+               <NROFLABELS/>
+               <XCWMXMENGE/>
+               <XCWMXMEINS/>
+               <XCWMXERFMG/>
+               <XCWMXERFME/>
+               <SERVICE_DOC_TYPE/>
+               <SERVICE_DOC_ID/>
+               <SERVICE_DOC_ITEM_ID/>
+               <EWM_LGNUM/>
+               <EWM_GMDOC/>
+               <RESOURCENAME_SID/>
+               <RESOURCENAME_CID/>
+               <DUMMY_MATDOC_INCL_EEW_PS/>
+               <DISUB_OWNER/>
+               <FSH_SEASON_YEAR/>
+               <FSH_SEASON/>
+               <FSH_COLLECTION/>
+               <FSH_THEME/>
+               <FSH_UMSEA_YR/>
+               <FSH_UMSEA/>
+               <FSH_UMCOLL/>
+               <FSH_UMTHEME/>
+               <SGT_CHINT/>
+               <COMPL_MARK/>
+               <FZGLS_MARK/>
+               <ETANP_MARK/>
+               <POPUP_MARK/>
+               <OINAVNW/>
+               <OICONDCOD/>
+               <CONDI/>
+               <WRF_CHARSTC1/>
+               <WRF_CHARSTC2/>
+               <WRF_CHARSTC3/>
+               <VAT/>
+               <FRI/>
+               <OTH/>
+               <DIS/>
+               <LV_URATE/>
+               <PEINH/>
+            </DATA>
+         </LT_MSEG>
+         <LV_MBLNR/>
+         <GV_GEWEI/>
+         <WA_MSEG>
+            <MANDT/>
+            <MBLNR/>
+            <MJAHR/>
+            <ZEILE/>
+            <LINE_ID/>
+            <PARENT_ID/>
+            <LINE_DEPTH/>
+            <MAA_URZEI/>
+            <BWART/>
+            <XAUTO/>
+            <MATNR/>
+            <WERKS/>
+            <LGORT/>
+            <CHARG/>
+            <INSMK/>
+            <ZUSCH/>
+            <ZUSTD/>
+            <SOBKZ/>
+            <LIFNR/>
+            <KUNNR/>
+            <KDAUF/>
+            <KDPOS/>
+            <KDEIN/>
+            <PLPLA/>
+            <SHKZG/>
+            <WAERS/>
+            <DMBTR/>
+            <BNBTR/>
+            <BUALT/>
+            <SHKUM/>
+            <DMBUM/>
+            <BWTAR/>
+            <MENGE/>
+            <MEINS/>
+            <ERFMG/>
+            <ERFME/>
+            <BPMNG/>
+            <BPRME/>
+            <EBELN/>
+            <EBELP/>
+            <LFBJA/>
+            <LFBNR/>
+            <LFPOS/>
+            <SJAHR/>
+            <SMBLN/>
+            <SMBLP/>
+            <ELIKZ/>
+            <SGTXT/>
+            <EQUNR/>
+            <WEMPF/>
+            <ABLAD/>
+            <GSBER/>
+            <KOKRS/>
+            <PARGB/>
+            <PARBU/>
+            <KOSTL/>
+            <PROJN/>
+            <AUFNR/>
+            <ANLN1/>
+            <ANLN2/>
+            <XSKST/>
+            <XSAUF/>
+            <XSPRO/>
+            <XSERG/>
+            <GJAHR/>
+            <XRUEM/>
+            <XRUEJ/>
+            <BUKRS/>
+            <BELNR/>
+            <BUZEI/>
+            <BELUM/>
+            <BUZUM/>
+            <RSNUM/>
+            <RSPOS/>
+            <KZEAR/>
+            <PBAMG/>
+            <KZSTR/>
+            <UMMAT/>
+            <UMWRK/>
+            <UMLGO/>
+            <UMCHA/>
+            <UMZST/>
+            <UMZUS/>
+            <UMBAR/>
+            <UMSOK/>
+            <KZBEW/>
+            <KZVBR/>
+            <KZZUG/>
+            <WEUNB/>
+            <PALAN/>
+            <LGNUM/>
+            <LGTYP/>
+            <LGPLA/>
+            <BESTQ/>
+            <BWLVS/>
+            <TBNUM/>
+            <TBPOS/>
+            <XBLVS/>
+            <VSCHN/>
+            <NSCHN/>
+            <DYPLA/>
+            <UBNUM/>
+            <TBPRI/>
+            <TANUM/>
+            <WEANZ/>
+            <GRUND/>
+            <EVERS/>
+            <EVERE/>
+            <IMKEY/>
+            <KSTRG/>
+            <PAOBJNR/>
+            <PRCTR/>
+            <PS_PSP_PNR/>
+            <NPLNR/>
+            <AUFPL/>
+            <APLZL/>
+            <AUFPS/>
+            <VPTNR/>
+            <FIPOS/>
+            <SAKTO/>
+            <BSTMG/>
+            <BSTME/>
+            <XWSBR/>
+            <EMLIF/>
+            <DUMMY_INCL_EEW_COBL/>
+            <EXBWR/>
+            <VKWRT/>
+            <AKTNR/>
+            <ZEKKN/>
+            <VFDAT/>
+            <CUOBJ_CH/>
+            <EXVKW/>
+            <PPRCTR/>
+            <RSART/>
+            <GEBER/>
+            <FISTL/>
+            <MATBF/>
+            <UMMAB/>
+            <BUSTM/>
+            <BUSTW/>
+            <MENGU/>
+            <WERTU/>
+            <LBKUM/>
+            <SALK3/>
+            <VPRSV/>
+            <FKBER/>
+            <DABRBZ/>
+            <VKWRA/>
+            <DABRZ/>
+            <XBEAU/>
+            <LSMNG/>
+            <LSMEH/>
+            <KZBWS/>
+            <QINSPST/>
+            <URZEI/>
+            <J_1BEXBASE/>
+            <MWSKZ/>
+            <TXJCD/>
+            <EMATN/>
+            <J_1AGIRUPD/>
+            <VKMWS/>
+            <HSDAT/>
+            <BERKZ/>
+            <MAT_KDAUF/>
+            <MAT_KDPOS/>
+            <MAT_PSPNR/>
+            <XWOFF/>
+            <BEMOT/>
+            <PRZNR/>
+            <LLIEF/>
+            <LSTAR/>
+            <XOBEW/>
+            <GRANT_NBR/>
+            <ZUSTD_T156M/>
+            <SPE_GTS_STOCK_TY/>
+            <KBLNR/>
+            <KBLPOS/>
+            <XMACC/>
+            <VGART_MKPF/>
+            <BUDAT_MKPF/>
+            <CPUDT_MKPF/>
+            <CPUTM_MKPF/>
+            <USNAM_MKPF/>
+            <XBLNR_MKPF/>
+            <TCODE2_MKPF/>
+            <VBELN_IM/>
+            <VBELP_IM/>
+            <SGT_SCAT/>
+            <SGT_UMSCAT/>
+            <SGT_RCAT/>
+            <SERVICEPERFORMER/>
+            <PERNR/>
+            <KNTTP_GR/>
+            <WORK_ITEM_ID/>
+            <FBUDA/>
+            <XPRINT/>
+            <NROFLABELS/>
+            <XCWMXMENGE/>
+            <XCWMXMEINS/>
+            <XCWMXERFMG/>
+            <XCWMXERFME/>
+            <SERVICE_DOC_TYPE/>
+            <SERVICE_DOC_ID/>
+            <SERVICE_DOC_ITEM_ID/>
+            <EWM_LGNUM/>
+            <EWM_GMDOC/>
+            <RESOURCENAME_SID/>
+            <RESOURCENAME_CID/>
+            <DUMMY_MATDOC_INCL_EEW_PS/>
+            <DISUB_OWNER/>
+            <FSH_SEASON_YEAR/>
+            <FSH_SEASON/>
+            <FSH_COLLECTION/>
+            <FSH_THEME/>
+            <FSH_UMSEA_YR/>
+            <FSH_UMSEA/>
+            <FSH_UMCOLL/>
+            <FSH_UMTHEME/>
+            <SGT_CHINT/>
+            <COMPL_MARK/>
+            <FZGLS_MARK/>
+            <ETANP_MARK/>
+            <POPUP_MARK/>
+            <OINAVNW/>
+            <OICONDCOD/>
+            <CONDI/>
+            <WRF_CHARSTC1/>
+            <WRF_CHARSTC2/>
+            <WRF_CHARSTC3/>
+            <VAT/>
+            <FRI/>
+            <OTH/>
+            <DIS/>
+            <LV_URATE/>
+            <PEINH/>
+         </WA_MSEG>
+         <LV_UNIT/>
+         <TOT_AMNT/>
+         <MONTH/>
+         <DATE/>
+         <FINAL_AMT/>
+         <FINAL_AMT1/>
+         <VAT/>
+         <DIS/>
+         <SUM/>
+         <LV_DMBTR/>
+         <LV_BUTXT/>
+         <GV_KSCHL/>
+         <LV_NAME/>
+         <LV_UNIT1/>
+         <SFPSY>
+            <DATE/>
+            <TIME/>
+            <USERNAME/>
+            <SUBRC/>
+         </SFPSY>
+      </data>
    </dd:dataDescription>
 </xfa:datasets>
 <localeSet xmlns="http://www.xfa.org/schema/xfa-locale-set/2.7/">
@@ -414,7 +2374,7 @@
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 9.0-c000 79.cca54b0, 2022/11/26-09:29:55        ">
    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
       <rdf:Description xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:pdfuaid="http://www.aiim.org/pdfua/ns/id/" xmlns:pdf="http://ns.adobe.com/pdf/1.3/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:desc="http://ns.adobe.com/xfa/promoted-desc/" rdf:about="">
-         <xmp:MetadataDate>2026-09-12T19:37:33Z</xmp:MetadataDate>
+         <xmp:MetadataDate>2026-09-13T09:58:46Z</xmp:MetadataDate>
          <xmp:CreatorTool>Adobe LiveCycle Designer 11.0</xmp:CreatorTool>
          <pdfuaid:part>1</pdfuaid:part>
          <pdf:Producer>Adobe LiveCycle Designer 11.0</pdf:Producer>
