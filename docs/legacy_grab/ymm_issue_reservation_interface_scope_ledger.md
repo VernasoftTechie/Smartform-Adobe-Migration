@@ -213,6 +213,25 @@ heading, `%WINDOW3`/`%WINDOW5` Details pair, and likely also parts of
 built** — this is layout-phase work, flagged here so it isn't
 rediscovered from scratch when that phase starts.
 
+**`MAIN` table structure (`%TABLE1`), extracted ahead of Context** —
+8 columns, total width 19.95cm (matches the section's own declared
+`WIDTH`): `1.20 / 3.40 / 5.20 / 1.80 / 2.10 / 2.15 / 2.15 / 1.95` cm.
+Row field bindings confirmed via `WA_ITEM-*` references in binding
+order: `RSPOS`, `MATNR`, `CHARG`, `MAKTX`, `MEINS`, `BDMNG`, `LGPBE`,
+`LBKUM`, `VERPR` — every one of `w_item`'s own fields is used
+somewhere in this table, none left over. Column captions found
+separately in the export (§5 above): S/No., Item code, Description
+and Part Nos, UOM, Qty required, Qty Issued, Bin No, and either
+"Stock balance" or "Store balance" (both appear — likely the E/F
+language pair for the same column, matching this form's consistent
+dual-language `T_CAPTION` pattern seen on every window/text node, not
+two different columns; not yet 100% confirmed which column is which
+caption — do that once Context/layout work actually starts on this
+window). `BDMNG`/`LBKUM` are the QUAN fields already known from the
+`w_item` TYPES declaration (§2); `VERPR` is nominally QUAN too per its
+declared type but is `DEP-YMMISSUERES-02`'s flagged type-mismatch
+field.
+
 **Still to extract before layout work begins** (deferred, not blocking
 the interface): exact literal text of the plant-heading template
 (`%WINDOW2`/`%TEMPLATE2`) for both language variants, the exact
