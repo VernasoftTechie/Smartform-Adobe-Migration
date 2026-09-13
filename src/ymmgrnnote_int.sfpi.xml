@@ -64,21 +64,21 @@
        <STANDARD/>
        <DATATYPE>QUAN</DATATYPE>
        <VALUE>LS_MSEG-PBAMG</VALUE>
-       <UNIT>ERFME</UNIT>
+       <UNIT>LS_MSEG-ERFME</UNIT>
       </SFPREF>
       <SFPREF>
        <ACTIVE>X</ACTIVE>
        <STANDARD/>
        <DATATYPE>QUAN</DATATYPE>
        <VALUE>LT_MSEG-PBAMG</VALUE>
-       <UNIT>ERFME</UNIT>
+       <UNIT>LT_MSEG-ERFME</UNIT>
       </SFPREF>
       <SFPREF>
        <ACTIVE>X</ACTIVE>
        <STANDARD/>
        <DATATYPE>QUAN</DATATYPE>
        <VALUE>WA_MSEG-PBAMG</VALUE>
-       <UNIT>ERFME</UNIT>
+       <UNIT>WA_MSEG-ERFME</UNIT>
       </SFPREF>
       <SFPREF>
        <ACTIVE>X</ACTIVE>
