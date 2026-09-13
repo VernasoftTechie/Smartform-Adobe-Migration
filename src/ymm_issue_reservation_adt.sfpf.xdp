@@ -5,11 +5,199 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
+            <contentArea h="28.7cm" w="20cm" x="0.5cm" y="0.5cm"/>
+            <medium long="29.7cm" short="21cm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in"/>
+      <subform h="29.7cm" name="visual_shell" w="21cm">
+         <!-- Logo - evidence: %WINDOW1, SE78 GKEYBDS OBJECT=GRAPHICS
+              NAME=DANGOTELOGO ID=BMAP BTYPE=BCOL - same logo family as
+              the pilot/YMMGRNNOTE (docs/04_global_style_catalogue.md).
+              URL pattern matches the pilot's own proven binding
+              exactly (docs/reference_examples/sfp_generated_archive/
+              z_mm_pr_form_adt.sfpf.xdp line 13-17). -->
+         <draw h="2.5cm" name="logo" w="5cm" x="0.5cm" y="0.5cm">
+            <value>
+               <image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/dangotelogo.bmp"/>
+            </value>
+         </draw>
+
+         <!-- Plant heading - evidence: %WINDOW2/%TEMPLATE2, 3 rows.
+              Row 1 (company name) is a genuine 5-way LV_LAND1 country
+              branch (ZA_COUNTRY/SN_COUNTRY static text, ZM_COUNTRY
+              dynamic, 2 disabled 1=2 dummy fallbacks - ledger §6).
+              Bound here to WA_ADRC.NAME1 (the real, always-resolved
+              value via %CODE3's DB lookup chain) instead of the full
+              static branch, matching YMMGRNNOTE's own approved
+              deferred-branding precedent - DEP-YMMISSUERES-04/06/07
+              track the full static branch and the %CODE3 replication
+              still needed for WA_ADRC.NAME1 to actually resolve.
+              Rows 2-3 are unconditional. -->
+         <subform h="2.3cm" layout="position" name="plant_heading" w="20cm" x="0.5cm" y="3.3cm">
+            <bind match="none"/>
+            <field h="0.7cm" name="fld_company_name" w="20cm" x="0cm" y="0cm">
+               <ui><textEdit/></ui>
+               <font size="12pt" typeface="Arial" weight="bold"/>
+               <para hAlign="center"/>
+               <bind match="dataRef" ref="$.WA_ADRC.NAME1"/>
+            </field>
+            <field h="0.6cm" name="fld_plant_name" w="20cm" x="0cm" y="0.7cm">
+               <ui><textEdit/></ui>
+               <font size="11pt" typeface="Arial"/>
+               <para hAlign="center"/>
+               <bind match="dataRef" ref="$.IV_PLANT_NAME"/>
+            </field>
+            <draw h="0.8cm" name="lbl_title" w="20cm" x="0cm" y="1.4cm">
+               <value><text>STORE ISSUE RESERVATION</text></value>
+               <font size="13pt" typeface="Arial" weight="bold"/>
+               <para hAlign="center"/>
+            </draw>
+         </subform>
+
+         <!-- Details block - evidence: %WINDOW3/%WINDOW5 (%LOOP1/
+              %LOOP2), confirmed IDENTICAL content on both (ledger §6,
+              re-scanned in full) - built once, not as two conditional
+              variants. %LOOP1's own FIRSTLINE=LASTLINE=1 confirms this
+              displays only WA_HEADER (a single work area), not a
+              repeating table - bound directly, no occur/DATA[*].
+              INGRP/VAPLZ are labeled "Department"/"Section" in the
+              legacy UI text despite being planner-group/work-center
+              fields - preserved exactly as evidenced, not relabeled.
+              Exact original 3-column grid arrangement isn't confirmed
+              from the export (only the field/label set is) - built as
+              a plain vertical stack instead of guessing column
+              placement; functionally complete, arrangement can be
+              adjusted once seen rendered. -->
+         <subform h="4.8cm" layout="tb" name="details_block" w="20cm" x="0.5cm" y="5.8cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.6cm" layout="position" name="det_rsnum">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_rsnum" w="5cm" x="0cm" y="0cm"><value><text>Reservation No:</text></value></draw>
+               <field h="0.6cm" name="fld_rsnum" w="5cm" x="5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.WA_HEADER.RSNUM"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_aufnr">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_aufnr" w="5cm" x="0cm" y="0cm"><value><text>Maint Ord No:</text></value></draw>
+               <field h="0.6cm" name="fld_aufnr" w="5cm" x="5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.WA_HEADER.AUFNR"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_ingrp">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_ingrp" w="5cm" x="0cm" y="0cm"><value><text>Department:</text></value></draw>
+               <field h="0.6cm" name="fld_ingrp" w="5cm" x="5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.WA_HEADER.INGRP"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_vaplz">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_vaplz" w="5cm" x="0cm" y="0cm"><value><text>Section:</text></value></draw>
+               <field h="0.6cm" name="fld_vaplz" w="5cm" x="5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.WA_HEADER.VAPLZ"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_rsdat">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_rsdat" w="5cm" x="0cm" y="0cm"><value><text>Date:</text></value></draw>
+               <field h="0.6cm" name="fld_rsdat" w="5cm" x="5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.WA_HEADER.RSDAT"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_sir">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_sir" w="5cm" x="0cm" y="0cm"><value><text>S.I.R raised by (Name):</text></value></draw>
+               <field h="0.6cm" name="fld_sir" w="5cm" x="5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.FINAL_NAME"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_sig_head">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_sig_head" w="5cm" x="0cm" y="0cm"><value><text>Signature of the Head:</text></value></draw>
+               <draw h="0.5cm" name="line_sig_head" w="6.85cm" x="5cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+            </subform>
+            <subform h="0.6cm" layout="position" name="det_user_dept">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_user_dept" w="5cm" x="0cm" y="0cm"><value><text>(User Department):</text></value></draw>
+               <draw h="0.5cm" name="line_user_dept" w="6.85cm" x="5cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+            </subform>
+         </subform>
+
+         <!-- MAIN table - evidence: MAIN/%TABLE1, 8 columns, widths
+              1.20/3.40/5.20/1.80/2.10/2.15/2.15/1.95cm (=19.95cm,
+              ledger §6). Bound to IT_ITEM (the purpose-built item
+              table), using $.IT_ITEM.DATA[*] - CONFIRMED against this
+              form's own captured dd:dataDescription (IT_ITEM's real
+              schema nests DATA[] inside it) AND the pilot's own proven
+              $.T_FINAL.DATA[*] pattern (docs/reference_examples/
+              sfp_generated_archive/z_mm_pr_form_adt.sfpf.xdp:139) -
+              NOT the bare $.TABLE[*] form used (unconfirmed, never
+              SFP-tested) on YMMGRNNOTE; that should be revisited.
+              Column-to-field mapping: RSPOS(S/No)/MATNR(Item code)/
+              MAKTX(Description)/MEINS(UOM)/BDMNG(Qty required)/
+              blank(Qty Issued - no matching field in w_item, reads as
+              a manual-entry column on the physical issue slip, matching
+              a goods-issue voucher's normal print convention)/
+              LGPBE(Bin No)/LBKUM(Stock balance). CHARG (batch) and
+              VERPR are NOT bound here - w_item has 9 fields for 8
+              columns; CHARG's own 2021 comment ("for brackets") suggests
+              it's meant to display appended to the material code, not
+              as its own column, but the exact concatenation format
+              isn't confirmed - left unbound rather than guessed
+              (tracked below as a note, not a numbered DEP since it's
+              cosmetic, not a data-loss risk - CHARG/VERPR both remain
+              in the interface and Context regardless). -->
+         <subform h="8cm" layout="tb" name="line_items" w="19.95cm" x="0.5cm" y="11cm">
+            <bind match="none"/>
+            <subform h="0.8cm" layout="position" name="table_header" w="19.95cm">
+               <bind match="none"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <draw h="0.8cm" name="h01" w="1.20cm" x="0cm" y="0cm"><value><text>S/No.</text></value></draw>
+               <draw h="0.8cm" name="h02" w="3.40cm" x="1.20cm" y="0cm"><value><text>Item code</text></value></draw>
+               <draw h="0.8cm" name="h03" w="5.20cm" x="4.60cm" y="0cm"><value><text>Description and Part Nos</text></value></draw>
+               <draw h="0.8cm" name="h04" w="1.80cm" x="9.80cm" y="0cm"><value><text>UOM</text></value></draw>
+               <draw h="0.8cm" name="h05" w="2.10cm" x="11.60cm" y="0cm"><value><text>Qty required</text></value></draw>
+               <draw h="0.8cm" name="h06" w="2.15cm" x="13.70cm" y="0cm"><value><text>Qty Issued</text></value></draw>
+               <draw h="0.8cm" name="h07" w="2.15cm" x="15.85cm" y="0cm"><value><text>Bin No</text></value></draw>
+               <draw h="0.8cm" name="h08" w="1.95cm" x="18.00cm" y="0cm"><value><text>Stock balance</text></value></draw>
+            </subform>
+            <subform h="0.55cm" layout="position" name="table_row" w="19.95cm">
+               <occur min="0" max="-1"/>
+               <bind match="dataRef" ref="$.IT_ITEM.DATA[*]"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+               <font size="8pt" typeface="Arial"/>
+               <field h="0.55cm" name="c01" w="1.20cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="RSPOS"/></field>
+               <field h="0.55cm" name="c02" w="3.40cm" x="1.20cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="MATNR"/></field>
+               <field h="0.55cm" name="c03" w="5.20cm" x="4.60cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="MAKTX"/></field>
+               <field h="0.55cm" name="c04" w="1.80cm" x="9.80cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="MEINS"/></field>
+               <field h="0.55cm" name="c05" w="2.10cm" x="11.60cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="BDMNG"/></field>
+               <field h="0.55cm" name="c06" w="2.15cm" x="13.70cm" y="0cm"><ui><numericEdit/></ui><bind match="none"/></field>
+               <field h="0.55cm" name="c07" w="2.15cm" x="15.85cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="LGPBE"/></field>
+               <field h="0.55cm" name="c08" w="1.95cm" x="18.00cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="LBKUM"/></field>
+            </subform>
+            <!-- Totals row - GV_TOTAL is a mandatory top-level QUAN
+                 import parameter with no other evidenced home in the
+                 layout; bound here as the table's grand total,
+                 matching its most likely intent (a sum of required
+                 quantities) - not otherwise evidenced, flag if wrong. -->
+            <subform h="0.6cm" layout="position" name="table_total" w="19.95cm">
+               <bind match="none"/>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <draw h="0.6cm" name="lbl_total" w="11.60cm" x="0cm" y="0cm"><value><text>Total:</text></value></draw>
+               <field h="0.6cm" name="fld_total" w="2.10cm" x="11.60cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.GV_TOTAL"/></field>
+            </subform>
+         </subform>
+
+         <!-- Date and Signature footer - evidence: %WINDOW4/%TEMPLATE3,
+              18.63cm wide, 3 columns. Legacy form used a literal
+              underscore signature line - rebuilt as a bottom-border
+              draw per S07 §7, not underscores. -->
+         <subform h="1.4cm" layout="tb" name="signature_footer" w="19.95cm" x="0.5cm" y="26.8cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.7cm" layout="position" name="sig_row1" w="19.95cm">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_issuer" w="6cm" x="0cm" y="0cm"><value><text>Name and Signature of the Issuer:</text></value></draw>
+               <draw h="0.5cm" name="line_issuer" w="13.95cm" x="6cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+            </subform>
+            <subform h="0.7cm" layout="position" name="sig_row2" w="19.95cm">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_user_dept2" w="6cm" x="0cm" y="0cm"><value><text>(User Department):</text></value></draw>
+               <draw h="0.5cm" name="line_user_dept2" w="13.95cm" x="6cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.3mm"/><edge presence="hidden"/></border></draw>
+            </subform>
+         </subform>
+      </subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>

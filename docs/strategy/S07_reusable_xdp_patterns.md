@@ -94,7 +94,7 @@ this exact shape (F41).
    </subform>
    <subform h="0.55cm" layout="position" name="table_row" w="19.70cm">
       <occur min="0" max="-1"/>
-      <bind match="dataRef" ref="$.LT_SOME_TABLE[*]"/>
+      <bind match="dataRef" ref="$.LT_SOME_TABLE.DATA[*]"/>
       <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
       <font size="8pt" typeface="Arial"/>
       <field h="0.55cm" name="c01" w="2cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="FIELD1"/></field>
@@ -103,17 +103,29 @@ this exact shape (F41).
 </subform>
 ```
 
-**Two non-obvious, easy-to-get-wrong details, both confirmed the hard
-way (F40 → F41):**
+**Three non-obvious, easy-to-get-wrong details:**
 
-1. The **outer wrapper** (`line_items`) is `layout="tb"` — this is the
+1. **The row bind is `$.TABLE.DATA[*]`, not bare `$.TABLE[*]`**
+   (corrected 2026-09-13, `YMM_ISSUE_RESERVATION_ADT`'s F46/deep-scan
+   pass). Every SFP table parameter's real captured data schema
+   (`dd:dataDescription` in the `.sfpf.xdp`) nests a `DATA` array
+   *inside* the table name (`<LT_TABLE><DATA dd:maxOccur="-1">...
+   </DATA></LT_TABLE>`), and the pilot's own proven binding
+   (`z_mm_pr_form_adt.sfpf.xdp:139`) is genuinely `$.T_FINAL.DATA[*]`
+   — this file previously showed the bare form as if it were the
+   pilot's real pattern, which was a transcription error, not a second
+   confirmed-working variant. **`YMMGRNNOTE_ADT`'s own `MAIN` table
+   still uses the bare `$.LT_MSEG[*]` form and was never SFP-tested
+   after that push** — revisit it against this corrected pattern before
+   trusting it.
+2. The **outer wrapper** (`line_items`) is `layout="tb"` — this is the
    one place a repeating subform genuinely needs auto-flow, because
    `occur` instances must stack as they're added; a `position`-layout
    parent would render every instance at the same fixed `y`.
-2. **`table_row`'s own fields use BARE bind refs** (`ref="FIELD1"`, not
-   `ref="$.FIELD1"`). The row's own top-level `bind ref="$.LT_TABLE[*]"`
-   already establishes each instance's context — a child field binds
-   *relative* to that context, not from the document root again.
+3. **`table_row`'s own fields use BARE bind refs** (`ref="FIELD1"`, not
+   `ref="$.FIELD1"`). The row's own top-level `bind` already establishes
+   each instance's context — a child field binds *relative* to that
+   context, not from the document root again.
 
 ## 6. Totals / summary row
 

@@ -184,34 +184,94 @@ FormCalc-vs-ABAP-loop design decision needed here, unlike YMMGRNNOTE's
 | Window | Caption | Content | Binding |
 |---|---|---|---|
 | `%WINDOW1` | Logo | Graphic, SE78 `GRAPHICS/DANGOTELOGO` (BMAP/BCOL) | same logo family as the pilot and YMMGRNNOTE — check Global Style Catalogue before treating as new |
-| `%WINDOW2` | Plant heading | `%TEMPLATE2` section, 14.50cm wide | static/plant header text — contains the literal "OBAJANA CEMENT PLC" text found 11 times in the export (see §6) |
-| `%WINDOW3` | Details | `%LOOP1`, bound to `IT_HEADER`/`WA_HEADER` | **non-ZA variant** (see §6) |
-| `%WINDOW5` | Details | `%LOOP2`, bound to `IT_HEADER`/`WA_HEADER` — same binding as `%WINDOW3` | **ZA variant** (see §6) — a genuine alternate-layout pair, not a duplicate to collapse |
-| `MAIN` | Main Window | `%TABLE1`, bound to `IT_ITEM`/`WA_ITEM` | the repeating line-items table — column captions found: S/No., Item code, Description and Part Nos, UOM, Qty required, Qty Issued, Stock balance/Store balance, Bin No |
-| `%WINDOW4` | Date and Signature | `%TEMPLATE3` section, 18.63cm wide | signature block — captions found: Signature of the head, User Department, Section, S.I.R raised by |
+| `%WINDOW2` | Plant heading | `%TEMPLATE2`, 14.50cm wide, 3 rows | row 1: 5-way country-conditional company name (§6); row 2: plant name (`IV_PLANT_NAME`, unconditional); row 3: static title "STORE ISSUE RESERVATION" |
+| `%WINDOW3` | Details | `%LOOP1`/`%TEMPLATE1`, bound to `IT_HEADER`/`WA_HEADER` | **confirmed identical to `%WINDOW5`** (re-scanned in full, §6) — build once |
+| `%WINDOW5` | Details | `%LOOP2`, bound to `IT_HEADER`/`WA_HEADER` — same fields as `%WINDOW3`, word-for-word | not a content branch — SmartForms artifact of some other (not yet identified) duplication reason, safe to collapse to one Adobe subform |
+| `MAIN` | Main Window | `%TABLE1`, bound to `IT_ITEM`/`WA_ITEM`, 8 columns | line-items table — exact widths/bindings in §6 below |
+| `%WINDOW4` | Date and Signature | `%TEMPLATE3`, 18.63cm wide, 3 columns | footer signature block — "Name and Signature of the Issuer" + "(User Department)" (§6) |
 
-## 6. Conditional design — binary `LV_LAND1 = 'ZA'` switch, not multi-way
+## 6. Conditional design — CORRECTED 2026-09-13 after full re-read
 
-16 `<sf:CONDITION>` nodes found; every one evaluates `LV_LAND1` (South
-Africa country key `'ZA'`) — the overwhelming majority as a clean
-either/or pair: `LV_LAND1 = 'ZA'` vs. `LV_LAND1 <> 'ZA'` (one condition,
-`%CONDITION8`, additionally excludes `'SN'` — worth a second look once
-the full condition list is walked, not yet fully enumerated here). This
-is structurally **much simpler** than YMMGRNNOTE's 11-condition,
-partially-dummied plant/output-type matrix (`DEP-YMMGRNNOTE-05`) — a
-single discriminator variable already exists as a real, mandatory
-interface parameter (`LV_LAND1`), and the branch is genuinely binary.
+**This section's earlier claim ("clean binary `LV_LAND1 = 'ZA'` switch")
+was wrong** — it was based on sampling 6 of 16 conditions rather than
+reading the actual window content each one gates. Corrected here after
+a full re-scan of `%WINDOW2`, per the user's explicit instruction to
+double-check before concluding.
 
-Maps directly onto the conditional-visibility pattern already
-documented in `docs/legacy_grab/ymmgrnnote_post_implementation.md`
-("Conditional visibility pattern — check variable + FormCalc/JS"): bind
-`LV_LAND1` into a small field on the layout, and give the ZA-specific
-and non-ZA-specific content blocks (at minimum: the `%WINDOW2` plant
-heading, `%WINDOW3`/`%WINDOW5` Details pair, and likely also parts of
-`MAIN`/`%WINDOW4` — not yet fully confirmed which blocks branch) an
-`initialize` script setting `presence` from that field. **Not yet
-built** — this is layout-phase work, flagged here so it isn't
-rediscovered from scratch when that phase starts.
+**`%WINDOW2` (Plant heading) row 1 — a genuine 5-way country branch on
+the company-name line**, one static text alternative per condition
+(each with its own `T_CAPTION`/`T_TEXT` — note several of these show
+mismatched/swapped E vs F language text, e.g. `ZA_COUNTRY`'s English
+caption reads "Sephaku" while its English `T_TEXT` line reads "SEPHAKU
+CEMENT" and its French `T_TEXT` reads "DANGOTE CEMENT SENEGAL S.A" —
+preserved exactly as evidenced, not corrected, flagged as
+`DEP-YMMISSUERES-06` below):
+
+| Node | Condition | Live? | Content |
+|---|---|---|---|
+| `ZA_COUNTRY` | `LV_LAND1 <> 'SN' AND LV_LAND1 = 'ZA'` | live | static "SEPHAKU CEMENT" (E) / "DANGOTE CEMENT SENEGAL S.A" (F) |
+| `SN_COUNTRY` | `LV_LAND1 = 'SN' AND LV_LAND1 <> 'ZA'` | live | static "DANGOTE CEMENT SENEGAL" (E) / "...S.A" (F) |
+| `%TEXT2` | `LV_LAND1 NOT IN ('SN','ZA','ZM','TZ') AND 1=2` | **disabled — dummy `1=2` clause** | static "DANGOTE CEMENT PLC" — voided, same pattern as YMMGRNNOTE's `%CONDITION4`/`%CONDITION6` |
+| `EXCP_SN_ZA_ZM_TZ_COUNTRY` | same NOT-IN list `AND 1=2` | **disabled — dummy** | static "DANGOTE CEMENT LIMITED" — voided |
+| `ZM_COUNTRY` | `LV_LAND1 NOT IN ('SN','ZA') AND LV_LAND1 = 'ZM'` | live | **dynamic**, `&WA_ADRC-NAME1&` — the real resolved company name via the `%CODE3` DB lookup chain (`IT_FINAL→WA_T001K→WA_T001→WA_ADRC`, already in `GLOBAL_DATA`/needs its own `CL_FP_CODING` replication — see `DEP-YMMISSUERES-07`) |
+
+No dedicated `TZ`-specific branch was found — `TZ` only appears inside
+the two now-*disabled* dummy conditions' exclusion lists. With those
+voided (matching this project's own established precedent — YMMGRNNOTE's
+user explicitly confirmed dummy-clause branches are excluded from
+design), there is currently **no live branch at all for `TZ`** in the
+legacy form itself — a genuine gap in the source, not something to
+silently patch; flagged as `DEP-YMMISSUERES-08`.
+
+**Adobe design decision, following the exact precedent already
+approved for YMMGRNNOTE** (`docs/legacy_grab/ymmgrnnote_post_implementation.md`
+§"keep every conditional branch visibly annotated until approved"):
+bind the company-name line to **`WA_ADRC.NAME1`** (the always-real,
+dynamically-resolved company name — not just Zambia's fallback, but a
+generically correct value for any plant once `%CODE3`'s DB lookup runs)
+instead of building the full static per-country text switch. This
+requires `%CODE3`'s literal lookup chain to be replicated into
+`CL_FP_CODING`/`INITIALIZATION` (its own `PLIST` already shows the
+exact inputs: `IT_FINAL`, `WA_FINAL`, `WA_T001`, `WA_T001K`, `WA_ADRC`)
+— not yet done, tracked as `DEP-YMMISSUERES-07`. The full 3-way static
+branding (`ZA_COUNTRY`/`SN_COUNTRY`/the voided fallbacks) stays
+annotated-but-unbuilt pending business sign-off, exactly like
+YMMGRNNOTE's own deferred branding.
+
+**`%WINDOW2` rows 2-3 — unconditional, no branching:**
+- Row 2 (`%TEXT3`): plant name, dynamic `&iv_plant_name&` — always
+  shows, bind directly to `IV_PLANT_NAME`.
+- Row 3 (`%TEXT4`): static title "STORE ISSUE RESERVATION" (both E/F) —
+  always shows, plain static text.
+
+**`%WINDOW3`/`%WINDOW5` ("Details", non-ZA/ZA) — confirmed IDENTICAL
+content**, not a genuine content branch (re-scanned both in full: same
+7 fields/labels, word-for-word). Build this **once**, not as two
+conditional variants — a real simplification versus the original
+assumption. Fields (`%TEMPLATE1`/`%TEMPLATE4`, bound to `WA_HEADER`
+via the `%LOOP1`/`%LOOP2` header loop):
+
+| Label | Bound to |
+|---|---|
+| Reservation No: | `WA_HEADER-RSNUM` |
+| Maint Ord No: | `WA_HEADER-AUFNR` |
+| Department: | `WA_HEADER-INGRP` |
+| Section: | `WA_HEADER-VAPLZ` |
+| Date: | `WA_HEADER-RSDAT` |
+| S.I.R raised by (Name): | `FINAL_NAME` |
+| Signature of the Head: | *(label only, print-only blank line)* |
+| (User Department) | *(label only, print-only blank line — appears again in `%WINDOW4`, a distinct second occurrence, not a duplicate to collapse)* |
+
+`INGRP` (planner group) and `VAPLZ` (work center) are labeled
+"Department"/"Section" respectively in the UI text — preserved exactly
+as evidenced, a legacy labeling choice, not a data-mapping error.
+
+**`%WINDOW4` ("Date and Signature") — separate footer block**,
+`%TEMPLATE3`, 3 columns (4.29/6.11/8.23cm, total 18.63cm):
+"Name and Signature of the Issuer" label + a literal underscore line
+(`______________________________`, the legacy form's own convention —
+rebuilt as a bottom-border draw per `S07` §7, not underscores) and a
+second, distinct "(User Department)" blank label line.
 
 **`MAIN` table structure (`%TABLE1`), extracted ahead of Context** —
 8 columns, total width 19.95cm (matches the section's own declared
