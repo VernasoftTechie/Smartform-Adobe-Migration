@@ -186,16 +186,27 @@
                   <field h="0.8cm" name="fld_section" w="5.16cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EBAN.BEDNR"/></field>
                </subform>
             </subform>
-            <subform h="6.4cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
+            <!-- template_col2 height raised 6.4->7.2cm to absorb the two
+                 taller rows below (0.8->1.2cm each), keeping it level
+                 with template_col1's own 7.2cm. -->
+            <subform h="7.2cm" layout="tb" name="template_col2" w="9.54cm" x="10.66cm" y="0cm">
                <bind match="none"/>
                <font size="9pt" typeface="Arial"/>
-               <subform h="0.8cm" layout="row" name="tpl_awb_no"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
-                  <field h="0.8cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
+               <!-- These two labels are long enough to wrap to a second
+                    line even at 6cm width ("...Bill of" / "Loding No:") -
+                    the F36 fix gave every row 0.8cm, enough for one line
+                    but not two, so the wrapped second line was being
+                    clipped (LiveCycle's own overflow "+" badge). These
+                    two rows specifically get 1.2cm to comfortably fit
+                    both wrapped lines; every other row's label fits on
+                    one line at 0.8cm and doesn't need the extra height. -->
+               <subform h="1.2cm" layout="row" name="tpl_awb_no"><bind match="none"/>
+                  <draw h="1.2cm" name="lbl_awb_no" w="6cm"><value><text>Air Way Bill No/Bill of Loding No:</text></value></draw>
+                  <field h="1.2cm" name="fld_awb_no" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/></field>
                </subform>
-               <subform h="0.8cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
-                  <draw h="0.8cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
-                  <field h="0.8cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
+               <subform h="1.2cm" layout="row" name="tpl_awb_dt"><bind match="none"/>
+                  <draw h="1.2cm" name="lbl_awb_dt" w="6cm"><value><text>Air Way Bill/Bill of Loading Date:</text></value></draw>
+                  <field h="1.2cm" name="fld_awb_dt" w="3.54cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/></field>
                </subform>
                <subform h="0.8cm" layout="row" name="tpl_ship"><bind match="none"/>
                   <draw h="0.8cm" name="lbl_ship" w="6cm"><value><text>Name of Ship/Flight:</text></value></draw>
