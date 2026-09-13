@@ -41,7 +41,7 @@
               way - the Context capture showed both a bare BUDAT and a
               BUDAT_MKPF at different tree positions, not yet resolved
               which this form's own LS_MKPF-BUDAT actually maps to. -->
-         <subform h="0.6cm" name="grn_no_line" w="10cm" x="1cm" y="4.6cm">
+         <subform h="0.6cm" layout="row" name="grn_no_line" w="10cm" x="1cm" y="4.6cm">
             <bind match="none"/>
             <draw h="0.6cm" name="lbl_grn_no" w="2.5cm">
                <value>
@@ -65,7 +65,7 @@
               different tree position whose owner is not yet confirmed -
               verify this binding renders the right value before trusting
               it, per F33. -->
-         <subform h="0.6cm" name="grn_date_line" w="10cm" x="1cm" y="5.3cm">
+         <subform h="0.6cm" layout="row" name="grn_date_line" w="10cm" x="1cm" y="5.3cm">
             <bind match="none"/>
             <draw h="0.6cm" name="lbl_grn_date" w="2.5cm">
                <value>
@@ -200,7 +200,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.WAY_BII_NO"/>
                   </field>
                </subform>
-               <subform h="0.63cm" name="tpl_invoice">
+               <subform h="0.63cm" layout="row" name="tpl_invoice">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_invoice" w="5.5cm">
                      <value>
@@ -221,7 +221,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.VEND_INV"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_transporter">
+               <subform h="0.63cm" layout="row" name="tpl_transporter">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_transporter" w="5.5cm">
                      <value>
@@ -236,7 +236,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.TRANSPORTER"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_vehicle">
+               <subform h="0.63cm" layout="row" name="tpl_vehicle">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_vehicle" w="5.5cm">
                      <value>
@@ -251,7 +251,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.VEHICLE_NO"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_lpr">
+               <subform h="0.63cm" layout="row" name="tpl_lpr">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_lpr" w="5.5cm">
                      <value>
@@ -272,7 +272,7 @@
                      <bind match="dataRef" ref="$.LS_EBAN.BADAT"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_lpo">
+               <subform h="0.63cm" layout="row" name="tpl_lpo">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_lpo" w="5.5cm">
                      <value>
@@ -298,7 +298,7 @@
                     is an unusual field for a department, but preserved
                     exactly as evidenced rather than substituted; flag for
                     functional-owner confirmation, not silently changed. -->
-               <subform h="0.63cm" name="tpl_department">
+               <subform h="0.63cm" layout="row" name="tpl_department">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_department" w="5.5cm">
                      <value>
@@ -313,7 +313,7 @@
                      <bind match="dataRef" ref="$.LS_EBAN.MFRPN"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_section">
+               <subform h="0.63cm" layout="row" name="tpl_section">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_section" w="5.5cm">
                      <value>
@@ -343,7 +343,7 @@
                     labels, or truncating the evidenced legacy wording,
                     give exactly these two rows enough height (0.9cm) to
                     show their natural two-line wrap cleanly. -->
-               <subform h="0.9cm" name="tpl_awb_no">
+               <subform h="0.9cm" layout="row" name="tpl_awb_no">
                   <bind match="none"/>
                   <draw h="0.9cm" name="lbl_awb_no" w="6cm">
                      <value>
@@ -359,7 +359,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.AWB_NO_BOL"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.9cm" name="tpl_awb_dt">
+               <subform h="0.9cm" layout="row" name="tpl_awb_dt">
                   <bind match="none"/>
                   <draw h="0.9cm" name="lbl_awb_dt" w="6cm">
                      <value>
@@ -375,7 +375,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.AWB_DT_BOL"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_ship">
+               <subform h="0.63cm" layout="row" name="tpl_ship">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_ship" w="6cm">
                      <value>
@@ -390,7 +390,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.SHIP_FLIGHT"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_clearing">
+               <subform h="0.63cm" layout="row" name="tpl_clearing">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_clearing" w="6cm">
                      <value>
@@ -405,7 +405,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.CLEAR_AGNT"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_lc">
+               <subform h="0.63cm" layout="row" name="tpl_lc">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_lc" w="6cm">
                      <value>
@@ -420,7 +420,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.LC_NO"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_formm">
+               <subform h="0.63cm" layout="row" name="tpl_formm">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_formm" w="6cm">
                      <value>
@@ -435,7 +435,7 @@
                      <bind match="dataRef" ref="$.LS_MKPF.FORM_M"/>
                   </field>
                   <?templateDesigner expand 1?></subform>
-               <subform h="0.63cm" name="tpl_container">
+               <subform h="0.63cm" layout="row" name="tpl_container">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_container" w="6cm">
                      <value>
@@ -454,7 +454,7 @@
                     interface import parameters, not nested under any
                     structure, matching the pilot's own $.V_WAERS
                     convention. -->
-               <subform h="0.63cm" name="tpl_currency">
+               <subform h="0.63cm" layout="row" name="tpl_currency">
                   <bind match="none"/>
                   <draw h="0.63cm" name="lbl_currency" w="6cm">
                      <value>
@@ -482,41 +482,50 @@
               window, %TABLE1 bound to LT_MSEG, width 19.70cm. Row
               fields: WA_MSEG-ZEILE/MATNR/SGTXT/ERFME/ERFMG/LGPLA(C)/
               LV_UNIT1(C)/FINAL_AMT1. Wrapped in a layout="tb" subform
-              (matching the pilot's own "main" pattern) so the repeating
+              (matching the pilot Z_MM_PR_FORM_ADT's own "line_items"
+              pattern exactly - see
+              docs/reference_examples/sfp_generated_archive/
+              z_mm_pr_form_adt.sfpf.xdp lines 117-156) so the repeating
               table_row actually flows/stacks as rows are added - a
               "position"-layout parent (like visual_shell) does not
               auto-stack repeating content, it would render every row
-              instance at the same fixed y. table_header/table_row use
-              layout="row" for their flat leaf-field children only (no
-              nested subforms) - the pattern already proven safe
-              throughout this file; F35's nesting problem was
-              specifically about subform-within-subform columns. -->
+              instance at the same fixed y. F40 originally used
+              layout="row" with $.-prefixed binds here (a guess, never
+              tested); rebuilt to match the pilot exactly instead:
+              layout="position" with explicit cumulative x per column on
+              both header and row, and BARE bind refs (no "$." prefix)
+              on the row's fields, since table_row's own top-level
+              bind already puts each instance's context at $.LT_MSEG[n]
+              - the proven pilot pattern binds child fields relative to
+              that (e.g. ref="MATNR", not ref="$.MATNR"). -->
          <subform h="8cm" layout="tb" name="line_items" w="19.70cm" x="0.65cm" y="14.5cm">
             <bind match="none"/>
-            <subform h="0.6cm" layout="row" name="table_header" w="19.70cm">
+            <subform h="0.6cm" layout="position" name="table_header" w="19.70cm">
                <bind match="none"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                <font size="8pt" typeface="Arial" weight="bold"/>
-               <draw h="0.6cm" name="h01" w="0.86cm"><value><text>SNo</text></value></draw>
-               <draw h="0.6cm" name="h02" w="2.30cm"><value><text>Material Code</text></value></draw>
-               <draw h="0.6cm" name="h03" w="7.05cm"><value><text>Item Description</text></value></draw>
-               <draw h="0.6cm" name="h04" w="1.05cm"><value><text>Unit</text></value></draw>
-               <draw h="0.6cm" name="h05" w="2.05cm"><value><text>Accepted Qty</text></value></draw>
-               <draw h="0.6cm" name="h06" w="1.49cm"><value><text>St.Bin</text></value></draw>
-               <draw h="0.6cm" name="h07" w="1.64cm"><value><text>Unit Rate</text></value></draw>
-               <draw h="0.6cm" name="h08" w="3.26cm"><value><text>Amount</text></value></draw>
+               <draw h="0.6cm" name="h01" w="0.86cm" x="0cm" y="0cm"><value><text>SNo</text></value></draw>
+               <draw h="0.6cm" name="h02" w="2.30cm" x="0.86cm" y="0cm"><value><text>Material Code</text></value></draw>
+               <draw h="0.6cm" name="h03" w="7.05cm" x="3.16cm" y="0cm"><value><text>Item Description</text></value></draw>
+               <draw h="0.6cm" name="h04" w="1.05cm" x="10.21cm" y="0cm"><value><text>Unit</text></value></draw>
+               <draw h="0.6cm" name="h05" w="2.05cm" x="11.26cm" y="0cm"><value><text>Accepted Qty</text></value></draw>
+               <draw h="0.6cm" name="h06" w="1.49cm" x="13.31cm" y="0cm"><value><text>St.Bin</text></value></draw>
+               <draw h="0.6cm" name="h07" w="1.64cm" x="14.80cm" y="0cm"><value><text>Unit Rate</text></value></draw>
+               <draw h="0.6cm" name="h08" w="3.26cm" x="16.44cm" y="0cm"><value><text>Amount</text></value></draw>
             </subform>
-            <subform h="0.55cm" layout="row" name="table_row" w="19.70cm">
+            <subform h="0.55cm" layout="position" name="table_row" w="19.70cm">
                <occur min="0" max="-1"/>
                <bind match="dataRef" ref="$.LT_MSEG[*]"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                <font size="8pt" typeface="Arial"/>
-               <field h="0.55cm" name="c01" w="0.86cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.ZEILE"/></field>
-               <field h="0.55cm" name="c02" w="2.30cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.MATNR"/></field>
-               <field h="0.55cm" name="c03" w="7.05cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.SGTXT"/></field>
-               <field h="0.55cm" name="c04" w="1.05cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.ERFME"/></field>
-               <field h="0.55cm" name="c05" w="2.05cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.ERFMG"/></field>
-               <field h="0.55cm" name="c06" w="1.49cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LGPLA"/></field>
-               <field h="0.55cm" name="c07" w="1.64cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.LV_UNIT1"/></field>
-               <field h="0.55cm" name="c08" w="3.26cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.FINAL_AMT1"/></field>
+               <field h="0.55cm" name="c01" w="0.86cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="ZEILE"/></field>
+               <field h="0.55cm" name="c02" w="2.30cm" x="0.86cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="MATNR"/></field>
+               <field h="0.55cm" name="c03" w="7.05cm" x="3.16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="SGTXT"/></field>
+               <field h="0.55cm" name="c04" w="1.05cm" x="10.21cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="ERFME"/></field>
+               <field h="0.55cm" name="c05" w="2.05cm" x="11.26cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="ERFMG"/></field>
+               <field h="0.55cm" name="c06" w="1.49cm" x="13.31cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="LGPLA"/></field>
+               <field h="0.55cm" name="c07" w="1.64cm" x="14.80cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="LV_UNIT1"/></field>
+               <field h="0.55cm" name="c08" w="3.26cm" x="16.44cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="FINAL_AMT1"/></field>
             </subform>
             <!-- Totals row - evidence literally reads "Gross (TOT_AMNT),
                  Vat (VAT), Freight and other charge (SUM), and Total

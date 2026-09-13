@@ -29,6 +29,7 @@ stay in the relevant conversion branch.
 | [S02 — A4 landscape fixed-window layout](S02_landscape_fixed_layout.md) | Wide forms and 29 cm tables | F24 |
 | [S03 — Purchase Requisition composite layout](S03_pr_composite_layout.md) | Header, repeating lines, watermark, date, footer, signatures | `Z_MM_PR_FORM_ADT` |
 | [S04 — Interface hand-authoring boundary](S04_interface_hand_authoring_boundary.md) | Every form's `.sfpi.xml` | F28-F30 |
+| [S05 — Diff after every native SFP/Designer save](S05_post_native_edit_diff_discipline.md) | Every form, after every native SFP/Designer edit | F41 |
 
 ## Promotion standard
 
