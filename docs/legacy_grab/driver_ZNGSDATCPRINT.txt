@@ -1,0 +1,541 @@
+***********************************************************************
+* Program Title: ZNGSDATCPRINT (STO ATC Process)                      *
+* Created by   : ABAP06                           Date :17.10.2015    *
+* Description  : This form used to display the ATC Bulk print         *
+*                details.                                             *
+* Module name  : SAP-SD                                               *
+* Type         : Executable Program                                   *
+* Functional   : Joydeep                                              *
+* Special note :                                                      *
+*                                                                     *
+*                                                                     *
+*                                                                     *
+*---------------------------------------------------------------------*
+* Related Objects:                                                    *
+*---------------------------------------------------------------------*
+*                       Modification History                          *
+*---------------------------------------------------------------------*
+* Date     | USER ID       | CR#   | Transport  | Mod.Key             *
+*----------|---------------|-------|------------|---------------------*
+*17.10.2015| ABAP06        |1600171|DCDK922031  | Intital Version     *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            |                     *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            |                     *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            |                     *
+*----------|---------------|-------|------------|---------------------*
+*Mod01:
+*---------------------------------------------------------------------*
+*Mod02:
+*---------------------------------------------------------------------*
+*Mod03:
+*---------------------------------------------------------------------*
+
+REPORT  ZNGSDATCPRINT.
+
+TABLES: EKKO, EKPO, KNA1.
+
+TYPES: BEGIN OF TY_EKKO,
+         EBELN TYPE EKKO-EBELN,
+         AEDAT TYPE EKKO-AEDAT,
+         RESWK TYPE EKKO-RESWK,
+       END OF TY_EKKO.
+DATA: GT_EKKO TYPE STANDARD TABLE OF TY_EKKO,
+      GW_EKKO TYPE TY_EKKO.
+CONSTANTS: GC_BSART TYPE STRING VALUE 'ZUB'.
+
+TYPES: BEGIN OF TY_EKPO,
+         EBELN TYPE EKPO-EBELN,
+         WERKS TYPE EKPO-WERKS,
+       END OF TY_EKPO.
+DATA: GT_EKPO TYPE STANDARD TABLE OF TY_EKPO,
+      GW_EKPO TYPE TY_EKPO.
+
+TYPES: BEGIN OF TY_FINAL,
+         EBELN TYPE EKKO-EBELN,
+         AEDAT TYPE EKKO-AEDAT,
+         WERKS TYPE EKPO-WERKS,
+         RESWK TYPE EKKO-RESWK,
+       END OF TY_FINAL.
+DATA: GT_FINAL TYPE STANDARD TABLE OF TY_FINAL,
+      GW_FINAL TYPE TY_FINAL.
+
+DATA: W_CONTROL      TYPE SSFCTRLOP,
+      W_INPUT        TYPE SSFCOMPIN,
+      GS_OUTPUTDONE  TYPE SSFCRESCL,
+      GT_ATCPRINTSTO TYPE STANDARD TABLE OF ZSD_ATCPRINTSTO,
+      GW_ATCPRINTSTO TYPE ZSD_ATCPRINTSTO.
+
+DATA: LV_EKORG TYPE EKORG,
+      FNAME    TYPE RS38L-NAME.
+
+
+TYPES: BEGIN OF TY_EKPO01,
+         EBELN TYPE EKPO-EBELN,
+         MATNR TYPE EKPO-MATNR,
+         WERKS TYPE EKPO-WERKS,
+         MENGE TYPE EKPO-MENGE,
+         MEINS TYPE EKPO-MEINS,
+         NTGEW TYPE EKPO-NTGEW,
+         GEWEI TYPE EKPO-GEWEI,
+       END OF TY_EKPO01.
+
+TYPES: BEGIN OF TY_T001W,
+         WERKS TYPE T001W-WERKS,
+         NAME1 TYPE T001W-NAME1,
+       END OF TY_T001W.
+
+TYPES: BEGIN OF TY_KUNNR,
+         KUNNR TYPE EKKO-KUNNR,
+       END OF TY_KUNNR.
+
+TYPES: BEGIN OF TY_KNA1,
+         NAME1 TYPE KNA1-NAME1,
+       END OF TY_KNA1.
+
+TYPES: BEGIN OF TY_MAKT,
+         MATNR TYPE MAKT-MATNR,
+         MAKTX TYPE MAKT-MAKTX,
+       END OF TY_MAKT.
+
+DATA: GT_EKPO01 TYPE STANDARD TABLE OF TY_EKPO01,
+      GW_EKPO01 TYPE TY_EKPO01,
+      GT_T001W  TYPE STANDARD TABLE OF TY_T001W,
+      GT_NAME1  TYPE STANDARD TABLE OF TY_T001W,
+      GW_T001W  TYPE TY_T001W,
+      GT_KUNNR  TYPE STANDARD TABLE OF TY_KUNNR,
+      GW_KUNNR  TYPE TY_KUNNR,
+      GT_KNA1   TYPE STANDARD TABLE OF TY_KNA1,
+      GW_KNA1   TYPE TY_KNA1,
+      GT_MAKT   TYPE STANDARD TABLE OF TY_MAKT,
+      GW_MAKT   TYPE TY_MAKT.
+
+DATA: GV_EBELN       TYPE EKKO-EBELN,
+      GV_AEDAT       TYPE EKKO-AEDAT,
+      GV_WERKS       TYPE EKPO-WERKS,
+      GV_NAME        TYPE T001W-NAME1,
+      GV_NAME1       TYPE T001W-NAME1,
+      GV_MATNR       TYPE EKPO-MATNR,
+      GV_MAKTX       TYPE MAKT-MAKTX,
+      GV_MENGE       TYPE EKPO-MENGE,
+      GV_MEINS       TYPE EKPO-MEINS,
+      GV_NTGEW       TYPE EKPO-NTGEW,
+      GV_NTGEW01     TYPE STRING,
+      GV_DECIMALS    TYPE DECIMALS,
+      GV_WORDS(100)  TYPE C,
+      GV_WORDS1(100) TYPE C,
+      GV_MENGE01     TYPE PC207-BETRG,
+      GV_NTGEW02     TYPE PC207-BETRG,
+      GV_TOTAL       TYPE STRING,
+      GV_TABIX       TYPE STRING.
+****************************************************************************
+SELECTION-SCREEN : BEGIN OF BLOCK B1 WITH FRAME .
+
+SELECT-OPTIONS : S_WERKS FOR EKPO-WERKS OBLIGATORY NO-EXTENSION NO INTERVALS,
+                 S_EBELN FOR EKKO-EBELN OBLIGATORY,
+                 S_AEDAT FOR EKKO-AEDAT NO-DISPLAY.
+
+SELECTION-SCREEN : END OF BLOCK B1.
+*****************************************************************************
+START-OF-SELECTION.
+*****************************************************************************
+  REFRESH: GT_EKKO,
+           GT_EKPO.
+
+  SELECT EBELN
+         AEDAT
+         RESWK FROM EKKO
+               INTO TABLE GT_EKKO
+               WHERE EBELN IN S_EBELN
+                 AND AEDAT IN S_AEDAT
+    ORDER BY EBELN.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+
+  IF GT_EKKO[] IS NOT INITIAL.
+
+    SELECT EBELN
+           WERKS FROM EKPO
+                 INTO TABLE GT_EKPO
+                 FOR ALL ENTRIES IN GT_EKKO
+                 WHERE EBELN = GT_EKKO-EBELN
+                   AND WERKS IN S_WERKS.
+
+    IF SY-SUBRC = 0.
+      SORT GT_EKPO BY EBELN.
+    ENDIF.
+
+  ENDIF.
+
+  REFRESH GT_FINAL.
+  SORT GT_EKPO BY EBELN.
+  LOOP AT GT_EKKO INTO GW_EKKO.
+    READ TABLE GT_EKPO INTO GW_EKPO WITH KEY EBELN = GW_EKKO-EBELN BINARY SEARCH.
+    IF SY-SUBRC = 0..
+      GW_FINAL-EBELN = GW_EKKO-EBELN.
+      GW_FINAL-AEDAT = GW_EKKO-AEDAT.
+      GW_FINAL-WERKS = GW_EKPO-WERKS.
+      GW_FINAL-RESWK = GW_EKKO-RESWK.
+      APPEND GW_FINAL TO GT_FINAL.
+    ENDIF.
+    CLEAR GW_FINAL.
+  ENDLOOP.
+
+  W_INPUT-DIALOG = 'X'.
+
+  READ TABLE GT_EKKO INTO GW_EKKO INDEX 1.
+  IF SY-SUBRC = 0.
+    SELECT SINGLE EKORG FROM EKKO
+                        INTO LV_EKORG
+                        WHERE EBELN = GW_EKKO-EBELN.
+  ENDIF.
+
+  CALL FUNCTION 'SSFCOMP_OPEN'
+    EXPORTING
+      INPUT  = W_INPUT
+    EXCEPTIONS
+      ERROR  = 1
+      OTHERS = 2.
+
+  CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+    EXPORTING
+      FORMNAME           = 'ZSDATCFRM'
+    IMPORTING
+      FM_NAME            = FNAME
+    EXCEPTIONS
+      NO_FORM            = 1
+      NO_FUNCTION_MODULE = 2
+      OTHERS             = 3.
+
+  IF SY-SUBRC <> 0.
+    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  ENDIF.
+
+  W_CONTROL-NO_OPEN   = 'X'.
+  W_CONTROL-NO_CLOSE  = 'X'.
+
+
+  PERFORM GET_DATA.
+  PERFORM ASSIGN_DATA.
+
+  CALL FUNCTION 'SSFCOMP_CLOSE'
+    IMPORTING
+      RESULT = GS_OUTPUTDONE
+    EXCEPTIONS
+      ERROR  = 1
+      OTHERS = 2.
+  IF SY-SUBRC <> 0.
+    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+            WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  ENDIF.
+
+  PERFORM UPDATE_TABLE.
+
+************************************************************************
+
+**Validating ATC NO given in the selection screen.
+AT SELECTION-SCREEN ON S_EBELN.
+  PERFORM VALIDATE_ATCNO.
+**Validating DEPOT NO given in the selection screen.
+AT SELECTION-SCREEN ON S_WERKS.
+  PERFORM VALIDATE_DEPOT.
+*&---------------------------------------------------------------------*
+*&      Form  VALIDATE_ATCNO
+*&---------------------------------------------------------------------*
+*       VALIDATE ATCNO
+*----------------------------------------------------------------------*
+FORM VALIDATE_ATCNO .
+
+  REFRESH: GT_EKKO[].
+  SELECT EBELN
+         AEDAT
+         RESWK FROM EKKO
+               INTO TABLE GT_EKKO
+               WHERE EBELN IN S_EBELN
+                 AND BSART = GC_BSART.
+
+  IF SY-SUBRC NE 0.
+    MESSAGE: 'Wrong ATC no'(001) TYPE 'E'.
+  ENDIF.
+
+ENDFORM.                    " VALIDATE_ATCNO
+*&---------------------------------------------------------------------*
+*&      Form  VALIDATE_DEPOT
+*&---------------------------------------------------------------------*
+*       VALIDATE DEPOT
+*----------------------------------------------------------------------*
+FORM VALIDATE_DEPOT .
+
+  IF NOT GT_EKKO[] IS INITIAL.
+    REFRESH: GT_EKPO[].
+    SELECT EBELN
+           WERKS FROM EKPO
+                 INTO TABLE GT_EKPO
+                 FOR ALL ENTRIES IN GT_EKKO
+                 WHERE EBELN = GT_EKKO-EBELN
+                   AND WERKS IN S_WERKS.
+
+    IF SY-SUBRC NE 0.
+      MESSAGE: 'Depot number entered is wrong'(002) TYPE 'E'.
+    ELSE.
+    ENDIF.
+  ENDIF.
+
+
+ENDFORM.                    " VALIDATE_DEPOT
+*&---------------------------------------------------------------------*
+*&      Form  GET_DATA
+*&---------------------------------------------------------------------*
+*       Fetch data
+*----------------------------------------------------------------------*
+FORM GET_DATA .
+
+  IF GT_FINAL[] IS NOT INITIAL.
+    REFRESH GT_EKPO01[].
+    SELECT EBELN
+           MATNR
+           WERKS
+           MENGE
+           MEINS
+           NTGEW
+           GEWEI FROM EKPO
+                 INTO TABLE GT_EKPO01
+                 FOR ALL ENTRIES IN GT_FINAL
+                 WHERE EBELN = GT_FINAL-EBELN.
+
+    IF NOT GT_EKPO01[] IS INITIAL.
+      SORT GT_EKPO01 BY EBELN.
+    ENDIF.
+**To get the Plant name. Colection
+    REFRESH GT_T001W[].
+    SELECT WERKS
+           NAME1 FROM T001W
+                 INTO TABLE GT_T001W
+                 FOR ALL ENTRIES IN GT_FINAL
+                 WHERE WERKS = GT_FINAL-RESWK.
+
+    IF SY-SUBRC = 0.
+      SORT GT_T001W BY NAME1.
+    ENDIF.
+**To get depot
+    REFRESH GT_NAME1[].
+    SELECT WERKS
+           NAME1 FROM T001W
+                 INTO TABLE GT_NAME1
+                 FOR ALL ENTRIES IN GT_FINAL
+                 WHERE WERKS = GT_FINAL-WERKS.
+    IF SY-SUBRC = 0.
+      SORT GT_NAME1 BY NAME1.
+    ENDIF.
+**tO get Material Text
+    REFRESH GT_MAKT[].
+    IF GT_EKPO01 IS NOT INITIAL.
+      SELECT MATNR
+             MAKTX FROM MAKT
+                   INTO TABLE GT_MAKT
+                   FOR ALL ENTRIES IN GT_EKPO01
+                   WHERE MATNR = GT_EKPO01-MATNR.
+    ENDIF.
+    IF SY-SUBRC = 0.
+      SORT GT_MAKT BY MATNR.
+    ENDIF.
+  ENDIF.
+ENDFORM.                    " GET_DATA
+*&---------------------------------------------------------------------*
+*&      Form  ASSIGN_DATA
+*&---------------------------------------------------------------------*
+*       Assigning data to SF
+*----------------------------------------------------------------------*
+FORM ASSIGN_DATA .
+
+  DESCRIBE TABLE GT_FINAL LINES GV_TOTAL.
+  LOOP AT GT_FINAL INTO GW_FINAL.
+**ATC No
+    CLEAR: GV_EBELN,
+           GV_AEDAT.
+    GV_EBELN = GW_FINAL-EBELN.
+**Issue Date
+    GV_AEDAT = GW_FINAL-AEDAT.
+    READ TABLE GT_EKPO01 INTO GW_EKPO01 WITH KEY EBELN = GW_FINAL-EBELN.
+    IF SY-SUBRC = 0.
+**Customer Code
+      CLEAR: GV_WERKS,
+             GV_MATNR,
+             GV_MENGE,
+             GV_MEINS,
+             GV_NTGEW.
+
+      GV_WERKS = GW_EKPO01-WERKS. "Plant
+      GV_MATNR = GW_EKPO01-MATNR. "Material no
+      GV_MENGE = GW_EKPO01-MENGE. "PO Quantity
+      GV_MEINS = GW_EKPO01-MEINS. "Order Unit
+*      gv_ntgew = gw_ekpo01-ntgew. "Net Weight
+
+      CALL FUNCTION 'MD_CONVERT_MATERIAL_UNIT'              "#EC CI_USAGE_OK[2438110]
+        EXPORTING
+          I_MATNR              = GV_MATNR
+          I_IN_ME              = 'KG'
+          I_OUT_ME             = 'TO'
+          I_MENGE              = GW_EKPO01-NTGEW
+        IMPORTING
+          E_MENGE              = GV_NTGEW
+        EXCEPTIONS
+          ERROR_IN_APPLICATION = 1
+          ERROR                = 2
+          OTHERS               = 3.
+
+      IF SY-SUBRC <> 0.
+        MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+                    WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+      ENDIF.
+      CLEAR: GV_NTGEW01.
+
+      GV_NTGEW01 = GV_NTGEW * GV_MENGE.
+      SPLIT GV_NTGEW01 AT '.' INTO GV_NTGEW01 GV_DECIMALS.
+
+      CLEAR: GV_MENGE01,
+             GV_WORDS.
+      GV_MENGE01 = GV_MENGE.
+      CALL FUNCTION 'HR_IN_CHG_INR_WRDS'
+        EXPORTING
+          AMT_IN_NUM         = GV_MENGE01
+        IMPORTING
+          AMT_IN_WORDS       = GV_WORDS
+        EXCEPTIONS
+          DATA_TYPE_MISMATCH = 1
+          OTHERS             = 2.
+
+      IF SY-SUBRC <> 0.
+        MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+                WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+      ENDIF.
+
+      REPLACE ALL OCCURRENCES OF 'Rupees'(003) IN GV_WORDS WITH SPACE.
+      CONDENSE GV_WORDS.
+      CLEAR: GV_NTGEW02,
+             GV_WORDS1.
+      GV_NTGEW02 = GV_NTGEW01.
+      CALL FUNCTION 'HR_IN_CHG_INR_WRDS'
+        EXPORTING
+          AMT_IN_NUM         = GV_NTGEW02
+        IMPORTING
+          AMT_IN_WORDS       = GV_WORDS1
+        EXCEPTIONS
+          DATA_TYPE_MISMATCH = 1
+          OTHERS             = 2.
+
+      IF SY-SUBRC <> 0.
+        MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+                WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+      ENDIF.
+
+      REPLACE ALL OCCURRENCES OF 'Rupees'(003) IN GV_WORDS1 WITH SPACE.
+      CONDENSE GV_WORDS1.
+**Material Text
+      READ TABLE GT_MAKT INTO GW_MAKT WITH KEY MATNR = GW_EKPO01-MATNR.
+      IF SY-SUBRC = 0.
+        CLEAR: GV_MAKTX.
+        GV_MAKTX = GW_MAKT-MAKTX.
+      ENDIF.
+    ENDIF.
+    READ TABLE GT_T001W INTO GW_T001W WITH KEY WERKS = GW_FINAL-RESWK.
+    IF SY-SUBRC = 0.
+**Plant Name
+      CLEAR: GV_NAME.
+      GV_NAME = GW_T001W-NAME1.
+    ENDIF.
+    CLEAR GW_T001W.
+    READ TABLE GT_NAME1 INTO GW_T001W WITH KEY WERKS = GW_FINAL-WERKS.
+    IF SY-SUBRC = 0.
+**Depot Name.
+      CLEAR GV_NAME1.
+      GV_NAME1 = GW_T001W-NAME1.
+    ENDIF.
+**Printing SmartForm
+    PERFORM PRINT_FORM.
+  ENDLOOP.
+
+ENDFORM.                    " ASSIGN_DATA
+*&---------------------------------------------------------------------*
+*&      Form  PRINT_FORM
+*&---------------------------------------------------------------------*
+*       PRINT_FORM
+*----------------------------------------------------------------------*
+FORM PRINT_FORM .
+
+  DATA: LV_FLAG  TYPE C,
+        LV_EBELN TYPE EKKO-EBELN.
+
+  SELECT SINGLE STO_EBELN
+   FROM ZSD_ATCPRINTSTO INTO LV_EBELN
+   WHERE STO_EBELN = GW_FINAL-EBELN
+     AND  FLAG = 'X'.
+  IF SY-SUBRC = 0.
+    LV_FLAG = 'X'.
+  ENDIF.
+
+  READ TABLE GT_FINAL INTO GW_FINAL WITH KEY EBELN = GW_FINAL-EBELN.
+  IF SY-SUBRC = 0.
+    GV_TABIX = SY-TABIX.
+  ENDIF.
+
+  CALL FUNCTION FNAME
+    EXPORTING
+      CONTROL_PARAMETERS = W_CONTROL
+      V_VBELN            = GV_EBELN
+      V_KUNNR            = GV_WERKS
+      V_LFDAT            = GV_AEDAT
+      V_MATNR            = GV_MATNR
+      V_MAKTX            = GV_MAKTX
+      V_LFIMG            = GV_MENGE
+      V_NAME1            = GV_NAME1
+      V_PLANT            = GV_NAME
+      V_BTGEW            = GV_NTGEW01
+      V_GEWEI            = GV_MEINS
+      V_WORDS            = GV_WORDS
+      V_WORDS1           = GV_WORDS1
+      V_TRANS            = ' '
+      V_TABIX            = GV_TABIX
+      V_TOTAL            = GV_TOTAL
+      LV_FLAG            = LV_FLAG
+    IMPORTING
+      JOB_OUTPUT_INFO    = GS_OUTPUTDONE
+    EXCEPTIONS
+      FORMATTING_ERROR   = 1
+      INTERNAL_ERROR     = 2
+      SEND_ERROR         = 3
+      USER_CANCELED      = 4
+      OTHERS             = 5.
+
+  IF SY-SUBRC <> 0.
+    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+          WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+  ENDIF.
+ENDFORM.                    " PRINT_FORM
+*&---------------------------------------------------------------------*
+*&      Form  UPDATE_TABLE
+*&---------------------------------------------------------------------*
+*       UPDATE_TABLE
+*----------------------------------------------------------------------*
+FORM UPDATE_TABLE .
+  IF SY-SUBRC = 0.
+    IF GS_OUTPUTDONE-OUTPUTDONE = 'X'.
+      SELECT * FROM ZSD_ATCPRINTSTO
+        INTO TABLE GT_ATCPRINTSTO.                      "#EC CI_NOWHERE
+      LOOP AT GT_FINAL INTO GW_FINAL.
+        READ TABLE GT_ATCPRINTSTO INTO GW_ATCPRINTSTO
+                       WITH KEY STO_EBELN = GW_FINAL-EBELN
+                                 FLAG = 'X'.
+        IF SY-SUBRC NE 0.
+          GW_ATCPRINTSTO-STO_EBELN = GW_FINAL-EBELN.
+          GW_ATCPRINTSTO-FLAG  = 'X'.
+          MODIFY ZSD_ATCPRINTSTO FROM GW_ATCPRINTSTO.
+          CLEAR GW_ATCPRINTSTO.
+        ENDIF.
+        CLEAR: GW_FINAL.
+      ENDLOOP.
+    ENDIF.
+  ENDIF.
+ENDFORM.                    " UPDATE_TABLE

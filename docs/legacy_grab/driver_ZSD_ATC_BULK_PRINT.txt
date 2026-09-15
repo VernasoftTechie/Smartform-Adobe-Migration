@@ -1,0 +1,1121 @@
+*&---------------------------------------------------------------------*
+*& Report ZSD_ATC_BULK_PRINT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zsd_atc_bulk_print.
+
+PARAMETERS : p_vbeln TYPE vbak-vbeln.
+
+CONSTANTS: lc_plant TYPE zab_dcp_param-param3 VALUE 'PLANT',
+           lc_vkorg TYPE zab_dcp_param-param3 VALUE 'VKORG'.
+CONSTANTS: gc_e TYPE c VALUE 'E'.
+
+DATA : v_vbeln        TYPE vbak-vbeln,
+       v_kunnr        TYPE kna1-kunnr,
+       v_lfdat        TYPE vbak-audat,
+       v_matnr        TYPE mara-matnr,
+       v_maktx        TYPE makt-maktx,
+       v_lfimg        TYPE vbap-kwmeng,
+       v_vrkme        TYPE vbap-vrkme,
+       v_name1        TYPE kna1-name1,
+       v_ort01        TYPE kna1-ort01,
+       v_pstlz        TYPE kna1-pstlz,
+       v_stras        TYPE kna1-stras,
+       v_add          TYPE char300,
+       v_werks        TYPE vbap-werks,
+       v_plant        TYPE t001w-name1,
+       v_btgew        TYPE bstmg,
+       v_btgew_to     TYPE bstmg,
+       v_gewei        TYPE vbap-gewei,
+       fname          TYPE rs38l-name,
+       fname_fr       TYPE rs38l-name,
+       v_words(100)   TYPE c,
+       lv_auart       TYPE auart,
+       lv_transporter TYPE char40,
+       lv_btgew       TYPE string,
+       lv_decimals    TYPE decimals,
+       v_lfimg1       TYPE pc207-betrg,
+       v_btgew1       TYPE pc207-betrg,
+       lv_total       TYPE string,
+       v_tabix        TYPE string,
+       lv_ihrez       TYPE vbkd-ihrez,
+       lv_unit        TYPE string,
+       lv_btgew1      TYPE string,
+       v_email        TYPE ad_smtpadr,
+       v_date         TYPE char10,
+       lv_vbeln       TYPE vbak-vbeln,
+       lv_flag        TYPE c,
+       lv_adrnr       TYPE vbpa-adrnr,
+       lv_cn          TYPE adrc-country,
+       lv_regio       TYPE adrc-region,
+       lv_bezei       TYPE t005u-bezei,
+       lv_flag1       TYPE c,
+       lv_vkorg       TYPE vkorg,
+       lv_flag_fr     TYPE c.
+
+TYPES:BEGIN OF ty_sel,
+        vbeln TYPE vbak-vbeln,
+        auart TYPE vbak-auart,
+        kunnr TYPE vbak-kunnr,
+      END OF ty_sel.
+
+DATA:t_sel  TYPE TABLE OF ty_sel,
+     wa_sel LIKE LINE OF t_sel.
+
+DATA: lt_atc_process     TYPE TABLE OF zsdt_atc_process,
+      lt_zabtt_dcp_param TYPE zabtt_dcp_param,
+      lr_werks           TYPE RANGE OF werks_d.
+
+TYPES:BEGIN OF ty_vbkd,
+        vbeln TYPE vbeln,
+        ihrez TYPE vbfa-vbelv,
+      END OF ty_vbkd.
+
+DATA:lt_vbkd         TYPE TABLE OF ty_vbkd,
+     ls_vbkd         TYPE ty_vbkd,
+     lt_email        TYPE TABLE OF ysd_atc,
+     ls_email        TYPE ysd_atc,
+     lt_atcprintso   TYPE TABLE OF zsd_atcprintso,
+     ls_atcprintso   TYPE zsd_atcprintso,
+     ls_zvuserexit   TYPE zvuserexit,
+     lv_atc_validate TYPE c,
+     lf_retcode      TYPE sy-subrc,
+     t_otfdata       LIKE itcoo OCCURS 0 WITH HEADER LINE,
+     t_otfdata_d     LIKE itcoo OCCURS 0 WITH HEADER LINE,
+     gv_posinvoiceno TYPE vbkd-bstkd.
+
+DATA : lt_param_entries TYPE zabtt_dcp_param,
+       lr_auart         TYPE RANGE OF auart,
+       lv_vgbel         TYPE vbak-vgbel.
+RANGES:lr_vkorg FOR vbak-vkorg.
+
+*FORM email TABLES t_otf_data TYPE STANDARD TABLE.
+DATA : g_f_ebeln  LIKE ekko-ebeln.
+DATA : ls_ctrlop TYPE ssfctrlop,
+       ls_outopt TYPE ssfcompop.
+DATA : l_devtype TYPE rspoptype.
+
+
+DATA: g_c_purchase  TYPE tdsfname VALUE 'YSD_SO_ATC',
+      lt_otf_from   TYPE ssfcrescl,
+      v_spell1      TYPE spell,
+      lv_qty        TYPE i,
+      lv_words(100) TYPE c.
+
+DATA:fm_name TYPE rs38l_fnam.
+DATA:it_otf_final TYPE itcoo OCCURS 0 WITH HEADER LINE.
+DATA:bin_filesize TYPE i.
+DATA:it_pdfdata TYPE TABLE OF tline.
+DATA:it_pdf TYPE TABLE OF solisti1.
+*--------------------------------------------------------*
+" Mail related declarations
+*--------------------------------------------------------*
+
+DATA :
+  g_sent_to_all TYPE sonv-flag,
+  g_tab_lines   TYPE i.
+"Types
+TYPES:
+  t_document_data TYPE sodocchgi1,
+  t_packing_list  TYPE sopcklsti1,
+  t_attachment    TYPE solisti1,
+  t_body_msg      TYPE solisti1,
+  t_receivers     TYPE somlreci1,
+  t_pdf           TYPE tline.
+"Workareas
+DATA :
+  w_document_data TYPE t_document_data,
+  w_packing_list  TYPE t_packing_list,
+  w_attachment    TYPE t_attachment,
+  w_body_msg      TYPE t_body_msg,
+  w_receivers     TYPE t_receivers,
+  w_pdf           TYPE t_pdf.
+"Internal Tables
+DATA :
+  i_document_data TYPE STANDARD TABLE OF t_document_data,
+  i_packing_list  TYPE STANDARD TABLE OF t_packing_list,
+  i_attachment    TYPE STANDARD TABLE OF t_attachment,
+  i_body_msg      TYPE STANDARD TABLE OF t_body_msg,
+  i_receivers     TYPE STANDARD TABLE OF t_receivers,
+  i_pdf           TYPE STANDARD TABLE OF t_pdf.
+
+DATA : w_receiver LIKE adr6-smtp_addr.
+DATA : t_pdf LIKE tline OCCURS 0 WITH HEADER LINE.
+DATA : w_bin_filesize(10) TYPE c.
+DATA: t_packing_list LIKE sopcklsti1 OCCURS 0 WITH HEADER LINE,
+      it_otfdata     TYPE ssfcrescl.
+*---------------------------------------------------------------------*
+*------Internal tables for Mailing------------------------------------*
+DATA: t_objpack LIKE sopcklsti1 OCCURS 2 WITH HEADER LINE.
+DATA: t_objhead LIKE solisti1 OCCURS 1 WITH HEADER LINE.
+DATA: t_objbin LIKE solisti1 OCCURS 1000 WITH HEADER LINE.
+DATA: t_objtxt LIKE solisti1 OCCURS 10 WITH HEADER LINE.
+DATA: t_reclist LIKE somlreci1 OCCURS 5 WITH HEADER LINE.
+DATA: s_doc_chng LIKE sodocchgi1.
+DATA: l_tab_lines LIKE sy-tabix.
+DATA : it_docs TYPE STANDARD TABLE OF docs.
+DATA : lv_exp TYPE i.
+DATA : lv_address TYPE adr6-smtp_addr.
+
+START-OF-SELECTION.
+
+  SELECT vbeln auart kunnr FROM vbak
+  INTO TABLE t_sel
+  WHERE vbeln = p_vbeln.
+
+  CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+    EXPORTING
+      formname           = 'YSD_SO_ATC'
+    IMPORTING
+      fm_name            = fname
+    EXCEPTIONS
+      no_form            = 1
+      no_function_module = 2
+      OTHERS             = 3.
+  IF sy-subrc <> 0.
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+    WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+
+  CLEAR : t_otfdata[], t_otfdata_d[].
+
+  CALL FUNCTION 'CONVERT_DATE_TO_EXTERNAL'
+    EXPORTING
+      date_internal            = sy-datum
+    IMPORTING
+      date_external            = v_date
+    EXCEPTIONS
+      date_internal_is_invalid = 1
+      OTHERS                   = 2.
+
+*!---- Get list of Plants $ Sales Org maintained in PARAM table
+
+  CALL METHOD zab_dcp_parameters=>get_parameter
+    EXPORTING
+      iv_param1    = 'ATC_PROCESS'
+      iv_param2    = 'RESTRICTIONS'
+    IMPORTING
+      et_dcp_param = lt_zabtt_dcp_param.
+
+*---- Get list of ATC User & Plant combination as well
+
+  SELECT * FROM zsdt_atc_process INTO TABLE lt_atc_process WHERE usr21 EQ sy-uname.
+  IF sy-subrc EQ 0.
+    lr_werks = VALUE #( FOR wer IN lt_atc_process ( sign = 'I' option = COND #( WHEN wer-werks_t IS INITIAL THEN 'EQ'
+    ELSE 'BT' ) low = wer-werks_f high = wer-werks_t ) ).
+  ENDIF.
+
+
+  CLEAR : v_vbeln ,
+  v_lfdat,
+  v_kunnr ,
+  v_matnr ,
+  v_maktx ,
+  v_lfimg ,
+  v_vrkme ,
+  v_werks,
+  v_plant,
+  v_btgew,
+  v_gewei,
+  v_name1,
+  v_ort01 ,
+  v_pstlz ,
+  v_stras ,
+  v_add,
+  v_words,
+  v_tabix,
+  lv_total,
+  lv_ihrez,
+  lv_btgew1,
+  lv_vbeln,
+  lv_flag,
+  lv_flag1,
+  lv_adrnr,
+  lv_cn,
+  lv_regio,
+  lv_bezei,
+  gv_posinvoiceno.
+
+  CALL METHOD zab_dcp_parameters=>get_parameter
+    EXPORTING
+      iv_param1    = 'ZSD_ATC_PRNT_DOCTYPE'
+      iv_param2    = 'AUART'
+    IMPORTING
+      et_dcp_param = lt_param_entries.
+  IF lt_param_entries IS NOT INITIAL.
+    lr_auart = VALUE #( FOR auart IN lt_param_entries ( sign = 'I' option = 'EQ' low = auart-value1 ) ).
+  ENDIF.
+
+
+***Begin of Changes for DANTRANS not to Print
+
+  CLEAR: lr_vkorg.
+  lr_vkorg-sign = 'I'.
+  lr_vkorg-option = 'EQ'.
+  lr_vkorg-low = '2000'.
+  APPEND: lr_vkorg.
+
+  CLEAR: lr_vkorg.
+  lr_vkorg-sign = 'I'.
+  lr_vkorg-option = 'EQ'.
+  lr_vkorg-low = '2001'.
+  APPEND: lr_vkorg.
+
+  CLEAR: lr_vkorg.
+  lr_vkorg-sign = 'I'.
+  lr_vkorg-option = 'EQ'.
+  lr_vkorg-low = '2002'.
+  APPEND: lr_vkorg.
+
+  CLEAR: lr_vkorg.
+  lr_vkorg-sign = 'I'.
+  lr_vkorg-option = 'EQ'.
+  lr_vkorg-low = '4000'.
+  APPEND: lr_vkorg.
+
+  CLEAR: lr_vkorg.
+  lr_vkorg-sign = 'I'.
+  lr_vkorg-option = 'EQ'.
+  lr_vkorg-low = '4001'.
+  APPEND: lr_vkorg.
+
+***End of Changes  not to Print for PACE
+
+  SELECT SINGLE vbeln
+  FROM zsd_atcprintso
+  INTO lv_vbeln
+  WHERE vbeln = p_vbeln
+  AND flag = 'X'.
+  IF sy-subrc = 0.
+    lv_flag = 'X'.
+  ENDIF.
+
+  SELECT SINGLE vbeln
+  audat
+  auart
+  vkorg
+  kunnr
+  vgbel
+  INTO (v_vbeln,v_lfdat,lv_auart,lv_vkorg,v_kunnr,lv_vgbel)
+  FROM vbak
+  WHERE vbeln = p_vbeln.
+
+*  IF sy-subrc EQ 0.
+*    IF lv_auart NOT IN lr_auart.
+*      MESSAGE e000(zmm) WITH 'Document type' lv_auart 'not relevant for printing'.
+*    ENDIF.
+*  ENDIF.
+
+**Fetching BSTKD_E & BSTKD from VBKD table
+  SELECT SINGLE bstkd_e
+  INTO gv_posinvoiceno
+  FROM vbkd
+  WHERE vbeln = p_vbeln.
+
+  IF gv_posinvoiceno IS INITIAL AND lv_vgbel IS NOT INITIAL.
+    SELECT SINGLE bstkd_e
+    INTO gv_posinvoiceno
+    FROM vbkd
+    WHERE vbeln = lv_vgbel.
+
+*Dislaying BSTKD data only if BSTKD_E is initial
+    IF gv_posinvoiceno IS INITIAL .
+      SELECT SINGLE bstkd
+      INTO gv_posinvoiceno
+      FROM vbkd
+      WHERE vbeln = lv_vgbel.
+    ENDIF.
+  ENDIF.
+
+  SELECT SINGLE kwmeng vrkme brgew matnr werks gewei INTO (v_lfimg,v_vrkme,v_btgew,v_matnr,v_werks,v_gewei)
+  FROM vbap WHERE vbeln = p_vbeln.                          "#EC WARNOK
+
+  SELECT SINGLE vbelv FROM vbfa        "#EC CI_DB_OPERATION_OK[2470721]
+  INTO lv_ihrez                        "#EC CI_DB_OPERATION_OK[2198647]
+  WHERE vbeln = v_vbeln
+  AND posnn <> ''
+  AND vbtyp_n = 'C'.                                    "#EC CI_NOFIELD
+
+*!---- Start of chagnes for ATC Process Management
+*!---- For ATC Process do the validation with custom table : ZSDT_ATC_PROCESS
+*!--- Check for Sales Org
+  READ TABLE lt_zabtt_dcp_param INTO DATA(ls_zabtt_dcp_param) WITH KEY param3 = lc_vkorg value1 = lv_vkorg.
+  IF sy-subrc = 0.
+    CLEAR: lv_atc_validate.
+*!--- Check for single values
+    READ TABLE lt_zabtt_dcp_param INTO ls_zabtt_dcp_param WITH KEY param3 = lc_plant value1 = v_werks.
+    IF sy-subrc <> 0.
+      LOOP AT lt_zabtt_dcp_param INTO ls_zabtt_dcp_param WHERE value1 <= v_werks AND value2 >= v_werks.
+        lv_atc_validate = abap_true.
+        EXIT.
+      ENDLOOP.
+    ELSE.
+      lv_atc_validate = abap_true.
+    ENDIF.
+*    IF lv_atc_validate IS NOT INITIAL.
+*
+*      IF v_werks NOT IN lr_werks.
+*        MESSAGE e000(zmm) WITH 'You are not allowed to print ATC for depot' v_werks.
+*      ENDIF.
+*
+*    ENDIF.
+  ENDIF.
+
+*!---- End of ATC Process Management
+**For printing destination region from T005U table
+  SELECT SINGLE adrnr
+  FROM vbpa
+  INTO lv_adrnr
+  WHERE vbeln = p_vbeln
+  AND parvw = 'WE'.                                         "#EC WARNOK
+
+  IF lv_adrnr IS NOT INITIAL.
+    SELECT SINGLE country region
+    FROM adrc
+    INTO (lv_cn , lv_regio)
+    WHERE addrnumber = lv_adrnr.                            "#EC WARNOK
+
+    IF lv_cn IS NOT INITIAL AND lv_regio IS NOT INITIAL.
+      SELECT SINGLE bezei
+      FROM t005u
+      INTO lv_bezei
+      WHERE spras = sy-langu
+      AND land1 = lv_cn
+      AND bland = lv_regio.
+
+    ENDIF.
+
+  ENDIF.
+
+  IF sy-subrc = 0. " for control no. sequence
+
+    SELECT vbelv vbeln FROM vbfa
+    INTO TABLE lt_vbkd
+    WHERE vbelv = lv_ihrez
+    AND posnn <> ''
+    AND vbtyp_n = 'C'.
+    SORT lt_vbkd BY vbeln ASCENDING.
+
+    SORT lt_vbkd BY vbeln ihrez ASCENDING.
+
+    DESCRIBE TABLE lt_vbkd LINES lv_total.
+
+  ELSE. " added by karthikeyan s for control no. sequence
+    lv_total = lv_total + 1.
+  ENDIF.
+
+  IF NOT lv_vkorg IN lr_vkorg."PACE ES1K902043
+    CASE v_vrkme.
+      WHEN 'EA'.
+        CALL FUNCTION 'MD_CONVERT_MATERIAL_UNIT' "#EC CI_USAGE_OK[2438110]
+          EXPORTING
+            i_matnr              = v_matnr
+            i_in_me              = 'KG'
+            i_out_me             = 'TO'
+            i_menge              = v_btgew
+          IMPORTING
+            e_menge              = v_btgew_to
+          EXCEPTIONS
+            error_in_application = 1
+            error                = 2
+            OTHERS               = 3.
+        IF sy-subrc <> 0.
+          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+          WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        ENDIF.
+
+        lv_btgew1 = v_btgew_to.
+
+        SPLIT lv_btgew1 AT '.' INTO lv_btgew lv_decimals.
+
+        IF lv_decimals IS NOT INITIAL.
+          lv_btgew = lv_btgew1.
+        ELSE.
+          lv_btgew = lv_btgew.
+        ENDIF.
+
+    ENDCASE.
+  ELSE.
+    IF v_vrkme = 'TO'.
+    ELSE.
+      CALL FUNCTION 'MD_CONVERT_MATERIAL_UNIT' "#EC CI_USAGE_OK[2438110]
+        EXPORTING
+          i_matnr              = v_matnr
+          i_in_me              = 'KG'
+          i_out_me             = 'TO'
+          i_menge              = v_btgew
+        IMPORTING
+          e_menge              = v_btgew_to
+        EXCEPTIONS
+          error_in_application = 1
+          error                = 2
+          OTHERS               = 3.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+        WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+      ENDIF.
+
+      lv_btgew1 = v_btgew_to.
+
+      SPLIT lv_btgew1 AT '.' INTO lv_btgew lv_decimals.
+
+      IF lv_decimals IS NOT INITIAL.
+        lv_btgew = lv_btgew1.
+      ELSE.
+        lv_btgew = lv_btgew.
+      ENDIF.
+
+    ENDIF.
+  ENDIF.
+
+
+  SELECT SINGLE maktx FROM makt INTO v_maktx
+  WHERE matnr = v_matnr.                                    "#EC WARNOK
+
+  SELECT SINGLE name1 FROM t001w INTO v_plant
+  WHERE werks = v_werks.
+
+  SELECT SINGLE name1 ort01 pstlz stras FROM kna1 INTO (v_name1,v_ort01,v_pstlz,v_stras)
+  WHERE kunnr = v_kunnr.
+
+  CONCATENATE v_stras v_ort01 v_pstlz INTO v_add SEPARATED BY space.
+
+
+  IF NOT lv_vkorg IN lr_vkorg."PACE ES1K902043
+    CASE lv_auart.
+      WHEN 'YDOR'.
+        IF lv_vkorg = 'GH01'.
+          lv_transporter = 'Direct Delivery'(013).
+        ELSEIF lv_vkorg = 'CM01'.
+          lv_transporter = 'DANGOTE Cement Cameroon'.
+        ELSE.
+          lv_transporter = 'DANTRANS'.
+        ENDIF.
+        lv_flag1 = 'D'.
+      WHEN 'YDBI'.
+        IF lv_vkorg = 'GH01'.
+          lv_transporter = 'Direct Delivery'(013).
+        ELSE.
+          lv_transporter = 'DANTRANS'.
+        ENDIF.
+        lv_flag1 = 'D'.
+      WHEN 'YSOR'.
+        lv_transporter = 'SELF COLLECTION'.
+      WHEN 'YSBI'.
+        lv_transporter = 'SELF COLLECTION'.
+    ENDCASE.
+  ENDIF.
+
+  v_lfimg1 = v_lfimg.
+
+  CASE v_vrkme.
+    WHEN 'EA'.
+      lv_unit = 'BAGS'.
+    WHEN 'TO'.
+      lv_unit = 'TONNES'.
+    WHEN 'NO'.
+      lv_unit = 'NUMBERS'.
+    WHEN 'MT'.
+      lv_unit = ' METRIC TON '.
+    WHEN 'BAG'.
+      lv_unit = 'BAGS'.
+    WHEN 'CAR'.
+      lv_unit = 'CARTON'.
+    WHEN 'KG'.
+      lv_unit = 'KILOGRAM'.
+    WHEN 'PC'.
+      lv_unit = 'PIECE'.
+    WHEN 'SH'.
+      lv_unit = 'SACHET'.
+  ENDCASE.
+
+  CALL FUNCTION 'HR_IN_CHG_INR_WRDS'
+    EXPORTING
+      amt_in_num         = v_lfimg1
+    IMPORTING
+      amt_in_words       = v_words
+    EXCEPTIONS
+      data_type_mismatch = 1
+      OTHERS             = 2.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+    WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  ENDIF.
+
+  REPLACE ALL OCCURRENCES OF 'Rupees'(014) IN v_words WITH space.
+  CONDENSE v_words.
+
+  READ TABLE t_sel INTO DATA(ls_sel) WITH KEY vbeln = p_vbeln.
+  IF sy-subrc = 0.
+    SELECT kunnr , adrnr FROM kna1 INTO TABLE @DATA(lt_kna1)
+                                              WHERE kunnr = @ls_sel-kunnr.
+
+    IF lt_kna1 IS NOT INITIAL.
+      SELECT addrnumber ,
+             persnumber,
+             date_from,
+             consnumber,
+             smtp_addr FROM adr6 INTO TABLE @DATA(lt_adr6)
+                                         FOR ALL ENTRIES IN @lt_kna1
+                                         WHERE addrnumber = @lt_kna1-adrnr. "#EC CI_NO_TRANSFORM
+
+      LOOP AT lt_adr6 INTO DATA(ls_adr6).
+        ls_email-email = ls_adr6-smtp_addr.
+        APPEND ls_email TO lt_email.
+        CLEAR : ls_email,ls_adr6.
+      ENDLOOP.
+    ENDIF.
+  ENDIF.
+
+  SELECT SINGLE value1  FROM zab_dcp_param INTO ( lv_address )
+                                             WHERE param1 = 'ZDMS_SENDER_ADDRESS'
+                                              AND  param2 = 'EMAIL_ID'
+                                              AND  param3 = '1'.
+
+  CALL FUNCTION 'SSF_GET_DEVICE_TYPE'
+    EXPORTING
+      i_language             = 'E'
+    IMPORTING
+      e_devtype              = l_devtype
+    EXCEPTIONS
+      no_language            = 1
+      language_not_installed = 2
+      no_devtype_found       = 3
+      system_error           = 4
+      OTHERS                 = 5.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+  ls_outopt-tdprinter = l_devtype.
+
+  "Control Parameters
+  ls_ctrlop-no_dialog = 'X'.
+  ls_ctrlop-getotf = 'X'.
+  ls_ctrlop-langu = 'E'.
+
+
+************************** start of changes for French language form******************
+
+  SELECT SINGLE vkorg INTO (lv_vkorg) FROM vbak WHERE vbeln = p_vbeln.
+
+  SELECT SINGLE * FROM zvuserexit
+  INTO ls_zvuserexit WHERE orgid = lv_vkorg
+  AND objkey = 'ATCINFRENCH'.
+  IF sy-subrc = 0.
+
+    CLEAR: g_c_purchase, lv_qty.
+
+    g_c_purchase = 'YSD_SO_ATC_FR'.
+    lv_qty = v_lfimg1.
+    CALL FUNCTION 'SPELL_AMOUNT'
+      EXPORTING
+        language  = 'F'
+        currency  = 'XOF'
+        amount    = lv_qty
+        filler    = ' '
+      IMPORTING
+        in_words  = v_spell1
+      EXCEPTIONS
+        not_found = 1
+        too_large = 2
+        OTHERS    = 3.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+    CONCATENATE v_spell1-word '' INTO lv_words SEPARATED BY space.
+
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname           = 'YSD_SO_ATC_FR'
+      IMPORTING
+        fm_name            = fname_fr
+      EXCEPTIONS
+        no_form            = 1
+        no_function_module = 2
+        OTHERS             = 3.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+    READ TABLE lt_vbkd INTO ls_vbkd WITH KEY ihrez = v_vbeln.
+    IF sy-subrc = 0.
+      v_tabix = sy-tabix.
+    ELSE.                     " for control no. sequence
+      v_tabix = v_tabix + 1.
+    ENDIF.
+
+    CALL FUNCTION fname_fr "'/1BCDWB/SF00000169'
+      EXPORTING
+        control_parameters = ls_ctrlop
+        output_options     = ls_outopt
+        v_vbeln            = v_vbeln
+        v_kunnr            = v_kunnr
+        v_lfdat            = v_lfdat
+        v_matnr            = v_matnr
+        v_maktx            = v_maktx
+        v_lfimg            = v_lfimg
+        v_vrkme            = v_vrkme
+        v_name1            = v_name1
+        v_plant            = v_plant
+        v_btgew            = lv_btgew
+        v_gewei            = v_gewei
+        v_add              = v_add
+        v_words            = lv_words
+        v_transporter      = lv_transporter
+        lv_total           = lv_total
+        v_tabix            = v_tabix
+        lv_ihrez           = lv_ihrez
+        lv_unit            = lv_unit
+        lv_flag            = lv_flag
+        lv_bezei           = lv_bezei
+        lv_flag1           = lv_flag1
+      IMPORTING
+        job_output_info    = lt_otf_from
+      EXCEPTIONS
+        formatting_error   = 1
+        internal_error     = 2
+        send_error         = 3
+        user_canceled      = 4
+        OTHERS             = 5.
+    IF sy-subrc EQ 0.
+      APPEND LINES OF lt_otf_from-otfdata[] TO t_otfdata[].
+      CLEAR lt_otf_from.
+    ENDIF.
+************************** end of changes for French language form******************
+  ELSE.
+
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname           = 'YSD_SO_ATC'
+      IMPORTING
+        fm_name            = fname
+      EXCEPTIONS
+        no_form            = 1
+        no_function_module = 2
+        OTHERS             = 3.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+
+    READ TABLE lt_vbkd INTO ls_vbkd WITH KEY ihrez = v_vbeln.
+    IF sy-subrc = 0.
+      v_tabix = sy-tabix.
+    ELSE.                        "for control no. sequence
+      v_tabix = v_tabix + 1.
+    ENDIF.
+
+    CALL FUNCTION fname
+      EXPORTING
+        control_parameters = ls_ctrlop
+        output_options     = ls_outopt
+        v_vbeln            = v_vbeln
+        v_kunnr            = v_kunnr
+        v_lfdat            = v_lfdat
+        v_matnr            = v_matnr
+        v_maktx            = v_maktx
+        v_lfimg            = v_lfimg
+        v_vrkme            = v_vrkme
+        v_name1            = v_name1
+        v_plant            = v_plant
+        v_btgew            = lv_btgew
+        v_gewei            = v_gewei
+        v_add              = v_add
+        v_words            = v_words
+        v_transporter      = lv_transporter
+        lv_total           = lv_total
+        v_tabix            = v_tabix
+        lv_ihrez           = lv_ihrez
+        lv_unit            = lv_unit
+        lv_flag            = lv_flag
+        lv_bezei           = lv_bezei
+        lv_flag1           = lv_flag1
+        gv_posinvoiceno    = gv_posinvoiceno
+      IMPORTING
+        job_output_info    = lt_otf_from
+      EXCEPTIONS
+        formatting_error   = 1
+        internal_error     = 2
+        send_error         = 3
+        user_canceled      = 4
+        OTHERS             = 5.
+    IF sy-subrc EQ 0.
+      APPEND LINES OF lt_otf_from-otfdata[] TO t_otfdata[].
+      CLEAR lt_otf_from.
+    ENDIF.
+
+  ENDIF.
+
+
+  IF t_otfdata[] IS INITIAL.
+
+*    MESSAGE e303(me) WITH 'No Delivered Sales ATC(s). No Mail was sent'(015).
+    lv_exp = 2.
+
+  ELSE.
+
+************appending the otf data into the final table**********************
+    it_otf_final[] = t_otfdata[].
+************ converting OTF data into pdf data**************************
+
+
+    DATA : lv_string_text TYPE string.
+    DATA : lt_text TYPE bcsy_text.
+    DATA : lr_send_request TYPE REF TO cl_bcs,
+           send_request    TYPE REF TO cl_send_request_bcs,
+           document        TYPE REF TO cl_document_bcs,
+           lr_recipient    TYPE REF TO if_recipient_bcs.
+    DATA : lo_send_req_bcs TYPE REF TO cx_send_req_bcs.
+    DATA : lo_address_bcs TYPE REF TO cx_address_bcs.
+    DATA : lo_document_bcs TYPE REF TO cx_document_bcs.
+    DATA   gv_title TYPE so_obj_des.
+    DATA   gv_title1 TYPE so_obj_des.
+    DATA : lv_otf          TYPE xstring,
+           lv_BIN_FILESIZE TYPE so_obj_len.
+    DATA : lt_lines    TYPE STANDARD TABLE OF tline,
+           lt_pdf_data TYPE TABLE OF solix.
+    DATA : lt_binary_content TYPE solix_tab.
+    DATA   lr_document     TYPE REF TO cl_document_bcs.
+    DATA : lr_sender TYPE REF TO cl_cam_address_bcs.
+    DATA : ls_receivers  TYPE uiys_iusr.
+    DATA   lv_sent_to_all TYPE os_boolean.
+
+    TRY.
+        lr_send_request = cl_bcs=>create_persistent( ).
+      CATCH cx_send_req_bcs INTO lo_send_req_bcs.
+    ENDTRY.
+
+    "First line
+    CONCATENATE 'Dear Customer,' cl_abap_char_utilities=>newline INTO lv_string_text.
+    APPEND lv_string_text TO lt_text.
+    CLEAR lv_string_text.
+    "Second line
+    CONCATENATE 'Please find the PDF copy of the ATC attached herewith. This is for your information.'
+    cl_abap_char_utilities=>newline INTO lv_string_text.
+    APPEND lv_string_text TO lt_text.
+    CLEAR lv_string_text.
+    CONCATENATE 'Date : ' v_date
+    cl_abap_char_utilities=>newline INTO lv_string_text.
+    APPEND lv_string_text TO lt_text.
+    CLEAR lv_string_text.
+    CONCATENATE 'ATC no. : ' P_vbeln
+    cl_abap_char_utilities=>newline INTO lv_string_text.
+    APPEND lv_string_text TO lt_text.
+    CLEAR lv_string_text.
+    APPEND 'Thanks & Regards' TO lt_text.
+    APPEND 'Dangote Team.' TO lt_text.
+    CONCATENATE 'ATC Number : ' p_vbeln INTO gv_title SEPARATED BY ' '.
+    gv_title1 = 'ATC/SO Attachment'.
+
+    TRY.
+        lr_document = cl_document_bcs=>create_document(
+                                         i_type    = 'RAW'
+                                         i_text    = lt_text
+                                         i_subject = gv_title ) . "#EC CI_IMUD_NESTED
+      CATCH cx_document_bcs INTO lo_document_bcs.
+    ENDTRY.
+
+    CALL FUNCTION 'CONVERT_OTF' "#EC CI_SUBRC, #EC CI_SROFC_NESTED, "#EC CI_IMUD_NESTED
+      EXPORTING
+        format                = 'PDF'
+      IMPORTING
+        bin_filesize          = lv_BIN_FILESIZE
+        bin_file              = lv_otf
+      TABLES
+        otf                   = it_otf_final[]
+        lines                 = lt_lines
+      EXCEPTIONS
+        err_max_linewidth     = 1
+        err_format            = 2
+        err_conv_not_possible = 3
+        err_bad_otf           = 4
+        OTHERS                = 5.
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
+
+    TRY.
+        CALL FUNCTION 'SCMS_XSTRING_TO_BINARY' "#EC CI_SUBRC
+          EXPORTING
+            buffer     = lv_otf
+          TABLES
+            binary_tab = lt_binary_content.
+        IF sy-subrc <> 0.
+* Implement suitable error handling here
+        ENDIF.
+        CONDENSE lv_bin_filesize.
+        lr_document->add_attachment( i_attachment_type    = 'PDF'
+                                  i_attachment_size = lv_bin_filesize
+                                  i_attachment_subject = gv_title1
+                                  i_att_content_hex    =  lt_binary_content ).
+      CATCH  cx_document_bcs INTO lo_document_bcs.
+    ENDTRY.
+
+    READ TABLE lt_email INTO ls_email INDEX 1.
+    IF sy-subrc = 0.
+      ls_receivers-email = ls_Email-email.
+    ENDIF.
+
+    TRY.
+        lr_send_request->set_document( lr_document ).
+      CATCH cx_send_req_bcs INTO lo_send_req_bcs.
+    ENDTRY.
+
+    TRY.
+        lr_sender = cl_cam_address_bcs=>create_internet_address( lv_address ).
+      CATCH cx_address_bcs INTO lo_address_bcs.
+    ENDTRY.
+
+    TRY.
+        CALL METHOD lr_send_request->set_sender(
+          EXPORTING
+            i_sender = lr_sender ).
+      CATCH cx_send_req_bcs  INTO lo_send_req_bcs.
+    ENDTRY.
+
+    DATA(lv_recep) = ls_receivers-email.
+*     create recipient and add to send request
+    IF lv_recep IS NOT INITIAL.
+      TRY.
+          lr_recipient = cl_cam_address_bcs=>create_internet_address( lv_recep ).
+        CATCH cx_address_bcs  INTO lo_address_bcs.
+      ENDTRY.
+
+      TRY.
+          lr_send_request->add_recipient( i_recipient = lr_recipient
+                                         i_express = 'X'    ).
+        CATCH cx_send_req_bcs INTO lo_send_req_bcs.
+      ENDTRY.
+
+      TRY.
+          CALL METHOD lr_send_request->send(
+            EXPORTING
+              i_with_error_screen = 'X'
+            RECEIVING
+              result              = lv_sent_to_all ).
+
+          COMMIT WORK.
+        CATCH cx_send_req_bcs INTO lo_send_req_bcs.
+      ENDTRY.
+      IF sy-subrc EQ 0.
+        lv_exp = 1.
+      ENDIF.
+    ELSE.
+      lv_exp = 3.
+    ENDIF.
+  ENDIF.
+
+  EXPORT lv_exp TO MEMORY ID 'ZTEST'.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*  IF t_otfdata[] IS INITIAL.
+*
+**    MESSAGE e303(me) WITH 'No Delivered Sales ATC(s). No Mail was sent'(015).
+*    lv_exp = 2.
+*
+*  ELSE.
+*
+*************appending the otf data into the final table**********************
+*    it_otf_final[] = t_otfdata[].
+*
+************* converting OTF data into pdf data**************************
+*    CALL FUNCTION 'CONVERT_OTF_2_PDF' ##ARG_OK
+*      IMPORTING
+*        bin_filesize          = bin_filesize
+*      TABLES
+*        otf                   = it_otf_final
+*        doctab_archive        = it_docs
+*        lines                 = it_pdfdata[]
+*      EXCEPTIONS
+*        err_max_linewidth     = 1
+*        err_format            = 2
+*        err_conv_not_possible = 3
+*        err_bad_otf           = 4
+*        OTHERS                = 5.
+*
+*    REFRESH it_pdf[].
+*
+*    CALL FUNCTION 'SX_TABLE_LINE_WIDTH_CHANGE' ##arg_ok
+*      EXPORTING
+*        line_width_dst        = '255'
+*      TABLES
+*        content_in            = it_pdfdata[]
+*        content_out           = it_pdf[]
+*      EXCEPTIONS
+*        err_max_linewidth     = 1
+*        err_format            = 2
+*        err_conv_not_possible = 3
+*        err_bad_otf           = 4
+*        OTHERS                = 5.
+*    IF sy-subrc <> 0.
+*      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*    ELSE.
+*
+*      "Subject of the mail.
+*      w_document_data-obj_name = 'MAIL_TO_HEAD'.
+*      CONCATENATE 'ATC No. : '(016) p_vbeln INTO w_document_data-obj_descr.
+*
+*      CONCATENATE 'Dear'(018) ',' INTO w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*
+*      w_body_msg = 'Please find the PDF copy of the ATC attached herewith. This is for your information.'(020).
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      CLEAR: w_body_msg.
+*
+*      CONCATENATE 'Date : '(001) v_date INTO w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      CLEAR: w_body_msg.
+*
+*      CONCATENATE 'Delivering Plant : '(021) v_werks INTO w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      CLEAR: w_body_msg.
+*
+*      CONCATENATE 'ATC No. : '(022) p_vbeln INTO w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      APPEND w_body_msg TO i_body_msg.
+*      CLEAR: w_body_msg.
+*      CLEAR: w_body_msg.
+*
+*      "Write Packing List for Body
+*      DESCRIBE TABLE i_body_msg LINES g_tab_lines.
+*      w_packing_list-head_start = 1.
+*      w_packing_list-head_num = 0.
+*      w_packing_list-body_start = 1.
+*      w_packing_list-body_num = g_tab_lines.
+*      w_packing_list-doc_type = 'RAW'.
+*      APPEND w_packing_list TO i_packing_list.
+*      CLEAR w_packing_list.
+*
+*      "Write Packing List for Attachment
+*      w_packing_list-transf_bin = 'X'.
+*      w_packing_list-head_start = 1.
+*      w_packing_list-head_num = 1.
+*      w_packing_list-body_start = 1.
+*      DESCRIBE TABLE it_pdf LINES w_packing_list-body_num.
+*      w_packing_list-doc_type = 'PDF'.
+*      w_packing_list-obj_descr = 'ATC/SO Attachment'(024).
+*      w_packing_list-obj_name = 'SO_ATTACHMENT'.
+*      w_packing_list-doc_size = w_packing_list-body_num * 510.
+*      APPEND w_packing_list TO i_packing_list.
+*      CLEAR w_packing_list.
+*
+*      "Fill the document data and get size of attachment
+*      w_document_data-obj_langu = sy-langu.
+*      READ TABLE it_pdf INTO w_pdf INDEX g_tab_lines.
+*      w_document_data-doc_size = ( g_tab_lines - 1 ) * 255 + strlen( w_attachment ).
+*
+*      "Receivers List.
+*      LOOP AT lt_email INTO ls_email.
+*        w_receivers-rec_type = 'U'."Internet address
+*        w_receivers-receiver = ls_email-email.
+*        w_receivers-com_type = 'INT'.
+*        APPEND w_receivers TO i_receivers .
+*        CLEAR: w_receivers.
+*      ENDLOOP.
+*      IF i_receivers IS NOT INITIAL.
+*        "Function module to send mail to Recipients
+*        CALL FUNCTION 'SO_NEW_DOCUMENT_ATT_SEND_API1'
+*          EXPORTING
+*            document_data              = w_document_data
+*            commit_work                = 'X'
+*          IMPORTING
+*            sent_to_all                = g_sent_to_all
+*          TABLES
+*            packing_list               = i_packing_list
+*            contents_bin               = it_pdf
+*            contents_txt               = i_body_msg
+*            receivers                  = i_receivers
+*          EXCEPTIONS
+*            too_many_receivers         = 1
+*            document_not_sent          = 2
+*            document_type_not_exist    = 3
+*            operation_no_authorization = 4
+*            parameter_error            = 5
+*            x_error                    = 6
+*            enqueue_error              = 7
+*            OTHERS                     = 8.
+*
+*        IF sy-subrc = 0.
+**          MESSAGE i303(me) WITH 'Mail has been Successfully Sent.'(025).
+*          lv_exp = 1.
+*        ENDIF.
+*      ELSE.
+**        MESSAGE e000(ztest) WITH 'The customer who ordered the sale does not have an email ID.'.
+*        lv_exp = 3.
+*      ENDIF.
+*    ENDIF.
+*
+*  ENDIF.
+*  EXPORT lv_exp TO MEMORY ID 'ZTEST'.

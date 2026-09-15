@@ -114,3 +114,39 @@ one, convert it to a fixed-length local first. Modern function modules
 but if a new `CALL_FUNCTION_CONFLICT_TYPE` dump shows up anywhere else in this
 report, the fix is the same pattern: add a fixed-length local, assign, pass
 that instead of the raw `string`.
+
+## ZSD_ATC (branch `vernasofttechie-zsdatc`)
+
+Everything above this point is shared history from the legacy-grab
+tooling and the first two forms — read it first; the strategy catalogue
+(`docs/strategy/README.md`, S01-S07) distills the standing rules. This
+section tracks only what's new to this specific form.
+
+**Driver mismatch found before any build work (not an activation
+error - a context gap flagged proactively).** Neither driver candidate
+the legacy-grab scan surfaced actually calls `ZSD_ATC`:
+`ZSD_ATC_BULK_PRINT` calls `SSF_FUNCTION_MODULE_NAME` for a *different*
+form (`YSD_SO_ATC`/`YSD_SO_ATC_FR`, sales-order-based, `VBAK`/`VBAP`);
+`ZNGSDATCPRINT` calls a third, different form (`ZSDATCFRM`). NACE's own
+output-determination row names the real driver routine as
+`PGNAM=ZSD_DRIVER_ATC`, which the source-scan never found. Both
+candidates matched the scan's heuristic (contain "ZSD_ATC" or call
+`SSF_FUNCTION_MODULE_NAME`) without actually being this form's caller -
+a genuine false-positive, not a build defect. Logged in
+`docs/legacy_grab/zsd_atc_interface_scope_ledger.md` §0; driver context
+remains an open question for the user/functional owner, doesn't block
+interface work since the interface is self-contained from the form's
+own definition.
+
+**Interface built in one push (no `TYPES` dependency this time)** - 23
+custom import parameters (all `LIKP`/`LIPS`/`KNA1`/`MARA`/`MAKT`/
+`T001W`-typed, confirming a genuine outbound-delivery/dispatch print,
+not a sales document), 0 tables (single-item print, no repeating-table
+question at all - simplest of the three forms built so far), 6
+`GLOBAL_DATA` entries (all DDIC/simple, `GTYPES` itself is empty -
+unlike `YMM_ISSUE_RESERVATION`, nothing here needs native-only `TYPES`
+entry first). `CL_FP_CODING`/`INITIALIZATION` replicates 2 distinct
+literal `%CODE` blocks found in the raw export (`%CODE1`/`%CODE2`/
+`%CODE3` are byte-for-byte identical quantity-formatting logic - built
+once, not three times; `%CODE4` is a `NAST` output-history check) -
+both run once, no per-row ambiguity. **Not yet SFP-tested.**
