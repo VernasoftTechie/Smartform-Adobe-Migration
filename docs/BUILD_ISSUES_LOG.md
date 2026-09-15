@@ -149,4 +149,31 @@ entry first). `CL_FP_CODING`/`INITIALIZATION` replicates 2 distinct
 literal `%CODE` blocks found in the raw export (`%CODE1`/`%CODE2`/
 `%CODE3` are byte-for-byte identical quantity-formatting logic - built
 once, not three times; `%CODE4` is a `NAST` output-history check) -
-both run once, no per-row ambiguity. **Not yet SFP-tested.**
+both run once, no per-row ambiguity. Interface activated cleanly - the
+user's captured Context (118 real `CL_FP_NODE` entries) matched the
+hand-authored interface exactly, including `LS_NAST` fully resolving
+to its real DDIC structure, with **zero** reference-field errors
+(unlike both prior forms - this interface has no QUAN/CURR fields
+needing a `CL_FP_REFERENCE_FIELDS` entry at all).
+
+**Layout built after a full evidence read (no shortcuts this time,
+matching the discipline established on the prior form's F47)**: fixed
+the same Letter-portrait default (A4 portrait, same class of gap as
+every prior form). Found 0 graphic nodes anywhere in the raw export -
+this form genuinely has no embedded logo, not an extraction miss - and
+only 1 condition in the entire form (the simplest of the three forms
+so far). Found a genuine 2-copy "tear-off" design: `LOADING`/
+`LOADINGWAYBILL` and `RECIPT`/`RECIPTWAYBILL` are two separate,
+non-overlapping sections (not a duplicate pair to collapse, unlike
+YMM_ISSUE_RESERVATION's identical `%WINDOW3`/`%WINDOW5`) - built as
+"LOADING COPY" and "RECEIPT COPY" sections. Built the reprint watermark
+using the **pilot's own proven pattern verbatim** (checked before
+writing, not improvised): a sibling 1mm hidden field bound to the flag,
+and the conditional content as its own subform (never a bare draw)
+with an `initialize` script calling `this.parent.resolveNode(...)` -
+caught and fixed a first draft that nested the hidden field and put the
+script directly on a `<draw>`, which doesn't reliably support
+scripting the way a subform does. **Not yet SFP-tested** - this is the
+first time the watermark pattern has been reused on a second form;
+confirm it renders correctly, not just that it matches the reference
+syntactically.

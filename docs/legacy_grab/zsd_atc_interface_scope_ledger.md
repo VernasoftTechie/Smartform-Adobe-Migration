@@ -160,8 +160,64 @@ built so far). Replicate verbatim into one `CL_FP_CODING`/
 `V_VBELN`, `V_FLAG`; `OUTPUT_PARAMETERS` = `V_LENG`, `V_LFIMG1`,
 `LV_LFIMG`, `LS_NAST`, `V_FLAG`.
 
-## 5. Still to extract before layout work begins
+## 5. Window map (8 windows, `DINA4` portrait — confirmed, coordinates used as-is)
 
-Window/page structure, exact literal text, logo/style — deferred to
-the layout phase per this program's established interface → native
-Context → layout discipline. Not yet touched in this pass.
+No logo/graphic anywhere in this form (0 `GR` nodes in the full
+`NODETYPE` walk — genuinely absent, not an extraction gap; this form
+likely prints on pre-printed letterhead stock). Only **one** condition
+in the entire form (`%CONDITION1`, `LV_FLAG = 'X'`) — the simplest of
+the three forms built so far.
+
+| Window | Caption | Position (cm) | Content |
+|---|---|---|---|
+| `DRAFT_WINDOW` | — | x=0.20 y=2.93 w=12.70 h=0.90 | `V_PLANT` + conditional "Reprinted ATC" watermark, shown when **`LV_FLAG = 'X'`** (the *import* flag, not `V_FLAG` — the form's own `%CODE4`-computed global is a separate, similarly-named field; don't conflate them) |
+| `OBDNO` | OBD NO WINDOW | x=13.00 y=2.93 w=7.50 h=0.90 | `V_VBELN` only — a document-number stamp, same row as `DRAFT_WINDOW` |
+| `MAIN` | Main Window | x=0.20 y=4.00 w=20.30 h=5.50 | The primary content block — all remaining fields (see below) |
+| `LOADING` | LOADING Window | x=1.47 y=12.17 w=18.67 h=2.13 | "Loading copy" header: `V_KUNNR`/`V_NAME1`, `V_VBELN`/`V_WORDS`/`V_VGBEL`, `V_LFIMG1` |
+| `LOADINGWAYBILL` | loding waybill Window | x=1.10 y=13.77 w=18.47 h=2.40 | "Loading copy" footer: `V_TRANS`/`V_TRUCK`/`V_DRIVER` — **confirmed identical content to `RECIPTWAYBILL`** below, different copy |
+| `RECIPT` | RECEIPT Window | x=1.40 y=18.43 w=19.23 h=2.50 | "Receipt copy" header — same field set as `LOADING`, near-identical wording (minor spacing differences only) |
+| `RECIPTWAYBILL` | RECEIPT waybill Window | x=1.00 y=19.47 w=18.63 h=2.40 | "Receipt copy" footer — same as `LOADINGWAYBILL` |
+| `FOOTER` | Footer Window | x=0.93 y=22.97 w=19.00 h=1.43 | **No visible content** — holds only `%CODE4`'s `NAST` check node, already captured in the interface's `INITIALIZATION`. Nothing to build here. |
+
+`LOADING`+`LOADINGWAYBILL` and `RECIPT`+`RECIPTWAYBILL` each show
+partial y-overlap *within* their own pair in the raw coordinates (e.g.
+`LOADING` ends at y=14.30, `LOADINGWAYBILL` starts at y=13.77) — this
+matches the pattern already seen on both prior forms: legacy Smart
+Forms window boxes reserve generous space, the actual short
+single-line text sits near the top of its box via `T_LINENR`, so the
+declared box overlap doesn't mean the printed text collides. The two
+*pairs* themselves don't overlap each other (`LOADING` block ends at
+16.17cm, `RECIPT` block starts at 18.43cm) — reads as two genuinely
+separate, stacked "tear-off copy" sections on one page, a real design
+intent (not a duplicate to collapse into one, unlike YMM_ISSUE_
+RESERVATION's identical `%WINDOW3`/`%WINDOW5`) — build both, clearly
+labeled.
+
+**`MAIN` window fields** (exact row grouping via each text's own
+`T_LINENR` — grouped here by that value, not independently confirmed
+as a strict single-row-per-group grid; built as a clean vertical stack
+rather than guessing exact column positions, same approach already
+used for YMM_ISSUE_RESERVATION's Details block):
+
+| Field | Bound to |
+|---|---|
+| Customer Code: | `V_KUNNR` |
+| Name : | `V_NAME1` |
+| Collection: | `V_PLANT` |
+| Control No. ... of ... | `V_TABIX` / `V_TOTAL` |
+| Issue Date : | `V_LFDAT` |
+| Order No : | `V_VGBEL` |
+| (qty) | `V_LFIMG1` |
+| (gross weight) | `V_BTGEW` |
+| (material) | `V_MAKTX` |
+| (qty in words) | `V_WORDS` BAGS |
+| (qty in words) | `V_WORDS1` TONNES |
+| (transporter) | `V_TRANSPORTER` |
+
+`V_ADD`, `V_GEWEI`, `V_VRKME`, `V_PRINT`, `V_WORDS1`'s own bare
+appearance were evidenced in the interface but not found as a literal
+`TDLINE` anywhere in the 8 windows scanned — either genuinely unused
+in this form's visible print output (plausible; interfaces often carry
+more fields than any one print layout uses) or embedded in a part of
+`MAIN`'s template not captured by this caption/TDLINE grep pass. Not
+guessed into the layout; flagged for confirmation once rendered.

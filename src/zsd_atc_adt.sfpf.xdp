@@ -5,11 +5,206 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
+            <contentArea h="28.7cm" w="20cm" x="0.5cm" y="0.5cm"/>
+            <medium long="29.7cm" short="21cm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in"/>
+      <subform h="29.7cm" name="visual_shell" w="21cm">
+         <!-- Reprint watermark + doc number - evidence: DRAFT_WINDOW/
+              OBDNO, x/y from the raw export (ledger §5). DRAFT_WINDOW's
+              "Reprinted ATC" text is conditional on LV_FLAG='X' - note
+              this is the IMPORT parameter, not V_FLAG (the form's own
+              %CODE4-computed global) - two distinct, similarly-named
+              fields, not to be confused.
+              Conditional-visibility pattern matches the pilot's own
+              PROVEN implementation exactly (docs/reference_examples/
+              sfp_generated_archive/z_mm_pr_form_adt.sfpf.xdp:102-116):
+              a sibling hidden field (1mm, not 0 - draws/scripts can
+              behave unreliably on a truly zero-size field) bound to the
+              flag, and the conditional content as its own SUBFORM
+              (never a bare draw) with its own initialize script calling
+              this.parent.resolveNode(...) - draws don't reliably support
+              scripting the way subforms/fields do. -->
+         <field h="1mm" name="lv_flag_check" presence="hidden" w="1mm" x="0.5cm" y="2.4cm">
+            <ui><textEdit/></ui>
+            <bind match="dataRef" ref="$.LV_FLAG"/>
+         </field>
+         <subform h="0.9cm" layout="position" name="draft_window" w="12.70cm" x="0.5cm" y="2.5cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial"/>
+            <field h="0.5cm" name="fld_draft_plant" w="12.70cm" x="0cm" y="0cm">
+               <ui><textEdit/></ui>
+               <bind match="dataRef" ref="$.V_PLANT"/>
+            </field>
+            <subform h="0.4cm" layout="position" name="reprinted_watermark" presence="hidden" w="12.70cm" x="0cm" y="0.5cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var flag = this.parent.parent.resolveNode("lv_flag_check");
+this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.4cm" name="lbl_reprinted" w="12.70cm" x="0cm" y="0cm">
+                  <value><text>Reprinted ATC</text></value>
+                  <font size="9pt" typeface="Arial" weight="bold"/>
+               </draw>
+            </subform>
+         </subform>
+         <subform h="0.9cm" layout="position" name="obdno_window" w="7cm" x="13.5cm" y="2.5cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial" weight="bold"/>
+            <field h="0.6cm" name="fld_obdno" w="7cm" x="0cm" y="0cm">
+               <ui><textEdit/></ui>
+               <bind match="dataRef" ref="$.V_VBELN"/>
+            </field>
+         </subform>
+
+         <!-- MAIN window - evidence: ledger §5, T_LINENR-grouped field
+              list. Exact original multi-column grid not independently
+              confirmed - built as a clean vertical stack (S06/S07 -
+              explicit position throughout, matching the same honest
+              approach already used for YMM_ISSUE_RESERVATION's Details
+              block when the exact grid wasn't evidenced). -->
+         <subform h="5.5cm" layout="tb" name="main_window" w="20cm" x="0.5cm" y="3.8cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.5cm" layout="position" name="m_kunnr">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_kunnr" w="4.5cm" x="0cm" y="0cm"><value><text>Customer Code:</text></value></draw>
+               <field h="0.5cm" name="fld_kunnr" w="4cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_KUNNR"/></field>
+               <draw h="0.5cm" name="lbl_name1" w="1.5cm" x="8.5cm" y="0cm"><value><text>Name:</text></value></draw>
+               <field h="0.5cm" name="fld_name1" w="6cm" x="10cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_NAME1"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_plant">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_plant" w="4.5cm" x="0cm" y="0cm"><value><text>Collection:</text></value></draw>
+               <field h="0.5cm" name="fld_plant" w="8cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_PLANT"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_control">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_control" w="4.5cm" x="0cm" y="0cm"><value><text>Control No.:</text></value></draw>
+               <field h="0.5cm" name="fld_tabix" w="2cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TABIX"/></field>
+               <draw h="0.5cm" name="lbl_of" w="0.8cm" x="6.5cm" y="0cm"><value><text>of</text></value></draw>
+               <field h="0.5cm" name="fld_total" w="2cm" x="7.3cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TOTAL"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_lfdat">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_lfdat" w="4.5cm" x="0cm" y="0cm"><value><text>Issue Date:</text></value></draw>
+               <field h="0.5cm" name="fld_lfdat" w="4cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_LFDAT"/></field>
+               <draw h="0.5cm" name="lbl_vgbel" w="2cm" x="8.5cm" y="0cm"><value><text>Order No:</text></value></draw>
+               <field h="0.5cm" name="fld_vgbel" w="5.5cm" x="10.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_matnr">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_maktx" w="4.5cm" x="0cm" y="0cm"><value><text>Material:</text></value></draw>
+               <field h="0.5cm" name="fld_maktx" w="15.5cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_MAKTX"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_qty">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_lfimg" w="4.5cm" x="0cm" y="0cm"><value><text>Quantity:</text></value></draw>
+               <field h="0.5cm" name="fld_lfimg1" w="4cm" x="4.5cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.V_LFIMG1"/></field>
+               <draw h="0.5cm" name="lbl_btgew" w="2cm" x="8.5cm" y="0cm"><value><text>Gross Wt:</text></value></draw>
+               <field h="0.5cm" name="fld_btgew" w="4cm" x="10.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BTGEW"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_words">
+               <bind match="none"/>
+               <field h="0.5cm" name="fld_words" w="10cm" x="0cm" y="0cm">
+                  <ui><textEdit/></ui>
+                  <bind match="none"/>
+                  <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS &amp; " BAGS"</script></calculate>
+               </field>
+               <field h="0.5cm" name="fld_words1" w="10cm" x="10cm" y="0cm">
+                  <ui><textEdit/></ui>
+                  <bind match="none"/>
+                  <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS1 &amp; " TONNES"</script></calculate>
+               </field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="m_transporter">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_transporter" w="4.5cm" x="0cm" y="0cm"><value><text>Transporter:</text></value></draw>
+               <field h="0.5cm" name="fld_transporter" w="15.5cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRANSPORTER"/></field>
+            </subform>
+         </subform>
+
+         <!-- Loading copy - evidence: LOADING + LOADINGWAYBILL windows
+              (ledger §5). Two genuinely separate tear-off-copy sections
+              on one page, not a duplicate to collapse (unlike
+              YMM_ISSUE_RESERVATION's identical %WINDOW3/%WINDOW5). -->
+         <subform h="2.1cm" layout="tb" name="loading_copy" w="20cm" x="0.5cm" y="11.5cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial" weight="bold"/>
+            <draw h="0.5cm" name="lbl_loading_title" w="20cm">
+               <value><text>LOADING COPY</text></value>
+            </draw>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.5cm" layout="position" name="lc_row1">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_lc_atc" w="2.5cm" x="0cm" y="0cm"><value><text>Atc No:</text></value></draw>
+               <field h="0.5cm" name="fld_lc_vbeln" w="3cm" x="2.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VBELN"/></field>
+               <field h="0.5cm" name="fld_lc_words" w="6cm" x="5.5cm" y="0cm">
+                  <ui><textEdit/></ui>
+                  <bind match="none"/>
+                  <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS &amp; " BAGS"</script></calculate>
+               </field>
+               <draw h="0.5cm" name="lbl_lc_vgbel" w="2.5cm" x="11.5cm" y="0cm"><value><text>Order No:</text></value></draw>
+               <field h="0.5cm" name="fld_lc_vgbel" w="6cm" x="14cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="lc_row2">
+               <bind match="none"/>
+               <field h="0.5cm" name="fld_lc_kunnr" w="3cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_KUNNR"/></field>
+               <draw h="0.5cm" name="lbl_lc_colon" w="0.5cm" x="3cm" y="0cm"><value><text>:</text></value></draw>
+               <field h="0.5cm" name="fld_lc_name1" w="8cm" x="3.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_NAME1"/></field>
+               <field h="0.5cm" name="fld_lc_lfimg1" w="4cm" x="12cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.V_LFIMG1"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="lc_row3">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_lc_trans" w="3cm" x="0cm" y="0cm"><value><text>Transporter:</text></value></draw>
+               <field h="0.5cm" name="fld_lc_trans" w="6cm" x="3cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRANS"/></field>
+               <draw h="0.5cm" name="lbl_lc_truck" w="2cm" x="9cm" y="0cm"><value><text>Truck:</text></value></draw>
+               <field h="0.5cm" name="fld_lc_truck" w="3.5cm" x="11cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRUCK"/></field>
+               <draw h="0.5cm" name="lbl_lc_driver" w="1.5cm" x="14.5cm" y="0cm"><value><text>Driver:</text></value></draw>
+               <field h="0.5cm" name="fld_lc_driver" w="4cm" x="16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_DRIVER"/></field>
+            </subform>
+         </subform>
+
+         <!-- Receipt copy - evidence: RECIPT + RECIPTWAYBILL windows
+              (ledger §5) - same field set as Loading copy above, a
+              second tear-off copy. -->
+         <subform h="2.1cm" layout="tb" name="receipt_copy" w="20cm" x="0.5cm" y="18cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial" weight="bold"/>
+            <draw h="0.5cm" name="lbl_receipt_title" w="20cm">
+               <value><text>RECEIPT COPY</text></value>
+            </draw>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.5cm" layout="position" name="rc_row1">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_rc_atc" w="2.5cm" x="0cm" y="0cm"><value><text>Atc No:</text></value></draw>
+               <field h="0.5cm" name="fld_rc_vbeln" w="3cm" x="2.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VBELN"/></field>
+               <field h="0.5cm" name="fld_rc_words" w="6cm" x="5.5cm" y="0cm">
+                  <ui><textEdit/></ui>
+                  <bind match="none"/>
+                  <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS &amp; " BAGS"</script></calculate>
+               </field>
+               <draw h="0.5cm" name="lbl_rc_vgbel" w="2.5cm" x="11.5cm" y="0cm"><value><text>Order No:</text></value></draw>
+               <field h="0.5cm" name="fld_rc_vgbel" w="6cm" x="14cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="rc_row2">
+               <bind match="none"/>
+               <field h="0.5cm" name="fld_rc_kunnr" w="3cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_KUNNR"/></field>
+               <draw h="0.5cm" name="lbl_rc_colon" w="0.5cm" x="3cm" y="0cm"><value><text>:</text></value></draw>
+               <field h="0.5cm" name="fld_rc_name1" w="8cm" x="3.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_NAME1"/></field>
+               <field h="0.5cm" name="fld_rc_lfimg1" w="4cm" x="12cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="$.V_LFIMG1"/></field>
+            </subform>
+            <subform h="0.5cm" layout="position" name="rc_row3">
+               <bind match="none"/>
+               <draw h="0.5cm" name="lbl_rc_trans" w="3cm" x="0cm" y="0cm"><value><text>Transporter:</text></value></draw>
+               <field h="0.5cm" name="fld_rc_trans" w="6cm" x="3cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRANS"/></field>
+               <draw h="0.5cm" name="lbl_rc_truck" w="2cm" x="9cm" y="0cm"><value><text>Truck:</text></value></draw>
+               <field h="0.5cm" name="fld_rc_truck" w="3.5cm" x="11cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRUCK"/></field>
+               <draw h="0.5cm" name="lbl_rc_driver" w="1.5cm" x="14.5cm" y="0cm"><value><text>Driver:</text></value></draw>
+               <field h="0.5cm" name="fld_rc_driver" w="4cm" x="16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_DRIVER"/></field>
+            </subform>
+         </subform>
+      </subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>
