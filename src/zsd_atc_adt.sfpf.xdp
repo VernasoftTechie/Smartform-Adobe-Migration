@@ -25,33 +25,41 @@
               (never a bare draw) with its own initialize script calling
               this.parent.resolveNode(...) - draws don't reliably support
               scripting the way subforms/fields do. -->
-         <field h="1mm" name="lv_flag_check" presence="hidden" w="1mm" x="0.5cm" y="2.4cm">
+         <field h="1mm" name="lv_flag_check" presence="hidden" w="1mm" x="1cm" y="2.4cm">
             <ui><textEdit/></ui>
             <bind match="dataRef" ref="$.LV_FLAG"/>
          </field>
-         <subform h="0.9cm" layout="position" name="draft_window" w="12.70cm" x="0.5cm" y="2.5cm">
+         <!-- F-note: original x=0.5cm/w=20cm content extended to
+              absolute 20.5cm on a 21cm page and still overflowed the
+              visible page in Design View (screenshot confirmed) -
+              some additional offset beyond a simple absolute-page
+              coordinate model is in play in this session. Fixed with a
+              decisively wider margin (content now ends at 18.5-19.5cm,
+              1.5-2cm of right margin) rather than guessing the exact
+              extra offset - safe under either coordinate model. -->
+         <subform h="0.9cm" layout="position" name="draft_window" w="11.5cm" x="1cm" y="2.5cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial"/>
-            <field h="0.5cm" name="fld_draft_plant" w="12.70cm" x="0cm" y="0cm">
+            <field h="0.5cm" name="fld_draft_plant" w="11.5cm" x="0cm" y="0cm">
                <ui><textEdit/></ui>
                <bind match="dataRef" ref="$.V_PLANT"/>
             </field>
-            <subform h="0.4cm" layout="position" name="reprinted_watermark" presence="hidden" w="12.70cm" x="0cm" y="0.5cm">
+            <subform h="0.4cm" layout="position" name="reprinted_watermark" presence="hidden" w="11.5cm" x="0cm" y="0.5cm">
                <bind match="none"/>
                <event activity="initialize" name="initialize">
                   <script contentType="application/x-javascript">var flag = this.parent.parent.resolveNode("lv_flag_check");
 this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</script>
                </event>
-               <draw h="0.4cm" name="lbl_reprinted" w="12.70cm" x="0cm" y="0cm">
+               <draw h="0.4cm" name="lbl_reprinted" w="11.5cm" x="0cm" y="0cm">
                   <value><text>Reprinted ATC</text></value>
                   <font size="9pt" typeface="Arial" weight="bold"/>
                </draw>
             </subform>
          </subform>
-         <subform h="0.9cm" layout="position" name="obdno_window" w="7cm" x="13.5cm" y="2.5cm">
+         <subform h="0.9cm" layout="position" name="obdno_window" w="5.5cm" x="13cm" y="2.5cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial" weight="bold"/>
-            <field h="0.6cm" name="fld_obdno" w="7cm" x="0cm" y="0cm">
+            <field h="0.6cm" name="fld_obdno" w="5.5cm" x="0cm" y="0cm">
                <ui><textEdit/></ui>
                <bind match="dataRef" ref="$.V_VBELN"/>
             </field>
@@ -63,7 +71,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
               explicit position throughout, matching the same honest
               approach already used for YMM_ISSUE_RESERVATION's Details
               block when the exact grid wasn't evidenced). -->
-         <subform h="5.5cm" layout="tb" name="main_window" w="20cm" x="0.5cm" y="3.8cm">
+         <subform h="5.5cm" layout="tb" name="main_window" w="18.5cm" x="1cm" y="3.8cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial"/>
             <subform h="0.5cm" layout="position" name="m_kunnr">
@@ -95,7 +103,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
             <subform h="0.5cm" layout="position" name="m_matnr">
                <bind match="none"/>
                <draw h="0.5cm" name="lbl_maktx" w="4.5cm" x="0cm" y="0cm"><value><text>Material:</text></value></draw>
-               <field h="0.5cm" name="fld_maktx" w="15.5cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_MAKTX"/></field>
+               <field h="0.5cm" name="fld_maktx" w="14cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_MAKTX"/></field>
             </subform>
             <subform h="0.5cm" layout="position" name="m_qty">
                <bind match="none"/>
@@ -111,7 +119,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
                   <bind match="none"/>
                   <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS &amp; " BAGS"</script></calculate>
                </field>
-               <field h="0.5cm" name="fld_words1" w="10cm" x="10cm" y="0cm">
+               <field h="0.5cm" name="fld_words1" w="8.5cm" x="10cm" y="0cm">
                   <ui><textEdit/></ui>
                   <bind match="none"/>
                   <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS1 &amp; " TONNES"</script></calculate>
@@ -120,7 +128,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
             <subform h="0.5cm" layout="position" name="m_transporter">
                <bind match="none"/>
                <draw h="0.5cm" name="lbl_transporter" w="4.5cm" x="0cm" y="0cm"><value><text>Transporter:</text></value></draw>
-               <field h="0.5cm" name="fld_transporter" w="15.5cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRANSPORTER"/></field>
+               <field h="0.5cm" name="fld_transporter" w="14cm" x="4.5cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRANSPORTER"/></field>
             </subform>
          </subform>
 
@@ -128,10 +136,10 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
               (ledger §5). Two genuinely separate tear-off-copy sections
               on one page, not a duplicate to collapse (unlike
               YMM_ISSUE_RESERVATION's identical %WINDOW3/%WINDOW5). -->
-         <subform h="2.1cm" layout="tb" name="loading_copy" w="20cm" x="0.5cm" y="11.5cm">
+         <subform h="2.1cm" layout="tb" name="loading_copy" w="18.5cm" x="1cm" y="11.5cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial" weight="bold"/>
-            <draw h="0.5cm" name="lbl_loading_title" w="20cm">
+            <draw h="0.5cm" name="lbl_loading_title" w="18.5cm" x="0cm" y="0cm">
                <value><text>LOADING COPY</text></value>
             </draw>
             <font size="9pt" typeface="Arial"/>
@@ -145,7 +153,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
                   <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS &amp; " BAGS"</script></calculate>
                </field>
                <draw h="0.5cm" name="lbl_lc_vgbel" w="2.5cm" x="11.5cm" y="0cm"><value><text>Order No:</text></value></draw>
-               <field h="0.5cm" name="fld_lc_vgbel" w="6cm" x="14cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
+               <field h="0.5cm" name="fld_lc_vgbel" w="4.5cm" x="14cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
             </subform>
             <subform h="0.5cm" layout="position" name="lc_row2">
                <bind match="none"/>
@@ -161,17 +169,17 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
                <draw h="0.5cm" name="lbl_lc_truck" w="2cm" x="9cm" y="0cm"><value><text>Truck:</text></value></draw>
                <field h="0.5cm" name="fld_lc_truck" w="3.5cm" x="11cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRUCK"/></field>
                <draw h="0.5cm" name="lbl_lc_driver" w="1.5cm" x="14.5cm" y="0cm"><value><text>Driver:</text></value></draw>
-               <field h="0.5cm" name="fld_lc_driver" w="4cm" x="16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_DRIVER"/></field>
+               <field h="0.5cm" name="fld_lc_driver" w="2.5cm" x="16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_DRIVER"/></field>
             </subform>
          </subform>
 
          <!-- Receipt copy - evidence: RECIPT + RECIPTWAYBILL windows
               (ledger §5) - same field set as Loading copy above, a
               second tear-off copy. -->
-         <subform h="2.1cm" layout="tb" name="receipt_copy" w="20cm" x="0.5cm" y="18cm">
+         <subform h="2.1cm" layout="tb" name="receipt_copy" w="18.5cm" x="1cm" y="18cm">
             <bind match="none"/>
             <font size="9pt" typeface="Arial" weight="bold"/>
-            <draw h="0.5cm" name="lbl_receipt_title" w="20cm">
+            <draw h="0.5cm" name="lbl_receipt_title" w="18.5cm" x="0cm" y="0cm">
                <value><text>RECEIPT COPY</text></value>
             </draw>
             <font size="9pt" typeface="Arial"/>
@@ -185,7 +193,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
                   <calculate><script contentType="application/x-formcalc">$ = $.V_WORDS &amp; " BAGS"</script></calculate>
                </field>
                <draw h="0.5cm" name="lbl_rc_vgbel" w="2.5cm" x="11.5cm" y="0cm"><value><text>Order No:</text></value></draw>
-               <field h="0.5cm" name="fld_rc_vgbel" w="6cm" x="14cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
+               <field h="0.5cm" name="fld_rc_vgbel" w="4.5cm" x="14cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_VGBEL"/></field>
             </subform>
             <subform h="0.5cm" layout="position" name="rc_row2">
                <bind match="none"/>
@@ -201,7 +209,7 @@ this.presence = flag &amp;&amp; flag.rawValue === "X" ? "visible" : "hidden";</s
                <draw h="0.5cm" name="lbl_rc_truck" w="2cm" x="9cm" y="0cm"><value><text>Truck:</text></value></draw>
                <field h="0.5cm" name="fld_rc_truck" w="3.5cm" x="11cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_TRUCK"/></field>
                <draw h="0.5cm" name="lbl_rc_driver" w="1.5cm" x="14.5cm" y="0cm"><value><text>Driver:</text></value></draw>
-               <field h="0.5cm" name="fld_rc_driver" w="4cm" x="16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_DRIVER"/></field>
+               <field h="0.5cm" name="fld_rc_driver" w="2.5cm" x="16cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_DRIVER"/></field>
             </subform>
          </subform>
       </subform>
