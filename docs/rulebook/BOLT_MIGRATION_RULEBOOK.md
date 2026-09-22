@@ -48,29 +48,48 @@ pattern.
 - **The interface is preserved exactly.** Whatever eventually calls the Adobe
   Form must see an unchanged parameter/table contract from the legacy
   snapshot's interface section.
+- **Before designing anything, check §13 for an already-achieved precedent**,
+  and hold the output to §14's first-attempt discipline before presenting it
+  as finished.
 
-## 1. Known limitation in the legacy-grab tooling — read before trusting any driver identification
+## 1. Driver identification — fixed in the tool, pending a live activation test
 
-`ZSF2AF_R_LEGACY_GRAB`'s driver-candidate scan (`build_driver_index`) flags a
-program as a form's driver by two independent, loose checks: its source
-contains the literal string `SSF_FUNCTION_MODULE_NAME` *anywhere*, and it
-contains the form's name *anywhere else in the file*. Neither check confirms
-the form name is the actual argument on that specific call. This has already
-produced a confirmed false result on `ZSD_ATC`: the scan surfaced two
-unrelated programs as "driver candidates" (each matched by coincidence) while
-completely missing the real driver, which NACE's own `TNAPR` row names via
-`PGNAM` (`ZSD_DRIVER_ATC`) — the scan never found it because it calls a
-wrapper routine, not `SSF_FUNCTION_MODULE_NAME` directly.
+`ZSF2AF_R_LEGACY_GRAB`'s driver-candidate scan (`build_driver_index`)
+previously flagged a program as a form's driver by two independent, loose
+checks: its source contained the literal string `SSF_FUNCTION_MODULE_NAME`
+*anywhere*, and it contained the form's name *anywhere else in the file*.
+Neither check confirmed the form name was the actual argument on that
+specific call. This produced a confirmed false result on `ZSD_ATC`: the scan
+surfaced two unrelated programs as "driver candidates" (each matched by
+coincidence) while completely missing the real driver, which NACE's own
+`TNAPR` row names via `PGNAM` (`ZSD_DRIVER_ATC`) — the scan never found it
+because it calls a wrapper routine, not `SSF_FUNCTION_MODULE_NAME` directly.
 
-**Standing rule until this tool is fixed**: never present a legacy-grab
-"driver program candidate" as confirmed. Cross-check it against the same
-snapshot's NACE/`TNAPR` output-determination section (§4 of every snapshot).
-If they disagree, or the NACE row's program/routine name isn't among the
-scan's candidates, say so explicitly and flag it as an open question for the
-functional owner — do not silently pick the nearest textual match. This does
-not block interface or layout work (the interface is self-contained from the
-form's own definition), but it must never be reported as resolved when it
-isn't.
+**Fixed 2026-09-25** (`src/zsf2af_r_legacy_grab.prog.abap`, not yet
+live-activation-tested per this program's own S01 discipline — treat as
+correct in design, unconfirmed in practice until run against a real system):
+
+1. The source-scan match is now bounded to a window (±20 lines) around an
+   actual `SSF_FUNCTION_MODULE_NAME` call site, instead of the whole file —
+   this alone would have ruled out both of `ZSD_ATC`'s false positives. It
+   still cannot prove the form name is the literal `FORMNAME` argument (a
+   real call site almost always passes a variable, not a literal), so a
+   window hit remains a **candidate**, never a confirmed driver.
+2. `capture_output_determination` now also extracts `TNAPR-PGNAM` — NACE's
+   own record of the driver — and every snapshot's section 3 opens with an
+   explicit, computed **MATCH / MISMATCH** reconciliation against the
+   source-scan candidates, including a live `TADIR` check on the PGNAM value
+   when it doesn't match anything the scan found. This is what would have
+   caught `ZSD_ATC`'s mismatch automatically, at generation time, instead of
+   a human noticing days later.
+
+**Standing rule regardless of this fix**: never present a legacy-grab
+"driver program candidate" as confirmed on its own. The new MATCH/MISMATCH
+line is the authority to read, not the candidate list below it. On MISMATCH
+or an empty PGNAM, flag the driver as an open question for the functional
+owner — do not silently pick the nearest textual match. This does not block
+interface or layout work (the interface is self-contained from the form's
+own definition), but it must never be reported as resolved when it isn't.
 
 ## 2. What the legacy-grab snapshot gives you, and what stays manual
 
@@ -606,3 +625,67 @@ from a stale `main`; delete it and recut rather than proceed with an
 outdated rulebook.
 
 Full detail: `docs/08_migration_operating_model.md` §8.
+
+## 13. Reference already-achieved scenarios before designing anything new
+
+Before authoring any interface or layout content for a form, check for the
+closest already-validated precedent — in this order:
+
+1. **`docs/strategy/README.md`'s "Current successful scenarios" table** — it
+   names which S-strategy applies to a given form shape (wide/landscape,
+   composite header+table+signature, etc.) and links its supporting
+   evidence. Read the matched strategy in full (§3–§8 above) before writing
+   anything.
+2. **The actual completed forms, as worked examples, not only the
+   abstracted pattern library.** `YMMGRNNOTE_ADT`, `YMM_ISSUE_RESERVATION_ADT`,
+   and `ZSD_ATC_ADT` (their real `.sfpf.xdp`/`.sfpi.xml` in `/src/`, and their
+   `docs/legacy_grab/<form>_interface_scope_ledger.md` evidence) are real,
+   rendered precedent — sometimes ahead of what has been promoted into the
+   strategy catalogue. §8.9's conditional-visibility pattern, for example,
+   existed as real, working code in `ZSD_ATC_ADT` before it was written into
+   this rulebook. When a new form needs something not yet in §8, check
+   whether a completed form already solved it before treating it as new.
+3. **Never re-derive a shape that already has a validated precedent.** Copy
+   the closest match; only field names, widths, and bindings change per the
+   new form's own legacy evidence — the same rule §8's own header states.
+   Treating an already-solved shape as novel is how the same debugging
+   round gets paid for twice.
+4. **When nothing already proven matches**, that is itself meaningful
+   signal (§5's proactive-trigger table) — say so explicitly, build the
+   smallest possible test case for that new shape first, and treat it as
+   genuinely new rather than forcing an ill-fitting precedent onto it.
+
+## 14. First-attempt accuracy discipline
+
+This rulebook exists to make the design layer — pattern selection, interface
+authoring, evidence reading — as close to correct as possible on the very
+first attempt, by citing exact precedent instead of re-deriving, and by
+never guessing what a real defect has already answered. Before presenting
+any design output as finished, it should hold up against this checklist:
+
+- **Every binding or field claim cites its exact evidence source** (a
+  snapshot section, or a byte offset in the raw XML export) — never an
+  unlabeled assumption.
+- **Every layout construct matches an existing precedent** — cite which
+  pattern in §8, or which completed form (§13), it was copied from. If none
+  matches, say so explicitly rather than presenting a new guess as settled.
+- **Every driver, reference-field, or interface-boundary claim has been
+  checked against §1–§4's rules** before being stated as fact.
+- **Anything unconfirmed is flagged as unconfirmed**, in the output itself —
+  not silently smoothed over. §11 names the specific open items already
+  known; any new one found during a fresh migration gets named the same
+  way, not resolved by assumption.
+
+**What this discipline cannot do, and must not claim to do**: it cannot
+replace live SFP/Designer confirmation. This project's own history has a
+confirmed case (§10, the repeated `layout="row"` lesson) of a construct that
+was correctly declared, matched a proven pattern, and still rendered
+unreliably for reasons never fully explained — a real example of
+environment-level behavior no document can predict with certainty. Every
+strategy in this rulebook (§3, §5, §6, §8.8) already says the same thing in
+its own terms: well-formed, evidence-backed output is necessary, never
+sufficient, and a Design View or activation result is always the actual
+authority. A rulebook that claimed otherwise would contradict its own most
+expensive lesson. **The realistic target is this**: eliminate every
+previously-seen class of error on the first attempt, and never present
+unconfirmed work as done when a live check could have caught it.

@@ -27,9 +27,9 @@ stays a clearly labelled manual section rather than a guess.
 | Form → generated function module | `CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'` (`FORMNAME` in, `FM_NAME` out) — converted to a fixed `CHAR30` local first (F1 fix) | high — the textbook Smart Form driver pattern, now dump-safe |
 | Form list (optional auto-discovery) | `TADIR` where `PGMID = 'R3TR'`, `OBJECT = 'SSFO'` | best-effort — verify hit count against SE71 the first time |
 | **Form interface** (import/export/tables/exceptions) | `SELECT parameter, paramtype FROM fupararef WHERE funcname = @fm AND r3state = 'A'` | **verified** — this exact pattern is already proven in `Utility-Class-and-Method/docs/00_engineering_log.md` A18, built precisely to avoid guessing a `FUNCTION_IMPORT_INTERFACE`-style signature |
-| Driver-program candidates, **full source + one level of includes + dependencies** | Single pass over every Z*/Y* program's source (`READ REPORT`), checked against every form name at once (see performance note below). For every match: the program's **full source is downloaded to its own file** (`driver_<progname>.txt`); its `INCLUDE Z.../Y...` statements are followed **one level deep** (`extract_includes`) and those programs' sources extracted too; a plain substring scan (`scan_dependencies`, no regex) on the driver **and** its includes flags lines that reference another custom object — `CALL FUNCTION 'Z.../Y...'`, `CALL METHOD ZCL_.../YCL_...`, `NEW`/`TYPE ZCL_.../YCL_...`, `INCLUDE Z.../Y...`, external `PERFORM (Z.../Y...)` | high — plain ABAP statements, no DDIC/FM guess. Dependency lines are raw evidence (the matching source line), not a parsed object name — deliberately, to avoid mis-extracting one. Include-following is bounded to one level so a chain can't run away |
+| Driver-program candidates, **full source + one level of includes + dependencies** | Single pass over every Z*/Y* program's source (`READ REPORT`), checked against every form name at once (see performance note below). A match requires the form name within a bounded ±20-line window of an actual `SSF_FUNCTION_MODULE_NAME` call site (tightened 2026-09-25, see below — not just "form name anywhere in the file"). For every match: the program's **full source is downloaded to its own file** (`driver_<progname>.txt`); its `INCLUDE Z.../Y...` statements are followed **one level deep** (`extract_includes`) and those programs' sources extracted too; a plain substring scan (`scan_dependencies`, no regex) on the driver **and** its includes flags lines that reference another custom object — `CALL FUNCTION 'Z.../Y...'`, `CALL METHOD ZCL_.../YCL_...`, `NEW`/`TYPE ZCL_.../YCL_...`, `INCLUDE Z.../Y...`, external `PERFORM (Z.../Y...)` | **candidate only, cross-checked against NACE/TNAPR's PGNAM — see the correction below.** A window hit is plain ABAP text evidence, not proof of which variable value a call site actually passes at runtime. Dependency lines are raw evidence (the matching source line), not a parsed object name — deliberately, to avoid mis-extracting one. Include-following is bounded to one level so a chain can't run away |
 | **Full prerequisite checklist** (section 11) | Static, always emitted — enumerates every category a Smart Form can depend on (SmartStyle, formats, graphics, SO10 texts, barcodes/fonts, languages, signatures, plus everything already automated above) with exact navigation per item | not automation — a completeness net so nothing gets missed in the manual pass |
-| **Output determination (NACE)** | `SELECT * FROM tnapr` (no field-name guess in the `WHERE` — there isn't one) + a generic reflection-based dump (`dump_any`, via `cl_abap_typedescr`) that scans every column of every row for the form name | high — `SELECT *` needs no field names; RTTI reflection needs no assumed column names either |
+| **Output determination (NACE)** | `SELECT * FROM tnapr` (no field-name guess in the `WHERE` — there isn't one) + a generic reflection-based dump (`dump_any`, via `cl_abap_typedescr`) that scans every column of every row for the form name; `PGNAM` is additionally extracted as the driver's authoritative identity (added 2026-09-25) | high — `SELECT *` needs no field names; RTTI reflection needs no assumed column names either; `PGNAM` is a standard TNAPR field |
 | Snapshot delivery | `GUI_DOWNLOAD` to the local frontend | high — standard, ubiquitous |
 
 ## Still manual (Tier 2)
@@ -42,6 +42,40 @@ stays a clearly labelled manual section rather than a guess.
 
 These live in section 6-8 of every snapshot. See the next section for exactly
 what's needed to unlock automating them.
+
+## Driver-identity correction (2026-09-25) — `ZSD_ATC`'s false positive
+
+The original driver-candidate scan (`build_driver_index`) matched a program
+as a form's driver if its source contained `SSF_FUNCTION_MODULE_NAME`
+*anywhere* and the form's name *anywhere else in the file* — two
+independent, whole-file substring checks. On `ZSD_ATC` this surfaced two
+unrelated programs (each matched by coincidence) while completely missing
+the real driver (`ZSD_DRIVER_ATC`, per NACE's own `TNAPR-PGNAM`), which
+calls a wrapper routine rather than `SSF_FUNCTION_MODULE_NAME` directly —
+logged in `docs/BUILD_ISSUES_LOG.md`'s ZSD_ATC section and F49.
+
+**Fixed in `ZSF2AF_R_LEGACY_GRAB`** (not yet live-activation-tested — treat
+as correct in design, unconfirmed in practice until run against a real
+system, per this project's own S01 discipline):
+
+1. `build_driver_index` now requires the form name within a bounded
+   (±20-line) window of an actual `SSF_FUNCTION_MODULE_NAME` call site,
+   instead of anywhere in the whole file. This alone rules out both of
+   `ZSD_ATC`'s false positives. It still cannot prove the form name is the
+   literal `FORMNAME` argument value — real call sites almost always pass a
+   variable (see this report's own `RESOLVE_FM_NAME`) — so a window hit
+   remains a **candidate**, never a confirmed driver.
+2. `capture_output_determination` now also extracts `TNAPR-PGNAM` — NACE's
+   own record of the driver, independent of and more authoritative than the
+   source-text scan — and every snapshot's section 3 opens with a computed
+   **MATCH / MISMATCH** line comparing the two, including a live `TADIR`
+   existence check on the PGNAM value when it doesn't match any candidate
+   the scan found. **This is what would have caught `ZSD_ATC`'s mismatch
+   automatically, at generation time, instead of a human noticing days
+   later.**
+
+Read the MATCH/MISMATCH line first; the candidate list under it is
+secondary evidence, not the answer.
 
 ## SSF_READ_FORM's interface — probed automatically, every run
 

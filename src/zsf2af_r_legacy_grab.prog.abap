@@ -196,8 +196,15 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
       IMPORTING iv_fm_name     TYPE char30
       RETURNING VALUE(rt_lines) TYPE string_table.
 
+    "! Also exports the distinct PGNAM (driver program) values found on any
+    "! matching TNAPR row - the authoritative driver identity per NACE
+    "! output-type configuration, used by write_snapshot to cross-check
+    "! against build_driver_index's source-scan candidates (see the fix
+    "! for the ZSD_ATC false-positive/false-negative driver, F1-ish class,
+    "! docs/BUILD_ISSUES_LOG.md ZSD_ATC section).
     METHODS capture_output_determination
-      IMPORTING iv_formname    TYPE string
+      IMPORTING iv_formname     TYPE string
+      EXPORTING et_pgnam        TYPE string_table
       RETURNING VALUE(rt_lines) TYPE string_table.
 
     "! Safely tries a short list of candidate table names that might hold
@@ -310,21 +317,59 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
         CONTINUE.
       ENDIF.
 
-      DATA(lv_has_ssf) = abap_false.
+      " Collect every line where SSF_FUNCTION_MODULE_NAME is actually
+      " called - a program can call it more than once, for more than one
+      " form.
+      DATA lt_call_idx TYPE TABLE OF i.
+      CLEAR lt_call_idx.
       LOOP AT lt_source INTO DATA(lv_line).
         IF lv_line CS 'SSF_FUNCTION_MODULE_NAME'.
-          lv_has_ssf = abap_true.
-          EXIT.
+          APPEND sy-tabix TO lt_call_idx.
         ENDIF.
       ENDLOOP.
-      IF lv_has_ssf = abap_false.
+      IF lt_call_idx IS INITIAL.
         CONTINUE.
       ENDIF.
 
+      " Fix for the confirmed ZSD_ATC false-positive driver match
+      " (docs/BUILD_ISSUES_LOG.md, ZSD_ATC section): matching the form name
+      " ANYWHERE in the whole file was too loose - two unrelated programs
+      " matched this way (each calling SSF_FUNCTION_MODULE_NAME for a
+      " different form, while separately mentioning this form's name
+      " elsewhere) while the real driver, which calls a wrapper routine
+      " instead of this FM directly, was missed entirely. Require the form
+      " name within a bounded window of an actual call site instead of the
+      " whole file - a real, meaningful tightening, though still not proof:
+      " a genuine call site almost always passes a variable as FORMNAME
+      " (see this report's own RESOLVE_FM_NAME), not a literal, so a plain
+      " text scan can never fully confirm the argument value. A window hit
+      " is still only a CANDIDATE - write_snapshot cross-checks it against
+      " NACE/TNAPR's PGNAM (capture_output_determination), which is the
+      " actual authority on driver identity.
       CLEAR lt_matched_forms.
-      DATA(lv_joined) = concat_lines_of( table = lt_source sep = | | ).
       LOOP AT it_forms INTO DATA(lv_form).
-        IF lv_joined CS lv_form.
+        DATA lv_found TYPE abap_bool.
+        lv_found = abap_false.
+        LOOP AT lt_call_idx INTO DATA(lv_hit_idx).
+          DATA lv_from TYPE i.
+          DATA lv_to   TYPE i.
+          lv_from = lv_hit_idx - 20.
+          IF lv_from < 1.
+            lv_from = 1.
+          ENDIF.
+          lv_to = lv_hit_idx + 20.
+
+          DATA lv_window TYPE string.
+          CLEAR lv_window.
+          LOOP AT lt_source INTO DATA(lv_wline) FROM lv_from TO lv_to.
+            lv_window = lv_window && lv_wline && | |.
+          ENDLOOP.
+          IF lv_window CS lv_form.
+            lv_found = abap_true.
+            EXIT.
+          ENDIF.
+        ENDLOOP.
+        IF lv_found = abap_true.
           APPEND lv_form TO lt_matched_forms.
         ENDIF.
       ENDLOOP.
@@ -533,6 +578,8 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD capture_output_determination.
+    CLEAR et_pgnam.
+
     SELECT * FROM tnapr INTO TABLE @DATA(lt_tnapr) UP TO 50000 ROWS.
     IF sy-subrc <> 0 OR lt_tnapr IS INITIAL.
       APPEND `(no TNAPR rows read - table may not exist/be authorized here; confirm manually via NACE)` TO rt_lines.
@@ -547,12 +594,23 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
         lv_hits = lv_hits + 1.
         APPEND `-` TO rt_lines.
         APPEND LINES OF lt_dump TO rt_lines.
+        " PGNAM (print/driver program) is a standard TNAPR field - this is
+        " NACE's own record of the driver, independent of and more
+        " authoritative than build_driver_index's source-text scan.
+        IF ls_row-pgnam IS NOT INITIAL.
+          APPEND ls_row-pgnam TO et_pgnam.
+        ENDIF.
       ENDIF.
     ENDLOOP.
 
     IF lv_hits = 0.
       APPEND `(no TNAPR row mentions this form name - confirm manually via NACE; the` TO rt_lines.
       APPEND `output type may reference a driver routine rather than the form name directly)` TO rt_lines.
+    ENDIF.
+
+    IF et_pgnam IS NOT INITIAL.
+      SORT et_pgnam.
+      DELETE ADJACENT DUPLICATES FROM et_pgnam.
     ENDIF.
   ENDMETHOD.
 
@@ -679,14 +737,67 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND LINES OF capture_interface( iv_fm_name ) TO lt_lines.
     APPEND `` TO lt_lines.
 
+    " Authoritative driver identity, captured once here so section 3 can be
+    " cross-checked against it rather than standing as an unverified guess
+    " (fix for the confirmed ZSD_ATC false-positive/false-negative driver
+    " match - docs/BUILD_ISSUES_LOG.md, ZSD_ATC section).
+    DATA lt_pgnam TYPE string_table.
+    CLEAR lt_pgnam.
+    DATA(lt_nace_lines) = capture_output_determination(
+      EXPORTING iv_formname = iv_formname
+      IMPORTING et_pgnam    = lt_pgnam ).
+
     APPEND `## 3. Driver program candidates (source + dependencies extracted)` TO lt_lines.
+
+    APPEND `Driver identity check (NACE/TNAPR PGNAM vs. the source-text scan below):` TO lt_lines.
+    IF lt_pgnam IS INITIAL.
+      APPEND `NACE/TNAPR (section 4) names no PGNAM for this form - confirm manually` TO lt_lines.
+      APPEND `via the NACE Processing Routines tab before trusting any candidate below.` TO lt_lines.
+    ELSE.
+      LOOP AT lt_pgnam INTO DATA(lv_pgnam_entry).
+        DATA lv_is_candidate TYPE abap_bool.
+        lv_is_candidate = abap_false.
+        LOOP AT it_drivers INTO DATA(ls_check) WHERE progname = lv_pgnam_entry.
+          lv_is_candidate = abap_true.
+          EXIT.
+        ENDLOOP.
+
+        IF lv_is_candidate = abap_true.
+          APPEND |MATCH - NACE names `{ lv_pgnam_entry }`, and the source scan independently| TO lt_lines.
+          APPEND |found it below. Still confirm live before treating as final.| TO lt_lines.
+        ELSE.
+          DATA lv_pgnam_exists TYPE abap_bool.
+          lv_pgnam_exists = abap_false.
+          SELECT SINGLE obj_name FROM tadir INTO @DATA(lv_tadir_hit)
+            WHERE pgmid = 'R3TR' AND object = 'PROG' AND obj_name = @lv_pgnam_entry.
+          IF sy-subrc = 0.
+            lv_pgnam_exists = abap_true.
+          ENDIF.
+
+          APPEND |MISMATCH - NACE names `{ lv_pgnam_entry }`, but the source scan did NOT| TO lt_lines.
+          IF lv_pgnam_exists = abap_true.
+            APPEND |find it (it exists as a program, so it most likely calls a wrapper routine| TO lt_lines.
+            APPEND |rather than SSF_FUNCTION_MODULE_NAME directly - read its source manually).| TO lt_lines.
+          ELSE.
+            APPEND |find it, and it does not exist as a PROG in TADIR either (may be a routine| TO lt_lines.
+            APPEND |or include name, not a standalone program). See docs/02_legacy_grab_spec.md| TO lt_lines.
+            APPEND |for the debugger-breakpoint fallback.| TO lt_lines.
+          ENDIF.
+          APPEND |Treat this form's real driver as UNCONFIRMED until resolved with the| TO lt_lines.
+          APPEND |functional owner - do not silently pick the nearest candidate below.| TO lt_lines.
+        ENDIF.
+      ENDLOOP.
+    ENDIF.
+    APPEND `` TO lt_lines.
+
     IF it_drivers IS INITIAL.
-      APPEND `None found scanning Z*/Y* programs for a literal match. Confirm manually` TO lt_lines.
-      APPEND `(NACE output-type Processing Routines tab, or ask the functional owner).` TO lt_lines.
+      APPEND `None found scanning Z*/Y* programs for a literal match near an` TO lt_lines.
+      APPEND `SSF_FUNCTION_MODULE_NAME call. Confirm manually (NACE output-type` TO lt_lines.
+      APPEND `Processing Routines tab, or ask the functional owner).` TO lt_lines.
     ELSE.
       LOOP AT it_drivers INTO DATA(ls_hit).
         DATA(ls_info) = get_prog_info( ls_hit-progname ).
-        APPEND |- `{ ls_hit-progname }` (contains this form name + SSF_FUNCTION_MODULE_NAME - confirm it is the real driver. READ-ONLY: never modified - see docs/01_scope.md section 8)| TO lt_lines.
+        APPEND |- `{ ls_hit-progname }` (source-scan CANDIDATE - form name found near an SSF_FUNCTION_MODULE_NAME call; see the driver identity check above before trusting this. READ-ONLY: never modified - see docs/01_scope.md section 8)| TO lt_lines.
         IF ls_info-source_file IS NOT INITIAL.
           APPEND |  full source extracted to `{ ls_info-source_file }`| TO lt_lines.
         ELSE.
@@ -711,7 +822,7 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `` TO lt_lines.
 
     APPEND `## 4. Output determination (NACE / TNAPR)` TO lt_lines.
-    APPEND LINES OF capture_output_determination( iv_formname ) TO lt_lines.
+    APPEND LINES OF lt_nace_lines TO lt_lines.
     APPEND `` TO lt_lines.
 
     APPEND `## 5. SSF_READ_FORM interface (auto-probed via FUPARAREF, informational only)` TO lt_lines.
