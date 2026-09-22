@@ -8,8 +8,9 @@ run. It consolidates the project's scope, governance, the strategy catalogue
 update it only when explicitly asked to; do not let it silently drift from the
 full documents in the repo (`docs/01_scope.md`, `docs/02_legacy_grab_spec.md`,
 `docs/04_global_style_catalogue.md`, `docs/05_individual_form_conversion_framework.md`,
-`docs/strategy/*.md`, `docs/BUILD_ISSUES_LOG.md`), which remain the source of
-truth this file is generated from.
+`docs/08_migration_operating_model.md`, `docs/strategy/*.md`,
+`docs/BUILD_ISSUES_LOG.md`), which remain the source of truth this file is
+generated from.
 
 Every code pattern below is copied verbatim from a construct that has actually
 rendered or activated in a real SAP/Designer session — never invented. Where a
@@ -575,3 +576,33 @@ This section carries only the reusable rule each one produced.
   position-by-default approach extends automatically to a genuinely
   multi-page form; treat it as a new, unproven case requiring its own
   smallest-test-case validation before trusting it.
+
+## 12. Creating a conversion branch for a new requirement
+
+Formalized 2026-09-22 from an observed pattern across three branches,
+previously undocumented — treat as a standing rule, not a suggestion.
+
+**Naming**: `vernasofttechie-<formname>`, where `<formname>` is the Smart
+Form's technical name, lowercased, with underscores removed —
+`YMM_ISSUE_RESERVATION` → `vernasofttechie-ymmissuereservation`,
+`ZSD_ATC` → `vernasofttechie-zsdatc`. No other separator; the prefix is
+fixed for this program, not swapped per contributor.
+
+**Always cut from an up-to-date `main`, never from another form's branch or
+a stale local `main`.** Branching from a stale `main` is exactly how earlier
+strategy updates once went missing from new branches until someone
+remembered to sync them — the same risk this rulebook exists to prevent.
+
+```bash
+git fetch origin
+git checkout main
+git pull origin main
+git checkout -b vernasofttechie-<formname>
+```
+
+Before starting design on the new branch, confirm `docs/strategy/README.md`
+lists every strategy currently on `main` — if it doesn't, the branch was cut
+from a stale `main`; delete it and recut rather than proceed with an
+outdated rulebook.
+
+Full detail: `docs/08_migration_operating_model.md` §8.

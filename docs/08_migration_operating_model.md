@@ -130,3 +130,40 @@ promotes the now-validated pattern to `docs/strategy/` on `main`.
 
 This creates flexibility without allowing branches to silently diverge from
 the safe baseline, naming, asset, or capture rules.
+
+## 8. Creating a conversion branch for a new requirement
+
+**Formalized 2026-09-22** — this was previously only an observed pattern
+across three branches (`vernasofttechie-ymmgrnnote`,
+`vernasofttechie-ymmissuereservation`, `vernasofttechie-zsdatc`), never
+written down as a rule. Treat it as a standing requirement from here on, the
+same as every other naming/capture rule in this document.
+
+**Naming**: `vernasofttechie-<formname>`, where `<formname>` is the Smart
+Form's technical name, lowercased, with underscores removed —
+`YMM_ISSUE_RESERVATION` → `vernasofttechie-ymmissuereservation`,
+`ZSD_ATC` → `vernasofttechie-zsdatc`. Do not keep underscores or use any
+other separator; do not substitute a different prefix per contributor — the
+prefix identifies this program's convention, not an individual's name.
+
+**Cut from an up-to-date `main`, every time** — never from another form's
+branch, and never from a stale local `main` that predates the latest
+strategy-catalogue sync. Branching from a stale `main` is exactly how S01–S04
+once went missing from new branches until someone remembered to sync them
+(§7's "silently diverge" risk, concretely).
+
+```bash
+git fetch origin
+git checkout main
+git pull origin main
+git checkout -b vernasofttechie-<formname>
+```
+
+Confirm `docs/strategy/README.md` on the new branch lists every strategy up
+to the current one on `main` before starting design — if it doesn't, the
+branch was cut from a stale `main`; delete it and recut rather than proceed.
+
+Once the form's design reaches Wave-ready (§3) and any new pattern has been
+promoted to `docs/strategy/` on `main` (§7), the branch may be closed out;
+this document does not prescribe merge-vs-delete — that decision follows
+whatever this repo's existing convention is for a completed branch.
