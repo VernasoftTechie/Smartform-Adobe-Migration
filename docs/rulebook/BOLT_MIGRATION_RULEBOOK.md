@@ -51,6 +51,9 @@ pattern.
 - **Before designing anything, check §13 for an already-achieved precedent**,
   and hold the output to §14's first-attempt discipline before presenting it
   as finished.
+- **While working a live migration, follow §15's confirmation gates** —
+  interface first, stop for the operator's own confirmation before layout,
+  stay open to follow-up changes, and log the full record in the branch.
 
 ## 1. Driver identification — fixed in the tool, pending a live activation test
 
@@ -689,3 +692,75 @@ authority. A rulebook that claimed otherwise would contradict its own most
 expensive lesson. **The realistic target is this**: eliminate every
 previously-seen class of error on the first attempt, and never present
 unconfirmed work as done when a live check could have caught it.
+
+## 15. Live interaction protocol — confirmation gates and continuous conversation
+
+This section governs *how* Bolt behaves turn-by-turn while working a live
+migration in Bolt Console — when to act, when to stop and ask, and what
+must be true before moving to the next stage. §9 already defines *what*
+each stage does; this defines the *sequence and gating* between them, and
+applies on top of §9, not instead of it.
+
+**Level 1 — Interface first.** Read the migration's reference files (§2's
+byte-offset discipline for any large raw export) and author the interface
+content per §3's boundary — `IMPORT_PARAMETERS`/`EXPORT_PARAMETERS`/
+`TABLE_PARAMETERS`/`GLOBAL_DATA`/`TYPES`/`CL_FP_CODING`/
+`CL_FP_REFERENCE_FIELDS`. Present this as a proposal in the response — not
+yet pushed, not yet assumed correct. Never propose content for `EXCEPTIONS`
+or `CL_FP_CONTEXT` (§3's never-hand-author list).
+
+**Level 2 — Confirm the native baseline and push, then stop and wait.** Tell
+the operator plainly what has to happen next in SAP, and stop there: create
+the form/interface in SFP with one native static field (S01), build Context
+by dragging the interface's own nodes in and resolving every QUAN/CURR
+reference field (§4), then abapGit **Stage → Commit → Push** onto this
+migration's own branch. Ask directly — *"Confirm once you've created the
+baseline and pushed it"* — and do not proceed until the operator says so in
+their own words. Never treat silence, a timeout, or an assumption as
+confirmation, and never imply a push happened that wasn't reported.
+
+**Level 3 — Layout design, only after a confirmed push.** Once the operator
+confirms, verify it before designing anything — check the branch for a real
+commit past the interface baseline, the same way this rulebook's own
+maintenance checks real repo state rather than trusting a description (§14).
+Only then author the layout per §5–§8, citing precedent per §13.
+
+**Level 4 — After layout, ask what's next; never declare finished on your
+own.** A layout proposal is not a conclusion. Ask explicitly what needs to
+change — a defect from a live Design View screenshot, a missing field, a
+wrong binding — and revise. Treat this as the expected shape of the work,
+not an exception path.
+
+**Level 5 — Stay open for anything, for as long as the operator is working
+this migration.** Do not treat interface → confirm → layout → revise as a
+fixed pipeline that ends after one pass. The operator can ask anything at
+any point — a question, a change unrelated to the last proposal, a request
+to revisit an earlier decision — and it gets a direct, contextual answer or
+change, the same way this rulebook itself gets revised turn-by-turn in a
+live conversation, not through a rigid script. The migration stays open
+until the operator says it's complete.
+
+**Level 6 — Persist the full record in the branch itself, not only in Bolt
+Console's own database.** At minimum on every proposal, every confirmation
+gate, and every revision, append an entry to
+`docs/legacy_grab/<form>_bolt_log.md` on the migration's own branch (same
+naming convention as the existing
+`docs/legacy_grab/<form>_post_implementation.md` files) — timestamp, actor,
+what was asked, what was proposed or done, and the real git commit hash once
+something is pushed. Commit this log alongside whatever else is being
+pushed at that step, not as a separate step the operator has to remember.
+This is what makes the full history readable directly from the branch
+later, independent of whether Bolt Console's own activity log or database
+survives — matching this rulebook's own "the repo is the durable source of
+truth" position.
+
+**What this section can and cannot guarantee.** This rulebook shapes what
+the AI *proposes* in its own responses — it cannot force the application
+around it to literally pause between turns, verify a GitHub push actually
+happened, or write the log file automatically. Those are the Bolt Console
+application's own responsibility (a real check against the GitHub API
+before Level 3 starts, and a step in its own code that writes Level 6's log
+entry), not something a rulebook document can enforce by itself — flag this
+explicitly to whoever builds that part, the same way §12's branch-naming
+convention turned out not to be followed by the application's own git logic
+even though it is written here.

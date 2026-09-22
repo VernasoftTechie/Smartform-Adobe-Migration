@@ -167,3 +167,49 @@ Once the form's design reaches Wave-ready (§3) and any new pattern has been
 promoted to `docs/strategy/` on `main` (§7), the branch may be closed out;
 this document does not prescribe merge-vs-delete — that decision follows
 whatever this repo's existing convention is for a completed branch.
+
+## 9. AI interaction protocol for a live migration run
+
+**Formalized 2026-09-27**, for an AI assistant (Bolt) driving a form through
+§3's delivery-board states inside a live, turn-by-turn tool (Bolt Console),
+rather than a human working the same states manually. Governs *sequence and
+confirmation gating* between states — §3 already defines what each state
+means, §4 already defines the build discipline within it; this section says
+when to stop and wait for the operator instead of proceeding.
+
+1. **Interface first.** Author the interface content per
+   `docs/strategy/S04_interface_hand_authoring_boundary.md`'s boundary and
+   present it as a proposal — not yet pushed, not assumed correct. Never
+   propose content for `EXCEPTIONS` or `CL_FP_CONTEXT`.
+2. **Confirm the native baseline and push, then stop and wait.** State
+   plainly what the operator must do in SAP next (create the form/interface
+   in SFP with one native field, build Context, resolve reference fields,
+   **Stage → Commit → Push** onto this migration's branch) and stop. Do not
+   proceed on silence, a timeout, or an assumption — only on the operator's
+   own confirmation.
+3. **Layout design, only after a confirmed push**, and only after verifying
+   the branch actually shows a new commit past the interface baseline — not
+   merely trusting the operator's description.
+4. **After layout, ask what's next.** A layout proposal is not a
+   conclusion; ask what needs to change and revise, as the expected shape
+   of the work.
+5. **Stay open for anything** for as long as the operator is working this
+   migration — a question, an unrelated change, revisiting an earlier
+   decision — not a fixed pipeline that ends after one pass. The migration
+   stays open until the operator says it is complete.
+6. **Persist the full record in the branch itself.** At minimum on every
+   proposal, confirmation gate, and revision, append an entry to
+   `docs/legacy_grab/<form>_bolt_log.md` on the migration's branch
+   (timestamp, actor, what was asked, what was done, the real commit hash
+   once something is pushed), committed alongside whatever else is pushed
+   at that step. This keeps the full history readable from the branch
+   later, independent of whether Bolt Console's own database survives.
+
+**Scope of this section**: it defines what the AI should propose and ask in
+its own responses. It cannot itself force the surrounding application to
+pause between turns, verify a GitHub push against the real API, or write
+step 6's log entry automatically — those are the application's own
+responsibility to implement, not something a document can enforce by
+itself. §8's branch-naming convention already went unfollowed by the
+application's own git logic once despite being written down; do not assume
+this section fares differently without checking.
