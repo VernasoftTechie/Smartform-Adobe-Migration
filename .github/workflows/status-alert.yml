@@ -1,0 +1,65 @@
+# Emails the team when the client acts on a migration in Bolt Console
+# (concern / problem / question / change request / confirmation / stop / resume).
+#
+# One-time setup: repo Settings > Secrets and variables > Actions > New secret:
+#   SMTP_SERVER    e.g. smtp.office365.com   (or smtp.gmail.com)
+#   SMTP_PORT      587 (STARTTLS) or 465 (SSL)   - default 587
+#   SMTP_USERNAME  the sending mailbox
+#   SMTP_PASSWORD  its password / app password
+#   ALERT_TO       optional, default ai@vernasoft.com
+#   ALERT_FROM     optional, default = ALERT_TO
+# Without SMTP_SERVER the workflow does nothing (it never fails a push).
+name: Status alert
+
+on:
+  push:
+    branches-ignore: [main, master]
+    paths:
+      - 'docs/legacy_grab/*_status.md'
+
+permissions:
+  contents: read
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    env:
+      SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      MAIL_TO: ${{ secrets.ALERT_TO || 'ai@vernasoft.com' }}
+      MAIL_FROM: ${{ secrets.ALERT_FROM }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build alert
+        id: build
+        run: node .github/scripts/status-alert.mjs
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+
+      - name: Send email
+        if: steps.build.outputs.send == 'true' && env.SMTP_SERVER != ''
+        run: |
+          PORT="${SMTP_PORT:-587}"
+          if [ "$PORT" = "465" ]; then
+            URL="smtps://${SMTP_SERVER}:465"; SSL=""
+          else
+            URL="smtp://${SMTP_SERVER}:${PORT}"; SSL="--ssl-reqd"
+          fi
+          curl --fail --silent --show-error $SSL --url "$URL" \
+            --user "${SMTP_USERNAME}:${SMTP_PASSWORD}" \
+            --mail-from "${{ steps.build.outputs.from }}" \
+            --mail-rcpt "${MAIL_TO}" \
+            --upload-file mail.eml
+          echo "Alert sent to ${MAIL_TO}"
+
+      - name: Note missing email setup
+        if: steps.build.outputs.send == 'true' && env.SMTP_SERVER == ''
+        run: echo "A client action was detected but SMTP_SERVER secret is not set - no email sent."
