@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
 STATUS: waiting_manual
-UPDATED: 2026-09-24T08:47:12.786Z
+UPDATED: 2026-09-24T08:52:31.448Z
 WAITING_ON: operator
-NOTE: Use names ZCGSD_INVOICE_INT / ZCGSD_INVOICE_ADT: create in SFP with one static field, re-pull this branch in abapGit (latest commit), build Context + unit/currency references, then Stage-Commit-Push back. Then confirm here.
+NOTE: Refresh abapGit and pull again onto the empty ZCGSD_INVOICE_INT (file rebuilt in SAP's own format). Then build Context + unit/currency references and Stage-Commit-Push back. If the import fails again, report the exact message.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -36,3 +36,7 @@ If you already started the abapGit pull, please cancel it and pull again from th
 2. In abapGit pull this branch again so the parameters and global fields appear on ZCGSD_INVOICE_INT.
 3. Build the Context and unit/currency references, then Stage, Commit and Push back to this branch.
 Then click confirm below.
+
+## 2026-09-24T08:52:31.447Z — Problem reported: import failed (SFPI deserialize error)
+abapGit failed to import ZCGSD_INVOICE_INT with "SFPI error, deserialize". Cause found on our side: the interface file was written in the wrong internal layout, not the layout SAP itself produces. It has been rebuilt on top of a real SAP-generated empty interface, so only the parameter list, the global fields and the description differ from a genuine SAP file. Same contents as before: 27 imports, 6 tables, 15 global fields.
+Please click Refresh in abapGit (latest commit on this branch) and pull again onto the empty ZCGSD_INVOICE_INT you created in SFP. If it fails again, click 'Report a problem' with the exact message and we will isolate the section responsible.
