@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: in_progress
-UPDATED: 2026-09-24T09:24:26.570Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-09-24T09:30:40.377Z
+WAITING_ON: operator
+NOTE: Build the Context in SFP: refresh+pull in abapGit (accept deleting the wrongly named form), drag all interface nodes into Context, set LV_WAERK as currency for the amounts, activate, then Stage-Commit-Push BOTH ZCGSD_INVOICE_ADT and ZCGSD_INVOICE_INT. Then confirm here.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -43,3 +43,15 @@ Please click Refresh in abapGit (latest commit on this branch) and pull again on
 
 ## 2026-09-24T09:24:26.570Z — Manual activity confirmed
 Client confirmed the manual step is done: I've pushed the new files.. Please continue..
+
+## 2026-09-24T09:30:40.376Z — Checked: form received
+Thank you - the form ZCGSD_INVOICE_ADT is on the branch with the correct name. The earlier wrongly named form (ZCGSD_INVOICE_INT as a form) has been removed from the branch.
+What I found: the form on the branch is still SAP's empty starting point - its Context is empty and the layout has no content. The layout can only be designed once the Context is built inside SAP (it cannot be created from a file), so the next step is yours.
+
+## 2026-09-24T09:30:40.376Z — Action needed from you (SAP): build the Context
+1. In abapGit click Refresh, then Pull. It will offer to delete the local wrongly named form ZCGSD_INVOICE_INT - accept that. Do not edit the form before this pull.
+2. Open interface ZCGSD_INVOICE_INT in SFP and check the tree shows the 27 import parameters, the 6 tables and the 15 global data fields. If anything is missing, use 'Report a problem' with what you see.
+3. Open form ZCGSD_INVOICE_ADT, go to the Context tab and drag in everything from the interface: all import parameters, all 6 tables (drag the table itself so its fields come with it) and all global data.
+4. Currency references: set LV_WAERK as the currency for the amounts LV_TOTAL, LV_VAT, LV_SUBTOTAL and GROSS (the old form printed these with LV_WAERK). For the fields inside the tables, do not guess - activate the form and SAP will list any amount or quantity field that lacks a reference. Add what it asks for, and tell me the field names you used.
+5. Activate the form, then in abapGit Stage, Commit and Push BOTH ZCGSD_INVOICE_ADT and ZCGSD_INVOICE_INT to this branch. The interface must be included because the currency references are stored there.
+6. Click 'I've done this - confirm' here and tell me anything SAP complained about.
