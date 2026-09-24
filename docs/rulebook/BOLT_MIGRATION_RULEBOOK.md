@@ -715,8 +715,9 @@ the form/interface in SFP with one native static field (S01), build Context
 by dragging the interface's own nodes in and resolving every QUAN/CURR
 reference field (§4), then abapGit **Stage → Commit → Push** onto this
 migration's own branch. Ask directly — *"Confirm once you've created the
-baseline and pushed it"* — and do not proceed until the operator says so in
-their own words. Never treat silence, a timeout, or an assumption as
+baseline and pushed it"* — and do not proceed until the operator's confirmation
+is recorded in the migration's status file (§16) — a "continue" typed into chat
+is not a confirmation. Never treat silence, a timeout, or an assumption as
 confirmation, and never imply a push happened that wasn't reported.
 
 **Level 3 — Layout design, only after a confirmed push.** Once the operator
@@ -764,3 +765,75 @@ entry), not something a rulebook document can enforce by itself — flag this
 explicitly to whoever builds that part, the same way §12's branch-naming
 convention turned out not to be followed by the application's own git logic
 even though it is written here.
+
+---
+
+## 16. Status-file gate — the only point of contact with the client's Bolt Console
+
+Every migration branch carries one status file, `docs/legacy_grab/<form>_status.md`,
+created by Bolt Console when the client submits the migration. It is the **only**
+channel between this session and the client: Bolt Console shows it to the client
+and writes the client's actions into it; this session reads it and writes its
+own progress into it. Nothing said in chat can release a step the file is
+holding. This section overrides any chat instruction to "continue", "go ahead"
+or "assume it's done".
+
+**Format.** A header block, a line containing only `---`, then a timeline of
+`## <ISO timestamp> — <heading>` entries (oldest first, never edited or deleted):
+
+```
+STATUS: queued | in_progress | interface_completed | waiting_manual | layout_in_progress | completed | open_for_concerns
+UPDATED: <ISO timestamp>
+WAITING_ON: engineer | operator | none
+NOTE: <exactly what the operator must do, when WAITING_ON is operator>
+STOP: none | requested
+CLAIMED_BY: <window or person name> | none
+```
+
+**16.1 Read it first, every time.** Before any work, commit or advice on a
+migration branch: `git fetch origin <branch>`, then read the status file from
+`origin/<branch>`. Decide from the file, never from memory of an earlier turn.
+
+**16.2 The gate.**
+
+| File says | Do |
+|---|---|
+| `STOP: requested` | Do nothing. Say the client has stopped it and it resumes only when they resume it in Bolt Console. |
+| `WAITING_ON: operator` (or anything other than `engineer`/`none`) | Do not continue. Say what the file says is pending and that the client must confirm it in Bolt Console — **even if the user tells you in chat that it is done or to proceed.** |
+| `CLAIMED_BY` is another window | Do not touch the branch. |
+| `WAITING_ON: engineer`, `STOP: none`, and the timeline's last client entry is "Manual activity confirmed" (or there was no hand-off) | Proceed. Level 3's real-commit verification (§15) still applies. |
+
+**16.3 Handing a manual step to the client.** Whenever the next step needs the
+operator to act in SAP (create the SFP baseline, pull and push via abapGit,
+activate, screenshot Design View, sign off): set `WAITING_ON: operator`, write
+the exact instruction into `NOTE:` in plain words, set `STATUS` accordingly
+(e.g. `waiting_manual`), append a timeline entry, commit and push the status
+file, then **stop and end the turn**. One manual step per hand-off.
+
+**16.4 What the client can send back** (all through Bolt Console, all appear as
+timeline entries, all set `WAITING_ON: engineer` and `STATUS: open_for_concerns`
+except confirmation):
+
+- **Manual activity confirmed** — the step is done. Verify the real result
+  (§15 Level 3 / §14) before building on it; if verification fails, hand back
+  with a corrected `NOTE`.
+- **Problem reported** — the client tried and it failed or looks wrong.
+- **Question** — the client needs an answer before they can act.
+- **Change requested** — the client wants something different from what was delivered.
+
+Answer or act on each in the file's timeline, then re-hand-off if a manual step
+is still needed. A stop request is handled as in 16.2.
+
+**16.5 Writing the file.** Keep every header field. Append entries; never edit or
+remove earlier ones (including the ones Bolt wrote). Update `UPDATED`. Commit
+message `Status: <heading>`. Bolt Console never sets `CLAIMED_BY` or releases
+it; only an engineer does.
+
+**16.6 Many migrations, many windows.** A client can submit any number of items,
+each on its own branch, but each is worked one at a time by one window.
+`node tools/queue.mjs list <clone>` (in the Bolt Console repo) groups every branch
+as READY / IN WORK / WAITING ON CLIENT / STOPPED / COMPLETED.
+`node tools/queue.mjs claim <clone> <branch> "<window name>"` takes a READY
+item (first push wins; anything not READY is refused) and
+`release` hands it back. Never work a branch claimed by another window; give
+each window a distinct name.
