@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: open_for_concerns
-UPDATED: 2026-09-30T13:26:26.684Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-09-30T13:45:00.000Z
+WAITING_ON: operator
+NOTE: A decision is needed on the currency/quantity reference fields before Context can be rebuilt - see the question below.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -89,3 +89,18 @@ Form ZCGSD_INVOICE_ADT, Node MWSBP
 Reference field VBRK-WAERK of field LT_INVOICE-MWSBP cannot be used here
 Form ZCGSD_INVOICE_ADT, Node GROSS
 Reference field VBRK-WAERK of field LT_INVOICE-GROSS cannot be used here
+
+## 2026-09-30T13:45:00.000Z — Question: currency/quantity reference fields (not something the interface file controls)
+Checked this against the real legacy form export before answering — two things:
+
+**This isn't an interface-file problem.** The reference field for each currency/quantity node is a setting inside SFP's own Context builder (on each node, in the SAP GUI) — it isn't stored in `zcgsd_invoice_int.sfpi.xml` at all, so there's no file I can push that fixes this. But I can tell you exactly what to pick for each node.
+
+**Why VBRK-WAERK and VBRP-VRKME are rejected:** Adobe Forms requires the reference field to be a field actually reachable in that node's own context (a sibling in the same structure, or a scalar already in the interface) — `VBRK` and `VBRP` are header/item database tables that were never part of this form's interface or of `GT_FINL`/`GT_INVOICE`'s own row type, so SAP correctly refuses them. The legacy Smart Form never had a real answer for this either — I checked its own internal reference-fields table (`REFFIELDS` in the export) and every one of these entries points at itself (e.g. `GS_FINL-KBETR`'s own "reference" is `GS_FINL-KBETR`), which is Smart Form's auto-generated placeholder when no real reference was ever configured, not a usable value. So this needs a decision now, not a carry-over from before.
+
+**For every CURRENCY node** (`KBETR`, `NETWR`, `SUB_TOT`, `VAT`, `TOTAL`, `FVAT`, `KWERT`, `KAWRT`, `MWSBP`, `GROSS` — on `GT_FINL`/`GS_FINL`/`GT_INVOICE`/`GS_INVOICE`/`LT_INVOICE`): the interface already has a top-level `LV_WAERK` (type `WAERK`) parameter. If one currency for the whole document is correct (the usual case for an invoice), point every one of these nodes at `LV_WAERK` instead. Please confirm this is right for this form before setting it on all ~22 nodes.
+
+**For the QUANTITY nodes** (`FKIMG` on `GT_INVOICE`/`GS_INVOICE`/`LT_INVOICE`): there is no unit-of-measure field anywhere in the interface to point at, and I don't have access to `ZSDNG_INVOICE_TT`'s own field list to check whether it already carries one. Please tell me either:
+1. The exact field name inside `ZSDNG_INVOICE`/`ZSDNG_INVOICE_TT` that holds the sales unit for `FKIMG` (if one already exists there), or
+2. If none exists, confirm adding a new import parameter (e.g. `LV_MEINS TYPE MEINS`) to the interface — this is a real change to the original contract, so I want your go-ahead before adding a field that wasn't in the legacy form's own interface.
+
+Reply here (or "Report a problem" if I've misread something), and I'll push a corrected interface if a new parameter is needed, or confirm you can go ahead and set the references yourself in Context if `LV_WAERK` and an existing field cover it.
