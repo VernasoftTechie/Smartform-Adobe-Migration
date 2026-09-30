@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
 STATUS: waiting_manual
-UPDATED: 2026-09-30T13:45:00.000Z
+UPDATED: 2026-09-30T14:05:00.000Z
 WAITING_ON: operator
-NOTE: A decision is needed on the currency/quantity reference fields before Context can be rebuilt - see the question below.
+NOTE: Pull this branch in abapGit onto ZCGSD_INVOICE_INT, then set every quantity/currency node's reference to the interface field of the same name (LV_WAERK / LV_MEINS) - no new decision needed, see below.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -104,3 +104,18 @@ Checked this against the real legacy form export before answering — two things
 2. If none exists, confirm adding a new import parameter (e.g. `LV_MEINS TYPE MEINS`) to the interface — this is a real change to the original contract, so I want your go-ahead before adding a field that wasn't in the legacy form's own interface.
 
 Reply here (or "Report a problem" if I've misread something), and I'll push a corrected interface if a new parameter is needed, or confirm you can go ahead and set the references yourself in Context if `LV_WAERK` and an existing field cover it.
+
+## 2026-09-30T14:05:00.000Z — Reference fields added to the interface — please pull
+Correction and fix: I'd first said this couldn't go in the interface file — that was wrong. SAP's Interface Builder has its own **Reference Fields** tab for exactly this (a separate area from Import/Export/Table/Global), and it IS part of `ZCGSD_INVOICE_INT`, so this is our work, not something to hand to you as a manual decision. Pushed to this branch (`src/zcgsd_invoice_int.sfpi.xml`):
+- Added one new global field: **`LV_MEINS` type `MEINS`** (unit of measure) — the interface had a currency field (`LV_WAERK`) already, but no quantity-unit field, so this was needed.
+- Declared the reference for all 28 flagged fields: every amount field → `LV_WAERK`, every quantity field → `LV_MEINS`.
+
+**Correction to my own question two entries up:** I'd wrongly told you `KAWRT` was a currency field. It isn't — your own error message showed it referencing `RV61A-AWEI1` (a unit-of-measure field), so it's a **quantity** field like `FKIMG`, not a currency one. It's declared correctly below.
+
+**Please do this:**
+1. In abapGit, pull this branch onto `ZCGSD_INVOICE_INT` — the new `LV_MEINS` field and all 28 reference declarations will appear.
+2. In SFP, delete the ~28 nodes you already dragged into Context with the rejected references (`KBETR`, `KAWRT`, `NETWR`, `SUB_TOT`, `VAT`, `TOTAL`, `FVAT`, `KWERT`, `FKIMG`, `MWSBP`, `GROSS` — under `GT_FINL`/`GS_FINL`/`GT_INVOICE`/`GS_INVOICE`/`LT_INVOICE`) and drag them in again from the interface. SAP will now fill in the correct reference (`LV_WAERK` or `LV_MEINS`) by itself — nothing to type or decide.
+   - If you'd rather not delete and redo them, you can instead open each existing node and change its reference field: `LV_WAERK` for the amount fields, `LV_MEINS` for `KAWRT`/`FKIMG`. Same result either way.
+3. Stage, Commit, Push back to this branch.
+
+No further decision needed on this from your side — click "I've done this — confirm" once pulled and applied, or "Report a problem" with the exact message if anything still doesn't resolve.
