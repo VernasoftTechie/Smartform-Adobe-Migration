@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: waiting_manual
-UPDATED: 2026-09-30T14:20:00.000Z
-WAITING_ON: operator
-NOTE: KAWRT was declared with the wrong data type - fixed to CURR. Please refresh abapGit and pull again.
+STATUS: in_progress
+UPDATED: 2026-09-30T14:03:11.017Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -131,3 +131,6 @@ You're right, and this one's on me — I classified `KAWRT` wrong. I'd guessed Q
 Pushed the fix: `GT_FINL-KAWRT` and `GS_FINL-KAWRT` are now declared `CURR` → `LV_WAERK`, same as the rest. Nothing else changed — still 28 entries, still 3 quantity ones (`FKIMG` only).
 
 Please refresh abapGit (Local Object Refresh or Repo Refresh, whichever you normally use) and pull again onto `ZCGSD_INVOICE_INT`, redo the `KAWRT` node's reference (or re-drag it) to pick up `LV_WAERK`, then Stage-Commit-Push. If anything else in this list still doesn't resolve, please give me the exact message again — I'd rather you report it than have me guess a third time.
+
+## 2026-09-30T14:03:11.016Z — Manual activity confirmed
+Client confirmed the manual step is done: I've pushed the form.. Please check and work on the layout and confirm..
