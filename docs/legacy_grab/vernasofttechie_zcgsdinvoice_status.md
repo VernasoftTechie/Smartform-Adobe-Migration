@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: waiting_manual
-UPDATED: 2026-09-30T13:20:42.000Z
-WAITING_ON: operator
-NOTE: Create the empty interface/form in SFP with the correct names, pull this branch in abapGit, build Context + unit/currency references, then Stage-Commit-Push back.
+STATUS: open_for_concerns
+UPDATED: 2026-09-30T13:26:26.684Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -29,3 +29,63 @@ Please do these in SAP, in order:
 4. In abapGit do Stage, Commit and Push back to this same branch.
 
 When it is done click "I've done this — confirm" below. If anything fails, use "Report a problem" and give the exact message.
+
+## 2026-09-30T13:26:26.684Z — Problem reported
+Getting these currency and quantity reference errors.. Please fix in the interface.. 
+
+Form ZCGSD_INVOICE_ADT, Node KBETR
+Reference field VBRK-WAERK of field GT_FINL-KBETR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node KAWRT
+Reference field RV61A-AWEI1 of field GT_FINL-KAWRT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node NETWR
+Reference field VBRK-WAERK of field GT_FINL-NETWR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node SUB_TOT
+Reference field VBRK-WAERK of field GT_FINL-SUB_TOT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node VAT
+Reference field VBRK-WAERK of field GT_FINL-VAT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node TOTAL
+Reference field VBRK-WAERK of field GT_FINL-TOTAL cannot be used here
+Form ZCGSD_INVOICE_ADT, Node FVAT
+Reference field VBRK-WAERK of field GT_FINL-FVAT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node KWERT
+Reference field VBRK-WAERK of field GT_FINL-KWERT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node FKIMG
+Reference field VBRP-VRKME of field GT_INVOICE-FKIMG cannot be used here
+Form ZCGSD_INVOICE_ADT, Node NETWR
+Reference field VBRK-WAERK of field GT_INVOICE-NETWR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node MWSBP
+Reference field VBRK-WAERK of field GT_INVOICE-MWSBP cannot be used here
+Form ZCGSD_INVOICE_ADT, Node GROSS
+Reference field VBRK-WAERK of field GT_INVOICE-GROSS cannot be used here
+Form ZCGSD_INVOICE_ADT, Node KBETR
+Reference field VBRK-WAERK of field GS_FINL-KBETR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node KAWRT
+Reference field RV61A-AWEI1 of field GS_FINL-KAWRT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node NETWR
+Reference field VBRK-WAERK of field GS_FINL-NETWR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node SUB_TOT
+Reference field VBRK-WAERK of field GS_FINL-SUB_TOT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node VAT
+Reference field VBRK-WAERK of field GS_FINL-VAT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node TOTAL
+Reference field VBRK-WAERK of field GS_FINL-TOTAL cannot be used here
+Form ZCGSD_INVOICE_ADT, Node FVAT
+Reference field VBRK-WAERK of field GS_FINL-FVAT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node KWERT
+Reference field VBRK-WAERK of field GS_FINL-KWERT cannot be used here
+Form ZCGSD_INVOICE_ADT, Node FKIMG
+Reference field VBRP-VRKME of field GS_INVOICE-FKIMG cannot be used here
+Form ZCGSD_INVOICE_ADT, Node NETWR
+Reference field VBRK-WAERK of field GS_INVOICE-NETWR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node MWSBP
+Reference field VBRK-WAERK of field GS_INVOICE-MWSBP cannot be used here
+Form ZCGSD_INVOICE_ADT, Node GROSS
+Reference field VBRK-WAERK of field GS_INVOICE-GROSS cannot be used here
+Form ZCGSD_INVOICE_ADT, Node FKIMG
+Reference field VBRP-VRKME of field LT_INVOICE-FKIMG cannot be used here
+Form ZCGSD_INVOICE_ADT, Node NETWR
+Reference field VBRK-WAERK of field LT_INVOICE-NETWR cannot be used here
+Form ZCGSD_INVOICE_ADT, Node MWSBP
+Reference field VBRK-WAERK of field LT_INVOICE-MWSBP cannot be used here
+Form ZCGSD_INVOICE_ADT, Node GROSS
+Reference field VBRK-WAERK of field LT_INVOICE-GROSS cannot be used here
