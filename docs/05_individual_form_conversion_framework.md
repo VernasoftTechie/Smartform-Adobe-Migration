@@ -135,6 +135,27 @@ build checklist.
 7. **Preserve the interface exactly** — same parameter names/shape as
    snapshot §2, so whatever eventually calls this form (this project doesn't
    decide what, or when) sees an unchanged contract.
+7a. **Currency/quantity reference fields are our work, in the interface —
+   never a client-side Context decision to hand off.** SFP's Interface
+   Builder has its own **Reference Fields** tab (`CL_FP_REFERENCE_FIELDS`,
+   serialized as `<SFPREF>` entries in the SFPI file), separate from
+   Import/Export/Table/Global. Set it while building the interface, before
+   the baseline goes back for Context work — Context then inherits the
+   correct reference automatically instead of asking the client to pick one.
+   Confirmed schema (verified against the real, working
+   `docs/reference_examples/sfp_generated_archive/z_mm_pr_form_adt.sfpi.xml`,
+   not guessed): `<SFPREF><ACTIVE>X</ACTIVE><STANDARD/><DATATYPE>CURR|QUAN</DATATYPE><VALUE>field-or-TABLE-FIELD</VALUE><UNIT>bare-scalar</UNIT></SFPREF>`.
+   `UNIT` is always a **bare, top-level interface scalar** (a `GLOBAL_DATA`
+   or import parameter) — never a table-qualified field — even when `VALUE`
+   is a table-row field; one shared currency/UOM field covers every row.
+   If the interface has no suitable scalar yet (e.g. no unit-of-measure
+   field), add one as a new global — a real, deliberate addition to the
+   contract, not a silent one. **Classify each field's DATATYPE from the
+   field itself** (its standard SAP name/semantics, and what its siblings in
+   the same structure are — a set of pricing/total fields is CURR, a
+   quantity field is QUAN) — never from what a client's already-rejected
+   reference happened to point at; that names what NOT to use, not the
+   field's real type (see `BUILD_ISSUES_LOG.md` F50).
 8. **Where something can't be resolved** — no catalogue match, no way to
    verify a layout detail, or a decision needs business input — don't block.
    Leave a clearly named, empty **Developer Extension Point** (a named
