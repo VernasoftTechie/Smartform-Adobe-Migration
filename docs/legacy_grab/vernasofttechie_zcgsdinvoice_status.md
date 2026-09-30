@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: waiting_manual
-UPDATED: 2026-09-30T14:05:00.000Z
-WAITING_ON: operator
-NOTE: Pull this branch in abapGit onto ZCGSD_INVOICE_INT, then set every quantity/currency node's reference to the interface field of the same name (LV_WAERK / LV_MEINS) - no new decision needed, see below.
+STATUS: open_for_concerns
+UPDATED: 2026-09-30T13:40:56.097Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -119,3 +119,8 @@ Correction and fix: I'd first said this couldn't go in the interface file — th
 3. Stage, Commit, Push back to this branch.
 
 No further decision needed on this from your side — click "I've done this — confirm" once pulled and applied, or "Report a problem" with the exact message if anything still doesn't resolve.
+
+## 2026-09-30T13:40:56.097Z — Problem reported
+Getting this error.. 
+
+Field GT_FINL-KAWRT does not have data type QUAN
