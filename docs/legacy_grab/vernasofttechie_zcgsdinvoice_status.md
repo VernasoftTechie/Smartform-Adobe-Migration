@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: open_for_concerns
-UPDATED: 2026-09-30T13:40:56.097Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-09-30T14:20:00.000Z
+WAITING_ON: operator
+NOTE: KAWRT was declared with the wrong data type - fixed to CURR. Please refresh abapGit and pull again.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -124,3 +124,10 @@ No further decision needed on this from your side — click "I've done this — 
 Getting this error.. 
 
 Field GT_FINL-KAWRT does not have data type QUAN
+
+## 2026-09-30T14:20:00.000Z — Fixed: KAWRT was the wrong data type, not a new field to invent
+You're right, and this one's on me — I classified `KAWRT` wrong. I'd guessed QUAN only because your original (rejected) reference for it pointed at a unit field (`RV61A-AWEI1`), but that was inferring the field's type from what someone had mistyped, not from `KAWRT` itself. It doesn't hold up: `KAWRT` sits in `GT_FINL`/`GS_FINL` alongside `KBETR`, `NETWR`, `SUB_TOT`, `VAT`, `TOTAL`, `FVAT`, `KWERT` — a set of pricing/total fields — while the real quantity field (`FKIMG`) lives entirely separately, only in the invoice-line structures. `KAWRT` ("condition value") is standard SAP terminology for a currency amount, matching its 7 siblings, not a quantity.
+
+Pushed the fix: `GT_FINL-KAWRT` and `GS_FINL-KAWRT` are now declared `CURR` → `LV_WAERK`, same as the rest. Nothing else changed — still 28 entries, still 3 quantity ones (`FKIMG` only).
+
+Please refresh abapGit (Local Object Refresh or Repo Refresh, whichever you normally use) and pull again onto `ZCGSD_INVOICE_INT`, redo the `KAWRT` node's reference (or re-drag it) to pick up `LV_WAERK`, then Stage-Commit-Push. If anything else in this list still doesn't resolve, please give me the exact message again — I'd rather you report it than have me guess a third time.
