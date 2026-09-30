@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: in_progress
-UPDATED: 2026-09-30T14:03:11.017Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-09-30T14:40:00.000Z
+WAITING_ON: operator
+NOTE: Layout pushed on your SFP baseline - pull, open Design View, confirm it renders, and answer the 6 open questions in the build checklist.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -134,3 +134,16 @@ Please refresh abapGit (Local Object Refresh or Repo Refresh, whichever you norm
 
 ## 2026-09-30T14:03:11.016Z — Manual activity confirmed
 Client confirmed the manual step is done: I've pushed the form.. Please check and work on the layout and confirm..
+
+## 2026-09-30T14:40:00.000Z — Layout built and pushed
+Checked the baseline you pushed - `ZCGSD_INVOICE_INT`'s reference fields and `ZCGSD_INVOICE_ADT`'s Context are exactly as expected. Built the actual page layout directly into `src/zcgsd_invoice_adt.sfpf.xdp` on top of it (your Context tree wasn't touched) and pushed it, following this project's own proven layout patterns (`docs/strategy` S02/S03/S06/S07) - A4 portrait, header band (logo/heading/company address), pick-up-plant line, invoice-to/information details band, the invoice line-items table, and the grand total.
+
+Full detail, evidence, and **6 open questions I need your input on before this goes further** (labelled DEP-1 to DEP-6 - a dropped logo image, two simplified conditions, a dropped address variant, an apparently-unused table pair, and a duplicate table) are in `docs/legacy_grab/ZCGSD_INVOICE_build_checklist.md` on this branch.
+
+**Please do this:**
+1. Pull this branch in abapGit onto `ZCGSD_INVOICE_ADT`.
+2. Open Layout in SFP/Designer - confirm a physical A4 portrait page renders with no overlapping content and nothing running off the page.
+3. Read the 6 questions in the build checklist and answer each here (or via "Ask a question"/"Report a problem" if something looks broken).
+4. A Design View screenshot is the fastest way for me to catch anything the arithmetic checks can't - attach one if you can (the concern box now supports images and documents).
+
+I have not been able to render or preview this myself - per this project's own standing rule, a well-formed, arithmetically-correct layout still needs a real render check before it's trusted.

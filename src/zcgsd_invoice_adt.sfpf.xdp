@@ -5,11 +5,162 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
+            <contentArea h="28.7cm" w="20cm" x="0.5cm" y="0.5cm"/>
+            <medium long="29.7cm" short="21cm" orientation="portrait" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in"/>
+      
+      <subform h="27.5cm" layout="tb" name="body" w="18cm" x="0.5cm" y="0.5cm">
+         <bind match="none"/>
+         <font size="9pt" typeface="Arial"/>
+
+         <!-- Header band: logo | heading | company address (Tanzania - the only
+              live address block; the South Africa ADDRESS window's own condition
+              is a permanent 1=2, see the build checklist DEP-1). -->
+         <subform h="3.7cm" layout="position" name="header_band" w="18cm" x="0cm" y="0cm">
+            <bind match="none"/>
+            <subform h="3.7cm" layout="position" name="logo_slot" w="3cm" x="0cm" y="0cm">
+               <bind match="none"/>
+               <draw h="1.68cm" name="logo_placeholder" w="2.96cm" x="0cm" y="0.2cm">
+                  <border><edge thickness="0.3mm"/><edge thickness="0.3mm"/><edge thickness="0.3mm"/><edge thickness="0.3mm"/></border>
+                  <value><text>[Dangote logo]</text></value>
+                  <font size="7pt"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+               <!-- DEP-1 (see build checklist): insert the real "DANGOTE LOGO WHITE"
+                    SE78 graphic here via Designer's own Insert > Image - hand-authoring
+                    a binary image embed in the XDP has no proven pattern in this repo,
+                    so it is a placeholder box, not attempted blind. -->
+            </subform>
+            <subform h="3.7cm" layout="position" name="heading_slot" w="8.1cm" x="3.2cm" y="0cm">
+               <bind match="none"/>
+               <field h="1cm" name="fld_heading" w="8.1cm" x="0cm" y="0.3cm">
+                  <ui><textEdit/></ui>
+                  <bind match="dataRef" ref="$.LV_HEADING"/>
+                  <font size="14pt" weight="bold"/>
+                  <para hAlign="left"/>
+               </field>
+               <field h="0.5cm" name="fld_reprint" w="8.1cm" x="0cm" y="1.4cm">
+                  <ui><textEdit/></ui>
+                  <bind match="dataRef" ref="$.LV_REPRINT"/>
+                  <font size="9pt" weight="bold"/>
+                  <!-- Only prints for a reprint (VSTAT='1' OR LV_REPRINT=true) in the
+                       legacy form; left always-visible here pending DEP-2 (a FormCalc
+                       presence script) - see build checklist. -->
+               </field>
+            </subform>
+            <subform h="3.7cm" layout="tb" name="company_addr_slot" w="6.6cm" x="11.4cm" y="0cm">
+               <bind match="none"/>
+               <font size="7.5pt" typeface="Arial"/>
+               <draw h="0.4cm" w="6.6cm"><value><text>Dangote Cement Limited Tanzania</text></value><font weight="bold"/></draw>
+               <draw h="0.35cm" w="6.6cm"><value><text>Registration No: 62749</text></value></draw>
+               <draw h="0.35cm" w="6.6cm"><value><text>TIN No: 106-820-805</text></value></draw>
+               <draw h="0.35cm" w="6.6cm"><value><text>VRN No: 40-009555-Q</text></value></draw>
+               <!-- Longest line in this block (47 chars) - given 2 lines' worth of
+                    height per S07 section 8 rather than a tight single-line box. -->
+               <draw h="0.65cm" w="6.6cm"><value><text>Hiyari, Mbuo &amp; Mnyundo Villages, Mayanga Ward</text></value></draw>
+               <draw h="0.35cm" w="6.6cm"><value><text>Km 23, Mtwara-Lindi Road</text></value></draw>
+               <draw h="0.35cm" w="6.6cm"><value><text>Mtwara-Tanzania</text></value></draw>
+               <!-- Also borderline-long (34 chars) - same treatment. -->
+               <draw h="0.5cm" w="6.6cm"><value><text>Telephone No: +255 23 2334513/514</text></value></draw>
+            </subform>
+         </subform>
+
+         <!-- Conditional pick-up plant line (MAIN window, FLAG='X' in the legacy
+              form) - left always-visible pending DEP-2, same as the reprint marker. -->
+         <subform h="0.6cm" layout="position" name="pickup_line" w="18cm" x="0cm" y="0cm">
+            <bind match="none"/>
+            <draw h="0.6cm" name="lbl_pickup" w="18cm" x="0cm" y="0cm">
+               <value><text>Pick-up Plant: Dangote Cement Plant</text></value>
+               <font size="9pt" weight="bold"/>
+            </draw>
+         </subform>
+
+         <!-- Details band: bill-to address | customer/document reference block -->
+         <subform h="5cm" layout="position" name="details_band" w="18cm" x="0cm" y="0.2cm">
+            <bind match="none"/>
+
+            <subform h="5cm" layout="tb" name="invoice_to_slot" w="8.5cm" x="0cm" y="0cm">
+               <bind match="none"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+               <font size="8pt" typeface="Arial"/>
+               <draw h="0.5cm" w="8.5cm"><value><text>Invoice to:</text></value><font weight="bold"/></draw>
+               <field h="0.5cm" w="8.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.KUNAG"/><caption reserve="2.5cm"><value><text>Customer no.:</text></value></caption></field>
+               <field h="0.5cm" w="8.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.I_NAME"/></field>
+               <field h="0.5cm" w="8.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.I_STRAS"/></field>
+               <field h="0.5cm" w="8.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.I_ORT01"/></field>
+               <field h="0.5cm" w="8.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.I_PSTLZ"/></field>
+               <field h="0.5cm" w="8.5cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_IN_LAND1"/></field>
+               <!-- Legacy has two mutually-exclusive variants keyed on
+                    GS_INFO.I_NAME1 <> / = INITIAL, differing only in whether a
+                    couple of extra lines show. DEP-3 in the build checklist:
+                    confirm the second (INITIAL) variant is safe to drop, or it
+                    needs its own presence condition. -->
+            </subform>
+
+            <subform h="5cm" layout="tb" name="info_slot" w="9.3cm" x="8.7cm" y="0cm">
+               <bind match="none"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+               <font size="8pt" typeface="Arial"/>
+               <field h="0.5cm" w="9.3cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.KUNAG"/><caption reserve="4cm"><value><text>Customer Code</text></value></caption></field>
+               <field h="0.5cm" w="9.3cm"><ui><dateTimeEdit/></ui><bind match="dataRef" ref="$.GS_INFO.FKDAT"/><caption reserve="4cm"><value><text>Document Date</text></value></caption></field>
+               <field h="0.5cm" w="9.3cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GS_INFO.VBELN"/><caption reserve="4cm"><value><text>Invoice List No.</text></value></caption></field>
+               <field h="0.5cm" w="9.3cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_LABEL"/><caption reserve="4cm"><value><text>Invoice No.</text></value></caption></field>
+            </subform>
+         </subform>
+
+         <!-- Line items (S07 pattern 5). Bound to LT_INVOICE/GS_INVOICE - the
+              table the legacy form's own %TABLE1 actually uses (GT_FINL/GS_FINL
+              are declared in the interface but never referenced anywhere in the
+              live form - DEP-4). Legacy has a second, identically-conditioned
+              duplicate of this exact table (%TABLE8) - built once here, see
+              DEP-5, confirm with the client before assuming it's dead weight. -->
+         <subform h="7cm" layout="tb" name="line_items" w="18cm" x="0cm" y="0.2cm">
+            <bind match="none"/>
+            <subform h="0.9cm" layout="position" name="table_header" w="18cm">
+               <bind match="none"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <draw h="0.9cm" name="h_inv" w="1.85cm" x="0cm" y="0cm"><value><text>Invoice</text></value></draw>
+               <draw h="0.9cm" name="h_atc" w="1.85cm" x="1.85cm" y="0cm"><value><text>ATC No.</text></value></draw>
+               <draw h="0.9cm" name="h_dt" w="2.31cm" x="3.70cm" y="0cm"><value><text>Invoice Date</text></value></draw>
+               <draw h="0.9cm" name="h_mat" w="3.23cm" x="6.01cm" y="0cm"><value><text>Material</text></value></draw>
+               <draw h="0.9cm" name="h_qty" w="1.85cm" x="9.24cm" y="0cm"><value><text>Quantity</text></value></draw>
+               <draw h="0.9cm" name="h_net" w="2.77cm" x="11.09cm" y="0cm"><value><text>Net Amount</text></value></draw>
+               <draw h="0.9cm" name="h_tax" w="1.85cm" x="13.86cm" y="0cm"><value><text>Tax</text></value></draw>
+               <draw h="0.9cm" name="h_gross" w="2.29cm" x="15.71cm" y="0cm"><value><text>Gross Amount</text></value></draw>
+            </subform>
+            <subform h="0.6cm" layout="position" name="table_row" w="18cm">
+               <occur min="0" max="-1"/>
+               <bind match="dataRef" ref="$.LT_INVOICE.DATA[*]"/>
+               <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+               <font size="8pt" typeface="Arial"/>
+               <field h="0.6cm" name="c_inv" w="1.85cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="VBELN"/></field>
+               <field h="0.6cm" name="c_atc" w="1.85cm" x="1.85cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="AUBEL"/></field>
+               <field h="0.6cm" name="c_dt" w="2.31cm" x="3.70cm" y="0cm"><ui><dateTimeEdit/></ui><bind match="dataRef" ref="FKDAT"/></field>
+               <field h="0.6cm" name="c_mat" w="3.23cm" x="6.01cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="ARKTX"/></field>
+               <field h="0.6cm" name="c_qty" w="1.85cm" x="9.24cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="FKIMG"/></field>
+               <field h="0.6cm" name="c_net" w="2.77cm" x="11.09cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="NETWR"/></field>
+               <field h="0.6cm" name="c_tax" w="1.85cm" x="13.86cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="MWSBP"/></field>
+               <field h="0.6cm" name="c_gross" w="2.29cm" x="15.71cm" y="0cm"><ui><numericEdit/></ui><bind match="dataRef" ref="GROSS"/></field>
+            </subform>
+         </subform>
+
+         <!-- Grand total (MAIN window's %TEMPLATE5 - the only live totals block;
+              the separate TOTAL window is entirely dead code, 1=2 - DEP-6). -->
+         <subform h="1cm" layout="position" name="table_total" w="18cm" x="0cm" y="0cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial" weight="bold"/>
+            <draw h="1cm" name="lbl_total" w="2.5cm" x="12.64cm" y="0cm">
+               <value><text>Total</text></value>
+               <para hAlign="right"/>
+            </draw>
+            <field h="1cm" name="fld_total" w="2.86cm" x="15.14cm" y="0cm">
+               <ui><numericEdit/></ui>
+               <bind match="dataRef" ref="$.GROSS_TOT"/>
+            </field>
+         </subform>
+      </subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>
