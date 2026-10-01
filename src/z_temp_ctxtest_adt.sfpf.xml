@@ -4823,7 +4823,7 @@
      <STATE>A</STATE>
      <CONDITION href="#o437"/>
      <PARENT href="#o2"/>
-     <SUCCESSOR/>
+     <SUCCESSOR href="#o445"/>
      <CHILD href="#o439"/>
     </CL_FP_NODE>
     <CL_FP_LOOP classVersion="1">
@@ -4909,6 +4909,71 @@
    <cls:CL_FP_CONDITION id="o444">
     <CL_FP_CONDITION classVersion="1">
      <NODE href="#o443"/>
+     <CONDITIONS/>
+    </CL_FP_CONDITION>
+   </cls:CL_FP_CONDITION>
+   <cls:CL_FP_STRUCTURE id="o445">
+    <CL_FP_NODE classVersion="1">
+     <ID>E85719A2E728CE166B9BEF98B38964F8</ID>
+     <NAME>LS_TEST_CLAUDE_TEST</NAME>
+     <GENERATED/>
+     <STATE>A</STATE>
+     <CONDITION href="#o446"/>
+     <PARENT href="#o2"/>
+     <SUCCESSOR/>
+     <CHILD href="#o447"/>
+    </CL_FP_NODE>
+    <CL_FP_STRUCTURE classVersion="1">
+     <FIELD>LS_TEST</FIELD>
+    </CL_FP_STRUCTURE>
+   </cls:CL_FP_STRUCTURE>
+   <cls:CL_FP_CONDITION id="o446">
+    <CL_FP_CONDITION classVersion="1">
+     <NODE href="#o445"/>
+     <CONDITIONS/>
+    </CL_FP_CONDITION>
+   </cls:CL_FP_CONDITION>
+   <cls:CL_FP_DATA id="o447">
+    <CL_FP_NODE classVersion="1">
+     <ID>0ACA9E0B8A04E733FB2ABDD404D5B56C</ID>
+     <NAME>EBELN</NAME>
+     <GENERATED/>
+     <STATE>A</STATE>
+     <CONDITION href="#o448"/>
+     <PARENT href="#o445"/>
+     <SUCCESSOR href="#o449"/>
+     <CHILD/>
+    </CL_FP_NODE>
+    <CL_FP_DATA classVersion="1">
+     <FIELD>LS_TEST-EBELN</FIELD>
+     <FIELD_LABEL/>
+    </CL_FP_DATA>
+   </cls:CL_FP_DATA>
+   <cls:CL_FP_CONDITION id="o448">
+    <CL_FP_CONDITION classVersion="1">
+     <NODE href="#o447"/>
+     <CONDITIONS/>
+    </CL_FP_CONDITION>
+   </cls:CL_FP_CONDITION>
+   <cls:CL_FP_DATA id="o449">
+    <CL_FP_NODE classVersion="1">
+     <ID>0BB625F3F54F6AD4779AC4F2DA1202BA</ID>
+     <NAME>BUKRS</NAME>
+     <GENERATED/>
+     <STATE>A</STATE>
+     <CONDITION href="#o450"/>
+     <PARENT href="#o445"/>
+     <SUCCESSOR/>
+     <CHILD/>
+    </CL_FP_NODE>
+    <CL_FP_DATA classVersion="1">
+     <FIELD>LS_TEST-BUKRS</FIELD>
+     <FIELD_LABEL/>
+    </CL_FP_DATA>
+   </cls:CL_FP_DATA>
+   <cls:CL_FP_CONDITION id="o450">
+    <CL_FP_CONDITION classVersion="1">
+     <NODE href="#o449"/>
      <CONDITIONS/>
     </CL_FP_CONDITION>
    </cls:CL_FP_CONDITION>
