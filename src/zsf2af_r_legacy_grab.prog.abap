@@ -969,7 +969,7 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     LOOP AT lt_params INTO DATA(ls_p).
       DATA(lv_tname) = dump_nonempty( is_row = ls_p it_skip = VALUE string_table( ( `FUNCNAME` ) ( `PARAMETER` ) ( `PARAMTYPE` ) ) ).
       " TYPENAME is one of the dumped fields; pull it out rather than re-querying.
-      FIND REGEX 'TYPENAME=(\S+?)(,|$)' IN lv_tname SUBMATCHES DATA(lv_typename).
+      FIND REGEX 'TYPENAME=(\S+)' IN lv_tname SUBMATCHES DATA(lv_typename).
       APPEND VALUE #( name = to_upper( ls_p-parameter ) kind = classify_scalar( lv_typename ) ) TO lt_scalars.
     ENDLOOP.
 
