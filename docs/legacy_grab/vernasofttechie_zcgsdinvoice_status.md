@@ -1,9 +1,9 @@
 # Migration Status — vernasofttechie-zcgsdinvoice
 
-STATUS: in_progress
-UPDATED: 2026-10-01T05:54:50.403Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: completed
+UPDATED: 2026-10-01T06:10:00.000Z
+WAITING_ON: 
+NOTE: Closed on your confirmation that the layout activated and everything looks right. Raise a concern any time if you need a follow-up change.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -153,3 +153,8 @@ Sorry about that — found and fixed it. Two Bolt Console actions running close 
 
 ## 2026-10-01T05:54:50.403Z — Manual activity confirmed
 Client confirmed the manual step is done: Layout is activated.. Everything is completed..
+
+## 2026-10-01T06:10:00.000Z — Completed
+Closing this migration — interface, reference fields, Context, and layout are all built and confirmed working.
+
+For the record: the 6 open questions in `ZCGSD_INVOICE_build_checklist.md` (DEP-1 to DEP-6 — logo placeholder, two simplified always-on conditions, a dropped address variant, the unused `GT_FINL`/`GS_FINL` pair, and the duplicate line-items table) were not answered individually — this is closed on your general confirmation that it's working, not on each of those being explicitly checked. If any of those turn out to matter later (most likely the logo, since that's a visible placeholder box right now, not the real image), raise a concern here and we'll pick it straight back up — this status file stays the record for this form either way.
