@@ -80,7 +80,7 @@
      <STATE>A</STATE>
      <CONDITION href="#o13"/>
      <PARENT href="#o2"/>
-     <SUCCESSOR/>
+     <SUCCESSOR href="#o15"/>
      <CHILD href="#o5"/>
     </CL_FP_NODE>
     <CL_FP_STRUCTURE classVersion="1">
@@ -184,6 +184,28 @@
    <cls:CL_FP_CONDITION id="o14">
     <CL_FP_CONDITION classVersion="1">
      <NODE href="#o3"/>
+     <CONDITIONS/>
+    </CL_FP_CONDITION>
+   </cls:CL_FP_CONDITION>
+   <cls:CL_FP_DATA id="o15">
+    <CL_FP_NODE classVersion="1">
+     <ID>57F21BA7AB8AD703E5A5D87423414A90</ID>
+     <NAME>LV_TEST_CLAUDE_TEST</NAME>
+     <GENERATED/>
+     <STATE>A</STATE>
+     <CONDITION href="#o16"/>
+     <PARENT href="#o2"/>
+     <SUCCESSOR/>
+     <CHILD/>
+    </CL_FP_NODE>
+    <CL_FP_DATA classVersion="1">
+     <FIELD>LV_TEST</FIELD>
+     <FIELD_LABEL/>
+    </CL_FP_DATA>
+   </cls:CL_FP_DATA>
+   <cls:CL_FP_CONDITION id="o16">
+    <CL_FP_CONDITION classVersion="1">
+     <NODE href="#o15"/>
      <CONDITIONS/>
     </CL_FP_CONDITION>
    </cls:CL_FP_CONDITION>
