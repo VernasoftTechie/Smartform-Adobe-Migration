@@ -1,11 +1,15 @@
 # Global Data Library
 
-This is the `main`-branch library for assets and style evidence shared by all
-Smart Form conversion branches. Populate it once from the SAP landscape,
-then update it only when a new global style or SE78 graphic is introduced.
+This is the `main`-branch library for assets, style evidence, and client
+governance documents shared by all Smart Form conversion branches. Populate
+each category once, then update it only when something new is introduced.
 
-Conversion branches read this library; they do not duplicate global exports
-or binary assets in their form-specific folders.
+Conversion branches read this library; they do not duplicate global exports,
+binary assets, or client documents in their form-specific folders.
+
+Bolt Console's Configure → Global reference library page can push directly
+into this folder (one category at a time, same rules as below) — a manual
+push here works identically; either way lands in the same place.
 
 ## Intake order
 
@@ -18,6 +22,9 @@ or binary assets in their form-specific folders.
    provenance note in `logos/`.
 5. Update `docs/06_global_findings.md` with the inventory and
    `docs/04_global_style_catalogue.md` with approved reusable style mappings.
+6. Place any client-supplied naming standard document in `naming_standards/`
+   and any other client policy/instructions document in `policies/` as
+   supplied — see each folder's own README.
 
 ## Rules
 
@@ -31,6 +38,9 @@ or binary assets in their form-specific folders.
   evidence identifies its actual SmartStyle and graphic references.
 - A new style or logo becomes reusable only after an SFP-rendered form has
   validated it and the result is promoted through `docs/strategy/`.
+- A client naming standard or policy document only takes effect once it's
+  confirmed present in `naming_standards/`/`policies/` — never assumed from
+  a verbal description (Bolt Playbook §1.5).
 
 ## Folder layout
 
@@ -39,7 +49,11 @@ docs/global_data/
 ├── README.md
 ├── styles/
 │   └── README.md
-└── logos/
+├── logos/
+│   └── README.md
+├── naming_standards/
+│   └── README.md
+└── policies/
     └── README.md
 ```
 
