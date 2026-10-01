@@ -5,10 +5,20 @@
 #   SMTP_SERVER    e.g. smtp.office365.com   (or smtp.gmail.com)
 #   SMTP_PORT      587 (STARTTLS) or 465 (SSL)   - default 587
 #   SMTP_USERNAME  the sending mailbox
-#   SMTP_PASSWORD  its password / app password
+#   SMTP_PASSWORD  its password / app password - for Gmail/Office365 this is
+#                  almost always an APP PASSWORD, not the normal account
+#                  password (both reject plain SMTP AUTH with "Login denied"
+#                  once 2FA is on, which is curl exit code 67 below)
 #   ALERT_TO       optional, default ai@vernasoft.com
 #   ALERT_FROM     optional, default = ALERT_TO
-# Without SMTP_SERVER the workflow does nothing (it never fails a push).
+#
+# Without SMTP_SERVER the workflow does nothing and never fails a push (see
+# "Note missing email setup" below). Once SMTP_SERVER IS set, a send failure
+# (wrong credentials, wrong port, provider rejecting the login) still fails
+# the job on purpose - the fix below is making that failure diagnosable
+# (Step Summary, not just a bare curl error) rather than making it silent.
+# A silent failure here is worse than a visible one: it would mean a client
+# concern or confirmation went unnoticed.
 name: Status alert
 
 on:
@@ -53,12 +63,55 @@ jobs:
           else
             URL="smtp://${SMTP_SERVER}:${PORT}"; SSL="--ssl-reqd"
           fi
-          curl --fail --silent --show-error $SSL --url "$URL" \
+
+          set +e
+          ERR=$(curl --fail --silent --show-error $SSL --url "$URL" \
             --user "${SMTP_USERNAME}:${SMTP_PASSWORD}" \
             --mail-from "${{ steps.build.outputs.from }}" \
             --mail-rcpt "${MAIL_TO}" \
-            --upload-file mail.eml
-          echo "Alert sent to ${MAIL_TO}"
+            --upload-file mail.eml 2>&1)
+          CODE=$?
+          set -e
+
+          if [ "$CODE" -eq 0 ]; then
+            echo "Alert sent to ${MAIL_TO}"
+            exit 0
+          fi
+
+          # curl's own exit codes for the few failure shapes actually seen here
+          # (https://curl.se/libcurl/c/libcurl-errors.html) - mapped to what to
+          # actually go check, not left as a bare "curl: (NN)" that needs a
+          # second trip into the raw logs to even start diagnosing.
+          case "$CODE" in
+            67) WHAT="SMTP login denied - SMTP_USERNAME/SMTP_PASSWORD were rejected by ${SMTP_SERVER}. For Gmail and Office365 this almost always means an app-specific password is required (the normal account password is rejected once 2FA is on) - generate one and update the SMTP_PASSWORD secret." ;;
+            9)  WHAT="Access denied by ${SMTP_SERVER} - check SMTP_USERNAME is a full mailbox address the server accepts, and that SMTP AUTH is enabled on that mailbox." ;;
+            7)  WHAT="Couldn't connect to ${SMTP_SERVER}:${PORT} - check SMTP_SERVER/SMTP_PORT are correct and the server is reachable from GitHub's runners." ;;
+            35) WHAT="TLS/SSL handshake failed - check SMTP_PORT matches the connection type (587 = STARTTLS, 465 = implicit SSL) and SMTP_SERVER supports it." ;;
+            28) WHAT="Connection timed out - check SMTP_SERVER/SMTP_PORT, or the mail server may be blocking GitHub Actions' IP ranges." ;;
+            *)  WHAT="Unrecognized curl failure (exit $CODE) - see the raw output below." ;;
+          esac
+
+          {
+            echo "## ❌ Status alert email was NOT sent"
+            echo ""
+            echo "A client action was detected (see the Build alert step above for what it"
+            echo "was) but delivery to **${MAIL_TO}** failed."
+            echo ""
+            echo "**Cause:** $WHAT"
+            echo ""
+            echo "**Fix:** repo Settings → Secrets and variables → Actions → update the"
+            echo "relevant \`SMTP_*\` secret(s), then re-run this job."
+            echo ""
+            echo "<details><summary>Raw curl output</summary>"
+            echo ""
+            echo '```'
+            echo "$ERR"
+            echo '```'
+            echo "</details>"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "SMTP send failed (exit $CODE): $WHAT" >&2
+          exit "$CODE"
 
       - name: Note missing email setup
         if: steps.build.outputs.send == 'true' && env.SMTP_SERVER == ''
