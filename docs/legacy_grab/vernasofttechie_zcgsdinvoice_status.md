@@ -147,3 +147,6 @@ Full detail, evidence, and **6 open questions I need your input on before this g
 4. A Design View screenshot is the fastest way for me to catch anything the arithmetic checks can't - attach one if you can (the concern box now supports images and documents).
 
 I have not been able to render or preview this myself - per this project's own standing rule, a well-formed, arithmetically-correct layout still needs a real render check before it's trusted.
+
+## 2026-10-01T05:30:00.000Z — Fixed: the "Couldn't check out the branch" error on Confirm
+Sorry about that — found and fixed it. Two Bolt Console actions running close together on this migration (for example, confirming right after attaching a file) could interleave their git operations against the shared working copy, leaving it in a state where the next action's checkout was refused. Fixed in the console itself: actions on the same migration now queue one at a time instead of overlapping, so this can't happen again. Please click "I've done this — confirm" again — it should go through cleanly now.
