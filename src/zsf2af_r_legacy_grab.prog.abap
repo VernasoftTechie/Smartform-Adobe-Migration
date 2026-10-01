@@ -213,6 +213,30 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
       IMPORTING iv_fm_name      TYPE char30
       RETURNING VALUE(rt_lines) TYPE string_table.
 
+    "! Real DDIC shape (scalar/structure/table) of every parameter
+    "! context_build_order lists, plus the real field list for a structure
+    "! or table's row type - the input a Context splice needs (S04:
+    "! CL_FP_DATA/CL_FP_STRUCTURE/CL_FP_LOOP all confirmed hand-authorable
+    "! 2026-10-01). FUPARAREF's own PARAMTYPE (I/E/T/C/X) is a
+    "! calling-convention flag, not the DDIC kind - a table-typed field
+    "! can arrive as a plain PARAMTYPE='I' import parameter in a modern SFP
+    "! interface (confirmed: LT_PARAM, TYPE ZABTT_DCP_PARAM), so shape is
+    "! always read from real RTTI on the real TYPENAME, never from
+    "! PARAMTYPE or a guessed name.
+    METHODS context_node_shapes
+      IMPORTING iv_fm_name      TYPE char30
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
+    "! Shared by context_node_shapes for both a direct CL_FP_STRUCTURE
+    "! parameter and a CL_FP_LOOP's row type - lists every real DDIC field,
+    "! table-qualified the same way SFP's own auto-expand writes FIELD
+    "! (confirmed 2026-10-01: LS_TEST-EBELN, LT_PARAM-PARAM1).
+    METHODS context_struct_fields
+      IMPORTING iv_param        TYPE string
+                iv_descr        TYPE REF TO cl_abap_typedescr
+                iv_role         TYPE string
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
     "! Interfaces of the custom function modules a driver calls
     "! (CALL FUNCTION 'Z...' / 'Y...' lines from the dependency scan).
     METHODS dependency_fm_interfaces
@@ -1043,6 +1067,110 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ENDIF.
   ENDMETHOD.
 
+  METHOD context_struct_fields.
+    TRY.
+        DATA(lo_struct) = CAST cl_abap_structdescr( iv_descr ).
+      CATCH cx_root.
+        APPEND |{ iv_param } - { iv_role }; row/structure type isn't a flat structure, confirm manually| TO rt_lines.
+        RETURN.
+    ENDTRY.
+    DATA lt_fields TYPE ddfields.
+    CALL METHOD lo_struct->get_ddic_field_list
+      RECEIVING
+        p_field_list = lt_fields
+      EXCEPTIONS
+        not_found    = 1
+        no_ddic_type = 2
+        OTHERS       = 3.
+    IF sy-subrc <> 0 OR lt_fields IS INITIAL.
+      APPEND |{ iv_param } - { iv_role }; field list not resolvable via RTTI, confirm manually| TO rt_lines.
+      RETURN.
+    ENDIF.
+    APPEND |{ iv_param } - { iv_role }, { lines( lt_fields ) } field(s):| TO rt_lines.
+    LOOP AT lt_fields INTO DATA(ls_f).
+      APPEND |  - { iv_param }-{ ls_f-fieldname }| TO rt_lines.
+    ENDLOOP.
+  ENDMETHOD.
+
+  "! Real DDIC shape of every parameter context_build_order lists - see the
+  "! method doc comment in the class definition for why PARAMTYPE alone
+  "! can't answer this. Output feeds a Context splice directly: scalar ->
+  "! one CL_FP_DATA; structure/table -> CL_FP_STRUCTURE or
+  "! CL_FP_LOOP/CL_FP_LOOP_DATA with the real field list already resolved,
+  "! never a name to be invented at splice time.
+  METHOD context_node_shapes.
+    IF iv_fm_name IS INITIAL.
+      RETURN.
+    ENDIF.
+    " Same fixed SSF-envelope exclusion list as context_build_order (S04).
+    DATA(lt_standard) = VALUE string_table(
+      ( `ARCHIVE_INDEX` ) ( `ARCHIVE_INDEX_TAB` ) ( `ARCHIVE_PARAMETERS` ) ( `CONTROL_PARAMETERS` )
+      ( `MAIL_APPL_OBJ` ) ( `MAIL_RECIPIENT` ) ( `MAIL_SENDER` ) ( `OUTPUT_OPTIONS` ) ( `USER_SETTINGS` ) ).
+
+    SELECT parameter, paramtype FROM fupararef INTO TABLE @DATA(lt_params)
+      WHERE funcname = @iv_fm_name AND r3state = 'A' AND ( paramtype = 'I' OR paramtype = 'T' ).
+    IF sy-subrc <> 0 OR lt_params IS INITIAL.
+      APPEND `(no FUPARAREF rows - confirm manually in SFP's Interface tree)` TO rt_lines.
+      RETURN.
+    ENDIF.
+
+    LOOP AT lt_params INTO DATA(ls_p).
+      READ TABLE lt_standard WITH KEY table_line = to_upper( ls_p-parameter ) TRANSPORTING NO FIELDS.
+      IF sy-subrc = 0.
+        CONTINUE. " SSF envelope - same exclusion as context_build_order.
+      ENDIF.
+
+      " Same proven TYPENAME extraction as capture_reference_requirements -
+      " never a direct SELECT TYPENAME (column name never hard-coded
+      " against FUPARAREF - same discipline as everywhere else in this
+      " report).
+      DATA(lv_dump) = dump_nonempty( is_row = ls_p it_skip = VALUE string_table( ( `FUNCNAME` ) ( `PARAMETER` ) ( `PARAMTYPE` ) ) ).
+      FIND REGEX 'TYPENAME=(\S+)' IN lv_dump SUBMATCHES DATA(lv_typename).
+      IF lv_typename IS INITIAL.
+        APPEND |{ ls_p-parameter } - TYPENAME not found; confirm shape manually in SFP| TO rt_lines.
+        CONTINUE.
+      ENDIF.
+
+      DATA lo_descr TYPE REF TO cl_abap_typedescr.
+      CALL METHOD cl_abap_typedescr=>describe_by_name
+        EXPORTING
+          p_name         = lv_typename
+        RECEIVING
+          p_descr_ref    = lo_descr
+        EXCEPTIONS
+          type_not_found = 1
+          OTHERS         = 2.
+      IF sy-subrc <> 0 OR lo_descr IS NOT BOUND.
+        APPEND |{ ls_p-parameter } - type `{ lv_typename }` not resolvable via RTTI; confirm shape manually in SFP| TO rt_lines.
+        CONTINUE.
+      ENDIF.
+
+      CASE lo_descr->kind.
+        WHEN cl_abap_typedescr=>kind_elem.
+          APPEND |{ ls_p-parameter } - CL_FP_DATA (scalar, type { lv_typename })| TO rt_lines.
+
+        WHEN cl_abap_typedescr=>kind_struct.
+          APPEND LINES OF context_struct_fields( iv_param = ls_p-parameter iv_descr = lo_descr iv_role = `CL_FP_STRUCTURE` ) TO rt_lines.
+
+        WHEN cl_abap_typedescr=>kind_table.
+          DATA(lo_line) = CAST cl_abap_tabledescr( lo_descr )->get_table_line_type( ).
+          IF lo_line->kind = cl_abap_typedescr=>kind_struct.
+            APPEND LINES OF context_struct_fields( iv_param = ls_p-parameter iv_descr = lo_line iv_role = `CL_FP_LOOP/CL_FP_LOOP_DATA` ) TO rt_lines.
+          ELSE.
+            APPEND |{ ls_p-parameter } - CL_FP_LOOP (type { lv_typename }); row type isn't a flat structure, confirm manually| TO rt_lines.
+          ENDIF.
+
+        WHEN OTHERS.
+          APPEND |{ ls_p-parameter } - unclassified RTTI kind for type `{ lv_typename }`; confirm manually in SFP| TO rt_lines.
+      ENDCASE.
+    ENDLOOP.
+
+    IF rt_lines IS INITIAL.
+      APPEND `(every import/table parameter here is part of the standard SSF envelope -` TO rt_lines.
+      APPEND `nothing form-specific to shape-classify)` TO rt_lines.
+    ENDIF.
+  ENDMETHOD.
+
   METHOD dependency_fm_interfaces.
     DATA lt_seen TYPE string_table.
     LOOP AT it_deps INTO DATA(lv_dep).
@@ -1378,6 +1506,16 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `already declared it in the interface's own Reference Fields, SAP fills it in` TO lt_lines.
     APPEND `for you; only set it by hand if 2c reported a GAP.` TO lt_lines.
     APPEND LINES OF context_build_order( iv_fm_name ) TO lt_lines.
+    APPEND `` TO lt_lines.
+
+    APPEND `### 2e. Context node shapes - real DDIC shape + field list for each` TO lt_lines.
+    APPEND `Per S04 (confirmed 2026-10-01): CL_FP_DATA (scalar), CL_FP_STRUCTURE and` TO lt_lines.
+    APPEND `CL_FP_LOOP/CL_FP_LOOP_DATA (table) are all hand-authorable. This is the real` TO lt_lines.
+    APPEND `shape and, for a structure/table, the real field list each parameter in 2d` TO lt_lines.
+    APPEND `needs - read from RTTI on the real TYPENAME, not from FUPARAREF's PARAMTYPE` TO lt_lines.
+    APPEND `(a calling-convention flag, not a DDIC kind - a table-typed field can sit` TO lt_lines.
+    APPEND `under PARAMTYPE='I' same as a scalar) and never a guessed field name.` TO lt_lines.
+    APPEND LINES OF context_node_shapes( iv_fm_name ) TO lt_lines.
     APPEND `` TO lt_lines.
 
     " Authoritative driver identity, captured once here so section 3 can be
