@@ -30,7 +30,29 @@
      <INTERFACE_DATA href="#o1"/>
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_REFERENCE_FIELDS classVersion="1">
-     <REFERENCE_FIELDS/>
+     <REFERENCE_FIELDS>
+      <SFPREF>
+       <ACTIVE/>
+       <STANDARD/>
+       <DATATYPE>CURR</DATATYPE>
+       <VALUE>LS_TEST-OTB_VALUE</VALUE>
+       <UNIT>LV_WAERK</UNIT>
+      </SFPREF>
+      <SFPREF>
+       <ACTIVE/>
+       <STANDARD/>
+       <DATATYPE>CURR</DATATYPE>
+       <VALUE>LS_TEST-OTB_RES_VALUE</VALUE>
+       <UNIT>LV_WAERK</UNIT>
+      </SFPREF>
+      <SFPREF>
+       <ACTIVE/>
+       <STANDARD/>
+       <DATATYPE>CURR</DATATYPE>
+       <VALUE>LS_TEST-OTB_SPEC_VALUE</VALUE>
+       <UNIT>LV_WAERK</UNIT>
+      </SFPREF>
+     </REFERENCE_FIELDS>
     </CL_FP_REFERENCE_FIELDS>
    </cls:CL_FP_REFERENCE_FIELDS>
    <cls:CL_FP_GLOBAL_DEFINITIONS id="o3">
@@ -38,7 +60,15 @@
      <INTERFACE_DATA href="#o1"/>
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_GLOBAL_DEFINITIONS classVersion="1">
-     <GLOBAL_DATA/>
+     <GLOBAL_DATA>
+      <SFPGDATA>
+       <NAME>LV_WAERK</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>WAERK</TYPENAME>
+       <DEFAULTVAL>0</DEFAULTVAL>
+       <CONSTANT/>
+      </SFPGDATA>
+     </GLOBAL_DATA>
      <TYPES/>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
@@ -53,6 +83,26 @@
        <NAME>LV_TEST</NAME>
        <TYPING>TYPE</TYPING>
        <TYPENAME>CHAR10</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LS_TEST</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>EKKO</TYPENAME>
+       <OPTIONAL/>
+       <BYVALUE/>
+       <DEFAULTVAL/>
+       <STANDARD/>
+       <CONSTANT/>
+      </SFPIOPAR>
+      <SFPIOPAR>
+       <NAME>LT_PARAM</NAME>
+       <TYPING>TYPE</TYPING>
+       <TYPENAME>ZABTT_DCP_PARAM</TYPENAME>
        <OPTIONAL/>
        <BYVALUE/>
        <DEFAULTVAL/>
