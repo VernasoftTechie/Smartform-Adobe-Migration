@@ -206,6 +206,13 @@ CLASS lcl_legacy_grab DEFINITION FINAL.
                 it_custom_types TYPE string_table
       RETURNING VALUE(rt_lines) TYPE string_table.
 
+    "! Every non-standard import/table parameter, in FUPARAREF order - the
+    "! exact, ordered list of nodes to drag from Interface into Context, so
+    "! nothing is left for the operator to figure out beyond the drag itself.
+    METHODS context_build_order
+      IMPORTING iv_fm_name      TYPE char30
+      RETURNING VALUE(rt_lines) TYPE string_table.
+
     "! Interfaces of the custom function modules a driver calls
     "! (CALL FUNCTION 'Z...' / 'Y...' lines from the dependency scan).
     METHODS dependency_fm_interfaces
@@ -1000,6 +1007,42 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     APPEND `failed silently; fall back to checking by name/eye until confirmed.` TO rt_lines.
   ENDMETHOD.
 
+  METHOD context_build_order.
+    IF iv_fm_name IS INITIAL.
+      RETURN.
+    ENDIF.
+    " Same proven FUPARAREF technique as capture_interface. The classic SSF
+    " envelope (confirmed on YMM_ISSUE_RESERVATION_INT, docs/strategy S04) is
+    " never form-specific and never belongs in Context - excluded by the
+    " same fixed name list S04 documents, not a guessed FUPARAREF flag
+    " (FUPARAREF has no "is this the SSF envelope" column of its own).
+    DATA(lt_standard) = VALUE string_table(
+      ( `ARCHIVE_INDEX` ) ( `ARCHIVE_INDEX_TAB` ) ( `ARCHIVE_PARAMETERS` ) ( `CONTROL_PARAMETERS` )
+      ( `MAIL_APPL_OBJ` ) ( `MAIL_RECIPIENT` ) ( `MAIL_SENDER` ) ( `OUTPUT_OPTIONS` ) ( `USER_SETTINGS` ) ).
+
+    SELECT parameter, paramtype FROM fupararef INTO TABLE @DATA(lt_params)
+      WHERE funcname = @iv_fm_name AND r3state = 'A' AND ( paramtype = 'I' OR paramtype = 'T' ).
+    IF sy-subrc <> 0 OR lt_params IS INITIAL.
+      APPEND `(no FUPARAREF rows - confirm manually in SFP's Interface tree)` TO rt_lines.
+      RETURN.
+    ENDIF.
+
+    DATA lv_n TYPE i.
+    LOOP AT lt_params INTO DATA(ls_p).
+      READ TABLE lt_standard WITH KEY table_line = to_upper( ls_p-parameter ) TRANSPORTING NO FIELDS.
+      IF sy-subrc = 0.
+        CONTINUE. " SSF envelope - SAP generates its own /1BCDWB/DOCPARAMS, never drag this in (S04)
+      ENDIF.
+      lv_n = lv_n + 1.
+      APPEND |{ lv_n }. { ls_p-parameter } ({ COND #( WHEN ls_p-paramtype = 'T' THEN 'table - repeating node' ELSE 'import' ) })| TO rt_lines.
+    ENDLOOP.
+
+    IF lv_n = 0.
+      APPEND `(every import/table parameter here is part of the standard SSF envelope -` TO rt_lines.
+      APPEND `nothing form-specific to drag in; confirm in SFP before assuming Context is empty)` TO rt_lines.
+    ENDIF.
+  ENDMETHOD.
+
   METHOD dependency_fm_interfaces.
     DATA lt_seen TYPE string_table.
     LOOP AT it_deps INTO DATA(lv_dep).
@@ -1326,6 +1369,15 @@ CLASS lcl_legacy_grab IMPLEMENTATION.
     ELSE.
       APPEND LINES OF capture_reference_requirements( iv_fm_name = iv_fm_name it_custom_types = lt_custom_types ) TO lt_lines.
     ENDIF.
+    APPEND `` TO lt_lines.
+
+    APPEND `### 2d. Context build order - drag these, in this order, nothing else to decide` TO lt_lines.
+    APPEND `Once the empty interface/form baseline exists in SFP, drag each of these from` TO lt_lines.
+    APPEND `the Interface tree into the form's Context, in this order. Where a CURR/QUAN` TO lt_lines.
+    APPEND `field is involved, use the reference resolved in section 2c above - if 2c` TO lt_lines.
+    APPEND `already declared it in the interface's own Reference Fields, SAP fills it in` TO lt_lines.
+    APPEND `for you; only set it by hand if 2c reported a GAP.` TO lt_lines.
+    APPEND LINES OF context_build_order( iv_fm_name ) TO lt_lines.
     APPEND `` TO lt_lines.
 
     " Authoritative driver identity, captured once here so section 3 can be
