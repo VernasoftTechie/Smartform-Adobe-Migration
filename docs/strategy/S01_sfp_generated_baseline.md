@@ -16,7 +16,13 @@ Use for **every** Smart Form conversion, before any layout work.
 
 ## Never do this
 
-- Do not invent or copy a `CL_FP_CONTEXT` object graph.
+- Do not invent or copy a `CL_FP_CONTEXT` object graph **beyond the three
+  shapes S04 has independently proven** (flat scalar, structure, table/loop
+  — each a direct sibling under the root `CONTEXT` node). S04 is the
+  authoritative, up-to-date boundary for Context hand-authoring; this line
+  used to say "never," full stop — that was overturned 2026-10-01, see
+  `S04_interface_hand_authoring_boundary.md`'s "Context now allowed"
+  section before assuming either the old or the new rule without checking.
 - Do not Pull an unverified repository layout over a working SAP object.
 - Do not use XML parsing as proof that SFP Layout will render.
 - Do not modify the caller or driver program to make the form appear to work.
