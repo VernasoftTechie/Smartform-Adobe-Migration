@@ -6,6 +6,69 @@ designing any Adobe Form conversion mapping — never a description of the
 form, the actual extracted facts. Driver programs are read-only inputs here,
 never a target for change (`docs/01_scope.md` §8).
 
+## Update 2026-10-01 — increment B: resolve currency/quantity reference fields up front
+
+Built after `ZCGSD_INVOICE_INT` needed three rounds to get its `SFPREF`
+entries right (`BUILD_ISSUES_LOG.md` F50 — `KAWRT` was misclassified from
+the client's own wrong reference, not from the field's real type). Section
+**2c** of every snapshot now resolves this at legacy-grab time, before any
+interface is built:
+
+- Every `CURR`/`QUAN` field across the interface's custom table/structure
+  types, found the same way section 2b already does (`get_ddic_field_list`
+  on each type named in the interface).
+- Its real DDIC reference field (`REFTABLE`/`REFFIELD` — the same `DFIES`
+  columns ALV and table controls use for this exact purpose), read directly
+  off the DDIC, never inferred from a client error or a similar field name.
+- Whether a top-level interface scalar already covers it — by exact name
+  match first, then by **domain match** (any existing scalar whose own DDIC
+  datatype is `CUKY`/`UNIT`, even under an unrelated name — this is the
+  mechanism that would have correctly resolved `ZCGSD_INVOICE`'s `LV_WAERK`
+  automatically, since nothing in the interface is literally named `WAERS`).
+- A clear `GAP` line, naming the DDIC type needed, when nothing covers it —
+  so a missing global is discovered here, not after a client reports an
+  abapGit error.
+
+One part is **unconfirmed against a real system**: the domain-match step
+depends on `CL_ABAP_ELEMDESCR->GET_DDIC_FIELD`, which this project hasn't
+exercised before. It degrades to no result on failure rather than guessing —
+if every field in a run reports `GAP` even for one you know has a reference,
+that call likely failed silently; fall back to checking by eye until this is
+confirmed on a real run, same discipline as `probe_form_storage`.
+
+Reading this section is now mandatory before writing any `REFERENCE_FIELDS`
+entry — never classify a field's `CURR`/`QUAN` kind from anything else (a
+client's rejected reference, a similar-sounding sibling field, a hunch).
+
+## Update 2026-09-25 — what was added (increment A + the XML reader)
+
+Gaps found in the first real runs, and what now covers each:
+
+| Gap | Now |
+|---|---|
+| Interface showed parameter **names** only | Section 2 prints every attribute FUPARAREF carries per parameter (`SELECT *` + reflection, no column name guessed). Section 2b expands every custom (Z/Y) type the interface names from its DDIC definition (fields, data element, type, length, decimals). |
+| The driver NACE names was not extracted unless the text scan also found it (the ZSD_ATC failure) | `TNAPR-PGNAM` is always extracted (source, custom includes one level deep, dependency scan), and the custom function modules it calls get their interfaces read. Standard SAP programs are reported, not extracted. |
+| No volume evidence | Section 4b counts `NAST` rows per application/output type: total, last 365 and 30 days, processed OK, first and last date. Untick `P_VOL` to skip on a very large NAST. |
+| TNAPR matched by "form name appears in any column" (substring false positives) | Exact match on `SFORM` when the row has one; the old test only for rows without it. |
+| Only `Z*` objects covered (a `Y*` form's style and drivers were invisible) | `P_PREF` and `P_PREF2` (default `Z` and `Y`) apply to form discovery, driver scan, include following and the SmartStyle sweep. |
+| One failing form could end a 500-form run; sections 6 and 7 repeated the same probe | Per-form error isolation with a completed/failed count; the probe prints once. |
+| Layout (windows, nodes, styles, graphics, conditions, embedded code, texts, languages) was fully manual | `tools/legacy_xml_to_snapshot.mjs` reads the SMARTFORMS "Utilities → Download" XML and writes `<FORM>_extract.md` and `.json` (below). |
+
+### `tools/legacy_xml_to_snapshot.mjs` — the layout, read from the XML
+
+```
+node tools/legacy_xml_to_snapshot.mjs docs/legacy_grab/<form>.xml --out docs/legacy_grab --global docs/global_data
+node tools/legacy_xml_to_snapshot.test.mjs      # self-test against ymmgrnnote.xml
+```
+
+No dependencies. Every fact is read from the XML, never inferred; unknown node kinds are printed with their raw code. It writes: header facts and SHA-256; the exact interface contract (standard parameters marked); global types, data and initialization coding; windows with geometry and borders; the full node tree (tables with per-line-type column widths and the bound internal table, templates, texts with paragraph format and every language, graphics, program lines) with each node's condition in readable form; distinct conditions (branches containing the constant `1 = 2` are flagged as possibly disabled); styles and graphics used, cross-checked against `docs/global_data`; every `&FIELD&` printed; and each block of embedded code with the database tables it reads, function modules and classes it calls, memory IDs, PERFORM lines and BREAK-POINT count, numbered `DEP-nn`.
+
+What it cannot know (section 10 of its output says so): the driver/NACE/volume (from this report), SmartStyle definitions (a separate SMARTSTYLES download), graphic binaries, live documents.
+
+Found while validating against `ymmgrnnote.xml`: window coordinates **are** present in the download (the hand-written snapshot said they were blank), and two header-window branches (`NA`, `EXCP_1100_TZ_1021`) contain `1 = 2` and can never print.
+
+**Not yet automated:** the export itself. The download is still a manual GUI action per form. Increment B (a discovery mode to find the function module or class behind that menu entry) precedes automating it — no API name is guessed.
+
 ## Why some sections are automated and others aren't
 
 Every past Vernasoft project that invented an SAP field, table, or API

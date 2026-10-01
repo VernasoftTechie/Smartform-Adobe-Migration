@@ -48,6 +48,18 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_PREF2</KEY>
+     <ENTRY>Second prefix (drivers, includes, styles)</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_VOL</KEY>
+     <ENTRY>Count usage in NAST (can be slow on big systems)</ENTRY>
+     <LENGTH>49</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>P_PATH</KEY>
      <ENTRY>Local output folder (end with \)</ENTRY>
      <LENGTH>34</LENGTH>
