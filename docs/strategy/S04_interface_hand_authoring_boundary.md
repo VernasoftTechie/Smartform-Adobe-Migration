@@ -1,4 +1,4 @@
-# S04 — Interface hand-authoring boundary
+# S04 — Interface and Context hand-authoring boundary
 
 ## Select this strategy
 
@@ -38,6 +38,34 @@ remaining 4 structures for that form were then hand-authored to match
 and the full interface activated cleanly with **zero** deserialize
 errors.
 
+### `CL_FP_CONTEXT` (confirmed 2026-10-01 — see "Context now allowed" below)
+
+All three node shapes a real form's Context tree needs are now
+independently proven by hand-authoring, on a disposable throwaway
+object (`Z_TEMP_CTXTEST_INT`/`_ADT`, branch `vernasofttechie-ctxtest`,
+never a migration branch), each spliced into a real, already-pulled
+`.sfpf.xml` and confirmed clean on Pull with zero errors:
+
+- **Scalar** (`CL_FP_DATA` directly under root `CONTEXT`) — commit
+  `8d71383`. Bound a plain import parameter.
+- **Table parameter** (`CL_FP_LOOP` → `CL_FP_LOOP_DATA` → `CL_FP_DATA`
+  leaves) — commit `f930564`. This is the structurally hardest of the
+  three (two separate `CL_FP_CONDITION` wrappers per loop - one for the
+  node's own `CONDITION`, one for `CL_FP_LOOP`'s own `WHERE_CONDITION`,
+  both pointing back at the loop node) and it imported clean, field
+  labels resolving correctly from DDIC despite `FIELD_LABEL` being left
+  empty.
+- **Structure parameter** (`CL_FP_STRUCTURE` → `CL_FP_DATA` leaves,
+  table-qualified `FIELD` values like `LS_TEST-EBELN`) — commit
+  `daa7f1e`.
+
+Shape confirmed from real SAP-generated examples throughout, never
+guessed: every `CL_FP_NODE` wraps its own `CONDITION` in a separate
+`CL_FP_CONDITION` object (`NODE` href back to the owning node + empty
+`CONDITIONS`), even when there's nothing conditional about it - this
+wrapper pattern was first seen on 2026-10-01 from the user's own native
+drag and used in every splice since.
+
 ## Never do this
 
 - Do not hand-author `EXCEPTIONS` (under `CL_FP_PARAMETERS`). Two
@@ -63,13 +91,19 @@ errors.
   Adobe's own print/output control. Skip these entirely on every future
   form's `IMPORT_PARAMETERS`/`EXPORT_PARAMETERS` — only hand-author the
   form-specific, non-`STANDARD` parameters.
-- Do not hand-author `CL_FP_CONTEXT` (the form's Context tree) under any
-  circumstances. It is a linked graph of GUID-identified nodes
-  (`CL_FP_FOLDER`/`CL_FP_DATA`/`CL_FP_LOOP`/`CL_FP_CONDITION`/
-  `CL_FP_ALTERNATIVE`, threaded by `PARENT`/`SUCCESSOR`/`CHILD`
-  references) - a fundamentally different, higher-risk structure than a
-  flat parameter/global list. Always drag nodes from the Interface tree
-  into Context manually in SFP, then capture with Stage → Commit → Push.
+- `CL_FP_CONTEXT` is **no longer a blanket "never"** (see "Context now
+  allowed" below) — but only for the three proven node shapes
+  (`CL_FP_DATA` scalar, `CL_FP_STRUCTURE`, `CL_FP_LOOP`/`CL_FP_LOOP_DATA`
+  table), each as a flat sibling directly under the root `CONTEXT` node.
+  Still genuinely untested, and still native-drag-only until each gets
+  its own disposable-branch confirmation the same way: `CL_FP_FOLDER`
+  (grouping nodes), `CL_FP_ALTERNATIVE` (conditional branches),
+  `CL_FP_CONDITION` with real, non-empty `CONDITIONS` content (every
+  confirmed example so far has an empty `<CONDITIONS/>`), a node nested
+  more than one level deep (e.g. a loop inside a loop, or a structure
+  field inside a loop row), and graphs at real-client scale (ZCGSD_INVOICE-
+  sized interfaces, 20+ parameters chained together) rather than the 2-9
+  node splices tested so far.
 - Do not skip validating the file is well-formed XML before pushing, and
   do not push over an object that isn't currently in the safe empty
   baseline - Pull replaces the object's parameters/globals/coding
@@ -86,16 +120,46 @@ deserialize error; isolating the two least-evidenced sections
 cleanly (F30) - proving the boundary is narrow and specific, not a
 reason to abandon hand-authoring altogether.
 
+## Context now allowed — build procedure
+
+For the three proven shapes only (flat scalar, structure, table - each a
+direct sibling under root `CONTEXT`), build the splice from section 2d's
+parameter order (`docs/02_legacy_grab_spec.md` - exact drag order,
+SSF-envelope names already excluded) plus each parameter's real DDIC
+shape:
+
+1. Classify each parameter: elementary (→ `CL_FP_DATA`), structured (→
+   `CL_FP_STRUCTURE`), or table-typed (→ `CL_FP_LOOP`/`CL_FP_LOOP_DATA`).
+2. For a structure or table parameter, enumerate its real field list via
+   `GET_DDIC_FIELD_LIST` (same reflection already used for section 2c's
+   reference-field resolution) - never invent a field name.
+3. Chain parameters as siblings under root `CONTEXT` in section 2d's
+   order (`PARENT href` to the root node, `SUCCESSOR href` to the next
+   sibling, last one's `SUCCESSOR` empty). Give every node, including
+   every auto-expanded structure/table field, its own fresh GUID and its
+   own `CL_FP_CONDITION` wrapper (`NODE href` back to itself, empty
+   `CONDITIONS`) - a loop additionally needs a second wrapper for its own
+   `WHERE_CONDITION`.
+4. Validate before every push: well-formed XML, no duplicate `oN`
+   document-local ids, no dangling `href` targets (every reference
+   resolves to a declared id in the same file).
+5. Pull onto a form currently in the safe empty baseline, same as every
+   other section in this strategy.
+
 ## Required validation
 
 - The target form/interface is in the safe empty baseline (no prior
   failed import left it in a partial state) before pushing.
 - The XML is well-formed (validate before committing, not after Pull
-  fails).
+  fails) - for Context specifically, also check id/href graph
+  consistency (step 4 above).
 - After Pull, the Interface tree in SFP shows the expected
   Import/Export/Tables/Global Data/Types - if a deserialize error occurs
   instead, isolate by removing `EXCEPTIONS` first before suspecting
   anything else (the one remaining unconfirmed section).
+- After Pull, the Context tree in SFP shows the expected nodes bound to
+  the expected fields, same visual check used to confirm all three
+  shapes above.
 - Never hand-author a `STANDARD="X"` parameter - it will be silently
   dropped and substituted with SFP's own generated equivalent
   (`/1BCDWB/DOCPARAMS` for import). Only include the form's genuinely

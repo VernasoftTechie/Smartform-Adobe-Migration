@@ -6,6 +6,38 @@ designing any Adobe Form conversion mapping — never a description of the
 form, the actual extracted facts. Driver programs are read-only inputs here,
 never a target for change (`docs/01_scope.md` §8).
 
+## Update 2026-10-01 — increment C: real Context node shape per parameter
+
+Built after `S04`'s blanket "never hand-author `CL_FP_CONTEXT`" was
+overturned the same day — three disposable-branch rounds
+(`vernasofttechie-ctxtest`, commits `8d71383`/`f930564`/`daa7f1e`) each
+hand-authored a different Context node shape (flat scalar, table via
+`CL_FP_LOOP`, structure via `CL_FP_STRUCTURE`) and each pulled clean,
+zero errors. See `docs/strategy/S04_interface_hand_authoring_boundary.md`
+for the full evidence and the proven build procedure.
+
+Section 2d already gives the exact parameter order to drag/splice; the one
+thing it didn't give was each parameter's real **shape** and, for a
+structure or table, its real **field list**. Section **2e** closes that:
+
+- For every parameter section 2d lists, resolves real RTTI on the real
+  `TYPENAME` (extracted the same proven way as section 2c — never a direct
+  `SELECT TYPENAME`, the column name is never hard-coded) via
+  `CL_ABAP_TYPEDESCR=>DESCRIBE_BY_NAME`.
+- Elementary → `CL_FP_DATA` (scalar), nothing further needed.
+- Structure → `CL_FP_STRUCTURE`, every real field via `GET_DDIC_FIELD_LIST`
+  (same call section 2c already uses for reference-field resolution).
+- Table → `CL_FP_LOOP`/`CL_FP_LOOP_DATA`, row type resolved via
+  `GET_TABLE_LINE_TYPE` then the same `GET_DDIC_FIELD_LIST` call.
+
+**Deliberately does not trust FUPARAREF's own `PARAMTYPE` (I/E/T/C/X) to
+answer this** — it's a calling-convention flag, not a DDIC kind. Confirmed
+on the disposable test: `LT_PARAM` (`TYPE ZABTT_DCP_PARAM`, a real table
+type) sat under `IMPORT_PARAMETERS` in the real pushed interface, same
+`PARAMTYPE='I'` as a plain scalar — not under the classic
+`TABLE_PARAMETERS` section at all. Only real RTTI on the real type name
+tells you the truth.
+
 ## Update 2026-10-01 — increment B: resolve currency/quantity reference fields up front
 
 Built after `ZCGSD_INVOICE_INT` needed three rounds to get its `SFPREF`
