@@ -111,9 +111,28 @@
      <INTERFACE_DATA href="#o1"/>
     </CL_FP_INTERFACE_DATA_CHANGED>
     <CL_FP_CODING classVersion="1">
-     <INPUT_PARAMETERS/>
-     <OUTPUT_PARAMETERS/>
-     <INITIALIZATION/>
+     <INPUT_PARAMETERS>
+      <FPPARAMETER>LS_COMP_ADD</FPPARAMETER>
+     </INPUT_PARAMETERS>
+     <OUTPUT_PARAMETERS>
+      <FPPARAMETER>LV_ADDR</FPPARAMETER>
+     </OUTPUT_PARAMETERS>
+     <INITIALIZATION>
+      <FPCLINE>*BREAK-POINT.</FPCLINE>
+      <FPCLINE>CONCATENATE ls_comp_add-str_suppl1 &apos;,&apos; &apos;&apos;</FPCLINE>
+      <FPCLINE>            ls_comp_add-str_suppl2 &apos;,&apos; &apos;&apos;</FPCLINE>
+      <FPCLINE>            ls_comp_add-street INTO lv_addr.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>IF ls_comp_add-str_suppl1 IS INITIAL  .</FPCLINE>
+      <FPCLINE>  REPLACE &apos;,&apos; IN lv_addr WITH &apos;&apos;.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>IF ls_comp_add-str_suppl2 IS INITIAL  .</FPCLINE>
+      <FPCLINE>  REPLACE &apos;,&apos; IN lv_addr WITH &apos;&apos;.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CONDENSE lv_addr.</FPCLINE>
+     </INITIALIZATION>
      <FORMS/>
     </CL_FP_CODING>
    </cls:CL_FP_CODING>

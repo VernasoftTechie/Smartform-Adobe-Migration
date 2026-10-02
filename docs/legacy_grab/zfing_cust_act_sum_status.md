@@ -1,9 +1,9 @@
 # Migration Status — zfing_cust_act_sum
 
 STATUS: waiting_manual
-UPDATED: 2026-10-02T05:15:50.000Z
+UPDATED: 2026-10-02T05:30:45.000Z
 WAITING_ON: operator
-NOTE: Create the empty interface/form in SFP with the correct names, pull this branch in abapGit, build Context + the currency reference, then Stage-Commit-Push back.
+NOTE: Interface updated to include the initialization code - re-pull this branch before continuing Context work, then Stage-Commit-Push back.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -30,3 +30,14 @@ Please do these in SAP, in order:
 4. In abapGit do Stage, Commit and Push back to this same branch.
 
 When it is done click "I've done this — confirm" below. If anything fails, use "Report a problem" and give the exact message.
+
+## 2026-10-02T05:30:45.000Z — Interface corrected
+The first push of the interface left `CL_FP_CODING` (Initialization tab) empty — an oversight on my side, not an abapGit limitation. That section (Input/Output Parameters + the actual ABAP lines) is confirmed safe to hand-author from this project's own build history (`docs/strategy/S04`), so there was no reason to leave it out.
+
+`src/zfing_cust_act_sum_int.sfpi.xml` now carries the real initialization logic read from the legacy form's own global coding:
+- Input parameter `LS_COMP_ADD`, output parameter `LV_ADDR`.
+- The address-concatenation logic exactly as in the legacy form (builds `LV_ADDR` from `LS_COMP_ADD-STR_SUPPL1/STR_SUPPL2/STREET`, dropping empty separators, then `CONDENSE`).
+
+If you've already typed this in manually in SFP matching what's in the screenshot, you're already correct — just Stage, Commit and Push your current state back rather than re-pulling over it (Pull replaces the object's parameters/globals/coding wholesale, so don't Pull now if your native entry already matches). If you haven't typed it yet, pull this branch again and it will appear on the Initialization tab for you.
+
+Going forward, every new form's interface will include its initialization coding from the start — this won't need to be typed natively again unless something in it turns out unsafe to hand-author.
