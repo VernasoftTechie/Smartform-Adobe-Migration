@@ -1,12 +1,15 @@
 # Migration Status — zfing_cust_act_sum
 
-STATUS: queued
-UPDATED: 2026-10-02T04:49:06.049Z
+STATUS: in_progress
+UPDATED: 2026-10-02T05:15:20.000Z
 WAITING_ON: engineer
-NOTE: Waiting for the migration engineer to pick this up.
+NOTE: 
 STOP: none
-CLAIMED_BY: none
+CLAIMED_BY: Window-1
 
 ---
 ## 2026-10-02T04:49:06.048Z — Queued
 Migration submitted with 7 reference file(s).
+
+## 2026-10-02T05:15:20.000Z — Picked up
+Window-1 picked this migration up.
