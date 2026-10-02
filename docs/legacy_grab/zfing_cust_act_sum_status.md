@@ -1,9 +1,9 @@
 # Migration Status — zfing_cust_act_sum
 
-STATUS: in_progress
-UPDATED: 2026-10-02T05:47:54.093Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-02T05:53:37.000Z
+WAITING_ON: operator
+NOTE: Context tree built and pushed - pull this branch and check it imports cleanly, then confirm or report the exact error.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -56,3 +56,17 @@ Once that push lands I'll pick up the real `.sfpf.xdp`/`.sfpf.xml` and start the
 
 ## 2026-10-02T05:47:54.093Z — Manual activity confirmed
 Client confirmed the manual step is done: I've pushed the form..
+
+## 2026-10-02T05:53:37.000Z — Context tree built
+Checked the branch — the pushed form (`src/zfing_cust_act_sum_adt.sfpf.xdp`/`.sfpf.xml`) is exactly the safe empty starting point (bare page template, no Context nodes yet), which is correct — that's exactly what should get pushed before Context work, so nothing to redo there.
+
+Rather than ask you to natively drag all 24 nodes in one by one, I built the Context tree myself and pushed it to `src/zfing_cust_act_sum_adt.sfpf.xml`:
+- 18 scalar fields (KUNNR, NAME1, OPEN_BALNC, CLOSE_BALNC, KEYDATE, TOTAL_PAYMENT, TOTAL_BONUS, TOTAL_RETURNS, TOTAL_INVOICE, V_DATE, V_DATE1, GV_DATE1, GV_DATE, STRAS, ORT01, TOTAL_OPEN_ATC, AVAILABLE_BAL, CUR)
+- `LS_COMP_ADD` as a structure node with its real 9 fields
+- `PAYMENTITEMS`, `BONUSITEMS`, `RETURNITEMS`, `INVOICEITEMS` and `OPEN_ATC` as repeating table nodes, each with their real row fields (9 fields for the first four, 7 for `OPEN_ATC`) — bound directly to the table parameter itself (the standard Adobe repeat pattern), not the legacy form's indirect global-work-area printing
+
+One honest flag: this is the first time this project has hand-authored a Context tree at this scale (previous confirmation was only 2-9 nodes on a disposable test branch) — the node shapes themselves are proven, but a graph this size hasn't been proven before. Please:
+1. Pull this branch onto the form in SFP.
+2. Check the Context tree shows all 24 nodes bound correctly, with no deserialize error.
+3. If it imports clean — confirm below, and I'll move on to the layout.
+4. If SAP throws a deserialize error — use "Report a problem" with the **exact** error message. That tells me precisely what to fix rather than guessing.
