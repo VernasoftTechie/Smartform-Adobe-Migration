@@ -1,9 +1,9 @@
 # Migration Status — zfing_cust_act_sum
 
-STATUS: in_progress
-UPDATED: 2026-10-02T05:36:26.869Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-02T05:38:25.000Z
+WAITING_ON: operator
+NOTE: Context + abapGit Stage/Commit/Push still needed before the layout can start - see below.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -44,3 +44,12 @@ Going forward, every new form's interface will include its initialization coding
 
 ## 2026-10-02T05:36:26.869Z — Manual activity confirmed
 Client confirmed the manual step is done: I've pulled the interface. Continue on the form..
+
+## 2026-10-02T05:38:25.000Z — Still needed before the layout can start
+Checked the branch — only the interface pull was confirmed; nothing else has come back yet. I can't start the Adobe Form layout without it: the layout has to begin from a real SFP-generated file, never hand-authored from scratch (`docs/strategy/S01`), and that file doesn't exist until it's pushed from your side.
+
+Still needed, from step 3 of the earlier instructions:
+1. In the form **ZFING_CUST_ACT_SUM_ADT**'s Context, drag in the interface nodes (order in `ZFING_CUST_ACT_SUM.md` section 2d) and check the amount fields against the `LV_WAERK` reference.
+2. In abapGit, Stage, Commit and Push **both** the interface and the form object back to this branch.
+
+Once that push lands I'll pick up the real `.sfpf.xdp`/`.sfpf.xml` and start the layout. If Context threw any errors, use "Report a problem" with the exact message instead of confirming.
