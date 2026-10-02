@@ -1,9 +1,9 @@
 # Migration Status — zfing_cust_act_sum
 
-STATUS: waiting_manual
-UPDATED: 2026-10-02T05:38:25.000Z
-WAITING_ON: operator
-NOTE: Context + abapGit Stage/Commit/Push still needed before the layout can start - see below.
+STATUS: in_progress
+UPDATED: 2026-10-02T05:47:54.093Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -53,3 +53,6 @@ Still needed, from step 3 of the earlier instructions:
 2. In abapGit, Stage, Commit and Push **both** the interface and the form object back to this branch.
 
 Once that push lands I'll pick up the real `.sfpf.xdp`/`.sfpf.xml` and start the layout. If Context threw any errors, use "Report a problem" with the exact message instead of confirming.
+
+## 2026-10-02T05:47:54.093Z — Manual activity confirmed
+Client confirmed the manual step is done: I've pushed the form..
