@@ -1,9 +1,9 @@
 # Migration Status — zfing_cust_act_sum
 
-STATUS: waiting_manual
-UPDATED: 2026-10-02T05:30:45.000Z
-WAITING_ON: operator
-NOTE: Interface updated to include the initialization code - re-pull this branch before continuing Context work, then Stage-Commit-Push back.
+STATUS: in_progress
+UPDATED: 2026-10-02T05:36:26.869Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -41,3 +41,6 @@ The first push of the interface left `CL_FP_CODING` (Initialization tab) empty �
 If you've already typed this in manually in SFP matching what's in the screenshot, you're already correct — just Stage, Commit and Push your current state back rather than re-pulling over it (Pull replaces the object's parameters/globals/coding wholesale, so don't Pull now if your native entry already matches). If you haven't typed it yet, pull this branch again and it will appear on the Initialization tab for you.
 
 Going forward, every new form's interface will include its initialization coding from the start — this won't need to be typed natively again unless something in it turns out unsafe to hand-author.
+
+## 2026-10-02T05:36:26.869Z — Manual activity confirmed
+Client confirmed the manual step is done: I've pulled the interface. Continue on the form..
