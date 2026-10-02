@@ -1,0 +1,4422 @@
+{
+  "source": {
+    "file": "zfing_cust_act_sum.xml",
+    "bytes": 380746,
+    "sha256": "ADC2E86D5E37095A15C3A17762A383D0C2ED2CF34E55E8797BB9206998A80286"
+  },
+  "header": {
+    "FORMNAME": "ZFING_CUST_ACT_SUM",
+    "CAPTION": "New Form",
+    "MASTERLANG": "E",
+    "LANGVECTOR": "*",
+    "DEVCLASS": "ZFI",
+    "VERSION": "00001",
+    "FIRSTUSER": "ABAP01",
+    "FIRSTDATE": "2017-02-12",
+    "FIRSTTIME": "18:52:59",
+    "LASTUSER": "C.KKUMAR",
+    "LASTDATE": "2024-04-17",
+    "LASTTIME": "15:50:10"
+  },
+  "pageFormat": "DINA4",
+  "formStyle": "ZWNG_COMMON_STYLE",
+  "interface": [
+    {
+      "io": "E",
+      "name": "DOCUMENT_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESPD",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESCL",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCRESOP",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX",
+      "typing": "TYPE",
+      "type": "TOA_DARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX_TAB",
+      "typing": "TYPE",
+      "type": "TSFDARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_PARAMETERS",
+      "typing": "TYPE",
+      "type": "ARC_PARAMS",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CONTROL_PARAMETERS",
+      "typing": "TYPE",
+      "type": "SSFCTRLOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_APPL_OBJ",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_RECIPIENT",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_SENDER",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCOMPOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "USER_SETTINGS",
+      "typing": "TYPE",
+      "type": "TDBOOL",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": "'X'"
+    },
+    {
+      "io": "I",
+      "name": "KUNNR",
+      "typing": "TYPE",
+      "type": "KUNNR",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "NAME1",
+      "typing": "TYPE",
+      "type": "NAME1_GP",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "OPEN_BALNC",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CLOSE_BALNC",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "KEYDATE",
+      "typing": "TYPE",
+      "type": "CHAR45",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "TOTAL_PAYMENT",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "TOTAL_BONUS",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "TOTAL_RETURNS",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "TOTAL_INVOICE",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "V_DATE",
+      "typing": "TYPE",
+      "type": "CHAR45",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "V_DATE1",
+      "typing": "TYPE",
+      "type": "CHAR45",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "GV_DATE1",
+      "typing": "TYPE",
+      "type": "CHAR10",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "GV_DATE",
+      "typing": "TYPE",
+      "type": "CHAR10",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CUR",
+      "typing": "TYPE",
+      "type": "CHAR5",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "STRAS",
+      "typing": "TYPE",
+      "type": "STRAS_GP",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ORT01",
+      "typing": "TYPE",
+      "type": "ORT01_GP",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "TOTAL_OPEN_ATC",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "AVAILABLE_BAL",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_COMP_ADD",
+      "typing": "TYPE",
+      "type": "ZFIS_COMPANY_ADDRESS",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "FORMATTING_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "INTERNAL_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "SEND_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "USER_CANCELED",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "PAYMENTITEMS",
+      "typing": "TYPE",
+      "type": "ZTAB_ACT_STMT",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "BONUSITEMS",
+      "typing": "TYPE",
+      "type": "ZTAB_ACT_STMT",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "RETURNITEMS",
+      "typing": "TYPE",
+      "type": "ZTAB_ACT_STMT",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "INVOICEITEMS",
+      "typing": "TYPE",
+      "type": "ZTAB_ACT_STMT",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "OPEN_ATC",
+      "typing": "TYPE",
+      "type": "ZSTR_ATC_TAB",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    }
+  ],
+  "globalTypes": [],
+  "globalData": [
+    {
+      "name": "PAYMENTS",
+      "typing": "TYPE",
+      "type": "ZSTR_ACT_STMT"
+    },
+    {
+      "name": "RETURNS",
+      "typing": "TYPE",
+      "type": "ZSTR_ACT_STMT"
+    },
+    {
+      "name": "BONUSES",
+      "typing": "TYPE",
+      "type": "ZSTR_ACT_STMT"
+    },
+    {
+      "name": "INVOICES",
+      "typing": "TYPE",
+      "type": "ZSTR_ACT_STMT"
+    },
+    {
+      "name": "FLAG_IN",
+      "typing": "TYPE",
+      "type": "CHAR1"
+    },
+    {
+      "name": "FLAG_RE",
+      "typing": "TYPE",
+      "type": "CHAR1"
+    },
+    {
+      "name": "FLAG_PA",
+      "typing": "TYPE",
+      "type": "CHAR1"
+    },
+    {
+      "name": "FLAG_BO",
+      "typing": "TYPE",
+      "type": "CHAR1"
+    },
+    {
+      "name": "VBRK",
+      "typing": "TYPE",
+      "type": "VBRK"
+    },
+    {
+      "name": "PAY_TOTAL",
+      "typing": "TYPE",
+      "type": "ZAMT_LOC"
+    },
+    {
+      "name": "FLAG_ATC",
+      "typing": "TYPE",
+      "type": "CHAR1"
+    },
+    {
+      "name": "ATC_ITEMS",
+      "typing": "TYPE",
+      "type": "ZSTR_ATC"
+    },
+    {
+      "name": "LV_ADDR",
+      "typing": "TYPE",
+      "type": "STRING"
+    }
+  ],
+  "globalParams": [
+    {
+      "name": "LS_COMP_ADD",
+      "dir": "I"
+    },
+    {
+      "name": "LV_ADDR",
+      "dir": "O"
+    }
+  ],
+  "globalCoding": [
+    "*BREAK-POINT.",
+    "CONCATENATE ls_comp_add-str_suppl1 ',' ''",
+    "            ls_comp_add-str_suppl2 ',' ''",
+    "            ls_comp_add-street INTO lv_addr.",
+    "",
+    "IF ls_comp_add-str_suppl1 IS INITIAL  .",
+    "  REPLACE ',' IN lv_addr WITH ''.",
+    "ENDIF.",
+    "",
+    "IF ls_comp_add-str_suppl2 IS INITIAL  .",
+    "  REPLACE ',' IN lv_addr WITH ''.",
+    "ENDIF.",
+    "",
+    "CONDENSE lv_addr."
+  ],
+  "tree": {
+    "type": "RP",
+    "label": "form root",
+    "children": [
+      {
+        "type": "PA",
+        "label": "page",
+        "children": [
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT40",
+                    "caption": "New Text 40",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P5",
+                          "line": "Page &sfsy-page& of  &SFSY-FORMPAGES&"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW1",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "132.33 MM",
+              "top": "281.67 MM",
+              "width": "72.67 MM",
+              "height": "13.67 MM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT56",
+                        "caption": "New Text 56",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "&stras& ,"
+                            },
+                            {
+                              "fmt": "P6",
+                              "line": "&ort01&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT44",
+                        "caption": "New Text 44",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Address"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT5",
+                        "caption": "New Text 5",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "&name1&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT4",
+                        "caption": "New Text 4",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "&kunnr&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT3",
+                        "caption": "New Text 3",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Customer Name"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT2",
+                        "caption": "New Text 2",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Customer No"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE2",
+                    "caption": "New Template 2",
+                    "sectKind": "template",
+                    "width": "120.00 MM",
+                    "columns": {
+                      "%C1": [
+                        "35.00 MM",
+                        "85.00 MM"
+                      ],
+                      "%C2": [
+                        "35.00 MM",
+                        "85.00 MM"
+                      ],
+                      "%C3": [
+                        "35.00 MM",
+                        "85.00 MM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW4",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "1.00 CM",
+              "top": "64.00 MM",
+              "width": "148.00 MM",
+              "height": "26.67 MM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT84",
+                        "caption": "New Text 84",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&available_bal(C)&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT83",
+                        "caption": "New Text 83",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Available Balance as at &v_date&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT68",
+                        "caption": "New Text 68",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&TOTAL_OPEN_ATC&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT67",
+                        "caption": "New Text 67",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Open ATC"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT57",
+                        "caption": "New Text 57",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&cur&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "CLOSE_BAL1_V",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&close_balnc&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "CLOSE_BAL_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "CLOSE_BAL_T",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Ledger Balance as at &v_date&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_INVOICE_T",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Invoiced Sales"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_INVOICE1_V",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&total_invoice&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_INVOICE_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "LESS_T",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "LESS"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_RETURNS1_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&total_returns&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_RETURNS_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_RETURNS_T",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Returns and Other Adjustments"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_BONUS1_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&total_bonus&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_BONUS_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_BONUS_T",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Performance, Lifting and Other Bonuses"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_PAY1_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&total_payment&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_PAY_V",
+                        "caption": "New Text 24",
+                        "style": "ZWSA_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&total_payment&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "TOT_PAY_T",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Total Payments Received"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "ADD_T",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "ADD"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "OPEN_BAL_V",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P9",
+                              "line": "&open_balnc&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "OPEN_BAL_T",
+                        "caption": "New Text 24",
+                        "style": "ZWNG_COMMON_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P6",
+                              "line": "Opening Balance as at &v_date1&"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE1",
+                    "caption": "New Template 1",
+                    "sectKind": "template",
+                    "width": "15.00 CM",
+                    "columns": {
+                      "%C1": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C2": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C3": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C4": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C5": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C6": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C7": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C8": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C9": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C10": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ],
+                      "%C11": [
+                        "7.50 CM",
+                        "7.50 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "MAIN",
+            "caption": "Main Window",
+            "geometry": {
+              "left": "1.00 CM",
+              "top": "9.57 CM",
+              "width": "15.00 CM",
+              "height": "5.50 CM"
+            },
+            "borders": [
+              "left",
+              "top",
+              "right",
+              "bottom"
+            ],
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT72",
+                    "caption": "New Text 72",
+                    "condition": "LS_COMP_ADD-BUKRS = 1230",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "*",
+                          "line": "All invoices are VAT inclusive except export customers that are zero"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "rated for VAT and special relief customers as per exemptions granted by"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "TRA and Government."
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "The customer's account balance is determined by the transactions"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "recorded in our system as of the date on the statement. Nevertheless,"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "Dangote Cement Plc reserve the right to make adjustments to the account"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "balance if there are any outstanding transactions. The customer shall"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "promptly report any concerns within 30 days of receiving the statement;"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "otherwise, it will be considered an accurate representation of their"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "account with our company. The customer shall not disclose the"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "information on the statement to any external party without the explicit"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "consent of Dangote Cement Plc."
+                        },
+                        {
+                          "fmt": "PQ",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "PQ",
+                          "line": "For customer enquiries, please send a mail to"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT85",
+                    "caption": "New Text 72",
+                    "condition": "LS_COMP_ADD-BUKRS <> 1230",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "*",
+                          "line": "All invoices are VAT inclusive except for customers operating within"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "Free Trade Zone"
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "The customer's account balance is determined by the transactions"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "recorded in our system as of the date on the statement. Nevertheless,"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "Dangote Cement Plc reserve the right to make adjustments to the account"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "balance if there are any outstanding transactions. The customer shall"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "promptly report any concerns within 30 days of receiving the statement;"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "otherwise, it will be considered an accurate representation of their"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "account with our company. The customer shall not disclose the"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "information on the statement to any external party without the explicit"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "consent of Dangote Cement Plc."
+                        },
+                        {
+                          "fmt": "PQ",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "PQ",
+                          "line": "For customer enquiries, please send a mail to"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT14",
+                    "caption": "New Text 14",
+                    "condition": "1 = 2",
+                    "constantFalse": true,
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "*",
+                          "line": "All invoices are VAT inclusive except for customers operating within"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "Free Trade Zone"
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "The customer's balance is based on transactions in our records as at the"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "date of the statement. Nothing precludes us from making adjustments to"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the account balance based on transactions that may be outstanding."
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "This statement should not be shared with any external parties without"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the express consent of Dangote Cement Plc."
+                        },
+                        {
+                          "fmt": "PQ",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "PQ",
+                          "line": "For customer enquiries, please send a mail to"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P4",
+                          "line": "All orders are placed with Sephaku Cement are at all times subject to"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the general terms and conditions of sale, a copy of which has been"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "provided to you, or is available on request."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT58",
+                    "caption": "New Text 58",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "Q1",
+                          "line": "dcp.customeraccounts@dangote.com"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "FOOTER",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "1.00 CM",
+              "top": "16.70 CM",
+              "width": "19.63 CM",
+              "height": "3.82 CM"
+            },
+            "borders": [
+              "left",
+              "top",
+              "right",
+              "bottom"
+            ],
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "GR",
+                    "label": "graphic",
+                    "children": [],
+                    "objKind": "GRAPHIC",
+                    "name": "%GRAPHIC1",
+                    "caption": "New Graphic 1",
+                    "graphic": {
+                      "object": "GRAPHICS",
+                      "name": "DANGOTE LOGO WHITE",
+                      "id": "BMAP",
+                      "btype": "BCOL",
+                      "resolution": "0200"
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT78",
+                    "caption": "New Text 78",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P1",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "<B3>&ls_comp_add-name1&</>"
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "<B3>&lv_addr&</>"
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "<B3>&ls_comp_add-location&</>"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT53",
+                    "caption": "New Text 53",
+                    "condition": "1 = 2",
+                    "constantFalse": true,
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P1",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "<B3>Union Marble House<(>,<)></>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "<B3>1, Alfred Rewane Road, Falomo,Ikoyi<(>,<)></>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "<B3>Lagos.</>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "<B3>Nigeria</>."
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "LOGO",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "1.00 CM",
+              "top": "0.63 CM",
+              "width": "7.00 CM",
+              "height": "3.57 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT1",
+                    "caption": "New Text 1",
+                    "outStyle": "ZWNG_COMMON_STYLE",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "HQ",
+                          "line": "<B3>CUSTOMER ACCOUNT SUMMARY STATEMENT</>"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "H1",
+                          "line": "Statement"
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "STMT",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "1.00 CM",
+              "top": "4.70 CM",
+              "width": "18.77 CM",
+              "height": "1.33 CM"
+            },
+            "borders": [
+              "left",
+              "top",
+              "right",
+              "bottom"
+            ],
+            "windowType": "T"
+          }
+        ],
+        "objKind": "PAGE",
+        "name": "FIRST",
+        "caption": "New Page"
+      },
+      {
+        "type": "PA",
+        "label": "page",
+        "children": [
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [],
+            "objKind": "WINDOW",
+            "name": "",
+            "caption": "",
+            "geometry": {
+              "left": "120.00 MM",
+              "top": "281.00 MM",
+              "width": "72.67 MM",
+              "height": "13.67 MM"
+            },
+            "windowType": ""
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "CO",
+                    "label": "program lines",
+                    "children": [],
+                    "objKind": "CODE",
+                    "name": "%CODE2",
+                    "caption": "New Program Lines 1",
+                    "params": [
+                      {
+                        "name": "FLAG_PA",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "PAYMENTITEMS",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "FLAG_RE",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "RETURNITEMS",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "INVOICEITEMS",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "FLAG_IN",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "BONUSITEMS",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "FLAG_BO",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "OPEN_ATC",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "FLAG_ATC",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "FLAG_PA",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "FLAG_RE",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "FLAG_IN",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "FLAG_BO",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "FLAG_ATC",
+                        "dir": "output"
+                      }
+                    ],
+                    "code": [
+                      "\"BREAK-POINT.",
+                      "IF paymentitems[] is NOT INITIAL.",
+                      "flag_pa = 'X'.",
+                      "ENDIF.",
+                      "",
+                      "IF returnitems[] is not INITIAL.",
+                      "FLAG_RE = 'X'.",
+                      "ENDIF.",
+                      "",
+                      "IF invoiceitems[] is NOT INITIAL.",
+                      "flag_in = 'X'.",
+                      "ENDIF.",
+                      "",
+                      "IF BONUSITEMS[] is not initial.",
+                      "flag_bo = 'X'.",
+                      "ENDIF.",
+                      "",
+                      "IF OPEN_ATC[] is not INITIAL.",
+                      "FLAG_ATC = 'X'.",
+                      "ENDIF."
+                    ]
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT52",
+                    "caption": "New Text 47",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": "TRANSACTION DETAILS FOR &name1&(&kunnr&)"
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT69",
+                    "caption": "New Text 47",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": "Open ATC"
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT70",
+                                    "caption": "New Text 24",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "ATC No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL51",
+                                "caption": "New Column 26",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT71",
+                                    "caption": "New Text 39",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Material"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL52",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT73",
+                                    "caption": "New Text 41",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Document Date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL54",
+                                "caption": "New Column 30",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT74",
+                                    "caption": "New Text 42",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL55",
+                                "caption": "New Column 31",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW13",
+                            "caption": "New Line 7",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT19",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT20",
+                        "caption": "DOCNO Event on Sort Begin",
+                        "eventType": "S"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT75",
+                                    "caption": "New Text 6",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&ATC_ITEMS-docNo&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL56",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT77",
+                                    "caption": "New Text 7",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&ATC_ITEMS-matnr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL57",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT79",
+                                    "caption": "New Text 9",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "&ATC_ITEMS-docDate&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL59",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT80",
+                                    "caption": "New Text 10",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&ATC_ITEMS-amount(CZ)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL60",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW14",
+                            "caption": "New Line 1",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT21",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT22",
+                        "caption": "DOCNO Event on Sort End",
+                        "eventType": "E"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT81",
+                                    "caption": "New Text 60",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "TOTAL"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL61",
+                                "caption": "New Column 46",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT82",
+                                    "caption": "New Text 59",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&TOTAL_OPEN_ATC(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL62",
+                                "caption": "New Column 45",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW15",
+                            "caption": "New Line 9",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT23",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "OPEN_ATCS",
+                    "caption": "New Table 3",
+                    "condition": "FLAG_ATC = 'X'",
+                    "sectKind": "section (type C)",
+                    "tabName": "OPEN_ATC",
+                    "workArea": "ATC_ITEMS",
+                    "width": "19.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "3.50 CM",
+                        "4.00 CM",
+                        "4.50 CM",
+                        "7.00 CM"
+                      ],
+                      "%LTYPE2": [
+                        "3.50 CM",
+                        "4.00 CM",
+                        "4.50 CM",
+                        "7.00 CM"
+                      ],
+                      "%LTYPE3": [
+                        "3.50 CM",
+                        "15.50 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT28",
+                    "caption": "New Text 48",
+                    "condition": "FLAG_PA = 'X'",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": "Payments"
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT18",
+                                    "caption": "New Text 24",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Assignment No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL11",
+                                "caption": "New Column 26",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT19",
+                                    "caption": "New Text 39",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Ref. No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL12",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT20",
+                                    "caption": "New Text 40",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Comment"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL13",
+                                "caption": "New Column 29",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT21",
+                                    "caption": "New Text 41",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Posting Date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL14",
+                                "caption": "New Column 30",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT22",
+                                    "caption": "New Text 42",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL15",
+                                "caption": "New Column 31",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW3",
+                            "caption": "New Line 7",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT4",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT13",
+                        "caption": "DOCNO Event on Sort Begin",
+                        "eventType": "S"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT23",
+                                    "caption": "New Text 6",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&PAYMENTS-alloc_nmbr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL16",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT24",
+                                    "caption": "New Text 7",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&PAYMENTS-Ref_doc_no&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL17",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT25",
+                                    "caption": "New Text 8",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&payments-itemTxt&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL18",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT26",
+                                    "caption": "New Text 9",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "&payments-postingdate&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL19",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT27",
+                                    "caption": "New Text 10",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&payments-amountlc(CZ)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL20",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW4",
+                            "caption": "New Line 1",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT5",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT14",
+                        "caption": "DOCNO Event on Sort End",
+                        "eventType": "E"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT60",
+                                    "caption": "New Text 60",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "TOTAL"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL46",
+                                "caption": "New Column 46",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT59",
+                                    "caption": "New Text 59",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&TOTAL_PAYMENT(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL45",
+                                "caption": "New Column 45",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW9",
+                            "caption": "New Line 9",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT6",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE2",
+                    "caption": "New Table 3",
+                    "condition": "FLAG_PA = 'X'",
+                    "sectKind": "table",
+                    "tabName": "PAYMENTITEMS",
+                    "workArea": "PAYMENTS",
+                    "width": "19.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "2.50 CM",
+                        "2.00 CM",
+                        "9.50 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE2": [
+                        "2.50 CM",
+                        "2.00 CM",
+                        "9.50 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE3": [
+                        "16.00 CM",
+                        "3.00 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT76",
+                    "caption": "New Text 48",
+                    "condition": "FLAG_RE = 'X'",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": "Returns and other adjustment"
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT41",
+                                    "caption": "New Text 24",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Assignment No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL31",
+                                "caption": "New Column 26",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT45",
+                                    "caption": "New Text 39",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Ref. No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL32",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT46",
+                                    "caption": "New Text 40",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Comment"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL33",
+                                "caption": "New Column 29",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT47",
+                                    "caption": "New Text 41",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Posting Date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL34",
+                                "caption": "New Column 30",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT48",
+                                    "caption": "New Text 42",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL35",
+                                "caption": "New Column 31",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW7",
+                            "caption": "New Line 7",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT10",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT15",
+                        "caption": "DOCNO Event on Sort Begin",
+                        "eventType": "S"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT49",
+                                    "caption": "New Text 6",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&RETURNS-alloc_nmbr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL36",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT50",
+                                    "caption": "New Text 7",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&returns-Ref_doc_no&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL37",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT51",
+                                    "caption": "New Text 8",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&returns-itemTxt&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL38",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT54",
+                                    "caption": "New Text 9",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "&returns-postingdate&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL39",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT55",
+                                    "caption": "New Text 10",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&returns-amountlc(CZ)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL40",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW8",
+                            "caption": "New Line 1",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT11",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT16",
+                        "caption": "DOCNO Event on Sort End",
+                        "eventType": "E"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT61",
+                                    "caption": "New Text 61",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "TOTAL"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL43",
+                                "caption": "New Column 43",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT62",
+                                    "caption": "New Text 62",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&total_returns(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL44",
+                                "caption": "New Column 44",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW10",
+                            "caption": "New Line 10",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT12",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE4",
+                    "caption": "New Table 3",
+                    "condition": "FLAG_RE = 'X'",
+                    "sectKind": "table",
+                    "tabName": "RETURNITEMS",
+                    "workArea": "RETURNS",
+                    "width": "19.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "2.50 CM",
+                        "2.00 CM",
+                        "9.50 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE2": [
+                        "2.50 CM",
+                        "2.00 CM",
+                        "9.50 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE3": [
+                        "16.00 CM",
+                        "3.00 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT39",
+                    "caption": "New Text 48",
+                    "condition": "FLAG_BO = 'X'",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": "Performance, Lifting and other Bonuses"
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT29",
+                                    "caption": "New Text 24",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Assignment No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL21",
+                                "caption": "New Column 26",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT30",
+                                    "caption": "New Text 39",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Ref. No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL22",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT31",
+                                    "caption": "New Text 40",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Comment"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL23",
+                                "caption": "New Column 29",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT32",
+                                    "caption": "New Text 41",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Posting Date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL24",
+                                "caption": "New Column 30",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT33",
+                                    "caption": "New Text 42",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL25",
+                                "caption": "New Column 31",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW5",
+                            "caption": "New Line 7",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT7",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT17",
+                        "caption": "DOCNO Event on Sort Begin",
+                        "eventType": "S"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT34",
+                                    "caption": "New Text 6",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&bonuses-alloc_nmbr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL26",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT35",
+                                    "caption": "New Text 7",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&bonuses-Ref_doc_no&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL27",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT36",
+                                    "caption": "New Text 8",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&bonuses-itemTxt&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL28",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT37",
+                                    "caption": "New Text 9",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "&bonuses-postingdate&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL29",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT38",
+                                    "caption": "New Text 10",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&bonuses-amountlc(CZ)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL30",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW6",
+                            "caption": "New Line 1",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT8",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT18",
+                        "caption": "DOCNO Event on Sort End",
+                        "eventType": "E"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT63",
+                                    "caption": "New Text 63",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "TOTAL"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL47",
+                                "caption": "New Column 47",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT64",
+                                    "caption": "New Text 64",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&total_bonus(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL48",
+                                "caption": "New Column 48",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW11",
+                            "caption": "New Line 11",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT9",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE3",
+                    "caption": "New Table 3",
+                    "condition": "FLAG_BO = 'X'",
+                    "sectKind": "table",
+                    "tabName": "BONUSITEMS",
+                    "workArea": "BONUSES",
+                    "width": "19.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "2.50 CM",
+                        "2.00 CM",
+                        "9.50 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE2": [
+                        "2.50 CM",
+                        "2.00 CM",
+                        "9.50 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE3": [
+                        "16.00 CM",
+                        "3.00 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT17",
+                    "caption": "New Text 48",
+                    "condition": "FLAG_IN = 'X'",
+                    "style": "ZWNG_COMMON_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": "Invoiced Sales"
+                        },
+                        {
+                          "fmt": "P6",
+                          "line": ""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT6",
+                                    "caption": "New Text 24",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "ATC No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL1",
+                                "caption": "New Column 26",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT7",
+                                    "caption": "New Text 39",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Ref. No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL2",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT8",
+                                    "caption": "New Text 40",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Invoice"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL3",
+                                "caption": "New Column 29",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT42",
+                                    "caption": "New Text 42",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Comment"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL41",
+                                "caption": "New Column 41",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT9",
+                                    "caption": "New Text 41",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Posting Date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL4",
+                                "caption": "New Column 30",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT10",
+                                    "caption": "New Text 42",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL5",
+                                "caption": "New Column 31",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW1",
+                            "caption": "New Line 7",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT1",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT11",
+                                    "caption": "New Text 6",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&invoices-alloc_nmbr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL6",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT12",
+                                    "caption": "New Text 7",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&invoices-Ref_doc_no&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL7",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT13",
+                                    "caption": "New Text 8",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "&invoices-docNo&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL8",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT43",
+                                    "caption": "New Text 43",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "&invoices-itemTxt&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL42",
+                                "caption": "New Column 42",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT15",
+                                    "caption": "New Text 9",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "&invoices-postingdate&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL9",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT16",
+                                    "caption": "New Text 10",
+                                    "style": "ZWSA_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&invoices-amountlc(CZ)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL10",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW2",
+                            "caption": "New Line 1",
+                            "outStyle": "ZWSA_COMMON_STYLE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT2",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT65",
+                                    "caption": "New Text 65",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P6",
+                                          "line": "TOTAL"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL49",
+                                "caption": "New Column 49",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT66",
+                                    "caption": "New Text 66",
+                                    "style": "ZWNG_COMMON_STYLE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&total_invoice(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL50",
+                                "caption": "New Column 50",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW12",
+                            "caption": "New Line 12",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT3",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE1",
+                    "caption": "New Table 3",
+                    "condition": "FLAG_IN = 'X'",
+                    "sectKind": "table",
+                    "tabName": "INVOICEITEMS",
+                    "workArea": "INVOICES",
+                    "width": "19.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "2.50 CM",
+                        "2.50 CM",
+                        "2.00 CM",
+                        "7.00 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE2": [
+                        "2.50 CM",
+                        "2.50 CM",
+                        "2.00 CM",
+                        "7.00 CM",
+                        "2.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%LTYPE3": [
+                        "16.00 CM",
+                        "3.00 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW2",
+            "caption": "New Window 2",
+            "geometry": {
+              "left": "3.33 MM",
+              "top": "7.00 MM",
+              "width": "19.00 CM",
+              "height": "260.00 MM"
+            },
+            "windowType": "M"
+          }
+        ],
+        "objKind": "PAGE",
+        "name": "%PAGE1",
+        "caption": "New Page 1"
+      }
+    ]
+  },
+  "styles": [
+    "ZWNG_COMMON_STYLE",
+    "ZWSA_COMMON_STYLE"
+  ],
+  "languages": [
+    "E",
+    "F"
+  ],
+  "fields": {
+    "ATC_ITEMS-amount(CZ)": 1,
+    "ATC_ITEMS-docDate": 1,
+    "ATC_ITEMS-docNo": 1,
+    "ATC_ITEMS-matnr": 1,
+    "PAYMENTS-Ref_doc_no": 1,
+    "PAYMENTS-alloc_nmbr": 1,
+    "RETURNS-alloc_nmbr": 1,
+    "SFSY-FORMPAGES": 1,
+    "TOTAL_OPEN_ATC(C)": 1,
+    "TOTAL_OPEN_ATC": 1,
+    "TOTAL_PAYMENT(C)": 1,
+    "available_bal(C)": 1,
+    "bonuses-Ref_doc_no": 1,
+    "bonuses-alloc_nmbr": 1,
+    "bonuses-amountlc(CZ)": 1,
+    "bonuses-itemTxt": 1,
+    "bonuses-postingdate": 1,
+    "close_balnc": 1,
+    "cur": 1,
+    "invoices-Ref_doc_no": 1,
+    "invoices-alloc_nmbr": 1,
+    "invoices-amountlc(CZ)": 1,
+    "invoices-docNo": 1,
+    "invoices-itemTxt": 1,
+    "invoices-postingdate": 1,
+    "kunnr": 2,
+    "ls_comp_add-location": 1,
+    "ls_comp_add-name1": 1,
+    "lv_addr": 1,
+    "name1": 2,
+    "open_balnc": 1,
+    "ort01": 1,
+    "payments-amountlc(CZ)": 1,
+    "payments-itemTxt": 1,
+    "payments-postingdate": 1,
+    "returns-Ref_doc_no": 1,
+    "returns-amountlc(CZ)": 1,
+    "returns-itemTxt": 1,
+    "returns-postingdate": 1,
+    "sfsy-page": 1,
+    "stras": 1,
+    "total_bonus(C)": 1,
+    "total_bonus": 1,
+    "total_invoice(C)": 1,
+    "total_invoice": 1,
+    "total_payment": 2,
+    "total_returns(C)": 1,
+    "total_returns": 1,
+    "v_date": 2,
+    "v_date1": 1
+  },
+  "paragraphFormats": [
+    "*",
+    "H1",
+    "HQ",
+    "P1",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P9",
+    "PQ",
+    "Q1"
+  ],
+  "characterFormats": [
+    "B3"
+  ],
+  "graphics": [
+    {
+      "object": "GRAPHICS",
+      "name": "DANGOTE LOGO WHITE",
+      "id": "BMAP",
+      "btype": "BCOL",
+      "resolution": "0200"
+    }
+  ],
+  "codeNodes": [
+    {
+      "name": "%CODE2",
+      "caption": "New Program Lines 1",
+      "params": [
+        {
+          "name": "FLAG_PA",
+          "dir": "input"
+        },
+        {
+          "name": "PAYMENTITEMS",
+          "dir": "input"
+        },
+        {
+          "name": "FLAG_RE",
+          "dir": "input"
+        },
+        {
+          "name": "RETURNITEMS",
+          "dir": "input"
+        },
+        {
+          "name": "INVOICEITEMS",
+          "dir": "input"
+        },
+        {
+          "name": "FLAG_IN",
+          "dir": "input"
+        },
+        {
+          "name": "BONUSITEMS",
+          "dir": "input"
+        },
+        {
+          "name": "FLAG_BO",
+          "dir": "input"
+        },
+        {
+          "name": "OPEN_ATC",
+          "dir": "input"
+        },
+        {
+          "name": "FLAG_ATC",
+          "dir": "input"
+        },
+        {
+          "name": "FLAG_PA",
+          "dir": "output"
+        },
+        {
+          "name": "FLAG_RE",
+          "dir": "output"
+        },
+        {
+          "name": "FLAG_IN",
+          "dir": "output"
+        },
+        {
+          "name": "FLAG_BO",
+          "dir": "output"
+        },
+        {
+          "name": "FLAG_ATC",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "\"BREAK-POINT.",
+        "IF paymentitems[] is NOT INITIAL.",
+        "flag_pa = 'X'.",
+        "ENDIF.",
+        "",
+        "IF returnitems[] is not INITIAL.",
+        "FLAG_RE = 'X'.",
+        "ENDIF.",
+        "",
+        "IF invoiceitems[] is NOT INITIAL.",
+        "flag_in = 'X'.",
+        "ENDIF.",
+        "",
+        "IF BONUSITEMS[] is not initial.",
+        "flag_bo = 'X'.",
+        "ENDIF.",
+        "",
+        "IF OPEN_ATC[] is not INITIAL.",
+        "FLAG_ATC = 'X'.",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 1,
+        "calls": []
+      }
+    }
+  ],
+  "globalEvidence": {
+    "selects": [],
+    "tables": [],
+    "fms": [],
+    "performs": [],
+    "memory": [],
+    "breakpoints": 0,
+    "commented": 1,
+    "calls": []
+  },
+  "conditions": [
+    "LS_COMP_ADD-BUKRS = 1230",
+    "LS_COMP_ADD-BUKRS <> 1230",
+    "1 = 2",
+    "FLAG_ATC = 'X'",
+    "FLAG_PA = 'X'",
+    "FLAG_RE = 'X'",
+    "FLAG_BO = 'X'",
+    "FLAG_IN = 'X'"
+  ],
+  "pages": [
+    {
+      "name": "FIRST",
+      "caption": "New Page"
+    },
+    {
+      "name": "%PAGE1",
+      "caption": "New Page 1"
+    }
+  ],
+  "styleInInventory": {
+    "ZWNG_COMMON_STYLE": true,
+    "ZWSA_COMMON_STYLE": true
+  },
+  "graphicInInventory": {
+    "DANGOTE LOGO WHITE": true
+  }
+}
