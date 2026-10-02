@@ -1,0 +1,1728 @@
+*&---------------------------------------------------------------------*
+*&  Include           ZFI_CUST_ACT_STMT_F01
+*&---------------------------------------------------------------------*
+FORM alv_display .
+**  REFRESH: gt_bsid, gt_kna1,gt_bsid1.
+  PERFORM fetching_data.
+**  PERFORM alv_build .
+ENDFORM.                    " ALV_DISPLAY
+*&---------------------------------------------------------------------*
+*&      Form  ALV_BUILD
+*&---------------------------------------------------------------------*
+FORM alv_build .
+  DATA: ls_layout TYPE slis_layout_alv.
+* For Layout Settings
+*  ls_layout-zebra = gc_x.
+  ls_layout-colwidth_optimize = gc_x.
+
+  gwa_fct-fieldname = 'SEL'.
+  gwa_fct-seltext_m = TEXT-016."'Select'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 1.
+  gwa_fct-input     = 'X'.
+  gwa_fct-edit      = 'X'.
+  gwa_fct-checkbox  = 'X'.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'KUNNR'.
+  gwa_fct-seltext_m = TEXT-017."'Customer No'.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 2.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'BUKRS'.
+  gwa_fct-seltext_l =  TEXT-018."'Company Code'.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 3.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'NAME1'.
+  gwa_fct-seltext_l =  TEXT-019.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 4.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'OPENING_BAL'.
+  gwa_fct-seltext_l =  TEXT-023.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 5.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'TOTAL_PAYMENT'.
+  gwa_fct-seltext_l =  TEXT-024."'
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 6.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'TOTAL_BONUS'.
+  gwa_fct-seltext_l =  TEXT-025."
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 7.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'TOTAL_RETURNS'.
+  gwa_fct-seltext_l =  TEXT-026."
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 8.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'TOTAL_INVOICE'.
+  gwa_fct-seltext_l =  TEXT-027."
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 9.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'CLOSING_BAL'.
+  gwa_fct-seltext_l =  TEXT-028."'.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 10.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'TOTAL_OPEN_ATC'.
+  gwa_fct-seltext_l =  TEXT-031."'.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 10.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+
+  gwa_fct-fieldname = 'AVAILABLE_BAL'.
+  gwa_fct-seltext_l =  TEXT-032."'.
+  "gwa_fct-hotspot   = 'X'.
+  gwa_fct-tabname   = 'GT_ALV'.
+  gwa_fct-col_pos   = 10.
+  APPEND gwa_fct TO gt_fct.
+  CLEAR gwa_fct.
+  "gwa_alv-available_bal
+
+  CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'      "#EC CI_FLDEXT_OK[2610650]
+    EXPORTING
+      i_callback_program       = sy-repid
+      i_callback_pf_status_set = 'PF_STATUS'
+      i_callback_user_command  = 'USER_COMMAND'
+      is_layout                = ls_layout
+      it_fieldcat              = gt_fct
+      i_save                   = 'X'
+    TABLES
+      t_outtab                 = gt_alv
+    EXCEPTIONS
+      program_error            = 1
+      OTHERS                   = 2.
+  IF sy-subrc  = 0.
+* Implement suitable error handling here
+  ENDIF.
+ENDFORM.                    " ALV_BUILD
+*&---------------------------------------------------------------------
+*  & Form PF_STATUS
+*&---------------------------------------------------------------------
+*****FORM pf_status USING p_extab TYPE slis_t_extab.
+*****  SET PF-STATUS 'ALV_DISPLAY'.
+*****ENDFORM. "PF_STATUS
+
+*&---------------------------------------------------------------------
+*& Form USER_COMMAND
+*&---------------------------------------------------------------------
+*****FORM user_command USING r_ucomm     LIKE sy-ucomm
+*****                        rs_selfield TYPE slis_selfield.
+*****
+*****  DATA : lv_ref_grid TYPE REF TO cl_gui_alv_grid,
+*****         lv_datedif  TYPE i, "char5,
+*****         lv_lines    TYPE i,
+*****         lt_t003t    TYPE STANDARD TABLE OF t003t,
+*****         ls_t003t    TYPE t003t,
+*****         ls_doctyp   TYPE zfisep_doctyp.
+*****
+*****  DATA : lv_mondiff TYPE anz_monate.
+
+*****  FIELD-SYMBOLS: <fs_final> TYPE sty_alv_f.
+*****
+*****  CASE r_ucomm.
+*****
+*****    WHEN: 'BACK' OR 'CANCEL' OR 'EXIT'.
+*****      LEAVE PROGRAM.
+*****    WHEN: 'SSALL'.
+*****      LOOP AT gt_alv ASSIGNING <fs_final>.
+*****        <fs_final>-sel = gc_x.
+*****      ENDLOOP.
+*****      rs_selfield-refresh = gc_x.
+*****    WHEN: 'SDALL'.
+*****      LOOP AT gt_alv ASSIGNING <fs_final>.
+*****        <fs_final>-sel = ''.
+*****      ENDLOOP.
+*****      rs_selfield-refresh = gc_x.
+*****      " WHEN : 'EMAIL' OR 'SPOOL'.
+*****    WHEN: 'PRINT'.
+*****      IF lv_ref_grid IS INITIAL.
+*****        CALL FUNCTION 'GET_GLOBALS_FROM_SLVC_FULLSCR'
+*****          IMPORTING
+*****            e_grid = lv_ref_grid.
+*****      ENDIF.
+*****
+*****
+*****      IF lv_ref_grid IS NOT INITIAL.
+*****        CALL METHOD lv_ref_grid->check_changed_data.
+*****
+*****      ENDIF.
+*****      gt_alv1 = gt_alv.
+*****      DELETE gt_alv1 WHERE sel <> gc_x.
+*****
+*****      IF gt_alv1[] IS NOT INITIAL.
+*****        LOOP AT gt_alv INTO gwa_alv WHERE sel = 'X'.
+*****          kunnr = gwa_alv-kunnr.
+*****          name1 = gwa_alv-name1.
+*****          opening_balance = gwa_alv-opening_bal.
+*****          closing_balance  = gwa_alv-closing_bal.
+*****          total_payment  = gwa_alv-total_payment.
+*****          total_bonus = gwa_alv-total_bonus.
+*****          total_returns = gwa_alv-total_returns.
+*****          total_invoice = gwa_alv-total_invoice.
+*****          total_open_atc = gwa_alv-total_open_atc.
+*****          available_bal  = gwa_alv-available_bal.
+*****
+*****          LOOP AT paymentitems WHERE kunnr = gwa_alv-kunnr.
+*****            APPEND paymentitems TO paymentitems1[].
+*****          ENDLOOP.
+*****          LOOP AT returnsitems WHERE kunnr = gwa_alv-kunnr.
+*****            APPEND returnsitems TO returnsitems1[].
+*****          ENDLOOP.
+*****          LOOP AT invoiceitems WHERE kunnr = gwa_alv-kunnr.
+*****            APPEND invoiceitems TO invoiceitems1[].
+*****          ENDLOOP.
+*****          LOOP AT bonusitems WHERE kunnr = gwa_alv-kunnr.
+*****            APPEND bonusitems TO bonusitems1[].
+*****          ENDLOOP.
+*****
+*****          LOOP AT it_open_atc WHERE kunnr = gwa_alv-kunnr.
+*****            APPEND it_open_atc TO open_atc.
+*****          ENDLOOP.
+*****
+*****
+*****          ls_control_parameters-preview = ' '.
+*****
+*****          "         PERFORM getItems using gwa_alv-kunnr
+*****          "                       gwa_alv-bukrs.
+*****          PERFORM print_form.
+*****          CLEAR gwa_alv.
+*****          REFRESH: paymentitems1, returnsitems1,invoiceitems1,bonusitems1, open_atc .
+*****        ENDLOOP.
+*****      ELSE.
+*****        MESSAGE TEXT-004 TYPE 'E'."'Atlease select one line item' TYPE 'W'.
+*****      ENDIF.
+
+****    WHEN: 'PREVIEW'.
+****      IF lv_ref_grid IS INITIAL.
+****        CALL FUNCTION 'GET_GLOBALS_FROM_SLVC_FULLSCR'
+****          IMPORTING
+****            e_grid = lv_ref_grid.
+****      ENDIF.
+****
+****
+****      IF lv_ref_grid IS NOT INITIAL.
+****        CALL METHOD lv_ref_grid->check_changed_data.
+****
+****      ENDIF.
+****      gt_alv1 = gt_alv.
+****      DELETE gt_alv1 WHERE sel <> gc_x.
+****
+****      IF gt_alv1[] IS NOT INITIAL.
+****        "   delete paymentitems where kunnr <> gt_alv1-kunnr.
+****        DESCRIBE TABLE gt_alv1 LINES lv_lines.
+****        IF lv_lines > 1.
+****          MESSAGE TEXT-030 TYPE 'E'.
+****          CLEAR lv_lines.
+****        ELSE.
+****          ls_control_parameters-preview = 'X'.
+****
+****          LOOP AT gt_alv1 INTO gwa_alv WHERE sel = 'X'.
+****
+****            kunnr = gwa_alv-kunnr.
+****            name1 = gwa_alv-name1.
+****            opening_balance = gwa_alv-opening_bal.
+****            closing_balance  = gwa_alv-closing_bal.
+****            total_payment  = gwa_alv-total_payment.
+****            total_bonus = gwa_alv-total_bonus.
+****            total_returns = gwa_alv-total_returns.
+****            total_invoice = gwa_alv-total_invoice.
+****            total_open_atc = gwa_alv-total_open_atc.
+****            available_bal  = gwa_alv-available_bal.
+****
+****            LOOP AT paymentitems WHERE kunnr = gwa_alv-kunnr.
+****              APPEND paymentitems TO paymentitems1[].
+****            ENDLOOP.
+****            LOOP AT returnsitems WHERE kunnr = gwa_alv-kunnr.
+****              APPEND returnsitems TO returnsitems1[].
+****            ENDLOOP.
+****            LOOP AT invoiceitems WHERE kunnr = gwa_alv-kunnr.
+****              APPEND invoiceitems TO invoiceitems1[].
+****            ENDLOOP.
+****            LOOP AT bonusitems WHERE kunnr = gwa_alv-kunnr.
+****              APPEND bonusitems TO bonusitems1[].
+****            ENDLOOP.
+****
+****            LOOP AT it_open_atc WHERE kunnr = gwa_alv-kunnr.
+****              APPEND it_open_atc TO open_atc.
+****            ENDLOOP.
+****            " PERFORM getItems using gwa_alv-kunnr
+****            "                       gwa_alv-bukrs.
+***************************************************************
+***** open atc items
+**************************************************************
+****
+*************************open atc ends here********************
+****            PERFORM print_form.
+****            CLEAR gwa_alv.
+****            REFRESH: paymentitems1, returnsitems1,invoiceitems1,bonusitems1, open_atc .
+****          ENDLOOP.
+****        ENDIF.
+****      ELSE.
+****        MESSAGE TEXT-004 TYPE 'E'."'Atlease select one line item' TYPE 'W'.
+****      ENDIF.
+****  ENDCASE.
+
+****ENDFORM.                    "user_command
+*&---------------------------------------------------------------------
+*  & Form print_form
+*&---------------------------------------------------------------------
+
+FORM print_form.
+
+  DATA: "formname           TYPE tdsfname,
+*        fm_name            TYPE rs38l_fnam,
+*        control_parameters TYPE ssfctrlop,
+*        output_options     TYPE ssfcompop,
+        ls_job_output_info TYPE ssfcrescl.
+*        otf_data           TYPE tsfotf.
+
+*  DATA : gv_ssfcompop TYPE ssfcompop.
+
+  DATA(lv_high) = sy-datum.
+
+
+* End of changes   : <Mod03>
+  SELECT SINGLE ltx FROM t247 INTO v_month WHERE mnr = lv_high+4(2) "s_bldat-high+4(2)
+  AND spras = 'E'.
+
+  v_day = lv_high+6(2).
+  v_year = lv_high+0(4).
+
+  CONCATENATE v_month  v_day INTO v_date1 SEPARATED BY space.
+  CONCATENATE v_date1 ',' INTO v_date1.
+  CONCATENATE v_date1 v_year INTO v_date SEPARATED BY space.
+
+  CONCATENATE lv_high+6(2) lv_high+4(2) lv_high+0(4) INTO gv_date SEPARATED BY '.'.
+  CLEAR: v_day, v_year, v_month.
+
+
+  SELECT SINGLE ltx FROM t247 INTO v_month WHERE mnr = s_bldat-low+4(2)
+  AND spras = 'E'.
+  v_day = s_bldat-low+6(2).
+  v_year = s_bldat-low+0(4).
+
+  CONCATENATE v_month  v_day INTO v_date1 SEPARATED BY space.
+  CONCATENATE v_date1 ',' INTO v_date1.
+  CONCATENATE v_date1 v_year INTO v_date1 SEPARATED BY space.
+
+  CONCATENATE s_bldat-low+6(2) s_bldat-low+4(2) s_bldat-low+0(4) INTO gv_date1 SEPARATED BY '.'.
+
+
+  "Edited to retrieve customer address
+  SELECT SINGLE land1 regio ort01 stras FROM kna1 INTO CORRESPONDING FIELDS OF cust_addr "#EC CI_SEL_NESTED
+  WHERE kunnr = kunnr.
+
+  stras = cust_addr-stras.
+  ort01 = cust_addr-ort01.
+
+
+  "cur = opening_bal-LOC_CURRCY. "Types  HWAER
+
+*select bezei from T005S into STATE where
+*LAND1 = cust_addr-land1 and bland = cust_addr-regio.
+
+  CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+    EXPORTING
+      formname           = 'ZFING_CUST_ACT_SUM'
+    IMPORTING
+      fm_name            = f_name
+    EXCEPTIONS
+      no_form            = 1
+      no_function_module = 2
+      OTHERS             = 3.
+  IF sy-subrc <> 0.
+*    MESSAGE TEXT-003 TYPE 'E'."'Check the Smartform' .
+    lv_exp = 1.
+    EXPORT lv_exp TO MEMORY ID 'Ztest'.
+  ENDIF.
+  DATA : ls_devtype TYPE rspoptype.
+
+  ls_output_options-tddest  = 'LP01'.
+  ls_output_options-tdnoprev = 'X'.
+  ls_output_options-tdnoprint  = 'X'.
+**
+**  ls_control_parameters-device = 'LP01'.
+  ls_control_parameters-no_dialog = 'X'.
+  ls_control_parameters-getotf = 'X'.
+  ls_control_parameters-preview = 'X'.
+
+  CALL FUNCTION 'SSF_GET_DEVICE_TYPE'
+    EXPORTING
+      i_language             = 'E'
+    IMPORTING
+      e_devtype              = ls_devtype
+    EXCEPTIONS
+      no_language            = 1
+      language_not_installed = 2
+      no_devtype_found       = 3
+      system_error           = 4
+      OTHERS                 = 5.
+  IF sy-subrc <> 0.                                       "#EC CI_SUBRC
+* Implement suitable error handling here
+  ENDIF.
+
+  ls_output_options-tdprinter = ls_devtype.
+
+
+  CALL FUNCTION f_name
+    EXPORTING
+      control_parameters = ls_control_parameters
+      output_options     = ls_output_options
+      kunnr              = kunnr
+      name1              = name1
+      open_balnc         = opening_balance
+      close_balnc        = closing_balance
+      "keydate  = date
+      total_payment      = total_payment
+      total_bonus        = total_bonus
+      total_returns      = total_returns
+      total_invoice      = total_invoice
+      v_date             = v_date
+      v_date1            = v_date1
+      gv_date1           = gv_date1
+      gv_date            = gv_date
+      cur                = cur
+      stras              = cust_addr-stras
+      ort01              = cust_addr-ort01
+      total_open_atc     = gv_total_open_atc
+      available_bal      = available_bal
+    IMPORTING
+      job_output_info    = ls_job_output_info
+    TABLES
+      paymentitems       = paymentitems1[]
+      bonusitems         = bonusitems1[]
+      returnitems        = returnsitems1[]
+      invoiceitems       = invoiceitems1[]
+      open_atc           = open_atc[]
+    EXCEPTIONS
+      formatting_error   = 1
+      internal_error     = 2
+      send_error         = 3
+      user_canceled      = 4
+      OTHERS             = 5.
+  IF sy-subrc <> 0.
+*    MESSAGE TEXT-020 TYPE 'E'.
+    lv_exp = 1.
+    EXPORT lv_exp TO MEMORY ID 'Ztest'.
+
+  ENDIF.
+
+  CLEAR: opening_balance,
+         closing_balance, total_payment, total_returns,
+         total_bonus, total_invoice,
+         paymentitems, returnsitems.
+
+*   DATA: gv_ssfcompop TYPE ssfcompop.
+  DATA: ls_control      TYPE ssfctrlop.
+
+  DATA : " lo_sender      TYPE REF TO cl_sapuser_bcs,
+    lo_sender      TYPE REF TO if_sender_bcs,
+*         lv_email       TYPE adr6-smtp_addr,
+    lo_recipient   TYPE REF TO if_recipient_bcs,
+    lv_sent_to_all TYPE os_boolean.
+  DATA lv_xstring TYPE xstring.
+  DATA lt_attch TYPE solix_tab.
+  DATA lv_message_text   TYPE string.
+  DATA : lo_dcument TYPE REF TO cl_document_bcs,
+         lv_subject TYPE so_obj_des.
+  DATA: lv_datefr      TYPE string,
+        lv_dateto      TYPE string,
+        lv_mon         TYPE string,
+        lv_monname(10) TYPE c.
+  DATA : ls_doc_head   TYPE thead,
+*         gt_text         TYPE TABLE OF tline,
+         lv_disclaimer TYPE string.
+*         gv_sender_email TYPE adr6-smtp_addr. " type soextreci1-receiver.
+
+  CONSTANTS : lc_html TYPE char03 VALUE 'HTM'.
+  DATA lo_send_request   TYPE REF TO cl_bcs.
+
+  DATA : lt_lines  TYPE STANDARD TABLE OF tline WITH HEADER LINE,
+         lt_docs   TYPE STANDARD TABLE OF docs,
+         lv_len_in LIKE sood-objlen.
+
+*  CALL FUNCTION f_name
+*    EXPORTING
+*      control_parameters = control
+*      output_options     = gv_ssfcompop
+*      user_settings      = 'X'
+*    IMPORTING
+*      job_output_info    = ls_job_output_info.
+*
+*  IF sy-subrc <> 0.
+*  ENDIF.
+
+
+*      CLEAR : control.
+*        control-getotf = 'X'.
+*        control-no_dialog = 'X'.
+*
+*        CALL FUNCTION f_name
+*          EXPORTING
+*            control_parameters = control
+*            output_options     = gv_ssfcompop
+*            user_settings      = 'X'
+*          IMPORTING
+*            job_output_info    = ls_job_output_info.
+*
+*        IF sy-subrc <> 0.
+*        ENDIF.
+
+
+  DATA: lv_kunnr TYPE kunnr.
+  DATA:lv_attach_name TYPE sood-objdes.
+  lv_kunnr = s_kunnr-low.
+
+
+  IF ls_job_output_info-otfdata IS NOT INITIAL.
+
+
+    REFRESH : lt_lines,lt_docs.
+    CALL FUNCTION 'CONVERT_OTF'
+      EXPORTING
+        format                = 'PDF'
+        max_linewidth         = 132
+      IMPORTING
+        bin_filesize          = lv_len_in
+        bin_file              = lv_xstring
+      TABLES
+        otf                   = ls_job_output_info-otfdata
+        lines                 = lt_lines
+      EXCEPTIONS
+        err_max_linewidth     = 1
+        err_format            = 2
+        err_conv_not_possible = 3
+        err_bad_otf           = 4
+        OTHERS                = 5.
+
+    IF sy-subrc <> 0.                                     "#EC CI_SUBRC
+* Implement suitable error handling here
+    ENDIF.
+
+    " Convert string to Solix
+    CALL METHOD cl_document_bcs=>xstring_to_solix
+      EXPORTING
+        ip_xstring = lv_xstring                " XSTRING
+      RECEIVING
+        rt_solix   = lt_attch.                 " SOLIX Table
+
+* Attachment
+    lv_message_text = '<html><body style="font-family:Arial;">'.
+
+* Create Message Body Title and Description
+    READ TABLE s_bldat INTO DATA(ls_bldat) INDEX 1.
+    lv_datefr = ls_bldat-low.
+    lv_dateto = ls_bldat-high.
+
+    lv_message_text = |{ lv_message_text } | &
+                      |****** THIS IS A TEST - PLEASE IGNORE*****| &
+                      |<P>Dear Customer,<P>| && |Please find the mail attachment of customer ledger statement for the period from | &
+                      |{ lv_datefr }| & | to | & |{ lv_dateto }| & |.<P><P>|.
+
+    lv_message_text = |{ lv_message_text } | &
+                      |If you have any queries related with this statement, you can reach out to your concerned person from Finance Dept. within 5 days from | &
+                      |receipt of this statement.<P><P> Thanks & Regards, <P> Dangote Team.<BR><BR><BR>|.
+
+*        lv_message_text = |{ lv_message_text } | &
+*                          |<hr> <font size="1" color="grey">|.
+*
+*        LOOP AT gt_text ASSIGNING FIELD-SYMBOL(<lfs_text>).
+*          IF <lfs_text>-tdformat = '/'.
+*            lv_message_text = |{ lv_message_text } | & |<P>|.
+*          ENDIF.
+*          lv_message_text = |{ lv_message_text } | & |{ <lfs_text>-tdline }|.
+*        ENDLOOP.
+*
+*        lv_message_text = |{ lv_message_text } | & |<P><hr>|.
+
+** Concatenate Disclaimer
+    lv_message_text = |{ lv_message_text }| && |{ lv_disclaimer }|.
+
+    lv_message_text = lv_message_text && '</body></html>'.
+
+    lv_subject = |Test Email for Customer Statement - { lv_kunnr ALPHA = OUT } |. "Customer Statement
+
+    TRY.
+        lo_dcument = cl_document_bcs=>create_document(
+                        i_type    = lc_html
+                        i_text    = cl_bcs_convert=>string_to_soli( iv_string = lv_message_text )
+                        i_subject = lv_subject ).
+      CATCH cx_document_bcs INTO DATA(lo_CX_DOCUMENT_BCS).
+    ENDTRY.
+    "Create send request
+    TRY.
+        lo_send_request = cl_bcs=>create_persistent( ).
+      CATCH cx_send_req_bcs INTO DATA(lo_CX_SEND_REQ_BCS).
+    ENDTRY.
+    lv_attach_name = |Customer Statement - { lv_kunnr ALPHA = OUT } |.
+
+    TRY.
+        lo_dcument->add_attachment(
+          EXPORTING
+            i_attachment_type     = 'PDF'                 " Document Class for Attachment
+            i_attachment_subject  = lv_attach_name        " Attachment Title
+            i_att_content_hex     = lt_attch              " Content (Binary)
+        ).
+      CATCH cx_document_bcs INTO lo_CX_DOCUMENT_BCS.
+    ENDTRY.
+
+    "Add document to send request
+    TRY.
+        CALL METHOD lo_send_request->set_document( lo_dcument ).
+      CATCH cx_send_req_bcs INTO lo_CX_SEND_REQ_BCS.
+    ENDTRY.
+
+*        gv_sender_email = 'ganesh.mokadam@Dangote.com'. " should be customer email id.
+*  READ TABLE s_kunnr INTO DATA(LS_CUS) INDEX 1.
+*
+*       SELECT kunnr , adrnr FROM kna1 INTO TABLE @DATA(it_kna1)
+**                                           FOR ALL ENTRIES IN @lt_vbrk
+*                                           WHERE kunnr = @LS_CUS-low.
+*              IF it_kna1 IS NOT INITIAL.
+*                SELECT addrnumber ,
+*                       persnumber,
+*                       date_from,
+*                       consnumber,
+*                       smtp_addr FROM adr6 INTO TABLE @DATA(it_adr6)
+*                                                   FOR ALL ENTRIES IN @it_kna1
+*                                                   WHERE addrnumber = @it_kna1-adrnr.
+*              ENDIF.
+*
+*            READ TABLE it_adr6 INTO DATA(ls_adr6) INDEX 1.
+*            IF sy-subrc = 0.
+*             gv_sender_email = ls_adr6-smtp_addr.
+*            ENDIF.
+
+    "Email FROM...
+*        lo_sender = cl_cam_address_bcs=>create_internet_address( gv_sender_email ).
+
+
+    "Add sender to send request
+*        CALL METHOD lo_send_request->set_sender
+*          EXPORTING
+*            i_sender = lo_sender.
+
+******        SELECT smtp_addr FROM adr6 AS a
+******          JOIN kna1 AS b ON b~adrnr = a~addrnumber
+******          WHERE kunnr = @pv_kunnr AND smtp_addr <> ''
+******          INTO @DATA(lv_email).
+
+*select single kun,nr ,adrnr from kna1 into @data(ls_kna1) where kunnr = @s_kunnr
+*        DATA: lv_email TYPE adr6-smtp_addr.
+
+    "Fetch Customer Details
+
+    "Logic to Fetch Sender Email Address
+    DATA : lv_email TYPE adr6-smtp_addr.
+    SELECT SINGLE kunnr, adrnr FROM kna1 INTO @DATA(ls_kna1) WHERE kunnr EQ @lv_kunnr. "#EC CI_SEL_NESTED
+    IF sy-subrc EQ 0.
+      SELECT SINGLE addrnumber, flgdefault, smtp_addr FROM adr6 INTO @DATA(ls_adr6) "#EC CI_SEL_NESTED
+        WHERE addrnumber EQ @ls_kna1-adrnr AND
+              flgdefault = 'X'.
+      IF sy-subrc EQ 0.
+        lv_email = ls_adr6-smtp_addr.
+      ENDIF.
+    ENDIF.
+
+*        IF lv_email IS INITIAL.
+*          lv_email = 'ganesh.mokadam@Dangote.com'. " should be customer email id.
+*        ENDIF.
+
+*****        IF sy-subrc = 0.
+    IF lv_email IS NOT INITIAL.
+      DATA : lo_send TYPE REF TO cl_cam_address_bcs.
+
+      TRY.
+          lo_send = cl_cam_address_bcs=>create_internet_address( gv_address ).
+        CATCH cx_address_bcs INTO data(lo_CX_ADDRESS_BCS).
+      ENDTRY.
+
+      TRY.
+          CALL METHOD lo_send_request->set_sender(
+            EXPORTING
+              i_sender = lo_send ).
+        CATCH cx_send_req_bcs INTO lo_CX_SEND_REQ_BCS.
+      ENDTRY.
+      "Add Sender as the receient (TO)
+*          lo_recipient = cl_cam_address_bcs=>create_internet_address( gv_sender_email ).
+      TRY.
+          lo_recipient = cl_cam_address_bcs=>create_internet_address( lv_email ).
+        CATCH cx_address_bcs INTO lo_CX_ADDRESS_BCS.
+      ENDTRY.
+      IF lo_recipient IS NOT INITIAL.
+        TRY.
+            CALL METHOD lo_send_request->add_recipient
+              EXPORTING
+                i_recipient = lo_recipient
+                i_express   = 'X'.
+          CATCH cx_send_req_bcs INTO lo_CX_SEND_REQ_BCS.
+        ENDTRY.
+      ENDIF.
+
+******          LOOP AT lt_email ASSIGNING FIELD-SYMBOL(<lfs_email>) WHERE smtp_addr IS NOT INITIAL.
+*            DATA(lv_email) = lv_email." <lfs_email>-smtp_addr.
+
+*      CLEAR lo_recipient.                    "Commented by Kalyan Kumar on 26.05.2023
+*
+*      lo_recipient = cl_cam_address_bcs=>create_internet_address( lv_email ).
+*
+*      "Add recipient to send request (BCC for Customers)
+*      CALL METHOD lo_send_request->add_recipient
+*        EXPORTING
+*          i_recipient  = lo_recipient
+*          i_blind_copy = 'X'
+*          i_express    = 'X'.
+*******          ENDLOOP.
+      IF lo_recipient IS NOT INITIAL.
+
+        "Add document to send request
+        TRY.
+            CALL METHOD lo_send_request->set_document( lo_dcument ).
+          CATCH cx_send_req_bcs INTO lo_CX_SEND_REQ_BCS.
+        ENDTRY.
+        "Send email
+        TRY.
+            CALL METHOD lo_send_request->send(
+              EXPORTING
+                i_with_error_screen = 'X'
+              RECEIVING
+                result              = lv_sent_to_all ).
+          CATCH cx_send_req_bcs INTO lo_CX_SEND_REQ_BCS.
+        ENDTRY.
+        IF lv_sent_to_all = 'X'.
+          "Commit to send email
+          COMMIT WORK.
+          lv_exp = 2.                 "Added by kalyan.g 15.06.2023
+*              WRITE : 'Email sent' COLOR COL_POSITIVE.
+        ELSE.
+*              WRITE 'Error in sending Email' COLOR COL_NEGATIVE.
+        ENDIF.
+
+***          ELSE.
+*            WRITE : 'Customer Email ID does not exist' COLOR COL_TOTAL.
+      ENDIF.
+    ELSE.
+*          WRITE : 'Customer Email is not maintained in Customer Master' COLOR COL_TOTAL.
+    ENDIF.
+
+  ELSE.
+*        WRITE : 'Error occured while generating OTP data' COLOR COL_NEGATIVE.
+  ENDIF.
+
+  EXPORT lv_exp TO MEMORY ID 'Ztest'.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*&      Form  FETCHING_DATA
+*&---------------------------------------------------------------------*
+FORM fetching_data.
+** Added by Zubin on 14.04.2020
+  DATA : lt_et_ukm_item_display TYPE TABLE OF v_ukm_item,
+         lt_com_type_range      TYPE ukm_t_com_type,
+         ls_com_type_range      TYPE ukm_s_com_type_range,
+         lt_atc                 TYPE TABLE OF ty_atc.
+
+  ls_com_type_range-sign = 'I'.
+  ls_com_type_range-option = 'EQ'.
+
+** Orders
+  ls_com_type_range-low = '100'.
+  APPEND ls_com_type_range TO lt_com_type_range.
+
+** Deliveries
+  ls_com_type_range-low = '400'.
+  APPEND ls_com_type_range TO lt_com_type_range.
+
+
+** Billing Document Value
+  ls_com_type_range-low = '500'.
+  APPEND ls_com_type_range TO lt_com_type_range.
+
+  SELECT   kunnr                       "#EC CI_DB_OPERATION_OK[2602107]
+           bukrs
+           budat
+           belnr
+" GJAHR added by Zubin on 27.03.2020
+           gjahr
+           sgtxt
+" DMBTR added by Zubin on 17.04.2020
+           dmbtr
+           wrbtr
+           shkzg
+" KKBER added by Zubin on 27.03.2020
+           kkber
+           FROM bsid
+*           FROM BSID_VIEW
+           INTO TABLE gt_bsid
+           WHERE kunnr IN s_kunnr AND
+                 bukrs IN s_bukrs.
+
+  IF sy-subrc = 0.
+    SELECT kunnr                       "#EC CI_DB_OPERATION_OK[2602107]
+     bukrs
+     augdt
+     belnr
+" GJAHR added by Zubin on 27.03.2020
+     gjahr
+     sgtxt
+" DMBTR added by Zubin on 17.04.2020
+     dmbtr
+     wrbtr
+     shkzg
+     umskz
+     FROM bsad
+*     FROM BSAD_VIEW
+     INTO CORRESPONDING FIELDS OF TABLE gt_bsad
+     WHERE bukrs IN s_bukrs AND
+           kunnr IN s_kunnr.
+
+    IF gt_bsad IS NOT INITIAL.
+      SELECT  bukrs                                "#EC CI_NO_TRANSFORM
+              belnr
+              gjahr
+              xblnr
+              bktxt
+              xreversal
+              FROM bkpf
+              INTO TABLE gt_bkpf
+              FOR ALL ENTRIES IN gt_bsad           "#EC CI_NO_TRANSFORM
+              WHERE bukrs = gt_bsad-bukrs
+              AND   belnr = gt_bsad-belnr AND
+                    gjahr = gt_bsad-gjahr AND   " GJAHR added by Zubin on 27.03.2020
+                    xreversal <> ' '.
+    ENDIF.
+    IF gt_bkpf IS NOT INITIAL.
+      SELECT  kunnr "#EC CI_NO_TRANSFORM  "#EC CI_DB_OPERATION_OK[2602107]
+              bukrs
+              augdt
+              belnr
+              gjahr
+              sgtxt
+" DMBTR added by Zubin on 17.04.2020
+              dmbtr
+              wrbtr
+              shkzg
+              umskz
+              FROM bsad
+*              FROM BSAD_VIEW
+              INTO  TABLE gt_bsad
+              FOR ALL ENTRIES IN gt_bkpf           "#EC CI_NO_TRANSFORM
+              WHERE bukrs = gt_bkpf-bukrs AND
+                    belnr = gt_bkpf-belnr AND
+                    gjahr = gt_bkpf-gjahr." GJAHR added by Zubin on 27.03.2020
+    ENDIF.
+    SORT: gt_bsid BY bldat,
+          gt_bsad BY augdt.
+
+    gt_bsid1 = gt_bsid.
+    SORT gt_bsid BY kunnr.
+    DELETE ADJACENT DUPLICATES FROM gt_bsid COMPARING kunnr.
+    SELECT bukrs
+           butxt
+           adrnr FROM t001
+                 INTO TABLE gt_t001
+                 WHERE bukrs IN s_bukrs.
+    IF sy-subrc <> 0.
+*      MESSAGE TEXT-013 TYPE 'E'."'Check the company code' TYPE 'E'.
+      lv_exp = 1.
+      EXPORT lv_exp TO MEMORY ID 'Ztest'.
+    ELSE.
+
+      SELECT addrnumber                            "#EC CI_NO_TRANSFORM
+             name1
+             name2
+             name3
+             name4
+             street
+             str_suppl3
+             po_box
+             po_box_lobby
+             po_box_loc
+             city1
+             tel_number
+             fax_number
+             post_code2
+             post_code1
+             FROM adrc
+             INTO CORRESPONDING FIELDS OF TABLE gt_adrc
+             FOR ALL ENTRIES IN gt_t001            "#EC CI_NO_TRANSFORM
+             WHERE addrnumber = gt_t001-adrnr.
+    ENDIF.
+
+    SELECT kunnr
+           adrnr
+           name1
+           name2
+           stcd1
+           stcd2
+           FROM kna1
+           INTO TABLE gt_kna1
+           FOR ALL ENTRIES IN gt_bsid
+           WHERE kunnr = gt_bsid-kunnr.
+    IF sy-subrc = 0.
+      SELECT name3                                 "#EC CI_NO_TRANSFORM
+             addrnumber
+             po_box
+             po_box_lobby
+             city1
+             post_code2
+             po_box_loc
+             FROM adrc
+             INTO TABLE gt_adrc_c
+             FOR ALL ENTRIES IN gt_kna1            "#EC CI_NO_TRANSFORM
+             WHERE addrnumber = gt_kna1-adrnr.
+
+      SELECT addrnumber                            "#EC CI_NO_TRANSFORM
+             persnumber
+             date_from
+             consnumber
+             smtp_addr
+             FROM adr6
+             INTO TABLE gt_adr6
+             FOR ALL ENTRIES IN gt_kna1
+             WHERE addrnumber = gt_kna1-adrnr.
+    ELSE.
+*      MESSAGE TEXT-014 TYPE 'E'."'check the customer number' TYPE 'E'.
+      lv_exp = 1.
+      EXPORT lv_exp TO MEMORY ID 'Ztest'.
+    ENDIF.
+  ELSE.
+*    MESSAGE TEXT-015 TYPE 'E'." 'Entered input date has no valid document ' TYPE 'E'.
+    lv_exp = 1.
+    EXPORT lv_exp TO MEMORY ID 'Ztest'.
+  ENDIF.
+
+  SELECT SINGLE value1  FROM zab_dcp_param INTO ( gv_address )
+                                             WHERE param1 = 'ZDMS_SENDER_ADDRESS'
+                                              AND  param2 = 'EMAIL_ID'
+                                              AND  param3 = '1'.
+
+  LOOP AT gt_bsid INTO gwa_bsid.                         "#EC CI_NESTED
+    READ TABLE gt_kna1 INTO gwa_kna1 WITH KEY kunnr = gwa_bsid-kunnr.
+    gwa_alv-kunnr = gwa_bsid-kunnr.
+    gwa_alv-bukrs = gwa_bsid-bukrs.
+    gwa_alv-name1 = gwa_kna1-name1.
+
+
+    "total_open_atc
+    IF gwa_alv-kunnr IS NOT INITIAL AND gwa_alv-bukrs IS NOT INITIAL .
+*********************************
+*Get open ATC
+*********************************************
+
+** Added by Zubin on 14.04.2020
+      CLEAR: open_atc1, open_atc2.
+
+** Commented by Zubin on 14.04.2020
+*****  clear: lt_S066, lt_S067, open_atc1, open_atc2.
+*****select * from S066 into table lt_S066 where knkli = gwa_alv-kunnr and kkber = '1000'.       "#EC CI_USAGE_OK[2217124]
+*****  sort lt_S066 by SPMON.
+*****  loop at lt_S066.
+*****    open_atc1 = lt_S066-OEIKW + open_atc1.
+*****  endloop.
+
+*****  select * from S067 into table lt_S067 where knkli = gwa_alv-kunnr and kkber = '1000'.      "#EC CI_USAGE_OK[2217124]
+*****  sort lt_S067 by SPMON.
+*****  loop at lt_S067.
+*****    open_atc2 = lt_S067-olikw + open_atc2.
+*****  endloop.
+
+***** gwa_alv-total_open_atc = open_atc1 + open_atc2.
+
+*****************************************************
+*get open ATC line items*********************************
+      SELECT * FROM vbbe INTO TABLE gt_vbbe WHERE kunnr = gwa_alv-kunnr. "#EC CI_SEL_NESTED "#EC CI_NOFIELD
+
+      IF gt_vbbe IS NOT INITIAL.
+        SELECT vbeln audat netwr mwsbp_i kwmeng_i matnr_i FROM wb2_v_vbak_vbap2 INTO TABLE lt_view1 FOR ALL ENTRIES IN gt_vbbe "#EC CI_NO_TRANSFORM,   "#EC CI_SEL_NESTED  "#EC CI_NO_TRANSFORM
+        WHERE vbeln = gt_vbbe-vbeln ."and auart ne 'ZLF'.
+
+
+        SELECT vbeln vgbel FROM lips INTO TABLE lt_lips FOR ALL ENTRIES IN gt_vbbe "#EC CI_SEL_NESTED,    "#EC CI_NO_TRANSFORM
+        WHERE vbeln = gt_vbbe-vbeln ."and it_vbbe-AUART eq 'ZLF'.
+      ENDIF.
+
+
+      IF lt_lips[] IS NOT INITIAL.
+        SELECT vbeln audat netwr mwsbp_i kwmeng_i matnr_i FROM wb2_v_vbak_vbap2 INTO TABLE lt_view2 FOR ALL ENTRIES IN lt_lips "#EC CI_SEL_NESTED "#EC CI_NO_TRANSFORM
+        WHERE vbeln = lt_lips-vgbel.
+      ENDIF.
+
+*  loop at it_vbbe.
+*     it_open_atc-kunnr = gwa_alv-kunnr.
+*    it_open_atc-docNo = it_vbbe-vbeln.
+*    it_open_atc-matnr = it_vbbe-matnr.
+*    clear qty.
+*    qty = it_vbbe-omeng.
+*    SHIFT qty left deleting leading space.
+*    CONCATENATE qty '/' it_vbbe-meins into it_open_atc-qty_uom SEPARATED BY space.
+*    if it_vbbe-auart ne 'ZLF'.
+*     READ TABLE lt_view1 with key vbeln = it_vbbe-vbeln.
+*     "it_open_atc-docDate = lt_view1-audat.
+*      CONCATENATE LT_VIEW1-AUDAT+6(2) '.' LT_VIEW1-AUDAT+4(2) '.' LT_VIEW1-AUDAT+0(4) into it_open_atc-docDate.
+*      total_amount = lt_view1-netwr + lt_view1-mwsbp_i .
+*      it_open_atc-amount = ( it_vbbe-omeng / lt_view1-KWMENG_I ) * total_amount.
+*      clear total_amount.
+*   "   it_open_atc-amount = lt_view1-netwr + lt_view1-mwsbp_i .
+*    elseif it_vbbe-auart eq 'ZLF'.
+*     READ TABLE lt_lips with key vbeln = it_vbbe-vbeln.
+*     READ TABLE lt_view2 with key vbeln = lt_lips-vgbel.
+*    " it_open_atc-docDate = lt_view2-audat.
+*     CONCATENATE LT_VIEW2-AUDAT+6(2) '.' LT_VIEW2-AUDAT+4(2) '.' LT_VIEW2-AUDAT+0(4) into it_open_atc-docDate.
+*
+*"     it_open_atc-amount = lt_view2-netwr + lt_view2-mwsbp_i .
+*      total_amount = lt_view2-netwr + lt_view2-mwsbp_i .
+*      it_open_atc-amount = ( it_vbbe-omeng / lt_view2-KWMENG_I ) * total_amount.
+*      clear total_amount.
+*    endif.
+*
+*    append it_open_atc.
+*    clear it_open_atc.
+*    "modify it_open_atc.
+*  endloop.
+
+** Commented by Zubin on 14.04.2020
+*****cl_salv_bs_runtime_info=>set(    EXPORTING display  = abap_false
+*****                                           metadata = abap_false
+*****                                           data     = abap_true ).
+*****
+*****
+*****                 SUBMIT rvkred07
+*****                  "WITH kkber IN kkber
+*****                  WITH knkli EQ gwa_alv-kunnr   "S_KUNNR
+*****                  WITH protb EQ protb
+*****                  WITH tracs EQ tracs
+*****                  WITH noblock EQ noblock
+*****                 "@WITH dd_vbeln IN dd_vbeln.
+*****                 AND RETURN.
+*****
+*****   TRY.
+*****
+*****    cl_salv_bs_runtime_info=>get_data_ref(        IMPORTING r_data = lr_pay_data ).
+*****    ASSIGN lr_pay_data->* TO <lt_pay_data>.
+*****  CATCH cx_salv_bs_sc_runtime_info.
+*****
+*****  "  MESSAGE 'Unable to retrieve ALV data' TYPE 'E'.
+*****
+*****ENDTRY.
+*****
+*****cl_salv_bs_runtime_info=>clear_all( ).
+*****
+*****LOOP AT <lt_pay_data> ASSIGNING  <LT_TEST>.
+*****
+*****  MOVE-CORRESPONDING  <LT_TEST> TO gt_output  .
+*****
+*****  APPEND gt_output. .
+*****ENDLOOP.
+*****
+*****LOOP AT gt_output.
+*****  READ TABLE it_open_atc with key docNo = gt_output-vbeln.
+*****  if sy-subrc <> 0.
+*****   it_open_atc-kunnr = gt_output-knkli.
+*****   it_open_atc-docNo = gt_output-vbeln.
+*****
+******   CLEAR it_vbbe.
+******   READ TABLE it_vbbe with key vbeln = gt_output-vbeln.
+******   if sy-subrc = 0.
+******   it_open_atc-matnr = it_vbbe-matnr.
+******   else.
+******
+******   READ TABLE lt_view2 with key vbeln = gt_output-vbeln.
+******   if sy-subrc = 0.
+******   it_open_atc-matnr = lt_view2-matnr_i.
+******   endif.
+******   endif.
+*****select single matnr_i from WB2_V_VBAK_VBAP2 into it_open_atc-matnr where vbeln = gt_output-vbeln.
+*****
+*****   it_open_atc-amount = gt_output-oeikw + gt_output-olikw.
+*****  " CONCATENATE gt_output-spmon it_open_atc-period
+*****  " CONCATENATE GT_OUTPUT-SPMON+4(2) '.' GT_OUTPUT-SPMON+0(4) INTO it_open_atc-period.
+*****   select single audat from vbak into s_audat where vbeln = gt_output-vbeln.
+*****     if sy-subrc = 0.
+*****     CONCATENATE s_audat+6(2) '.' s_audat+4(2) '.' s_audat+0(4) into it_open_atc-docDate.
+*****     endif.
+*****     clear s_audat.
+*****
+*****   append it_open_atc.
+*****   clear it_open_atc.
+*****  else.
+*****
+*****       it_open_atc-amount = it_open_atc-amount + gt_output-oeikw + gt_output-olikw.
+*****
+*****       MODIFY it_open_atc INDEX sy-tabix.
+*****       clear it_open_atc.
+*****
+*****  endif.
+*****
+*****ENDLOOP.
+
+
+** Added by Zubin on 14.04.2020
+** Fetch Partner number from Customer Code
+      SELECT SINGLE businesspartner FROM ibupacustomer INTO @DATA(lv_partner) WHERE customer = @gwa_alv-kunnr. "#EC CI_SEL_NESTED
+*      SELECT SINGLE businesspartner FROM I_BUSINESSPARTNERCUSTOMER INTO @DATA(lv_partner) WHERE customer = @gwa_alv-kunnr.  "#EC CI_SEL_NESTED
+      IF lv_partner IS NOT INITIAL.
+** Derive Credit segment
+        SELECT waers UP TO 1 ROWS
+          INTO @DATA(lv_kcur) FROM knvv WHERE kunnr = @gwa_alv-kunnr ORDER BY PRIMARY KEY. "#EC CI_SEL_NESTED
+        ENDSELECT.
+
+        IF lv_kcur IS NOT INITIAL.
+
+          SELECT a~credit_sgmnt UP TO 1 ROWS FROM ukmbp_cms_sgm AS a
+            JOIN ukmcred_sgm0c AS b ON b~credit_sgmnt = a~credit_sgmnt "#EC CI_SEL_NESTED   "#EC CI_BUFFJOIN
+            INTO @DATA(lv_credit_sgmnt)
+            WHERE partner = @lv_partner AND
+                  currency = @lv_kcur
+            ORDER BY a~credit_sgmnt.
+          ENDSELECT.
+
+          IF lv_credit_sgmnt IS NOT INITIAL.
+
+            CALL FUNCTION 'UKM_ITEMS_READ'
+              EXPORTING
+                i_partner           = lv_partner
+                i_segment           = lv_credit_sgmnt
+                it_com_type_range   = lt_com_type_range
+              TABLES
+                et_ukm_item_display = lt_et_ukm_item_display
+              EXCEPTIONS
+                i_guid_not_found    = 1
+                OTHERS              = 2.
+            IF sy-subrc <> 0.                             "#EC CI_SUBRC
+* Implement suitable error handling here
+            ENDIF.
+
+** Fetch SO numbers for deliveries in lt_et_ukm_item_400
+            PERFORM get_open_atc TABLES lt_et_ukm_item_display lt_atc.
+
+** Below Logic picked from original code
+            LOOP AT lt_atc ASSIGNING FIELD-SYMBOL(<lfs_atc>). "#EC CI_NESTED
+              gwa_alv-total_open_atc = gwa_alv-total_open_atc + <lfs_atc>-vbeln_va_amt.
+
+              READ TABLE it_open_atc WITH KEY docno = <lfs_atc>-vbeln_va.
+              IF sy-subrc <> 0.
+                it_open_atc-kunnr = gwa_alv-kunnr.
+                it_open_atc-docno = <lfs_atc>-vbeln_va.
+
+                SELECT SINGLE matnr_i FROM wb2_v_vbak_vbap2 INTO it_open_atc-matnr "#EC CI_SEL_NESTED
+                  WHERE vbeln = <lfs_atc>-vbeln_va AND
+                        posnr_i = <lfs_atc>-posnr_va.
+
+                it_open_atc-amount = <lfs_atc>-vbeln_va_amt.
+
+                SELECT SINGLE audat FROM vbak INTO s_audat WHERE vbeln = <lfs_atc>-vbeln_va. "#EC CI_SEL_NESTED
+                IF sy-subrc = 0.
+                  CONCATENATE s_audat+6(2) '.' s_audat+4(2) '.' s_audat+0(4) INTO it_open_atc-docdate.
+                ENDIF.
+                CLEAR s_audat.
+
+                APPEND it_open_atc.
+                CLEAR it_open_atc.
+              ELSE.
+
+                it_open_atc-amount = it_open_atc-amount + <lfs_atc>-vbeln_va_amt.
+                MODIFY it_open_atc INDEX sy-tabix.
+                CLEAR it_open_atc.
+
+              ENDIF.
+
+            ENDLOOP.
+
+            CLEAR : lv_partner, lv_credit_sgmnt.
+            REFRESH : lt_et_ukm_item_display, lt_atc.
+          ENDIF.
+
+          CLEAR lv_kcur.
+
+        ENDIF.
+      ENDIF.
+
+**********************************************
+*get opening balance
+*************************************************
+      keydate =  s_bldat-low - 1 .
+      CALL FUNCTION 'BAPI_AR_ACC_GETKEYDATEBALANCE'         "#EC CI_USAGE_OK[2628704]
+        EXPORTING
+          companycode = gwa_alv-bukrs
+          customer    = gwa_alv-kunnr
+          keydate     = keydate
+        TABLES
+          keybalance  = opening_bal.
+
+** Commented by Zubin on 17.04.20
+*****      READ TABLE opening_bal INDEX 1.
+*****      gwa_alv-opening_bal = opening_bal-lc_bal. "#EC CI_FLDEXT_OK[2610650]
+*****      cur = opening_bal-loc_currcy.
+** Added by Zubin on 17.04.20
+      LOOP AT opening_bal ASSIGNING FIELD-SYMBOL(<lfs_opening_bal>). "#EC CI_NESTED
+        gwa_alv-opening_bal = gwa_alv-opening_bal + <lfs_opening_bal>-lc_bal. "#EC CI_FLDEXT_OK[2610650]
+        cur = <lfs_opening_bal>-loc_currcy.
+      ENDLOOP.
+
+
+
+      CLEAR keydate.
+      keydate = sy-datum. "s_bldat-high.
+***Get closing balance**********************
+*************************************************
+      CALL FUNCTION 'BAPI_AR_ACC_GETKEYDATEBALANCE'       "#EC CI_USAGE_OK[2628704]
+        EXPORTING
+          companycode = gwa_alv-bukrs
+          customer    = gwa_alv-kunnr
+          keydate     = keydate
+        TABLES
+          keybalance  = closing_bal.
+** Commented by Zubin on 17.04.20
+*****      READ TABLE closing_bal INDEX 1.
+*****      gwa_alv-closing_bal = closing_bal-lc_bal. "#EC CI_FLDEXT_OK[2610650]
+** Added by Zubin on 17.04.20
+      LOOP AT closing_bal ASSIGNING FIELD-SYMBOL(<lfs_closing_bal>). "#EC CI_NESTED   "#EC CI_SORTLOOP
+        gwa_alv-closing_bal = gwa_alv-closing_bal + <lfs_closing_bal>-lc_bal. "#EC CI_FLDEXT_OK[2610650]
+      ENDLOOP.
+
+
+*************End of closing balance************************************
+***********************available balance*********************************
+      gwa_alv-available_bal = gwa_alv-closing_bal + gwa_alv-total_open_atc .
+*******************get different document types**************************
+      DATA(lv_high) = sy-datum.
+
+      CALL FUNCTION 'BAPI_AR_ACC_GETSTATEMENT'           "#EC CI_USAGE_OK[2628704]
+        EXPORTING
+          companycode = gwa_alv-bukrs
+          customer    = gwa_alv-kunnr
+          date_from   = s_bldat-low
+          date_to     = lv_high
+        TABLES
+          lineitems   = gt_items.
+
+******* Added by Zubin on 20.04.2020 (Workaround for bug in 'BAPI_AR_ACC_GETSTATEMENT'. DOC_TYPE = '' in few cases
+*****      DATA(lt_items_tmp) = gt_items[].
+*****      DELETE lt_items_tmp WHERE doc_type IS NOT INITIAL.
+*****
+*****      IF lt_items_tmp IS NOT INITIAL.
+*****        SELECT bukrs, belnr, gjahr, blart, budat FROM bkpf INTO TABLE @DATA(lt_bkpf_tmp)
+*****          FOR ALL ENTRIES IN @lt_items_tmp
+*****          WHERE bukrs = @lt_items_tmp-comp_code AND
+*****                belnr = @lt_items_tmp-doc_no AND
+*****                gjahr = @lt_items_tmp-fisc_year.
+*****
+*****        LOOP AT gt_items ASSIGNING FIELD-SYMBOL(<lfs_items>) WHERE doc_type IS INITIAL.
+*****          READ TABLE lt_bkpf_tmp ASSIGNING FIELD-SYMBOL(<lfs_bkpf_tmp>)
+*****                              WITH KEY bukrs = <lfs_items>-comp_code
+*****                                       belnr = <lfs_items>-doc_no
+*****                                       gjahr = <lfs_items>-fisc_year.
+*****          IF sy-subrc = 0.
+*****            <lfs_items>-doc_type = <lfs_bkpf_tmp>-blart.
+*****            <lfs_items>-pstng_date = <lfs_bkpf_tmp>-budat.
+*****          ENDIF.
+*****        ENDLOOP.
+*****      ENDIF.
+
+
+      SORT gt_items BY doc_type.
+      LOOP AT gt_items.                "#EC CI_NESTED, "#EC CI_SORTLOOP
+        IF gt_items-doc_type = gc_d OR gt_items-doc_type = gc_da.
+
+          IF gt_items-db_cr_ind = 'H'.
+            gt_items-lc_amount = gt_items-lc_amount * '-1'.
+            "gt_items-lc_amount = gt_items-lc_amount .
+          ENDIF.
+          gwa_alv-total_payment = gwa_alv-total_payment + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+          paymentitems-amountlc = gt_items-lc_amount.
+          paymentitems-docno = gt_items-doc_no.
+          paymentitems-itemtxt = gt_items-item_text.
+          paymentitems-postingdate = gt_items-pstng_date.
+          paymentitems-doctype = 'Payments'.
+          paymentitems-cur = gt_items-currency.
+          paymentitems-alloc_nmbr = gt_items-alloc_nmbr.
+          paymentitems-ref_doc_no = gt_items-ref_doc_no.
+          paymentitems-kunnr  =   gt_items-customer.
+          APPEND paymentitems.
+
+        ELSEIF gt_items-doc_type = gc_dg.
+          IF gt_items-db_cr_ind = 'H'.
+            gt_items-lc_amount = gt_items-lc_amount * '-1'.
+            "gt_items-lc_amount = gt_items-lc_amount.
+          ENDIF.
+          gwa_alv-total_bonus = gwa_alv-total_bonus + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+          bonusitems-amountlc = gt_items-lc_amount.
+          bonusitems-docno = gt_items-doc_no.
+          bonusitems-itemtxt = gt_items-item_text.
+          bonusitems-postingdate = gt_items-pstng_date.
+          bonusitems-doctype = 'Performance, Bonuses'.
+          bonusitems-cur = gt_items-currency.
+          bonusitems-alloc_nmbr = gt_items-alloc_nmbr.
+          bonusitems-ref_doc_no = gt_items-ref_doc_no.
+          bonusitems-kunnr  =   gt_items-customer.
+
+          APPEND bonusitems.
+
+        ELSEIF gt_items-doc_type = gc_r.
+          IF gt_items-db_cr_ind = 'H'.
+            gt_items-lc_amount = gt_items-lc_amount * '-1'.
+            "gt_items-lc_amount = gt_items-lc_amount.
+            gwa_alv-total_returns = gwa_alv-total_returns + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+            returnsitems-amountlc = gt_items-lc_amount.
+            returnsitems-docno = gt_items-doc_no.
+            returnsitems-itemtxt = gt_items-item_text.
+            returnsitems-postingdate = gt_items-pstng_date.
+            returnsitems-doctype = 'Returns'.
+            returnsitems-cur = gt_items-currency.
+            returnsitems-alloc_nmbr = gt_items-alloc_nmbr.
+            returnsitems-ref_doc_no = gt_items-ref_doc_no.
+            returnsitems-kunnr  =   gt_items-customer.
+
+            APPEND returnsitems.
+
+          ELSE.
+            gwa_alv-total_invoice = gwa_alv-total_invoice + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+            invoiceitems-amountlc = gt_items-lc_amount.
+            invoiceitems-docno = gt_items-bill_doc."gt_items-doc_no.
+            invoiceitems-itemtxt = gt_items-item_text.
+            invoiceitems-postingdate = gt_items-pstng_date.
+            invoiceitems-doctype = 'Returns'.
+            invoiceitems-cur = gt_items-currency.
+            invoiceitems-alloc_nmbr = gt_items-alloc_nmbr.
+            invoiceitems-ref_doc_no = gt_items-ref_doc_no.
+            invoiceitems-kunnr  =   gt_items-customer.
+
+            APPEND invoiceitems.
+          ENDIF.
+
+        ELSE.
+          IF gt_items-doc_type NE 'ZC' .  "DCDK933295 21.03.2017 Elimination of clearing document items
+
+            IF gt_items-db_cr_ind = 'H'.
+              gt_items-lc_amount = gt_items-lc_amount * '-1'.
+              "gt_items-lc_amount = gt_items-lc_amount .
+            ENDIF.
+
+            gwa_alv-total_returns = gwa_alv-total_returns + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+            returnsitems-amountlc = gt_items-lc_amount.
+            returnsitems-docno = gt_items-doc_no.
+            returnsitems-itemtxt = gt_items-item_text.
+            returnsitems-postingdate = gt_items-pstng_date.
+            returnsitems-doctype = 'Returns'.
+            returnsitems-cur = gt_items-currency.
+            returnsitems-alloc_nmbr = gt_items-alloc_nmbr.
+            returnsitems-ref_doc_no = gt_items-ref_doc_no.
+            returnsitems-kunnr  =   gt_items-customer.
+            APPEND returnsitems.
+          ENDIF.
+
+        ENDIF.
+
+
+        CLEAR gt_items.
+
+      ENDLOOP.
+
+******************end of get doc types****************************************************
+    ENDIF.
+****************************************************
+*End of get balances get
+**********************************************
+*******new codes for open atc summaries**********
+
+
+    APPEND gwa_alv TO gt_alv.
+    CLEAR gwa_alv.
+  ENDLOOP.
+  gt_alv1 = gt_alv.
+
+***Print form
+
+  IF gt_alv IS NOT INITIAL.
+
+    LOOP AT gt_alv INTO gwa_alv.                         "#EC CI_NESTED
+      kunnr = gwa_alv-kunnr.
+      name1 = gwa_alv-name1.
+      opening_balance = gwa_alv-opening_bal.
+      closing_balance  = gwa_alv-closing_bal.
+      total_payment  = gwa_alv-total_payment.
+      total_bonus = gwa_alv-total_bonus.
+      total_returns = gwa_alv-total_returns.
+      total_invoice = gwa_alv-total_invoice.
+      gv_total_open_atc = gwa_alv-total_open_atc.
+      available_bal  = gwa_alv-available_bal.
+
+      LOOP AT paymentitems WHERE kunnr = gwa_alv-kunnr.  "#EC CI_NESTED
+        APPEND paymentitems TO paymentitems1[].
+      ENDLOOP.
+      LOOP AT returnsitems WHERE kunnr = gwa_alv-kunnr.  "#EC CI_NESTED
+        APPEND returnsitems TO returnsitems1[].
+      ENDLOOP.
+      LOOP AT invoiceitems WHERE kunnr = gwa_alv-kunnr.  "#EC CI_NESTED
+        APPEND invoiceitems TO invoiceitems1[].
+      ENDLOOP.
+      LOOP AT bonusitems WHERE kunnr = gwa_alv-kunnr.    "#EC CI_NESTED
+        APPEND bonusitems TO bonusitems1[].
+      ENDLOOP.
+
+      LOOP AT it_open_atc WHERE kunnr = gwa_alv-kunnr.   "#EC CI_NESTED
+        APPEND it_open_atc TO open_atc.
+      ENDLOOP.
+
+
+      ls_control_parameters-preview = ' '.
+
+      "         PERFORM getItems using gwa_alv-kunnr
+      "                       gwa_alv-bukrs.
+      PERFORM print_form.
+      CLEAR gwa_alv.
+      REFRESH: paymentitems1, returnsitems1,invoiceitems1,bonusitems1, open_atc .
+    ENDLOOP.
+  ELSE.
+*    MESSAGE TEXT-004 TYPE 'E'."'Atlease select one line item' TYPE 'W'.
+    lv_exp = 1.
+    EXPORT lv_exp TO MEMORY ID 'Ztest'.
+  ENDIF.
+
+
+
+*select single ltx from T247 into v_month where mnr = s_bldat-high+4(2)
+*AND spras = 'E'.
+*
+*
+*v_day = s_bldat-high+6(2).
+*v_year = s_bldat-high+0(4).
+*
+*CONCATENATE v_month  v_day into v_date1 SEPARATED BY space.
+*CONCATENATE v_date1 ',' into v_date1.
+*CONCATENATE v_date1 v_year into v_date SEPARATED BY space.
+*
+*CONCATENATE s_bldat-high+6(2) s_bldat-high+4(2) s_bldat-high+0(4) into gv_date SEPARATED BY '.'.
+*clear: v_day, v_year, v_month.
+*
+*
+*select single ltx from T247 into v_month where mnr = s_bldat-high+4(2)
+*AND spras = 'E'.
+*v_day = s_bldat-low+6(2).
+*v_year = s_bldat-low+0(4).
+*
+*CONCATENATE v_month  v_day into v_date1 SEPARATED BY space.
+*CONCATENATE v_date1 ',' into v_date1.
+*CONCATENATE v_date1 v_year into v_date1 SEPARATED BY space.
+*
+*CONCATENATE s_bldat-low+6(2) s_bldat-low+4(2) s_bldat-low+0(4) into gv_date1 SEPARATED BY '.'.
+*clear: v_day, v_year, v_date1,v_date.
+ENDFORM.                    " FETCHING_DATA
+
+FORM getitems USING zkunnr TYPE kunnr
+                    zbukrs TYPE bukrs.
+  REFRESH: paymentitems, returnsitems, bonusitems, invoiceitems.
+
+
+
+  DATA(lv_high) = sy-datum.
+
+  CALL FUNCTION 'BAPI_AR_ACC_GETSTATEMENT'        "#EC CI_USAGE_OK[2628704]
+    EXPORTING
+      companycode = zbukrs
+      customer    = zkunnr
+      date_from   = s_bldat-low
+      date_to     = lv_high "s_bldat-high
+    TABLES
+      lineitems   = gt_items.
+
+  SORT gt_items BY doc_type.
+  LOOP AT gt_items.
+    IF gt_items-doc_type = gc_d OR gt_items-doc_type = gc_da.
+
+      IF gt_items-db_cr_ind = 'H'.
+        gt_items-lc_amount = gt_items-lc_amount * '-1'.
+        "gt_items-lc_amount = gt_items-lc_amount .
+      ENDIF.
+      gwa_alv-total_payment = gwa_alv-total_payment + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+      paymentitems-amountlc = gt_items-lc_amount.
+      paymentitems-docno = gt_items-doc_no.
+      paymentitems-itemtxt = gt_items-item_text.
+      paymentitems-postingdate = gt_items-pstng_date.
+      paymentitems-doctype = 'Payments'.
+      paymentitems-cur = gt_items-currency.
+      paymentitems-alloc_nmbr = gt_items-alloc_nmbr.
+      paymentitems-ref_doc_no = gt_items-ref_doc_no.
+      paymentitems-kunnr  =   gt_items-customer.
+      APPEND paymentitems.
+
+    ELSEIF gt_items-doc_type = gc_dg.
+      IF gt_items-db_cr_ind = 'H'.
+        gt_items-lc_amount = gt_items-lc_amount * '-1'.
+        "gt_items-lc_amount = gt_items-lc_amount.
+      ENDIF.
+      gwa_alv-total_bonus = gwa_alv-total_bonus + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+      bonusitems-amountlc = gt_items-lc_amount.
+      bonusitems-docno = gt_items-doc_no.
+      bonusitems-itemtxt = gt_items-item_text.
+      bonusitems-postingdate = gt_items-pstng_date.
+      bonusitems-doctype = 'Performance, Bonuses'.
+      bonusitems-cur = gt_items-currency.
+      bonusitems-alloc_nmbr = gt_items-alloc_nmbr.
+      bonusitems-ref_doc_no = gt_items-ref_doc_no.
+      bonusitems-kunnr  =   gt_items-customer.
+
+      APPEND bonusitems.
+
+    ELSEIF gt_items-doc_type = gc_r.
+      IF gt_items-db_cr_ind = 'H'.
+        gt_items-lc_amount = gt_items-lc_amount * '-1'.
+        "gt_items-lc_amount = gt_items-lc_amount.
+        gwa_alv-total_returns = gwa_alv-total_returns + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+        returnsitems-amountlc = gt_items-lc_amount.
+        returnsitems-docno = gt_items-doc_no.
+        returnsitems-itemtxt = gt_items-item_text.
+        returnsitems-postingdate = gt_items-pstng_date.
+        returnsitems-doctype = 'Returns'.
+        returnsitems-cur = gt_items-currency.
+        returnsitems-alloc_nmbr = gt_items-alloc_nmbr.
+        returnsitems-ref_doc_no = gt_items-ref_doc_no.
+        returnsitems-kunnr  =   gt_items-customer.
+
+        APPEND returnsitems.
+
+      ELSE.
+        gwa_alv-total_invoice = gwa_alv-total_invoice + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+        invoiceitems-amountlc = gt_items-lc_amount.
+        invoiceitems-docno = gt_items-bill_doc."gt_items-doc_no.
+        invoiceitems-itemtxt = gt_items-item_text.
+        invoiceitems-postingdate = gt_items-pstng_date.
+        invoiceitems-doctype = 'Returns'.
+        invoiceitems-cur = gt_items-currency.
+        invoiceitems-alloc_nmbr = gt_items-alloc_nmbr.
+        invoiceitems-ref_doc_no = gt_items-ref_doc_no.
+        invoiceitems-kunnr  =   gt_items-customer.
+
+        APPEND invoiceitems.
+      ENDIF.
+
+    ELSE.
+      IF gt_items-db_cr_ind = 'H'.
+        gt_items-lc_amount = gt_items-lc_amount * '-1'.
+        "gt_items-lc_amount = gt_items-lc_amount .
+      ENDIF.
+
+      gwa_alv-total_returns = gwa_alv-total_returns + gt_items-lc_amount. "#EC CI_FLDEXT_OK[2610650]
+
+      returnsitems-amountlc = gt_items-lc_amount.
+      returnsitems-docno = gt_items-doc_no.
+      returnsitems-itemtxt = gt_items-item_text.
+      returnsitems-postingdate = gt_items-pstng_date.
+      returnsitems-doctype = 'Returns'.
+      returnsitems-cur = gt_items-currency.
+      returnsitems-alloc_nmbr = gt_items-alloc_nmbr.
+      returnsitems-ref_doc_no = gt_items-ref_doc_no.
+      returnsitems-kunnr  =   gt_items-customer.
+      APPEND returnsitems.
+    ENDIF.
+    CLEAR gt_items.
+  ENDLOOP.
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form GET_OPEN_ATC
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*&      --> LT_ET_UKM_ITEM_DISPLAY
+*&---------------------------------------------------------------------*
+FORM get_open_atc  TABLES   pt_et_ukm_item_display STRUCTURE v_ukm_item
+                            pt_atc TYPE gt_atc.
+
+  TYPES : BEGIN OF ty_vbeln_vl,
+            vbeln_vl TYPE vbeln,
+          END OF ty_vbeln_vl.
+
+  DATA : ls_atc      TYPE ty_atc,
+         lv_vbeln    TYPE vbeln,
+         lv_posnr    TYPE posnr_va,
+         lv_waers    TYPE waers,
+         lt_vbeln_vl TYPE TABLE OF ty_vbeln_vl,
+         lt_vbeln_vf TYPE TABLE OF ty_vbeln_vl.
+  DATA lv_ext_amt TYPE bapicurr-bapicurr.
+
+** Sales orders
+  DATA(lt_et_ukm_item_100) = pt_et_ukm_item_display[].
+  DELETE lt_et_ukm_item_100 WHERE comm_typ <> '100'.
+
+  LOOP AT lt_et_ukm_item_100 ASSIGNING FIELD-SYMBOL(<lfs_et_ukm_item_100>).
+    CLEAR : ls_atc, lv_vbeln, lv_waers, lv_posnr.
+
+    CLEAR lv_ext_amt.
+    CALL FUNCTION 'BAPI_CURRENCY_CONV_TO_EXTERNAL'
+      EXPORTING
+        currency        = <lfs_et_ukm_item_100>-currency
+        amount_internal = <lfs_et_ukm_item_100>-amount
+      IMPORTING
+        amount_external = lv_ext_amt.
+
+    <lfs_et_ukm_item_100>-amount = lv_ext_amt.
+
+    SPLIT <lfs_et_ukm_item_100>-objkey AT '-' INTO lv_vbeln lv_waers lv_posnr.
+
+    ls_atc-vbeln_va = lv_vbeln.
+    ls_atc-posnr_va = lv_posnr.
+
+    ls_atc-vbeln_va_amt = <lfs_et_ukm_item_100>-amount.
+
+    COLLECT ls_atc INTO pt_atc.
+  ENDLOOP.
+
+
+** Deliveries
+  DATA(lt_et_ukm_item_400) = pt_et_ukm_item_display[].
+  DELETE lt_et_ukm_item_400 WHERE comm_typ <> '400'.
+
+  LOOP AT lt_et_ukm_item_400 ASSIGNING FIELD-SYMBOL(<lfs_et_ukm_item_400>).
+    CLEAR : lv_vbeln, lv_waers.
+    SPLIT <lfs_et_ukm_item_400>-objkey AT '-' INTO lv_vbeln lv_waers.
+    APPEND lv_vbeln TO lt_vbeln_vl.
+  ENDLOOP.
+
+** Get Sales Orders for the deliveries
+  SORT lt_vbeln_vl BY vbeln_vl.
+  DELETE ADJACENT DUPLICATES FROM lt_vbeln_vl COMPARING vbeln_vl.
+
+  IF lt_vbeln_vl IS NOT INITIAL.
+    SELECT ruuid, vbelv, posnv, vbeln, stufe FROM vbfa "#EC CI_DB_OPERATION_OK[2470721] , "#EC CI_NOFIELD
+      INTO TABLE @DATA(lt_vbfa)        "#EC CI_DB_OPERATION_OK[2198647]
+      FOR ALL ENTRIES IN @lt_vbeln_vl
+      WHERE vbeln = @lt_vbeln_vl-vbeln_vl AND
+            vbtyp_n = 'J' AND
+            vbtyp_v = 'C' AND
+            stufe = '00'
+      ORDER BY PRIMARY KEY.                          "#EC CI_SEL_NESTED
+
+    LOOP AT lt_et_ukm_item_400 ASSIGNING <lfs_et_ukm_item_400>.
+
+      CLEAR lv_ext_amt.
+      CALL FUNCTION 'BAPI_CURRENCY_CONV_TO_EXTERNAL'
+        EXPORTING
+          currency        = <lfs_et_ukm_item_400>-currency
+          amount_internal = <lfs_et_ukm_item_400>-amount
+        IMPORTING
+          amount_external = lv_ext_amt.
+
+      <lfs_et_ukm_item_400>-amount = lv_ext_amt.
+
+      READ TABLE lt_vbfa ASSIGNING FIELD-SYMBOL(<lfs_vbfa>) WITH KEY vbeln = <lfs_et_ukm_item_400>-objkey(10).
+      IF sy-subrc = 0.
+        READ TABLE pt_atc ASSIGNING FIELD-SYMBOL(<lfs_atc>) WITH KEY vbeln_va = <lfs_vbfa>-vbelv posnr_va = <lfs_vbfa>-posnv.
+        IF sy-subrc = 0.
+          <lfs_atc>-vbeln_va_amt = <lfs_atc>-vbeln_va_amt + <lfs_et_ukm_item_400>-amount.
+        ELSE.
+          ls_atc-vbeln_va = <lfs_vbfa>-vbelv.           "#EC CI_NOFIELD
+          ls_atc-posnr_va = <lfs_vbfa>-posnv.
+          ls_atc-vbeln_va_amt = <lfs_et_ukm_item_400>-amount.
+          COLLECT ls_atc INTO pt_atc.
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+**  Billing Document Value
+  DATA(lt_et_ukm_item_500) = pt_et_ukm_item_display[].
+  DELETE lt_et_ukm_item_500 WHERE comm_typ <> '500'.
+
+
+  LOOP AT lt_et_ukm_item_500 ASSIGNING FIELD-SYMBOL(<lfs_et_ukm_item_500>).
+    CLEAR : lv_vbeln, lv_waers.
+    SPLIT <lfs_et_ukm_item_500>-objkey AT '-' INTO lv_vbeln lv_waers.
+    APPEND lv_vbeln TO lt_vbeln_vf.
+  ENDLOOP.
+
+** Get Sales Orders for the Billing Documents
+  SORT lt_vbeln_vf BY vbeln_vl.
+  DELETE ADJACENT DUPLICATES FROM lt_vbeln_vf COMPARING vbeln_vl.
+
+  IF lt_vbeln_vf IS NOT INITIAL.
+    REFRESH lt_vbfa.
+
+    SELECT ruuid, vbelv, posnv, vbeln, stufe FROM vbfa "#EC CI_DB_OPERATION_OK[2470721] , "#EC CI_SEL_NESTED , "#EC CI_NOFIELD
+      INTO TABLE @lt_vbfa              "#EC CI_DB_OPERATION_OK[2198647]
+      FOR ALL ENTRIES IN @lt_vbeln_vf
+      WHERE vbeln = @lt_vbeln_vf-vbeln_vl AND
+            vbtyp_n = 'M' AND
+            vbtyp_v = 'C' " AND
+*            stufe = '00'
+      ORDER BY PRIMARY KEY.
+
+    SORT lt_vbfa BY vbeln stufe.
+    DELETE ADJACENT DUPLICATES FROM lt_vbfa COMPARING vbeln.
+
+    LOOP AT lt_et_ukm_item_500 ASSIGNING <lfs_et_ukm_item_500>.
+
+      CLEAR lv_ext_amt.
+      CALL FUNCTION 'BAPI_CURRENCY_CONV_TO_EXTERNAL'
+        EXPORTING
+          currency        = <lfs_et_ukm_item_500>-currency
+          amount_internal = <lfs_et_ukm_item_500>-amount
+        IMPORTING
+          amount_external = lv_ext_amt.
+
+      <lfs_et_ukm_item_500>-amount = lv_ext_amt.
+
+      READ TABLE lt_vbfa ASSIGNING <lfs_vbfa> WITH KEY vbeln = <lfs_et_ukm_item_500>-objkey(10).
+      IF sy-subrc = 0.
+        READ TABLE pt_atc ASSIGNING <lfs_atc> WITH KEY vbeln_va = <lfs_vbfa>-vbelv posnr_va = <lfs_vbfa>-posnv.
+        IF sy-subrc = 0.
+          <lfs_atc>-vbeln_va_amt = <lfs_atc>-vbeln_va_amt + <lfs_et_ukm_item_500>-amount.
+        ELSE.
+          ls_atc-vbeln_va = <lfs_vbfa>-vbelv.
+          ls_atc-posnr_va = <lfs_vbfa>-posnv.
+          ls_atc-vbeln_va_amt = <lfs_et_ukm_item_500>-amount.
+          COLLECT ls_atc INTO pt_atc.
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+
+ENDFORM.
