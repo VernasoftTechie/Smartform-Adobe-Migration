@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
-STATUS: in_progress
-UPDATED: 2026-10-06T06:58:52.000Z
-WAITING_ON: engineer
-NOTE: Building page continuation (long purchase orders) - in progress.
+STATUS: waiting_manual
+UPDATED: 2026-10-06T07:00:34.000Z
+WAITING_ON: operator
+NOTE: Layout with page continuation pushed - pull it, activate, and preview with a purchase order of more than 29 items (and a short one), then confirm or report what you see.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -81,3 +81,25 @@ Title position - Fit as per the possibilities.
 
 ## 2026-10-06T06:58:52.000Z — Page continuation started
 Understood: build page continuation for long purchase orders, and fit the title position as closely to the legacy form as is possible. I have started on both. Nothing is needed from you yet; you will get a new request here once there is something to pull and test.
+
+## 2026-10-06T07:00:34.000Z — Page continuation built
+The layout in `src/zmm_po_demo_adt.sfpf.xdp` now continues onto further pages. This replaces the first version, so one pull gives you the complete form.
+
+**How a long purchase order prints now**
+- **Every page** shows the title "Purchase Order Form" and the bordered main window, exactly like the legacy form, where those windows repeat on each page.
+- **Every page** starts with the PO header block (PO Number, Company Code, Currency Key, Terms of Payment Key) and the five column headings, then the item rows.
+- **Item rows flow** from page to page. Each page holds **29 item rows** after the repeated heading, so a purchase order with 70 items prints on 3 pages. A short purchase order still prints on one page.
+
+**Title position:** since the title now lives on the page itself rather than in the flowing body, it sits at the exact legacy spot (2.47 cm from the left, 0.53 cm from the top), so the earlier compromise is gone.
+
+**What this is built from:** I did not invent the continuation. It follows the structure of the Purchase Order and Dunning Notice sample forms that ship with Adobe LiveCycle Designer (read from the Designer install on this machine): a flowing container with no fixed height, a named heading block, and the repeating row set to bring that heading back at the top of every new page. No form in this project has used page continuation before, so please treat this as new and test it properly.
+
+**Checked here before pushing:** valid XML (also under a strict parser); nothing outside the page body changed from the page you pushed; the heading block, the rows and the outline box share the same left edge, width and bottom edge; 1 cm+ margins; column widths add to the legacy 16 cm; and all 9 bindings still resolve to your Context. I cannot render the PDF from here, so the real check is yours:
+
+1. Pull this branch onto `ZMM_PO_DEMO_ADT` and activate it. Note the activation result.
+2. Open the Layout and report any warning badges.
+3. Preview with a purchase order of **more than 29 items** (ideally 60+). Check on pages 2 and 3: the title, the box and the PO header are there, the column headings are repeated, the rows continue in order with none missing, and the last page ends cleanly.
+4. Preview a **short** purchase order (a few items) and check it prints exactly as before on one page.
+5. If it looks right, confirm. If anything is off, tell me which page and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save against this version before building on it.
+
+**Still open:** the title and text fonts are still Arial placeholders until the `ZMM_STYLE` definition is supplied (download it in SMARTSTYLES > Utilities > Download and add it under "SmartStyle exports" in Configure, or tell me the font, size and alignment of paragraph `P1` and the default paragraph).
