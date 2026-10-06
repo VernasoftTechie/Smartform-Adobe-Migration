@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
 STATUS: in_progress
-UPDATED: 2026-10-06T06:50:38.748Z
+UPDATED: 2026-10-06T06:58:52.000Z
 WAITING_ON: engineer
-NOTE: 
+NOTE: Building page continuation (long purchase orders) - in progress.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -78,3 +78,6 @@ Checked here before pushing: the file is valid XML, nothing outside the page bod
 ## 2026-10-06T06:50:38.748Z — Manual activity confirmed
 Client confirmed the manual step is done: PO - build page continuation..
 Title position - Fit as per the possibilities.
+
+## 2026-10-06T06:58:52.000Z — Page continuation started
+Understood: build page continuation for long purchase orders, and fit the title position as closely to the legacy form as is possible. I have started on both. Nothing is needed from you yet; you will get a new request here once there is something to pull and test.
