@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
-STATUS: waiting_manual
-UPDATED: 2026-10-06T06:21:22.000Z
-WAITING_ON: operator
-NOTE: Create the empty interface/form in SFP with the correct names, pull this branch in abapGit, then Stage-Commit-Push both back. Leave Context empty - it is built from this side.
+STATUS: in_progress
+UPDATED: 2026-10-06T06:33:02.930Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -31,3 +31,6 @@ Please do these in SAP, in order:
 4. In abapGit do Stage, Commit and Push **both** the interface and the (empty) form back to this same branch.
 
 When it is done click "I've done this — confirm" below. If anything fails, use "Report a problem" and give the exact message.
+
+## 2026-10-06T06:33:02.930Z — Manual activity confirmed
+Client confirmed the manual step is done.
