@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
-STATUS: in_progress
-UPDATED: 2026-10-06T06:33:02.930Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-06T06:36:48.000Z
+WAITING_ON: operator
+NOTE: Context tree built and pushed - pull this branch onto the form, check it imports cleanly and shows the nodes listed below, then confirm or report the exact error.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -34,3 +34,17 @@ When it is done click "I've done this — confirm" below. If anything fails, use
 
 ## 2026-10-06T06:33:02.930Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-06T06:36:48.000Z — Context tree built
+Checked the branch — the pushed form (`src/zmm_po_demo_adt.sfpf.xml`) is exactly the safe empty starting point, wired to `ZMM_PO_DEMO_INT`, so nothing to redo there. I built the Context tree on top of it and pushed it to the same file. It binds only what the legacy form actually prints:
+- `LV_EBELN` (the PO number input)
+- `LS_EKKO` as a structure with 4 fields: `EBELN`, `BUKRS`, `WAERS`, `ZTERM` (PO number, company code, currency key, payment-terms key)
+- `LT_EKPO` as a repeating table with 5 columns: `EBELN`, `EBELP`, `MATNR`, `WERKS`, `LGORT` (PO, item, material, plant, storage location)
+
+Left out on purpose: the other fields the interface loads (`LIFNR`, `BEDAT`, `TXZ01`, `MENGE`, `MEINS`, `NETPR`, `NETWR` and so on) — the legacy form never printed them, and the quantity and amount ones would each need a unit/currency reference. If you later want any of them on the form, tell me and I'll add them with the right reference.
+
+The tables and structures here are interface global fields filled by the Initialization code, so they are bound the same way SAP itself serializes global data in `YMM_ISSUE_RESERVATION`. The file passed a full consistency check before pushing (every node's parent/child/sibling links and condition links resolve; no duplicate ids). The one thing a check outside SAP can't prove is that SAP accepts it, so please:
+1. Pull this branch onto form **ZMM_PO_DEMO_ADT** in SFP.
+2. Check the Context tree shows 14 nodes: `LV_EBELN`; `LS_EKKO` with its 4 fields; `LT_EKPO` with its 5 columns under it. No deserialize error.
+3. If it imports clean — click confirm and I'll start the layout.
+4. If SAP throws an error — use "Report a problem" with the **exact** message and I'll fix precisely that.
