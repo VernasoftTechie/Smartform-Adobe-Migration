@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
 STATUS: in_progress
-UPDATED: 2026-10-06T06:41:27.310Z
+UPDATED: 2026-10-06T06:42:17.000Z
 WAITING_ON: engineer
-NOTE: 
+NOTE: Context confirmed in SAP - layout work in progress.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -51,3 +51,6 @@ The tables and structures here are interface global fields filled by the Initial
 
 ## 2026-10-06T06:41:27.309Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-06T06:42:17.000Z — Layout started
+The Context imported cleanly in SAP, so the next gate is open. I have started the layout for ZMM_PO_DEMO_ADT: the page, the title, the PO header block and the items table, built on the SFP-generated form you pushed. You will see a "Waiting" request here again as soon as there is something to pull and check in SAP.
