@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
-STATUS: waiting_manual
-UPDATED: 2026-10-06T06:46:58.000Z
-WAITING_ON: operator
-NOTE: First layout pushed - pull it onto the form, activate, open Layout and preview with a real PO number, then confirm or report what you see.
+STATUS: in_progress
+UPDATED: 2026-10-06T06:50:38.748Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -74,3 +74,7 @@ Checked here before pushing: the file is valid XML, nothing outside the page bod
 - **Fonts.** The title and text use the SmartStyle `ZMM_STYLE`, but the export only holds the style's name, not its fonts. I used Arial as a placeholder (title 14pt bold centered, header 9pt, table 8pt). For an exact match, download `ZMM_STYLE` in SMARTSTYLES (Utilities > Download) and add it under "SmartStyle exports" in Configure, or just tell me the font, size and alignment of paragraph `P1` and the default paragraph.
 - **More than about 29 items.** The legacy main window continues onto further pages automatically. This first version is a single page: it holds about 29 item rows, and rows beyond that would not show. If your purchase orders can be longer than that, say so and I will build page continuation as its own step (it needs its own test).
 - **Title position.** Legacy places the title 0.53 cm from the top edge; I put it at 0.5 cm inside the printable area (about 1 cm from the edge) to stay clear of the page edge. Tell me if you need the exact legacy offset.
+
+## 2026-10-06T06:50:38.748Z — Manual activity confirmed
+Client confirmed the manual step is done: PO - build page continuation..
+Title position - Fit as per the possibilities.
