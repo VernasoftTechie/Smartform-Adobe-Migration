@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
-STATUS: waiting_manual
-UPDATED: 2026-10-06T06:36:48.000Z
-WAITING_ON: operator
-NOTE: Context tree built and pushed - pull this branch onto the form, check it imports cleanly and shows the nodes listed below, then confirm or report the exact error.
+STATUS: in_progress
+UPDATED: 2026-10-06T06:41:27.310Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -48,3 +48,6 @@ The tables and structures here are interface global fields filled by the Initial
 2. Check the Context tree shows 14 nodes: `LV_EBELN`; `LS_EKKO` with its 4 fields; `LT_EKPO` with its 5 columns under it. No deserialize error.
 3. If it imports clean — click confirm and I'll start the layout.
 4. If SAP throws an error — use "Report a problem" with the **exact** message and I'll fix precisely that.
+
+## 2026-10-06T06:41:27.309Z — Manual activity confirmed
+Client confirmed the manual step is done.
