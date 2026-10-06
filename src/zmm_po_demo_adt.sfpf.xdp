@@ -5,11 +5,82 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
+            <contentArea h="28.7cm" w="20cm" x="0.5cm" y="0.5cm"/>
+            <medium long="29.7cm" short="21cm" stock="a4"/>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in"/>
+      <subform h="28.7cm" name="visual_shell" w="20cm">
+         <!-- Title - evidence: %WINDOW2 (15.57 x 2.00 cm), one text "Purchase Order Form",
+              SmartStyle ZMM_STYLE paragraph P1. The style's fonts are not in the export
+              (the global library holds only its name), so Arial 14pt bold centered is a
+              placeholder until ZMM_STYLE's definition is supplied. -->
+         <draw h="2cm" name="lbl_title" w="15.57cm" x="1.97cm" y="0.5cm">
+            <value><text>Purchase Order Form</text></value>
+            <font size="14pt" typeface="Arial" weight="bold"/>
+            <para hAlign="center"/>
+         </draw>
+
+         <!-- PO header - evidence: %WINDOW1 / %TEMPLATE1, 16 cm wide, 4 rows of label (col 1) |
+              value (col 2), each cell 8 cm; row/col read from T_LINENR/T_CELLNR in the XML.
+              Values bound to the global structure LS_EKKO (Context node of the same name). -->
+         <subform h="4.08cm" layout="tb" name="header_block" w="16cm" x="1.93cm" y="3.03cm">
+            <bind match="none"/>
+            <font size="9pt" typeface="Arial"/>
+            <subform h="0.6cm" layout="position" name="hdr_ebeln">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_ebeln" w="8cm" x="0cm" y="0cm"><value><text>PO Number</text></value></draw>
+               <field h="0.6cm" name="fld_ebeln" w="8cm" x="8cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.EBELN"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="hdr_bukrs">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_bukrs" w="8cm" x="0cm" y="0cm"><value><text>Company Code</text></value></draw>
+               <field h="0.6cm" name="fld_bukrs" w="8cm" x="8cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.BUKRS"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="hdr_waers">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_waers" w="8cm" x="0cm" y="0cm"><value><text>Currency Key</text></value></draw>
+               <field h="0.6cm" name="fld_waers" w="8cm" x="8cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.WAERS"/></field>
+            </subform>
+            <subform h="0.6cm" layout="position" name="hdr_zterm">
+               <bind match="none"/>
+               <draw h="0.6cm" name="lbl_zterm" w="8cm" x="0cm" y="0cm"><value><text>Terms of Payment Key</text></value></draw>
+               <field h="0.6cm" name="fld_zterm" w="8cm" x="8cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LS_EKKO.ZTERM"/></field>
+            </subform>
+         </subform>
+
+         <!-- Main window outline - evidence: MAIN window 16.43 x 17.39 cm with a border on all
+              four sides. Drawn first so the table sits on top of it. -->
+         <draw h="17.39cm" name="main_box" w="16.43cm" x="1.7cm" y="7.47cm">
+            <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+         </draw>
+
+         <!-- Items - evidence: %TABLE1 on LT_EKPO, 16 cm wide, columns 3/3/4/2/4 cm, header texts
+              %CELL1-5. Header height follows S07 section 8 (the long legacy labels wrap in
+              narrow, evidence-locked columns). Row bind is $.LT_EKPO.DATA[*] with bare field
+              refs, exactly the S07 pattern 5. -->
+         <subform h="17.39cm" layout="tb" name="line_items" w="16cm" x="1.7cm" y="7.47cm">
+            <bind match="none"/>
+            <subform h="1.4cm" layout="position" name="table_header" w="16cm">
+               <bind match="none"/>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <draw h="1.4cm" name="h01" w="3cm" x="0cm" y="0cm"><value><text>Purchasing Document Number</text></value></draw>
+               <draw h="1.4cm" name="h02" w="3cm" x="3cm" y="0cm"><value><text>Po Item Number</text></value></draw>
+               <draw h="1.4cm" name="h03" w="4cm" x="6cm" y="0cm"><value><text>Material Number</text></value></draw>
+               <draw h="1.4cm" name="h04" w="2cm" x="10cm" y="0cm"><value><text>Plant</text></value></draw>
+               <draw h="1.4cm" name="h05" w="4cm" x="12cm" y="0cm"><value><text>Storage Location</text></value></draw>
+            </subform>
+            <subform h="0.55cm" layout="position" name="table_row" w="16cm">
+               <occur min="0" max="-1"/>
+               <bind match="dataRef" ref="$.LT_EKPO.DATA[*]"/>
+               <font size="8pt" typeface="Arial"/>
+               <field h="0.55cm" name="c01" w="3cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="EBELN"/></field>
+               <field h="0.55cm" name="c02" w="3cm" x="3cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="EBELP"/></field>
+               <field h="0.55cm" name="c03" w="4cm" x="6cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="MATNR"/></field>
+               <field h="0.55cm" name="c04" w="2cm" x="10cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="WERKS"/></field>
+               <field h="0.55cm" name="c05" w="4cm" x="12cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="LGORT"/></field>
+            </subform>
+         </subform>
+      </subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>

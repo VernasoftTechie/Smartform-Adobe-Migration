@@ -1,9 +1,9 @@
 # Migration Status — ZMM_PO_DEMO
 
-STATUS: in_progress
-UPDATED: 2026-10-06T06:42:17.000Z
-WAITING_ON: engineer
-NOTE: Context confirmed in SAP - layout work in progress.
+STATUS: waiting_manual
+UPDATED: 2026-10-06T06:46:58.000Z
+WAITING_ON: operator
+NOTE: First layout pushed - pull it onto the form, activate, open Layout and preview with a real PO number, then confirm or report what you see.
 STOP: none
 CLAIMED_BY: Window-1
 
@@ -54,3 +54,23 @@ Client confirmed the manual step is done.
 
 ## 2026-10-06T06:42:17.000Z — Layout started
 The Context imported cleanly in SAP, so the next gate is open. I have started the layout for ZMM_PO_DEMO_ADT: the page, the title, the PO header block and the items table, built on the SFP-generated form you pushed. You will see a "Waiting" request here again as soon as there is something to pull and check in SAP.
+
+## 2026-10-06T06:46:58.000Z — Layout built (first version)
+The layout for `ZMM_PO_DEMO_ADT` is pushed in `src/zmm_po_demo_adt.sfpf.xdp`, built on the SFP-generated page you pushed. It follows the legacy form's three windows, with sizes and positions read from your export:
+- **Page:** A4 portrait (legacy DINA4).
+- **Title:** "Purchase Order Form" (legacy window `%WINDOW2`, 15.57 x 2.00 cm).
+- **PO header:** 4 rows, label on the left and value on the right, each cell 8 cm wide — PO Number, Company Code, Currency Key, Terms of Payment Key. The row and column of every item come straight from the legacy template, not from guessing. The values are bound to `LS_EKKO`.
+- **Items table:** inside the bordered main window (16.43 x 17.39 cm). Five columns, 3 / 3 / 4 / 2 / 4 cm exactly as the legacy table: Purchasing Document Number, Po Item Number, Material Number, Plant, Storage Location. It repeats once per item from `LT_EKPO`.
+
+Checked here before pushing: the file is valid XML, nothing outside the page body was changed, every element sits inside its parent with at least 1 cm of page margin, the columns add up to the legacy 16 cm, and all 9 field bindings resolve to the Context you confirmed (nothing amount- or quantity-related is bound, so no reference fields are involved).
+
+**Please check these in SAP** — I can't see the rendered page from here:
+1. Pull this branch onto form `ZMM_PO_DEMO_ADT`, then activate it. Note the activation result.
+2. Open the Layout. You should see an A4 portrait page with the title at the top, the 4-row header, and a bordered box with the five column headings across its top. Report any overflow or warning badges.
+3. Preview/test with a real PO number in `LV_EBELN` and check the header values and item rows fill in.
+4. If everything looks right, confirm. If you adjust anything in Designer, push it back and tell me — I compare every Designer save against this version before building on it.
+
+**Three things I could not settle from the export, so please decide or help:**
+- **Fonts.** The title and text use the SmartStyle `ZMM_STYLE`, but the export only holds the style's name, not its fonts. I used Arial as a placeholder (title 14pt bold centered, header 9pt, table 8pt). For an exact match, download `ZMM_STYLE` in SMARTSTYLES (Utilities > Download) and add it under "SmartStyle exports" in Configure, or just tell me the font, size and alignment of paragraph `P1` and the default paragraph.
+- **More than about 29 items.** The legacy main window continues onto further pages automatically. This first version is a single page: it holds about 29 item rows, and rows beyond that would not show. If your purchase orders can be longer than that, say so and I will build page continuation as its own step (it needs its own test).
+- **Title position.** Legacy places the title 0.53 cm from the top edge; I put it at 0.5 cm inside the printable area (about 1 cm from the edge) to stay clear of the page edge. Tell me if you need the exact legacy offset.
