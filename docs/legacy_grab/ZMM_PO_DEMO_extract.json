@@ -1,0 +1,1051 @@
+{
+  "source": {
+    "file": "zmm_po_demo.xml",
+    "bytes": 70656,
+    "sha256": "5B54E147B7E657C55E449D36977EA4D0E6EB0CB9CA7871E20E3D74E880176005"
+  },
+  "header": {
+    "FORMNAME": "ZMM_PO_DEMO",
+    "CAPTION": "New Form",
+    "MASTERLANG": "E",
+    "LANGVECTOR": "*",
+    "DEVCLASS": "$TMP",
+    "VERSION": "00001",
+    "FIRSTUSER": "C.NBAYYAR",
+    "FIRSTDATE": "2026-08-25",
+    "FIRSTTIME": "10:25:59",
+    "LASTUSER": "C.NBAYYAR",
+    "LASTDATE": "2026-08-25",
+    "LASTTIME": "12:07:53"
+  },
+  "pageFormat": "DINA4",
+  "formStyle": "ZMM_STYLE",
+  "interface": [
+    {
+      "io": "E",
+      "name": "DOCUMENT_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESPD",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESCL",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCRESOP",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX",
+      "typing": "TYPE",
+      "type": "TOA_DARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX_TAB",
+      "typing": "TYPE",
+      "type": "TSFDARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_PARAMETERS",
+      "typing": "TYPE",
+      "type": "ARC_PARAMS",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CONTROL_PARAMETERS",
+      "typing": "TYPE",
+      "type": "SSFCTRLOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_APPL_OBJ",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_RECIPIENT",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_SENDER",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCOMPOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "USER_SETTINGS",
+      "typing": "TYPE",
+      "type": "TDBOOL",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": "'X'"
+    },
+    {
+      "io": "I",
+      "name": "LV_EBELN",
+      "typing": "TYPE",
+      "type": "EKKO-EBELN",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "FORMATTING_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "INTERNAL_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "SEND_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "USER_CANCELED",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    }
+  ],
+  "globalTypes": [
+    "TYPES:",
+    "BEGIN OF ty_ekko,",
+    "ebeln TYPE ekko-ebeln,",
+    "bukrs TYPE ekko-bukrs,",
+    "waers TYPE ekko-waers,",
+    "zterm TYPE ekko-zterm,",
+    "lifnr TYPE ekko-lifnr,",
+    "bedat TYPE ekko-bedat,",
+    "END OF ty_ekko,",
+    "BEGIN OF ty_ekpo,",
+    "ebeln TYPE ekpo-ebeln,",
+    "ebelp TYPE ekpo-ebelp,",
+    "matnr TYPE ekpo-matnr,",
+    "txz01 TYPE ekpo-txz01,",
+    "werks TYPE ekpo-werks,",
+    "lgort TYPE ekpo-lgort,",
+    "menge TYPE ekpo-menge,",
+    "meins TYPE ekpo-meins,",
+    "netpr TYPE ekpo-netpr,",
+    "peinh TYPE ekpo-peinh,",
+    "netwr TYPE ekpo-netwr,",
+    "mwskz TYPE ekpo-mwskz,",
+    "pstyp TYPE ekpo-pstyp,",
+    "knttp TYPE ekpo-knttp,",
+    "webre TYPE ekpo-webre,",
+    "elikz TYPE ekpo-elikz,",
+    "loekz TYPE ekpo-loekz,",
+    "END OF ty_ekpo."
+  ],
+  "globalData": [
+    {
+      "name": "LS_EKKO",
+      "typing": "TYPE",
+      "type": "TY_EKKO"
+    },
+    {
+      "name": "LT_EKPO",
+      "typing": "TYPE TABLE OF",
+      "type": "TY_EKPO"
+    },
+    {
+      "name": "LS_EKPO",
+      "typing": "TYPE",
+      "type": "TY_EKPO"
+    }
+  ],
+  "globalParams": [],
+  "globalCoding": [],
+  "tree": {
+    "type": "RP",
+    "label": "form root",
+    "children": [
+      {
+        "type": "PA",
+        "label": "page",
+        "children": [
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT19",
+                    "caption": "New Text 19",
+                    "outStyle": "ZMM_STYLE",
+                    "style": "ZMM_STYLE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P1",
+                          "line": "Purchase Order Form"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW2",
+            "caption": "New Window 2",
+            "geometry": {
+              "left": "2.47 CM",
+              "top": "0.53 CM",
+              "width": "15.57 CM",
+              "height": "2.00 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "CO",
+                    "label": "program lines",
+                    "children": [],
+                    "objKind": "CODE",
+                    "name": "%CODE1",
+                    "caption": "New Program Lines 1",
+                    "params": [
+                      {
+                        "name": "LV_EBELN",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "LV_EBELN",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "LS_EKKO",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "LT_EKPO",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "LS_EKPO",
+                        "dir": "output"
+                      }
+                    ],
+                    "code": [
+                      "     SELECT SINGLE",
+                      "             ebeln",
+                      "             bukrs",
+                      "             waers",
+                      "             zterm",
+                      "             lifnr",
+                      "             bedat",
+                      "        FROM ekko",
+                      "        INTO ls_ekko",
+                      "        WHERE ebeln = lv_ebeln.",
+                      "",
+                      "",
+                      "       SELECT ebeln",
+                      "             ebelp",
+                      "             matnr",
+                      "             txz01",
+                      "             werks",
+                      "             lgort",
+                      "             menge",
+                      "             meins",
+                      "             netpr",
+                      "             peinh",
+                      "             netwr",
+                      "             mwskz",
+                      "             pstyp",
+                      "             knttp",
+                      "             webre",
+                      "             elikz",
+                      "             loekz",
+                      "        FROM ekpo",
+                      "         INTO TABLE lt_ekpo",
+                      "        WHERE ebeln = lv_ebeln."
+                    ]
+                  },
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT18",
+                        "caption": "New Text 18",
+                        "style": "ZMM_STYLE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "&ls_ekko-ZTERM&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT17",
+                        "caption": "New Text 17",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "&ls_ekko-waers&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT16",
+                        "caption": "New Text 16",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "&ls_ekko-bukrs&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT15",
+                        "caption": "New Text 15",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "&ls_ekko-ebeln&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT4",
+                        "caption": "New Text 4",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "Terms of Payment Key"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT3",
+                        "caption": "New Text 3",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "Currency Key"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT2",
+                        "caption": "New Text 2",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "Company Code"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT1",
+                        "caption": "New Text 1",
+                        "style": "SYSTEM",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": "PO Number"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE1",
+                    "caption": "New Template 1",
+                    "sectKind": "template",
+                    "width": "16.00 CM",
+                    "columns": {
+                      "%C1": [
+                        "8.00 CM",
+                        "8.00 CM"
+                      ],
+                      "%C2": [
+                        "8.00 CM",
+                        "8.00 CM"
+                      ],
+                      "%C3": [
+                        "8.00 CM",
+                        "8.00 CM"
+                      ],
+                      "%C4": [
+                        "8.00 CM",
+                        "8.00 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW1",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "2.43 CM",
+              "top": "3.53 CM",
+              "width": "16.00 CM",
+              "height": "4.08 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT5",
+                                    "caption": "New Text 5",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "Purchasing Document Number"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL1",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT6",
+                                    "caption": "New Text 6",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "Po Item Number"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL2",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT7",
+                                    "caption": "New Text 7",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "Material Number"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL3",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT8",
+                                    "caption": "New Text 8",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "Plant"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL4",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT9",
+                                    "caption": "New Text 9",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "Storage Location"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL5",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW1",
+                            "caption": "New Row 1",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT1",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT10",
+                                    "caption": "New Text 10",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "&ls_ekpo-ebeln&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL6",
+                                "caption": "New Column 6",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT11",
+                                    "caption": "New Text 11",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "&ls_ekpo-ebelp&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL7",
+                                "caption": "New Column 7",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT12",
+                                    "caption": "New Text 12",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "&ls_ekpo-matnr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL8",
+                                "caption": "New Column 8",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT13",
+                                    "caption": "New Text 13",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "&ls_ekpo-werks&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL9",
+                                "caption": "New Column 9",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT14",
+                                    "caption": "New Text 14",
+                                    "style": "SYSTEM",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "*",
+                                          "line": "&ls_ekpo-lgort&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL10",
+                                "caption": "New Column 10",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW2",
+                            "caption": "New Row 2",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT2",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [],
+                        "objKind": "EVENT",
+                        "name": "%EVENT3",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE1",
+                    "caption": "New Table 1",
+                    "sectKind": "table",
+                    "tabName": "LT_EKPO",
+                    "workArea": "LS_EKPO",
+                    "width": "16.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "3.00 CM",
+                        "3.00 CM",
+                        "4.00 CM",
+                        "2.00 CM",
+                        "4.00 CM"
+                      ]
+                    },
+                    "patternFrame": "16.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "MAIN",
+            "caption": "Main Window",
+            "geometry": {
+              "left": "2.20 CM",
+              "top": "7.97 CM",
+              "width": "16.43 CM",
+              "height": "17.39 CM"
+            },
+            "windowType": "M"
+          }
+        ],
+        "objKind": "PAGE",
+        "name": "%PAGE1",
+        "caption": "New Page"
+      }
+    ]
+  },
+  "styles": [
+    "SYSTEM",
+    "ZMM_STYLE"
+  ],
+  "languages": [
+    "E"
+  ],
+  "fields": {
+    "ls_ekko-ZTERM": 1,
+    "ls_ekko-bukrs": 1,
+    "ls_ekko-ebeln": 1,
+    "ls_ekko-waers": 1,
+    "ls_ekpo-ebeln": 1,
+    "ls_ekpo-ebelp": 1,
+    "ls_ekpo-lgort": 1,
+    "ls_ekpo-matnr": 1,
+    "ls_ekpo-werks": 1
+  },
+  "paragraphFormats": [
+    "*",
+    "P1"
+  ],
+  "characterFormats": [],
+  "graphics": [],
+  "codeNodes": [
+    {
+      "name": "%CODE1",
+      "caption": "New Program Lines 1",
+      "params": [
+        {
+          "name": "LV_EBELN",
+          "dir": "input"
+        },
+        {
+          "name": "LV_EBELN",
+          "dir": "output"
+        },
+        {
+          "name": "LS_EKKO",
+          "dir": "output"
+        },
+        {
+          "name": "LT_EKPO",
+          "dir": "output"
+        },
+        {
+          "name": "LS_EKPO",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "     SELECT SINGLE",
+        "             ebeln",
+        "             bukrs",
+        "             waers",
+        "             zterm",
+        "             lifnr",
+        "             bedat",
+        "        FROM ekko",
+        "        INTO ls_ekko",
+        "        WHERE ebeln = lv_ebeln.",
+        "",
+        "",
+        "       SELECT ebeln",
+        "             ebelp",
+        "             matnr",
+        "             txz01",
+        "             werks",
+        "             lgort",
+        "             menge",
+        "             meins",
+        "             netpr",
+        "             peinh",
+        "             netwr",
+        "             mwskz",
+        "             pstyp",
+        "             knttp",
+        "             webre",
+        "             elikz",
+        "             loekz",
+        "        FROM ekpo",
+        "         INTO TABLE lt_ekpo",
+        "        WHERE ebeln = lv_ebeln."
+      ],
+      "evidence": {
+        "selects": [
+          "SELECT SINGLE ebeln bukrs waers zterm lifnr bedat FROM ekko INTO ls_ekko WHERE ebeln = lv_ebeln.",
+          "SELECT ebeln ebelp matnr txz01 werks lgort menge meins netpr peinh netwr mwskz pstyp knttp webre elikz loekz FROM ekpo INTO TABLE lt_ekpo WHERE ebeln = lv_ebeln."
+        ],
+        "tables": [
+          "EKKO",
+          "EKPO"
+        ],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 0,
+        "calls": []
+      }
+    }
+  ],
+  "globalEvidence": {
+    "selects": [],
+    "tables": [],
+    "fms": [],
+    "performs": [],
+    "memory": [],
+    "breakpoints": 0,
+    "commented": 0,
+    "calls": []
+  },
+  "conditions": [],
+  "pages": [
+    {
+      "name": "%PAGE1",
+      "caption": "New Page"
+    }
+  ],
+  "styleInInventory": {
+    "SYSTEM": false,
+    "ZMM_STYLE": true
+  },
+  "graphicInInventory": {}
+}

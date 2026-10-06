@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SFPI" serializer_version="v1.0.0">
+ <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml">
+  <asx:values>
+   <VERSION>1</VERSION>
+   <TYPE/>
+   <INTERFACE href="#o1"/>
+   <INTERFACET>
+    <FPINTERFACET>
+     <NAME/>
+     <STATE/>
+     <LANGUAGE>E</LANGUAGE>
+     <ID/>
+     <TEXT>ZMM_PO_DEMO</TEXT>
+    </FPINTERFACET>
+   </INTERFACET>
+  </asx:values>
+  <asx:heap xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:abap="http://www.sap.com/abapxml/types/built-in" xmlns:cls="http://www.sap.com/abapxml/classes/global" xmlns:dic="http://www.sap.com/abapxml/types/dictionary">
+   <cls:CL_FP_INTERFACE_DATA id="o1">
+    <CL_FP_INTERFACE_DATA classVersion="1">
+     <CODING href="#o5"/>
+     <PARAMETERS href="#o4"/>
+     <GLOBAL_DEFINITIONS href="#o3"/>
+     <REFERENCE_FIELDS href="#o2"/>
+     <XSD_DEFINITIONS/>
+    </CL_FP_INTERFACE_DATA>
+   </cls:CL_FP_INTERFACE_DATA>
+   <cls:CL_FP_REFERENCE_FIELDS id="o2">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_REFERENCE_FIELDS classVersion="1">
+     <REFERENCE_FIELDS/>
+    </CL_FP_REFERENCE_FIELDS>
+   </cls:CL_FP_REFERENCE_FIELDS>
+   <cls:CL_FP_GLOBAL_DEFINITIONS id="o3">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_GLOBAL_DEFINITIONS classVersion="1">
+     <GLOBAL_DATA>
+      <SFPGDATA><NAME>LS_EKKO</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_EKKO</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LT_EKPO</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_EKPO_TAB</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LS_EKPO</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_EKPO</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+     </GLOBAL_DATA>
+     <TYPES>
+      <FPCLINE>TYPES:</FPCLINE>
+      <FPCLINE>BEGIN OF ty_ekko,</FPCLINE>
+      <FPCLINE>ebeln TYPE ekko-ebeln,</FPCLINE>
+      <FPCLINE>bukrs TYPE ekko-bukrs,</FPCLINE>
+      <FPCLINE>waers TYPE ekko-waers,</FPCLINE>
+      <FPCLINE>zterm TYPE ekko-zterm,</FPCLINE>
+      <FPCLINE>lifnr TYPE ekko-lifnr,</FPCLINE>
+      <FPCLINE>bedat TYPE ekko-bedat,</FPCLINE>
+      <FPCLINE>END OF ty_ekko,</FPCLINE>
+      <FPCLINE>BEGIN OF ty_ekpo,</FPCLINE>
+      <FPCLINE>ebeln TYPE ekpo-ebeln,</FPCLINE>
+      <FPCLINE>ebelp TYPE ekpo-ebelp,</FPCLINE>
+      <FPCLINE>matnr TYPE ekpo-matnr,</FPCLINE>
+      <FPCLINE>txz01 TYPE ekpo-txz01,</FPCLINE>
+      <FPCLINE>werks TYPE ekpo-werks,</FPCLINE>
+      <FPCLINE>lgort TYPE ekpo-lgort,</FPCLINE>
+      <FPCLINE>menge TYPE ekpo-menge,</FPCLINE>
+      <FPCLINE>meins TYPE ekpo-meins,</FPCLINE>
+      <FPCLINE>netpr TYPE ekpo-netpr,</FPCLINE>
+      <FPCLINE>peinh TYPE ekpo-peinh,</FPCLINE>
+      <FPCLINE>netwr TYPE ekpo-netwr,</FPCLINE>
+      <FPCLINE>mwskz TYPE ekpo-mwskz,</FPCLINE>
+      <FPCLINE>pstyp TYPE ekpo-pstyp,</FPCLINE>
+      <FPCLINE>knttp TYPE ekpo-knttp,</FPCLINE>
+      <FPCLINE>webre TYPE ekpo-webre,</FPCLINE>
+      <FPCLINE>elikz TYPE ekpo-elikz,</FPCLINE>
+      <FPCLINE>loekz TYPE ekpo-loekz,</FPCLINE>
+      <FPCLINE>END OF ty_ekpo,</FPCLINE>
+      <FPCLINE>ty_ekpo_tab TYPE TABLE OF ty_ekpo.</FPCLINE>
+     </TYPES>
+     <FIELDSYMBOLS/>
+    </CL_FP_GLOBAL_DEFINITIONS>
+   </cls:CL_FP_GLOBAL_DEFINITIONS>
+   <cls:CL_FP_PARAMETERS id="o4">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_PARAMETERS classVersion="1">
+     <IMPORT_PARAMETERS>
+      <SFPIOPAR><NAME>LV_EBELN</NAME><TYPING>TYPE</TYPING><TYPENAME>EKKO-EBELN</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </IMPORT_PARAMETERS>
+     <EXPORT_PARAMETERS/>
+     <TABLE_PARAMETERS/>
+     <EXCEPTIONS/>
+    </CL_FP_PARAMETERS>
+   </cls:CL_FP_PARAMETERS>
+   <cls:CL_FP_CODING id="o5">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_CODING classVersion="1">
+     <INPUT_PARAMETERS>
+      <FPPARAMETER>LV_EBELN</FPPARAMETER>
+     </INPUT_PARAMETERS>
+     <OUTPUT_PARAMETERS>
+      <FPPARAMETER>LS_EKKO</FPPARAMETER>
+      <FPPARAMETER>LT_EKPO</FPPARAMETER>
+     </OUTPUT_PARAMETERS>
+     <INITIALIZATION>
+      <FPCLINE>     SELECT SINGLE</FPCLINE>
+      <FPCLINE>             ebeln</FPCLINE>
+      <FPCLINE>             bukrs</FPCLINE>
+      <FPCLINE>             waers</FPCLINE>
+      <FPCLINE>             zterm</FPCLINE>
+      <FPCLINE>             lifnr</FPCLINE>
+      <FPCLINE>             bedat</FPCLINE>
+      <FPCLINE>        FROM ekko</FPCLINE>
+      <FPCLINE>        INTO ls_ekko</FPCLINE>
+      <FPCLINE>        WHERE ebeln = lv_ebeln.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE/>
+      <FPCLINE>       SELECT ebeln</FPCLINE>
+      <FPCLINE>             ebelp</FPCLINE>
+      <FPCLINE>             matnr</FPCLINE>
+      <FPCLINE>             txz01</FPCLINE>
+      <FPCLINE>             werks</FPCLINE>
+      <FPCLINE>             lgort</FPCLINE>
+      <FPCLINE>             menge</FPCLINE>
+      <FPCLINE>             meins</FPCLINE>
+      <FPCLINE>             netpr</FPCLINE>
+      <FPCLINE>             peinh</FPCLINE>
+      <FPCLINE>             netwr</FPCLINE>
+      <FPCLINE>             mwskz</FPCLINE>
+      <FPCLINE>             pstyp</FPCLINE>
+      <FPCLINE>             knttp</FPCLINE>
+      <FPCLINE>             webre</FPCLINE>
+      <FPCLINE>             elikz</FPCLINE>
+      <FPCLINE>             loekz</FPCLINE>
+      <FPCLINE>        FROM ekpo</FPCLINE>
+      <FPCLINE>         INTO TABLE lt_ekpo</FPCLINE>
+      <FPCLINE>        WHERE ebeln = lv_ebeln.</FPCLINE>
+     </INITIALIZATION>
+     <FORMS/>
+    </CL_FP_CODING>
+   </cls:CL_FP_CODING>
+  </asx:heap>
+ </asx:abap>
+</abapGit>
