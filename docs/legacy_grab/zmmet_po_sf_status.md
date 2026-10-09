@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-09T09:09:43.000Z
+UPDATED: 2026-10-09T11:00:27.000Z
 WAITING_ON: operator
-NOTE: Interface pushed. In SFP create the EMPTY interface ZMMET_PO_SF_INT and form ZMMET_PO_SF_ADT (package ZAB_ADOBE), pull this branch onto the interface and check the Interface tab, then in abapGit Stage, Commit and Push the interface and the empty form back to this branch. Do not drag anything into the Context. Then confirm, or report the exact error.
+NOTE: Interface corrected (4 reference fields removed). Pull this branch again onto ZMMET_PO_SF_INT in abapGit, activate it, and note the result. If it activates cleanly, Stage, Commit and Push the interface and the empty form ZMMET_PO_SF_ADT back to this branch, then confirm, or report the exact error. Do not drag anything into the Context.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -63,3 +63,15 @@ Please do these in SAP, in order:
 4. In abapGit do Stage, Commit and Push **both** the interface and the (empty) form back to this same branch.
 
 When it is done click "I've done this — confirm" below. If anything fails, use "Report a problem" and give the exact message.
+
+## 2026-10-09T11:00:27.000Z — Interface corrected (activation error on 4 reference fields)
+Activating ZMMET_PO_SF_INT in SAP gave 4 errors: "Field GT_OTHER_PO-NETPR / GT_OTHER_PO-NETWR / GT_SERVICE_PO-TBTWR / GT_SERVICE_PO-NETWR does not have data type CURR". This was reported to me outside the status file, so please also confirm it below.
+
+**Cause (my mistake):** the two item tables are declared in the interface's own Types block. A field declared there (for example `netpr TYPE ekpo-netpr`) is a plain packed number in the interface, not a DDIC currency field, so SAP rejects a currency reference on it. The other 8 reference fields (V_KWERT, V1_KWERT, V2_KWERT, LV_OTH, LV_KWERT1, SUB_TOTAL, TOTAL, G_NETWR) point at fields typed directly by SAP data elements and were not rejected.
+
+**Fix:** the 4 reference fields on the item tables are removed (12 become 8). Nothing else in the interface changed. Those columns now carry the same value and two decimals, but are not tied to the document currency in the form; for currencies other than 2-decimal ones (the legacy driver already adjusts JPY) the layout would need to format them, which I will check at layout time.
+
+**Checker after the fix:** 1 FAIL (global S, deliberate, as before), 21 WARN (unchanged, listed in the "Interface prepared" entry), 262 passed.
+
+## 2026-10-09T11:00:27.000Z — Action needed from you (SAP)
+Please pull this branch again onto ZMMET_PO_SF_INT in abapGit (overwriting the interface), activate it, and note the result. If the interface activates without errors, Stage, Commit and Push the interface and the empty form ZMMET_PO_SF_ADT back to this branch, then click "I've done this — confirm". If SAP reports any error, use "Report a problem" with the exact message. Do not drag anything into the Context.
