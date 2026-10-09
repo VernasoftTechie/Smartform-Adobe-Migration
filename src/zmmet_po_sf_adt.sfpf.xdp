@@ -5,9 +5,9 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1" pagePosition="first">
-            <contentArea h="27.7cm" w="19cm" x="1cm" y="1cm"/>
+            <contentArea h="28.45cm" w="20.15cm" x="0.75cm" y="0.55cm"/>
             <medium long="29.7cm" orientation="portrait" short="21cm" stock="a4"/>
-            <field h="4.7cm" name="watermark" w="18cm" x="1.77cm" y="17.76cm">
+            <field h="4.7cm" name="watermark" w="18cm" x="1.52cm" y="17.76cm">
                <ui><textEdit/></ui>
                <font size="40pt" typeface="Arial" weight="bold"><fill><color value="200,200,200"/></fill></font>
                <para hAlign="center" vAlign="middle"/>
@@ -17,12 +17,12 @@
 this.rawValue = (v === "Y" || v === "Approved PO") ? "Approved PO" : "UnApproved PO";</script>
                </event>
             </field>
-            <draw h="16.7cm" name="main_frame" w="19cm" x="1cm" y="12cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
+            <draw h="17cm" name="main_frame" w="19cm" x="0.75cm" y="12cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
             <?templateDesigner expand 1?></pageArea>
          <pageArea id="Page2" name="Page2" pagePosition="rest">
-            <contentArea h="27.7cm" w="19cm" x="1cm" y="1cm"/>
+            <contentArea h="28.45cm" w="20.15cm" x="0.75cm" y="0.55cm"/>
             <medium long="29.7cm" orientation="portrait" short="21cm" stock="a4"/>
-            <field h="4.7cm" name="watermark" w="18cm" x="1.77cm" y="17.76cm">
+            <field h="4.7cm" name="watermark" w="18cm" x="1.52cm" y="17.76cm">
                <ui><textEdit/></ui>
                <font size="40pt" typeface="Arial" weight="bold"><fill><color value="200,200,200"/></fill></font>
                <para hAlign="center" vAlign="middle"/>
@@ -32,17 +32,17 @@ this.rawValue = (v === "Y" || v === "Approved PO") ? "Approved PO" : "UnApproved
 this.rawValue = (v === "Y" || v === "Approved PO") ? "Approved PO" : "UnApproved PO";</script>
                </event>
             </field>
-            <draw h="27.7cm" name="main_frame" w="19cm" x="1cm" y="1cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
+            <draw h="28.45cm" name="main_frame" w="19cm" x="0.75cm" y="0.55cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
-      <subform layout="tb" name="po_doc" w="19cm">
+      <subform layout="tb" name="po_doc" w="20.15cm">
          <bind match="none"/>
-      <subform h="11cm" layout="position" name="page_head" w="19cm">
+      <subform h="11.45cm" layout="position" name="page_head" w="20.15cm">
        <bind match="none"/>
        <font size="8pt" typeface="Arial"/>
        <field h="0.4cm" name="fld_bsart" presence="hidden" w="2cm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
-       <field h="2.23cm" name="logo_image" w="2.8cm" x="0.05cm" y="0.1cm"><ui><imageEdit/></ui><bind match="none"/><value><image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/DANGOTE%20LOGO%20WHITE.bmp"/></value></field>
-       <subform h="0.8cm" layout="position" name="ttl_zpor" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <field h="2.23cm" name="logo_image" w="2.8cm" x="0.05cm" y="0.55cm"><ui><imageEdit/></ui><bind match="none"/><value><image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/DANGOTE%20LOGO%20WHITE.bmp"/></value></field>
+       <subform h="0.8cm" layout="position" name="ttl_zpor" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -51,7 +51,7 @@ this.presence = v === "ZPOR" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Release Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_zpoc" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_zpoc" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -60,7 +60,7 @@ this.presence = v === "ZPOC" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Cash Purchase Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_zpol" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_zpol" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -69,7 +69,7 @@ this.presence = v === "ZPOL" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Local Purchase Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_zpoi" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_zpoi" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -78,7 +78,7 @@ this.presence = v === "ZPOI" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Import Purchase Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_ycap" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_ycap" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -87,7 +87,7 @@ this.presence = v === "YCAP" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Capex Purchase Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_yraw" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_yraw" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -96,7 +96,7 @@ this.presence = v === "YRAW" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Purchase Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_zpos" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_zpos" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -105,7 +105,7 @@ this.presence = v === "ZPOS" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Service Purchase Order</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <subform h="0.8cm" layout="position" name="ttl_zpot" presence="hidden" w="12.1cm" x="3.45cm" y="0.75cm">
+       <subform h="0.8cm" layout="position" name="ttl_zpot" presence="hidden" w="12.1cm" x="3.45cm" y="1.2cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -114,8 +114,8 @@ this.presence = v === "ZPOT" || v === "ZPIC" ? "visible" : "hidden";</script>
 </event>
         <draw h="0.8cm" name="t" w="12.1cm" x="0cm" y="0cm"><value><text>Stock Transfer PO</text></value><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/></draw>
        </subform>
-       <field h="0.79cm" name="fld_ebeln" w="12.1cm" x="3.45cm" y="2.05cm"><ui><textEdit/></ui><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/><bind match="dataRef" ref="$.V_EBELN"/></field>
-       <subform h="4.23cm" layout="position" name="delivery" w="4.7cm" x="14.3cm" y="0.17cm">
+       <field h="0.79cm" name="fld_ebeln" w="12.1cm" x="3.45cm" y="2.5cm"><ui><textEdit/></ui><font size="14pt" typeface="Arial" weight="bold"/><para hAlign="center"/><bind match="dataRef" ref="$.V_EBELN"/></field>
+       <subform h="4.23cm" layout="position" name="delivery" w="4.7cm" x="15.45cm" y="0.62cm">
         <bind match="none"/>
         <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
         <draw h="0.42cm" name="del_l0" w="4.5cm" x="0.1cm" y="0.08cm"><value><text>Delivery Address:</text></value><font size="8pt" typeface="Arial" weight="bold"/></draw>
@@ -128,7 +128,7 @@ this.presence = v === "ZPOT" || v === "ZPIC" ? "visible" : "hidden";</script>
         <field h="0.42cm" name="del_l7" w="4.5cm" x="0.1cm" y="3.02cm"><ui><textEdit/></ui><font size="8pt" typeface="Arial"/><bind match="dataRef" ref="$.LS_DADRC.TEL_NUMBER"/></field>
         <field h="0.42cm" name="del_l8" w="4.5cm" x="0.1cm" y="3.44cm"><ui><textEdit/></ui><font size="8pt" typeface="Arial"/><bind match="dataRef" ref="$.LS_DADRC.FAX_NUMBER"/></field>
        </subform>
-       <subform h="6.11cm" layout="position" name="sup_std" w="10.13cm" x="0cm" y="4cm">
+       <subform h="6.11cm" layout="position" name="sup_std" w="10.13cm" x="0cm" y="4.45cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -219,7 +219,7 @@ this.rawValue = s;</script></event>
          <field h="0.47cm" name="val" w="6.63cm" x="3.5cm" y="0cm"><ui><textEdit/></ui><font size="8pt" typeface="Arial"/><margin bottomInset="0cm" leftInset="0.1cm" rightInset="0.05cm" topInset="0.05cm"/><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border><bind match="dataRef" ref="$.V_EMAIL"/></field>
         </subform>
        </subform>
-       <subform h="6.11cm" layout="position" name="sup_zpot" w="10.13cm" x="0cm" y="4cm">
+       <subform h="6.11cm" layout="position" name="sup_zpot" w="10.13cm" x="0cm" y="4.45cm">
         <bind match="none"/>
         <event activity="initialize" name="initialize">
 <script contentType="application/x-javascript">var f = this.parent.resolveNode("fld_bsart");
@@ -292,12 +292,12 @@ this.presence = v === "ZPOT" ? "visible" : "hidden";</script>
          <draw h="0.47cm" name="val" w="6.63cm" x="3.5cm" y="0cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
         </subform>
        </subform>
-       <subform h="0.9cm" layout="position" name="last_changed" w="4.24cm" x="14.76cm" y="3.27cm">
+       <subform h="0.9cm" layout="position" name="last_changed" w="4.24cm" x="15.36cm" y="3.72cm">
         <bind match="none"/>
         <draw h="0.45cm" name="lbl" w="4.24cm" x="0cm" y="0cm"><value><text>Last Changed On:</text></value><font size="8pt" typeface="Arial"/></draw>
         <field h="0.45cm" name="val" w="4.24cm" x="0cm" y="0.45cm"><ui><textEdit/></ui><font size="8pt" typeface="Arial" weight="bold"/><bind match="dataRef" ref="$.LV_VAR4"/></field>
        </subform>
-       <subform h="6.4cm" layout="position" name="po_detail" w="8cm" x="10.9cm" y="4cm">
+       <subform h="6.4cm" layout="position" name="po_detail" w="8cm" x="10.9cm" y="4.45cm">
         <bind match="none"/>
         <subform h="0.47cm" layout="position" name="d01" w="8cm" x="0cm" y="0cm">
          <bind match="none"/>
