@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:45:10.756Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:49:36.000Z
+WAITING_ON: operator
+NOTE: Layout increment 2 pushed (items tables with repeating headings, totals, amount in words, terms; helper-field overflow fix). Pull this branch onto ZMMET_PO_SF_ADT in abapGit, activate, report any overflow badge with its element name, and preview a goods PO (1 item and 25+ items), a service PO and an import PO; then confirm or report what you see.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -148,3 +148,39 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T11:45:10.756Z — Manual activity confirmed
 Client confirmed the manual step is done: Some overflows I could see in the layout.. Could you please adjust and beautify the layout..? Also where is the loop section..? If its missing please continue on leftover activities and confirm me.
+
+## 2026-10-09T11:49:36.000Z — Layout increment 2: items tables, totals and terms
+Thank you for the feedback. Increment 1 had no item table yet, that is the "loop section" you asked about, and it is in this push (`src/zmmet_po_sf_adt.sfpf.xdp`, built on your baseline; only the template section changed). Nothing was pushed by you after my last push, so I could not see which overflows you meant. I fixed the most likely cause and ask you for the rest below.
+
+**Overflow fix (increment 1 part)**
+The hidden helper fields that carry V_BSART, V_POTEXT, the country code and so on were only 1 mm x 1 mm, so Designer flags any text in them as overflowing. They are now 2 cm x 0.4 cm and still hidden. If you still see overflow badges, please send the badge text and the element name (or a screenshot) so I fix exactly those.
+
+**Now in the layout (all printed from the tables prepared in the Initialization)**
+- **Additional Comments table** (legacy %TABLE1 on LT_LINES, printed when V_POTEXT = X): heading line, the text lines (growing rows) and a closing line, 19 cm wide.
+- **Goods table** (V_FLAG = X, legacy OTHER_PO), columns exactly as the legacy line type: Sr No 1.13, Material No. 3.14, Item Description 6.45, Qty 2.22, UOM 1.10, Unit Price (Excl.VAT) 2.37, "<V_WAERS> Total (Excl.VAT)" 2.59 cm = 19.00 cm. One row per item from GT_OTHER_PO (serial number, material number, "description (long text)", quantity, unit, unit price, value). The item description cell grows with its text.
+- **Service table** (V_FLAG = Y, legacy SERVCE_PO), widths 1.13 / 3.14 / 5.70 / 2.20 / 1.24 / 2.80 / 2.79 cm: serial number, service number, "text(short text)", quantity, unit, unit price, value, from GT_SERVICE_PO.
+- **Column headings repeat at the top of every page** (the heading is the overflow leader of the row, the pattern copied from Adobe's Purchase Order and Dunning Notice samples). This is the same construct as on ZMM_PO_DEMO, which is not yet confirmed in SAP: please check page 2 of a long order.
+- **Footer lines under the goods table:** Nett Discount (V_KWERT), Freight Charges (V2_KWERT), Insurance Charges (V1_KWERT, only order type ZPOI), Other Charges (LV_OTH), Sub Total, VAT (LV_KWERT1), Total; then the amount in words box and the terms box (standard text ZPOI_ET for import orders, ZPOL_ET for the others, read in the Initialization), then 3 spacer lines.
+- **Footer lines under the service table:** Gross Price (G_NETWR), Net Discount (V_KWERT), an empty Other Charges line, Sub Total, VAT, Total, the amount in words box, the terms box only for order type ZPOS (standard text ZPOL_ET), and 2 spacer lines.
+- **Amount in words** reads "Total order Value In Words(<currency>): <words> <Inco1> <Inco2> basis", with "Order" capitalised for ZIMP and ZLOC, as the legacy two variants do.
+- Amounts use the display pattern z,zzz,zzz,zz9.99; the quantity prints as the plain value of Z_MENGE.
+- Partial borders (side lines of the footer lines) use the edge order top, left, bottom, right, confirmed from Adobe's own Purchase Order sample and strategy S07.
+
+**Not yet in the layout (next increment):** the Approved / UnApproved PO watermark, the frame around the whole main window (legacy window TABLE_DATA, 19 x 17 cm, border on all sides, repeated on page 2), the signature lines of order type ZBUK, and the closing line under the last spacer. The frame and the watermark print on every page, which is why they are left to a separate step (it needs a decision about page-level drawings, the open point of ZMM_PO_DEMO). Switched off by `1 = 2` and not drawn: the DRAFT window, the long terms and conditions, the signature texts, one empty discount line.
+The legacy frame is 17 cm high starting at 12.00 cm, i.e. it ends 0.3 cm closer to the page edge than the 1 cm margin; I will keep the margin.
+
+**Not evidenced, so placeholders** (same as before): fonts are Arial 8 pt; column headings bold and centred, amounts right-aligned, serial number, material number and unit centred, description left. Please send the three SmartStyle exports (ZWSA_COMMON_STYLE, ZMM_PURCHASE_REQ, YMM_PO_STYLE) or the font, size and alignment of the paragraphs P1 to P8 if you want these exact.
+
+**Row height limitation:** all cells of an item row are fixed at 0.6 cm except the description, which grows. When a description wraps to two lines the other cells of that row stay 0.6 cm high, so their borders do not reach the bottom of the row. A table construct without this limit is not yet proven in this SAP, so I used the proven pattern. Tell me if it looks bad in your preview.
+
+**Checks before pushing**
+- Valid XML (also under a strict parser); nothing outside `<template>` differs from your baseline; A4, margins 1.00 cm; all 288 elements inside their parent; explicit x/y everywhere; all 99 bindings resolve to the Context; the continuation wiring (leader, id, occur, flowing container) passes.
+- `sfp_check layout`: 1 FAIL, 3 WARN, 28 passed. The FAIL lists 19 printed fields that are not bound under their legacy name, on purpose: the item-row fields now come from the prepared tables (V_SLNO, LV_MENGE, MATDESC, G_TXZ01, WA_EKPO and WA_ESLL columns), the French-only fields (LV_BEZEI, LV_LANDX50, LV_STR3) are not designed, and G_CURR_DATE belongs to a switched-off branch. WARN: V_BSART, V_POTEXT, V_FLAG and the new table columns are bound although the legacy form did not print them under those names; 38 legacy static texts not found (watermark, DRAFT and the switched-off terms and conditions); the comments column of the detail grid is narrower than the table.
+- Unconfirmed in SAP: the page-continuation heading, the numeric pattern, the script-built amount-in-words and heading texts, the hidden-field conditions.
+
+## 2026-10-09T11:49:36.000Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch onto form ZMMET_PO_SF_ADT, activate it, and note the result and any message.
+2. Open the Layout and report every overflow or warning badge with the element name or a screenshot.
+3. Preview with real orders: a goods PO (V_FLAG = X) with one item and with more than 25 items (check page 2: repeated column headings, rows continuing, totals at the end), a service PO (V_FLAG = Y), an import PO (ZPOI: insurance line, terms text ZPOI_ET), and one with V_POTEXT = X (Additional Comments table above the items).
+4. Tell me what is wrong or ugly (screenshots help), or confirm and I continue with the frame, the watermark and page 2.
