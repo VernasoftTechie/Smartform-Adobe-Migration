@@ -1,0 +1,197 @@
+{
+  "nodes": [
+    {
+      "kind": "scalar",
+      "field": "V_EBELN"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_BSART"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_FLAG"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_POTEXT"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_WAERS"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_FLAG"
+    },
+    {
+      "kind": "scalar",
+      "field": "GV_LANGU"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_DEPARTMNT"
+    },
+    {
+      "kind": "scalar",
+      "field": "G_ERNAME"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_BUYERTELE"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_BUYERTELFX"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_BUYEREMAIL"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_VTEXT"
+    },
+    {
+      "kind": "scalar",
+      "field": "GV_INCO1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GV_INCO2"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_EMAIL"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_RESWK"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_LAND"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_LIFNR"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_VAR4"
+    },
+    {
+      "kind": "scalar",
+      "field": "PODATE"
+    },
+    {
+      "kind": "scalar",
+      "field": "EINDT"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_KTEXT"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_AMT_WORDS"
+    },
+    {
+      "kind": "structure",
+      "field": "WA_VEND",
+      "fields": [
+        "NAME1",
+        "NAME2",
+        "STREET",
+        "STR_SUPPL1",
+        "STR_SUPPL2",
+        "CITY1",
+        "CITY2",
+        "POST_CODE1"
+      ]
+    },
+    {
+      "kind": "structure",
+      "field": "LS_ADRC",
+      "fields": [
+        "NAME1",
+        "NAME2",
+        "STREET",
+        "STR_SUPPL1",
+        "STR_SUPPL2",
+        "CITY1",
+        "CITY2",
+        "POST_CODE1",
+        "TEL_NUMBER",
+        "FAX_NUMBER"
+      ]
+    },
+    {
+      "kind": "structure",
+      "field": "GS_PRINT",
+      "fields": [
+        "COUNTRY",
+        "VENDTEL",
+        "VENDFAX"
+      ]
+    },
+    {
+      "kind": "structure",
+      "field": "GS_TOTALS",
+      "fields": [
+        "GROSS",
+        "DIS",
+        "FRG",
+        "OTH",
+        "SUB",
+        "VAT",
+        "CA",
+        "TOTAL"
+      ]
+    },
+    {
+      "kind": "loop",
+      "table": "LT_ADRC",
+      "workArea": "LT_ADRC",
+      "fields": [
+        "TDLINE"
+      ]
+    },
+    {
+      "kind": "loop",
+      "table": "LT_LINES",
+      "workArea": "LT_LINES",
+      "fields": [
+        "TDLINE"
+      ]
+    },
+    {
+      "kind": "loop",
+      "table": "GT_GOODS",
+      "workArea": "GT_GOODS",
+      "fields": [
+        "SLNO",
+        "MATNR",
+        "DESCR",
+        "MENGE",
+        "MEINS",
+        "NETPR",
+        "NETWR"
+      ]
+    },
+    {
+      "kind": "loop",
+      "table": "GT_SERVICE",
+      "workArea": "GT_SERVICE",
+      "fields": [
+        "SLNO",
+        "SRVPOS",
+        "DESCR",
+        "MENGE",
+        "MEINS",
+        "UNITPR",
+        "TOTAL"
+      ]
+    }
+  ]
+}
