@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:00:27.000Z
-WAITING_ON: operator
-NOTE: Interface corrected (4 reference fields removed). Pull this branch again onto ZMMET_PO_SF_INT in abapGit, activate it, and note the result. If it activates cleanly, Stage, Commit and Push the interface and the empty form ZMMET_PO_SF_ADT back to this branch, then confirm, or report the exact error. Do not drag anything into the Context.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:18:29.943Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -75,3 +75,6 @@ Activating ZMMET_PO_SF_INT in SAP gave 4 errors: "Field GT_OTHER_PO-NETPR / GT_O
 
 ## 2026-10-09T11:00:27.000Z — Action needed from you (SAP)
 Please pull this branch again onto ZMMET_PO_SF_INT in abapGit (overwriting the interface), activate it, and note the result. If the interface activates without errors, Stage, Commit and Push the interface and the empty form ZMMET_PO_SF_ADT back to this branch, then click "I've done this — confirm". If SAP reports any error, use "Report a problem" with the exact message. Do not drag anything into the Context.
+
+## 2026-10-09T11:18:29.943Z — Manual activity confirmed
+Client confirmed the manual step is done.
