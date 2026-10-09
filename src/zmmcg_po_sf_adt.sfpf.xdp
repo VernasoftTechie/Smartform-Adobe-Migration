@@ -775,7 +775,7 @@
                   <value><text>Sr No</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <subform h="0.9cm" layout="position" name="g_h2_en" presence="hidden" w="3.14cm" x="1.13cm" y="0cm">
                   <bind match="none"/>
@@ -788,7 +788,7 @@
                      <value><text>Material No.</text></value>
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para hAlign="center" vAlign="middle"/>
-                     <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   </draw>
                </subform>
                <subform h="0.9cm" layout="position" name="g_h2_fr" presence="hidden" w="3.14cm" x="1.13cm" y="0cm">
@@ -802,7 +802,7 @@
                      <value><text>Code Article</text></value>
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para hAlign="center" vAlign="middle"/>
-                     <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   </draw>
                </subform>
                <subform h="0.9cm" layout="position" name="g_h3_en" presence="hidden" w="6.45cm" x="4.27cm" y="0cm">
@@ -816,7 +816,7 @@
                      <value><text>Item Description</text></value>
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para hAlign="center" vAlign="middle"/>
-                     <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   </draw>
                </subform>
                <subform h="0.9cm" layout="position" name="g_h3_fr" presence="hidden" w="6.45cm" x="4.27cm" y="0cm">
@@ -830,20 +830,20 @@
                      <value><text>Description</text></value>
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para hAlign="center" vAlign="middle"/>
-                     <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   </draw>
                </subform>
                <draw h="0.9cm" name="g_h4" w="2.22cm" x="10.72cm" y="0cm">
                   <value><text>Qty</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <draw h="0.9cm" name="g_h5" w="1.1cm" x="12.94cm" y="0cm">
                   <value><text>UOM</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <subform h="0.9cm" layout="position" name="g_h6_en" presence="hidden" w="2.37cm" x="14.04cm" y="0cm">
                   <bind match="none"/>
@@ -856,7 +856,7 @@
                      <value><text>Unit Price (Excl.VAT)</text></value>
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para hAlign="center" vAlign="middle"/>
-                     <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   </draw>
                </subform>
                <subform h="0.9cm" layout="position" name="g_h6_fr" presence="hidden" w="2.37cm" x="14.04cm" y="0cm">
@@ -870,12 +870,12 @@
                      <value><text>Prix Unitaire (Excl.TVA)</text></value>
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para hAlign="center" vAlign="middle"/>
-                     <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   </draw>
                </subform>
                <subform h="0.9cm" layout="position" name="g_h7" w="2.59cm" x="16.41cm" y="0cm">
                   <bind match="none"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   <field h="0.45cm" name="g_h7_cur" w="2.59cm" x="0cm" y="0.02cm">
                      <ui><textEdit/></ui>
                      <bind match="dataRef" ref="$.V_WAERS"/>
@@ -971,6 +971,274 @@
                </field>
                <overflow leader="g_head"/>
             </subform>
+            <subform layout="tb" name="g_foot" w="19cm">
+               <bind match="none"/>
+               <subform h="0.45cm" layout="position" name="g_f_dummy1" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_f_dummy1_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="g_f_dummy2" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_f_dummy2_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_disc" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_disc_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="g_f_disc_en" presence="hidden" w="4.25cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_disc_en_t" w="4.25cm" x="0cm" y="0cm">
+                        <value><text>Net Discount</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="g_f_disc_fr" presence="hidden" w="4.25cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_disc_fr_t" w="4.25cm" x="0cm" y="0cm">
+                        <value><text>Remise</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <field h="0.5cm" name="g_f_disc_val" w="3.55cm" x="15.45cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.DIS"/>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_frg" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_frg_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="g_f_frg_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_frg_en_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>Freight Charges</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="g_f_frg_fr" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_frg_fr_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>Frais de Transport</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <field h="0.5cm" name="g_f_frg_val" w="3.5cm" x="15.5cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.FRG"/>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_oth" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_oth_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="g_f_oth_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_oth_en_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>Other Charges</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="g_f_oth_fr" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_oth_fr_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>Autres Charges</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <field h="0.5cm" name="g_f_oth_val" w="3.5cm" x="15.5cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.OTH"/>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.45cm" layout="position" name="g_f_empty" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_f_empty_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.45cm" name="g_f_empty_c3" w="3.5cm" x="15.5cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_sub" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_sub_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="g_f_sub_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_sub_en_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>Sub Total</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="g_f_sub_fr" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_sub_fr_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>SuosTotal</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <field h="0.5cm" name="g_f_sub_val" w="3.5cm" x="15.5cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.SUB"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_vat" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_vat_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="g_f_vat_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_vat_en_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>VAT</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="g_f_vat_fr" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="g_f_vat_fr_t" w="4.3cm" x="0cm" y="0cm">
+                        <value><text>TVA</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <field h="0.5cm" name="g_f_vat_val" w="3.5cm" x="15.5cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.VAT"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_ca" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_ca_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="g_f_ca_lbl" w="4.3cm" x="11.2cm" y="0cm">
+                     <value><text>CA</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="g_f_ca_val" w="3.5cm" x="15.5cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.CA"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="g_f_tot" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="g_f_tot_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="g_f_tot_lbl" w="4.3cm" x="11.2cm" y="0cm">
+                     <value><text>Total</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="g_f_tot_val" w="3.5cm" x="15.5cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.TOTAL"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform layout="position" minH="0.6cm" name="g_f_words" w="19cm">
+                  <bind match="none"/>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_ktext" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_KTEXT"/></field>
+                  <field h="1mm" name="f_words" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_AMT_WORDS"/></field>
+                  <field h="1mm" name="f_inco1" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO1"/></field>
+                  <field h="1mm" name="f_inco2" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO2"/></field>
+                  <field minH="0.6cm" name="g_f_words_txt" w="19cm" x="0cm" y="0cm">
+                     <ui><textEdit multiLine="1"/></ui>
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var p = this.parent;
+                        function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                        var v = g("f_bsart");
+                        var lead = (v === "ZPOL") ? "Montant Total en Lettre(" : ((v === "ZIMP" || v === "ZLOC" || v === "ZPOI") ? "Total Order Value In Words(" : "Total order Value In Words(");
+                        this.rawValue = lead + g("f_ktext") + "): " + g("f_words") + " " + g("f_inco1") + " " + g("f_inco2") + " basis";</script>
+                     </event>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin bottomInset="0.05cm" leftInset="0.1cm" rightInset="0.1cm" topInset="0.05cm"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+            </subform>
          </subform>
          <subform layout="tb" name="service_tbl" presence="hidden" w="19cm">
             <bind match="none"/>
@@ -987,41 +1255,41 @@
                   <value><text>Sr No</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <draw h="0.9cm" name="s_h2" w="3.14cm" x="1.13cm" y="0cm">
                   <value><text>Material No.</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <draw h="0.9cm" name="s_h3" w="5.7cm" x="4.27cm" y="0cm">
                   <value><text>Item Description</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <draw h="0.9cm" name="s_h4" w="2.2cm" x="9.97cm" y="0cm">
                   <value><text>Qty</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <draw h="0.9cm" name="s_h5" w="1.24cm" x="12.17cm" y="0cm">
                   <value><text>UOM</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <draw h="0.9cm" name="s_h6" w="2.8cm" x="13.41cm" y="0cm">
                   <value><text>Unit Price (Excl.VAT)</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
                <subform h="0.9cm" layout="position" name="s_h7" w="2.79cm" x="16.21cm" y="0cm">
                   <bind match="none"/>
-                  <border><fill><color value="176,176,176"/></fill><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                   <field h="0.45cm" name="s_h7_cur" w="2.79cm" x="0cm" y="0.02cm">
                      <ui><textEdit/></ui>
                      <bind match="dataRef" ref="$.V_WAERS"/>
@@ -1116,6 +1384,155 @@
                   <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                </field>
                <overflow leader="s_head"/>
+            </subform>
+            <subform layout="tb" name="s_foot" w="19cm">
+               <bind match="none"/>
+               <subform h="0.45cm" layout="position" name="s_f_dummy1" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_f_dummy1_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_f_dummy2" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_f_dummy2_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.5cm" layout="position" name="s_f_gross" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="s_f_gross_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="s_f_gross_lbl" w="4.33cm" x="11.5cm" y="0cm">
+                     <value><text>Gross Price</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="s_f_gross_val" w="3.17cm" x="15.83cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.GROSS"/>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="s_f_disc" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="s_f_disc_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="s_f_disc_lbl" w="4.33cm" x="11.5cm" y="0cm">
+                     <value><text>Net Discount</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="s_f_disc_val" w="3.17cm" x="15.83cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.DIS"/>
+                     <font size="8pt" typeface="Arial"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_f_other" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_f_other_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.45cm" name="s_f_other_c3" w="3.17cm" x="15.83cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_f_empty" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_f_empty_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.45cm" name="s_f_empty_c3" w="3.17cm" x="15.83cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.5cm" layout="position" name="s_f_sub" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="s_f_sub_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="s_f_sub_lbl" w="4.33cm" x="11.5cm" y="0cm">
+                     <value><text>Sub Total</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="s_f_sub_val" w="3.17cm" x="15.83cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.SUB"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="s_f_vat" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="s_f_vat_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="s_f_vat_lbl" w="4.33cm" x="11.5cm" y="0cm">
+                     <value><text>VAT</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="s_f_vat_val" w="3.17cm" x="15.83cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.VAT"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="s_f_ca" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="s_f_ca_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="s_f_ca_lbl" w="4.33cm" x="11.5cm" y="0cm">
+                     <value><text>CA</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="s_f_ca_val" w="3.17cm" x="15.83cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.CA"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform h="0.5cm" layout="position" name="s_f_tot" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.5cm" name="s_f_tot_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.5cm" name="s_f_tot_lbl" w="4.33cm" x="11.5cm" y="0cm">
+                     <value><text>Total</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                  </draw>
+                  <field h="0.5cm" name="s_f_tot_val" w="3.17cm" x="15.83cm" y="0cm">
+                     <ui><textEdit/></ui>
+                     <bind match="dataRef" ref="$.GS_TOTALS.TOTAL"/>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="right" vAlign="middle"/>
+                     <margin rightInset="0.08cm"/>
+                     <border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
+               <subform layout="position" minH="0.6cm" name="s_f_words" w="19cm">
+                  <bind match="none"/>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_ktext" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_KTEXT"/></field>
+                  <field h="1mm" name="f_words" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_AMT_WORDS"/></field>
+                  <field h="1mm" name="f_inco1" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO1"/></field>
+                  <field h="1mm" name="f_inco2" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO2"/></field>
+                  <field minH="0.6cm" name="s_f_words_txt" w="19cm" x="0cm" y="0cm">
+                     <ui><textEdit multiLine="1"/></ui>
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var p = this.parent;
+                        function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                        var v = g("f_bsart");
+                        if (g("f_inco1") === "" &amp;&amp; g("f_inco2") === "") {
+                          this.rawValue = "Total order Value In Words(" + g("f_ktext") + "): " + g("f_words");
+                        } else {
+                          this.rawValue = "Total Order Value In Words(" + g("f_ktext") + "): " + g("f_words") + " " + g("f_inco1") + " " + g("f_inco2") + " basis";
+                        }</script>
+                     </event>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin bottomInset="0.05cm" leftInset="0.1cm" rightInset="0.1cm" topInset="0.05cm"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  </field>
+               </subform>
             </subform>
          </subform>
       </subform>
