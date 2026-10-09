@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:29:39.531Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:40:17.000Z
+WAITING_ON: operator
+NOTE: Layout increment 1 pushed (page, logo, title, delivery box, supplier and PO detail grids). In abapGit pull this branch onto ZMMET_PO_SF_ADT, activate, open the Layout and preview a local PO, a stock transfer and a service PO, then confirm or report what you see (screenshot helps).
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -105,3 +105,43 @@ Checked the branch first: the form you pushed (`src/zmmet_po_sf_adt.sfpf.xml`, c
 
 ## 2026-10-09T11:29:39.531Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:40:17.000Z — Layout started, first increment built
+Your Context pull is confirmed, so the layout has started. Increment 1 is pushed in `src/zmmet_po_sf_adt.sfpf.xdp`, built on the page you pushed. Only the template section changed; the three baseline lines that changed are the page size and the empty body. Everything else in the file is byte-for-byte what SAP wrote.
+
+**What increment 1 contains (page 1 header only, no item table yet)**
+- **Page:** A4 portrait (legacy DINA4; SAP's default was Letter). Content area 19 x 27.7 cm with a 1 cm margin on all sides.
+- **Logo:** window LOGO (0.80 / 1.10 cm, 2.80 x 2.23 cm), graphic DANGOTE LOGO WHITE from SE78, loaded with the same SAP graphics URL pattern the YMMGRNNOTE form uses.
+- **Title:** window PO_HEADING (4.20 / 1.75 cm, 12.10 cm wide). One of 8 titles is shown by the order type V_BSART: ZPOR Release Order, ZPOC Cash Purchase Order, ZPOL Local Purchase Order, ZPOI Import Purchase Order, YCAP Capex Purchase Order, YRAW Purchase Order, ZPOS Service Purchase Order, ZPOT or ZPIC Stock Transfer PO. The PO number (V_EBELN) prints below it, 1.3 cm under the title line, as the legacy template lines (8 mm, 5 mm, 7.91 mm) place it.
+- **Delivery address box:** window DELVRY_ADD (4.70 x 4.23 cm, border on all sides): "Delivery Address:" then company name and the LS_DADRC name 1, name 2, street, city, postal code, telephone and fax, one per line.
+- **Supplier grid:** window SUPPLIER_ADD, 13 rows of 4.7 mm, columns 3.50 + 6.63 cm with a border on every cell, exactly as the legacy template. Two versions, chosen by V_BSART: for ZPOT (stock transfer) the plant data (LV_RESWK, LS_ADRC, LV_LAND, no e-mail value); for every other type the vendor (LV_LIFNR, WA_VEND, WA_T005T country, "+" country dialling code GV_ISD + telephone/fax, V_EMAIL).
+- **Last changed:** "Last Changed On:" with LV_VAR4.
+- **PO detail grid:** window PO_DETAIL, 9 rows of 4.7 mm plus the 21.7 mm "Additional Comments" row, columns 3.00 + 5.00 cm: PO date, delivery date, department, buyer name, telephone, fax, e-mail, payment terms, Inco terms. The comments text (lines of LT_LINES, the legacy include text EKKO / F01) shows only when V_POTEXT is blank; when it is X the same text prints above the items instead (that comes with the items table).
+
+**Where I moved things away from the legacy coordinates, and why**
+- Everything is shifted 0.25 cm to the right so the legacy 0.75 cm left margin becomes 1 cm (rulebook S02 margin rule).
+- The delivery box and the "Last Changed On" text ended 0.1 cm and 0.35 cm from the right page edge in the legacy form; both are moved left so they end 1 cm from the edge.
+- In the legacy form the "Last Changed On" window (starts 4.27 cm) overlaps the lower part of the delivery box (ends 5.40 cm). I kept that overlap as the legacy has it. **Please look at the preview and tell me if it collides in your printout; then I will move it.**
+
+**Not evidenced, so placeholders, please confirm**
+- Fonts and alignment: the SmartStyles ZWSA_COMMON_STYLE, ZMM_PURCHASE_REQ and YMM_PO_STYLE are only names in the export. I used Arial 8 pt (labels bold) and Arial 14 pt bold centred for the title and PO number. To make this exact, download those three styles in SMARTSTYLES (Utilities > Download) and add them under "SmartStyle exports", or give me font, size, bold and alignment of the paragraphs P1, P4, P6, H1 and the character formats B1, C4.
+- Logo URL: the graphic name contains spaces, so the URL is `.../bcol/DANGOTE%20LOGO%20WHITE.bmp`. If the logo does not show, tell me; it is the first thing I would check.
+- Empty lines: a legacy text line that holds only an empty field (for example address line 2) keeps its blank line here (fixed line positions).
+
+**Not in this increment yet:** the Approved / UnApproved PO watermark, the items tables (goods and service), the totals, amount in words, terms text, the second page and the frame around the main window. Left out for good (switched off by `1 = 2`): DRAFT window, the long terms and conditions, the signature texts. The French wording is not designed.
+
+**Checks before pushing**
+- Valid XML (also under a strict parser); nothing outside `<template>` differs from your baseline; A4, margins 1.00 cm on all four sides; all 152 elements inside their parent; explicit x/y everywhere; all 50 bindings resolve to the Context.
+- `sfp_check layout`: 1 FAIL, 3 WARN, 14 passed.
+- FAIL (expected at this stage): 31 printed fields not bound yet. They belong to later increments (item rows, totals, amount in words, footers, terms), to the French-only text, or to the parts switched off by `1 = 2`.
+- WARN: V_BSART and V_POTEXT are bound but not printed by the legacy form (hidden helper fields that drive the conditions).
+- WARN: 53 legacy static texts not found yet (watermark, DRAFT, item and footer labels): later increments or switched off.
+- WARN: the comments lines (4.8 cm wide) are narrower than the 19 cm items table, because they sit in the narrow comments cell.
+- Unconfirmed in SAP: the conditions use the same hidden-field and script pattern as the earlier forms (S07 8.9); the combined "+" country code and number fields, the growing comment lines and the logo URL are new here.
+
+## 2026-10-09T11:40:17.000Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit, pull this branch onto form ZMMET_PO_SF_ADT and activate it. Note the activation result and any message.
+2. Open the Layout. You should see an A4 portrait page with the logo and title at the top, the delivery box top right, the supplier grid at the left, and the PO detail grid at the right. Report any overflow or warning badges. In Design View all 8 titles and both supplier grids sit on top of each other (the conditions only act at run time), so judge one at a time.
+3. Preview with a real purchase order: try a local PO (ZPOL), a stock transfer (ZPOT) and, if you have one, a service PO (ZPOS). Check the title, the PO number, the delivery box, the supplier grid (vendor details, or plant details for ZPOT), the PO detail values, and the Additional Comments text (V_POTEXT blank). Tell me about overlaps (especially "Last Changed On" against the delivery box), the logo, wrapped or clipped text.
+4. If it looks right, confirm and I continue with the watermark and the items table. If anything is off, report it with a screenshot. If you adjust in Designer and push, I compare your save against this version before building on it.
