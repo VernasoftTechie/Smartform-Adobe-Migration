@@ -80,3 +80,24 @@ position rows (fixed height) with the header row as the overflow leader (ruleboo
 Item texts, terms and conditions, watermark, footer "PO No / Page x of y", the MAIN window outline box, the
 page-2 window geometry. The text-line column alignment (centre for SNo and headings, left for code/description,
 right for UOM/quantity/amounts) and the bold values (character format C4) are assumptions.
+
+## Increment 3 — item texts and terms and conditions
+
+| Legacy node(s) | Layout | Evidence |
+|---|---|---|
+| window-level loops `%LOOP50/73/76/79/82` (item texts F01-F05, headings "Item Text", "Info record PO text", "Material PO Text", "Delivery Text", "Info record note") | `item_texts`: one growable line per `GT_ITXT_OUT` row (heading rows and text lines, prepared in Initialization block 3d) | `%TEXT199-208`, `%TEXT200-206` |
+| `%CONDITION209` (V_FLAG = X): `%TEXT217/218/258/219/220/221/222/223/224/225/226` | 11 bordered, growable blocks `tc_x_*`, each shown by the legacy condition of its text node AND V_FLAG = X | extract section 4 (conditions copied verbatim and translated to JavaScript) |
+| `%CONDITION213` (V_FLAG = Y): `%TEXT209/210/259/211/213/214/215` | 7 blocks `tc_y_*`; `%TEXT212` is not built (condition contains `1 = 2`) | same |
+
+How a terms block is built: the legacy lines of the English text are read from the extract; a line whose format is
+blank, `=` is a continuation of the previous paragraph (joined with a space), `/*` comment lines are dropped, `,,`
+(tab) at the start of a line becomes a 4-space indent and elsewhere one space, `<(>,<)>` becomes a comma, `&FIELD&`
+and `&FIELD(C)&` are replaced by the value of a hidden holder (amounts and the delivery date from `GS_FMT_OUT`).
+The block is one multi-line field per variant whose text is set in an initialize script; the variant itself is shown
+or hidden by its condition. All conditions are evaluated independently, exactly as in the Smart Form, so overlapping
+conditions would print two blocks as they did before.
+
+Known differences (not evidenced or lost): character formats `<C1> <C2> <C4> <C5> <C6>` inside the terms (emphasis) are
+dropped, paragraph formats P6/P9 have no known font so one 8 pt Arial is used, the French (F) texts are not built,
+and the legacy `YMM_PO_STYLE` spacing between paragraphs is not reproduced. Static terms texts live in scripts, so
+`sfp_check` cannot see them and still lists them as "not found".
