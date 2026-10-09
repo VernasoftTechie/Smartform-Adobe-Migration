@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: in_progress
-UPDATED: 2026-10-09T12:01:06.699Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T12:03:56.257Z
+WAITING_ON: operator
+NOTE: Layout increment 4 (watermark and page footer on a master page) is pushed; this completes the layout build. Please run the full check and tell us what you actually saw: PULL this branch, ACTIVATE the form, open Layout in Design View (does the page show, or is it blank?), then PREVIEW (a) a released order (release indicator R or A: the grey Approved PO watermark), (b) an unreleased order (UnApproved PO), (c) an order of more than 25 items (rows growing with long text, column header repeated on page 2, Page x of y in the footer on every page, no PO number missing), (d) a service order (V_FLAG = Y), and compare each against the legacy PDF. Report anything missing, clipped or different, with screenshots, or confirm in Bolt Console only if the above looked right. If the master-page footer/watermark does not show or is empty, say so: we have a body-only fallback.
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -80,3 +80,12 @@ Client confirmed the manual step is done.
 
 ## 2026-10-09T12:01:06.698Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T12:03:56.257Z — Layout increment 4 pushed (watermark, page footer): layout complete, please test everything
+**Delivered** in src/ymm_po_smartform_adt.sfpf.xdp: a master page that prints on every page with (1) the watermark: Approved PO when the release indicator is R or A, otherwise UnApproved PO (this is the legacy alternative %CONDITION127, which the extract tree had omitted and we read from the raw XML), grey 56 pt Courier New bold at the legacy window position; (2) the footer box at the legacy PAGE_NO position with PO No, Page x of y. The content area now ends at 25.5 cm to leave room for the footer.
+
+**Layout coverage:** every legacy field that can print is bound. Of 36 legacy field references without a same-named binding, 29 are replaced by print-table columns computed in Initialization, and 7 are printed only by nodes that never print (permanently off 1 = 2 branches and the unexecuted page-2 copy). Not built, on purpose: the MAIN window outline box (tables and blocks have their own borders), French (F) texts, emphasis inside the terms, and the unexecuted page-2 copy of the main window. Details: docs/legacy_grab/ymm_po_smartform_layout_notes.md and ymm_po_smartform_initialization.md.
+
+**Checks (sfp_check layout):** 27 passed; the same 3 explained FAIL (checker coverage count, two item tables as Adobe table/row layouts). New WARN: 4 elements live inside the page area (the master page). That is valid XFA and used by Adobe’s own Purchase Order sample, but our rulebook records a blank Design View in this SAP for content in the page area, and the data binding of master-page fields () is not yet proven in your SAP. Fallback if it fails: watermark and footer inside the flowing body.
+
+**Honest status:** nothing in the layout has been rendered by us. The last three confirmations arrived within about two minutes of each push, with no description of what was seen, and no question of ours has been answered. Please treat this as the real test round: the item-table construct (rows growing, header repeat), the master page, the terms blocks, all order types and the amounts in the terms. We keep the ticket open until you report; sign-off needs your SAP activation and preview result recorded here.
