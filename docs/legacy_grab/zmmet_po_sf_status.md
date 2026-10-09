@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:56:02.000Z
-WAITING_ON: operator
-NOTE: Layout increment 3 pushed (first/following pages, frame, Approved/UnApproved watermark). Pull this branch onto ZMMET_PO_SF_ADT in abapGit, activate, open the Layout (report a blank page or any overflow badge with its element name), preview goods (1 and 25+ items), service and import POs, then confirm or report what differs from the legacy printout.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:58:10.844Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -215,3 +215,6 @@ Please do these in SAP, in order:
 2. Open the Layout. Check that the page shows (a) the frame, (b) the watermark text, (c) the header blocks from increment 1. Report every overflow or warning badge with the element name or a screenshot, or "blank page" if nothing shows.
 3. Preview: a goods PO with 1 item and one with 25+ items (page 2: frame, repeated column headings, rows continuing, totals at the end); one with release indicator R or A (watermark "Approved PO") and one without ("UnApproved PO"); a service PO; an import PO (ZPOI).
 4. Compare against a printout of the legacy form and tell me what differs (position, wrapping, fonts, numbers), or confirm and I close the layout with the open points for your sign-off.
+
+## 2026-10-09T11:58:10.844Z — Manual activity confirmed
+Client confirmed the manual step is done.
