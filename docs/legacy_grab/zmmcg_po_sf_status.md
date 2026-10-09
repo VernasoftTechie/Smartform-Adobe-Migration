@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:59:47.381Z
-WAITING_ON: operator
-NOTE: Layout step 2c (terms and conditions, closing rows, service-order French) pushed - pull onto ZMMCG_PO_SF_ADT, activate, preview an import PO (ZPOI), a local PO (ZPOL), a service PO (ZPOS) and a normal goods PO, compare with the legacy print, and answer the language question in the latest entry.
+STATUS: in_progress
+UPDATED: 2026-10-09T12:02:13.176Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -226,3 +226,6 @@ Please do these in SAP, in order:
 4. Check the heading, the numbering, that no term is cut, the frame around the table, and that the table ends with a bottom line after the last row.
 5. Please also answer the open question above about ZPOL headings.
 6. If it looks right, confirm. If anything is off, tell me which order type and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
+
+## 2026-10-09T12:02:13.176Z — Manual activity confirmed
+Client confirmed the manual step is done.
