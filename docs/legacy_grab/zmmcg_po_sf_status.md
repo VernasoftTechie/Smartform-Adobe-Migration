@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:30:47.993Z
-WAITING_ON: operator
-NOTE: Layout step 1 (page + header blocks) pushed - pull onto ZMMCG_PO_SF_ADT, activate, open the Layout and preview with 3 purchase orders (types ZPOT, ZPOL and any other), then confirm or report exactly what you see.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:37:04.094Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -127,3 +127,6 @@ Please do these in SAP, in order:
 3. Preview with real purchase orders of three kinds: a stock transfer (ZPOT), a local order (ZPOL, French labels) and any other type. Check the title, the supplier block (vendor vs plant), the PO detail values, the address box, and whether the logo shows.
 4. If you change anything in Designer, push it back and tell me - I compare every Designer save with this version before building on it.
 5. If it looks right, confirm. If anything is off, tell me which block and what you see (a screenshot helps).
+
+## 2026-10-09T11:37:04.094Z — Manual activity confirmed
+Client confirmed the manual step is done: There were many overlappings that I could see in the initial built. Please beautify as much as possible.. Continue building the leftover items ..
