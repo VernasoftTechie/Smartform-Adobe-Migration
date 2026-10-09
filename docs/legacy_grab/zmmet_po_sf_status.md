@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-09T12:00:19.000Z
+UPDATED: 2026-10-09T12:10:53.000Z
 WAITING_ON: operator
-NOTE: Final test results needed. Run the 15 tests listed in the last entry in SAP (activation, previews of goods, 25+ items, import, service, stock transfer, approved/unapproved, comments, numbers) and send one line per test (PASS or what is wrong) with your confirmation. This migration is not closed without your explicit test result.
+NOTE: Positions rechecked and made exact to the legacy form (no shifts). Pull this branch onto ZMMET_PO_SF_ADT again, activate, run the 15 tests from the earlier entry on this version and send one line per test; name any overflow badge at the right or bottom edge. Not closed without your test results.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -251,3 +251,36 @@ When all lines are PASS and you accept the open points, say so in your confirmat
 
 ## 2026-10-09T12:00:19.000Z — Action needed from you (SAP)
 Please run the tests above in SAP and send the results (one line per test) with your confirmation. If something differs from the legacy printout, use "Report a problem" with a screenshot. I will not close this migration without your explicit test result.
+
+## 2026-10-09T12:10:53.000Z — Positions rechecked against the legacy form and made exact
+On request I rechecked every section against the legacy export and removed the margin adjustments I had made earlier. The layout now uses the legacy page coordinates exactly. **This version replaces the one you may already be testing: please pull again before you send the test results.**
+
+**What changed**
+- Before: all header blocks were shifted 0.25 cm to the right, the delivery box and "Last Changed On" were moved left, and the frames were trimmed to keep a 1 cm page margin.
+- Now: the content area starts at the legacy origin (0.75 cm from the left, 0.55 cm from the top) and is 20.15 x 28.45 cm, so a legacy position X / Y on the page is the same position in the layout. Nothing is shifted any more. The only consequence is the page margin, see "Risk" below.
+
+**Section by section (page coordinates in cm, left / top, width; legacy value = layout value)**
+| Section (legacy window) | Legacy | Layout |
+|---|---|---|
+| Logo (LOGO) | 0.80 / 1.10, 2.80 x 2.23 | same |
+| Title and PO number (PO_HEADING) | 4.20 / 1.75, 12.10 wide, lines 8 mm + 5 mm + 7.91 mm | same: title on line 1, PO number 1.30 cm below the top |
+| Delivery box (DELVRY_ADD) | 16.20 / 1.17, 4.70 x 4.23, border | same |
+| Supplier grid (SUPPLIER_ADD, both variants) | 0.75 / 5.00, 3.50 + 6.63 wide, 13 lines of 4.70 mm | same, rows at 0.47 cm steps |
+| Last changed (PO_LAST_CHANGED) | 16.11 / 4.27, 4.24 wide | same |
+| PO detail grid (PO_DETAIL) | 11.65 / 5.00, 3.00 + 5.00 wide, 9 lines of 4.70 mm + 1 line of 21.70 mm | same |
+| Main window, page 1 (TABLE_DATA) | 0.75 / 12.00, 19.00 x 17.00, border | frame same; item tables start exactly at 12.00 |
+| Main window, following pages | 0.75 / 0.55, 19.00 x 28.45, border | same |
+| Watermark (WATER_MARK, both pages) | 1.52 / 17.76, 18.00 x 4.70 | same |
+| Goods table columns | 1.13 / 3.14 / 6.45 / 2.22 / 1.10 / 2.37 / 2.59 (19.00) | same |
+| Service table columns | 1.13 / 3.14 / 5.70 / 2.20 / 1.24 / 2.80 / 2.79 (19.00) | same |
+| Footer lines | cells 0.01 / 4.26 / 11.90 / 2.83; 11.20 / 4.30 / 3.50; 11.20 / 4.33 / 3.47 (goods), 11.50 / 4.33 / 3.17 (service) | same |
+I verified the header-block positions by reading them back from the generated file; the table, footer and frame widths come straight from the legacy cell definitions.
+
+**Still not exact, because the export has no value for it (placeholders):** fonts and sizes (SmartStyles not supplied); the heights of the table heading (0.9 cm), the item rows (0.6 cm minimum) and the footer lines (0.5 cm); the heights of the empty spacer lines (0.3 cm). The legacy table lines have no fixed height, they follow the text of the style. Send the three SmartStyle exports or the measured heights from your printout and I make these exact too.
+
+**Risk you must judge:** the legacy form itself leaves only 0.10 cm to the right page edge (delivery box ends at 20.90 cm) and 0.70 cm at the bottom (frame ends at 29.00 cm). Rulebook S02/F48 recorded overflow warnings in this SAP with margins under 1 cm, and printers cannot print into their own non-printable edge. If the Layout shows overflow badges or the preview cuts the right or bottom edge, tell me and I move those two items inside the margin again.
+
+**Checks:** valid XML (strict parser); nothing outside `<template>` differs from your baseline; every element inside its parent; all 99 bindings resolve. `sfp_check layout`: 1 FAIL, 5 WARN, 29 passed: the same 19 printed fields not bound under their legacy names (on purpose), the master-page drawings (unconfirmed), the new field names, the texts not found (switched off or script-built), and the new margin warning (0.75 / 0.55 / 0.10 / 0.70 cm, the legacy values, deliberate).
+
+## 2026-10-09T12:10:53.000Z — Action needed from you (SAP)
+Please pull this branch onto form ZMMET_PO_SF_ADT again, activate it, and then run the test list from my previous entry on this version. Send one line per test (PASS or what is wrong). If the Layout shows overflow badges at the right or bottom edge, name the elements. This migration stays open until you send the test results.
