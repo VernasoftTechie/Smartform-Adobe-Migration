@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:52:30.836Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:56:02.000Z
+WAITING_ON: operator
+NOTE: Layout increment 3 pushed (first/following pages, frame, Approved/UnApproved watermark). Pull this branch onto ZMMET_PO_SF_ADT in abapGit, activate, open the Layout (report a blank page or any overflow badge with its element name), preview goods (1 and 25+ items), service and import POs, then confirm or report what differs from the legacy printout.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -187,3 +187,31 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T11:52:30.836Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:56:02.000Z — Layout increment 3: page frame, watermark, first and following pages
+Increment 3 is pushed in `src/zmmet_po_sf_adt.sfpf.xdp` (template section only changed; the rest of the file is what SAP wrote). It adds what the legacy form prints on every page.
+
+**What is new**
+- **Two page types:** the first page and "the rest", declared the way Adobe's own Dunning Notice sample does (`pagePosition="first"` and `"rest"`). Both are A4 portrait with the same 19 x 27.7 cm content area.
+- **Frame around the main window**, as the legacy window TABLE_DATA (border on all four sides): on page 1 from 12.00 cm down (the legacy window is 19 x 17 cm at 0.75 / 12.00); on the following pages from the top of the page (legacy 19 x 28.45 cm at 0.75 / 0.55). The item tables, footers and the amount-in-words and terms boxes flow inside it. Both frames end at 28.7 cm instead of the legacy 29.0 cm, and the page 2 frame starts at 1.0 cm instead of 0.55 cm, so the 1 cm page margin holds.
+- **Watermark** (legacy window WATER_MARK, 18.00 x 4.70 cm at 1.52 / 17.76, printed on both pages): "Approved PO" when LV_FLAG = Y (release indicator R or A, set by the legacy node %CODE15), otherwise "UnApproved PO". The text is read from LV_FLAG by a small script on the page.
+
+**What I did not build, and why**
+- The signature lines for order type ZBUK: in the legacy form all their texts are switched off by `1 = 2`, so they print only empty cells, and the frame now closes the area. Their bottom lines (rows %ROW21 / %ROW24) are not drawn.
+- Still not drawn because switched off by `1 = 2`: DRAFT window, the long terms and conditions, signature texts.
+- The French wording.
+
+**Unconfirmed, please check these first**
+1. **Drawings on the page itself (master page).** The frame and the watermark sit in the page areas. Adobe's samples do this, but an old entry in this project (F15) recorded a blank Design View in this SAP when content was placed inside a page area. If the Layout shows nothing, or only a blank page, tell me: I have a fallback ready (frame as borders of the flowing rows, watermark only on page 1 in the body).
+2. **Watermark script.** The watermark field is bound to LV_FLAG and sets its own text. It is written so that it gives the same result on both pages.
+3. **Font of the watermark.** Not in the export (style ZMM_PURCHASE_REQ, paragraph P6); placeholder Arial 40 pt bold in light grey (200,200,200) so that the item rows stay readable. Send the style export or the font, size and colour if you want it exact.
+4. The page-continuation heading, the numeric pattern and the script-built texts from increment 2 are still unconfirmed too.
+
+**Checks before pushing:** valid XML (also under a strict parser); nothing outside `<template>` differs from your baseline; margins 1.00 cm; all elements inside their parents; explicit x/y; all bindings resolve to the Context; continuation wiring passes. `sfp_check layout`: 1 FAIL, 4 WARN, 30 passed. The FAIL is the same 19 printed fields not bound under their legacy names, on purpose (item-row fields now come from the prepared tables; French-only fields; G_CURR_DATE). The WARNs: the master-page content (point 1 above); V_BSART, V_POTEXT, V_FLAG and the table columns are bound under new names; 38 legacy static texts not found (watermark words are produced by the script, DRAFT and the terms and conditions are switched off); the comments column of the detail grid is narrower than the table.
+
+## 2026-10-09T11:56:02.000Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch onto form ZMMET_PO_SF_ADT, activate it, and note the result and any message.
+2. Open the Layout. Check that the page shows (a) the frame, (b) the watermark text, (c) the header blocks from increment 1. Report every overflow or warning badge with the element name or a screenshot, or "blank page" if nothing shows.
+3. Preview: a goods PO with 1 item and one with 25+ items (page 2: frame, repeated column headings, rows continuing, totals at the end); one with release indicator R or A (watermark "Approved PO") and one without ("UnApproved PO"); a service PO; an import PO (ZPOI).
+4. Compare against a printout of the legacy form and tell me what differs (position, wrapping, fonts, numbers), or confirm and I close the layout with the open points for your sign-off.
