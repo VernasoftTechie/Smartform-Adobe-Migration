@@ -1,12 +1,15 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: queued
-UPDATED: 2026-10-09T05:54:45.200Z
+STATUS: in_progress
+UPDATED: 2026-10-09T08:51:01.584Z
 WAITING_ON: engineer
-NOTE: Waiting for the migration engineer to pick this up.
+NOTE: 
 STOP: none
-CLAIMED_BY: none
+CLAIMED_BY: Window-3
 
 ---
 ## 2026-10-09T05:54:45.199Z — Queued
 Migration submitted with 4 reference file(s).
+
+## 2026-10-09T08:51:01.583Z — Picked up
+Window-3 picked this migration up.
