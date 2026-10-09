@@ -4,9 +4,35 @@
    <?formServer defaultPDFRenderFormat acrobat10.0dynamic?>
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
-         <pageArea id="Page1" name="Page1">
+         <pageArea id="Page1" name="Page1" pagePosition="first">
             <contentArea h="27.7cm" w="19cm" x="1cm" y="1cm"/>
             <medium long="29.7cm" orientation="portrait" short="21cm" stock="a4"/>
+            <field h="4.7cm" name="watermark" w="18cm" x="1.77cm" y="17.76cm">
+               <ui><textEdit/></ui>
+               <font size="40pt" typeface="Arial" weight="bold"><fill><color value="200,200,200"/></fill></font>
+               <para hAlign="center" vAlign="middle"/>
+               <bind match="dataRef" ref="$.LV_FLAG"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var v = String(this.rawValue === null || this.rawValue === undefined ? "" : this.rawValue).replace(/^\s+|\s+$/g, "");
+this.rawValue = (v === "Y" || v === "Approved PO") ? "Approved PO" : "UnApproved PO";</script>
+               </event>
+            </field>
+            <draw h="16.7cm" name="main_frame" w="19cm" x="1cm" y="12cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
+            <?templateDesigner expand 1?></pageArea>
+         <pageArea id="Page2" name="Page2" pagePosition="rest">
+            <contentArea h="27.7cm" w="19cm" x="1cm" y="1cm"/>
+            <medium long="29.7cm" orientation="portrait" short="21cm" stock="a4"/>
+            <field h="4.7cm" name="watermark" w="18cm" x="1.77cm" y="17.76cm">
+               <ui><textEdit/></ui>
+               <font size="40pt" typeface="Arial" weight="bold"><fill><color value="200,200,200"/></fill></font>
+               <para hAlign="center" vAlign="middle"/>
+               <bind match="dataRef" ref="$.LV_FLAG"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var v = String(this.rawValue === null || this.rawValue === undefined ? "" : this.rawValue).replace(/^\s+|\s+$/g, "");
+this.rawValue = (v === "Y" || v === "Approved PO") ? "Approved PO" : "UnApproved PO";</script>
+               </event>
+            </field>
+            <draw h="27.7cm" name="main_frame" w="19cm" x="1cm" y="1cm"><border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
             <?templateDesigner expand 1?></pageArea>
          <?templateDesigner expand 1?></pageSet>
       <subform layout="tb" name="po_doc" w="19cm">
