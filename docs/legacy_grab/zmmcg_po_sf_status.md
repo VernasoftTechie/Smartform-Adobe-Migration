@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:14:51.679Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:16:40.387Z
+WAITING_ON: operator
+NOTE: Context tree pushed - pull this branch onto form ZMMCG_PO_SF_ADT, check the Context shows the nodes listed in the latest entry with no error, then confirm or report the exact error.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -67,3 +67,21 @@ When it is done click "I've done this - confirm" below. If anything fails, use "
 
 ## 2026-10-09T11:14:51.678Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:16:40.387Z — Context tree built
+Checked the branch first: your push (`3130234`) holds the form `src/zmmcg_po_sf_adt.sfpf.xml` wired to `ZMMCG_PO_SF_INT` with an empty Context - exactly the safe starting point. The layout file (`.sfpf.xdp`) is byte-for-byte what SAP generated; I did not touch it. I built the Context on top of the form file and pushed it there.
+
+**What is bound (81 nodes).** Only what the form prints, plus the few flags the layout needs for its conditions:
+- Scalars (24): `V_EBELN`, `V_BSART`, `V_FLAG`, `V_POTEXT`, `V_WAERS`, `LV_FLAG`, `GV_LANGU`, `V_DEPARTMNT`, `G_ERNAME`, `V_BUYERTELE`, `V_BUYERTELFX`, `V_BUYEREMAIL`, `LV_VTEXT`, `GV_INCO1`, `GV_INCO2`, `V_EMAIL`, `LV_RESWK`, `LV_LAND`, `LV_LIFNR`, `LV_VAR4`, `PODATE`, `EINDT`, `LV_KTEXT`, `LV_AMT_WORDS`.
+- Structures: `WA_VEND` (8 address fields), `LS_ADRC` (10 fields: the supplying plant for stock transfers), `GS_PRINT` (3), `GS_TOTALS` (8).
+- Repeating tables: `LT_ADRC` (TDLINE - plant address text), `LT_LINES` (TDLINE - header text), `GT_GOODS` (7 columns), `GT_SERVICE` (7 columns).
+Left out on purpose: `IT_EKPO` / `IT_ESLL` (the layout prints the prepared tables `GT_GOODS` / `GT_SERVICE` instead), every amount/quantity field (the values are prepared as text, so no reference fields are involved), and everything the legacy form never printed.
+
+**Checks run here:** Context graph consistent (every parent/child/successor/condition link resolves, no duplicate ids), strict XML parse OK, `sfp_check context`: 0 fail, 0 warn, 10 passed.
+
+**Unconfirmed in SAP:** this is 81 nodes; the largest Context proven so far is 14 (ZMM_PO_DEMO imported clean) and 24 (ZFING_CUST_ACT_SUM, still unconfirmed). The loops over global tables follow the ZMM_PO_DEMO shape that imported clean.
+
+## 2026-10-09T11:16:41.388Z — Action needed from you (SAP)
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT** (only the form file changed).
+2. Open the form in SFP and check the Context tree: 81 nodes - the 24 scalars, the structures `WA_VEND`, `LS_ADRC`, `GS_PRINT`, `GS_TOTALS` with their fields, and the tables `LT_ADRC`, `LT_LINES`, `GT_GOODS`, `GT_SERVICE` with their columns. No deserialize error.
+3. Do not add or move anything in the Context. If it imports clean click "I've done this - confirm" and I start the layout. If SAP throws an error, use "Report a problem" with the exact message.
