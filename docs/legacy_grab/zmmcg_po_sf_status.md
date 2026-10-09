@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:16:40.387Z
-WAITING_ON: operator
-NOTE: Context tree pushed - pull this branch onto form ZMMCG_PO_SF_ADT, check the Context shows the nodes listed in the latest entry with no error, then confirm or report the exact error.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:22:15.071Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -85,3 +85,6 @@ Left out on purpose: `IT_EKPO` / `IT_ESLL` (the layout prints the prepared table
 1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT** (only the form file changed).
 2. Open the form in SFP and check the Context tree: 81 nodes - the 24 scalars, the structures `WA_VEND`, `LS_ADRC`, `GS_PRINT`, `GS_TOTALS` with their fields, and the tables `LT_ADRC`, `LT_LINES`, `GT_GOODS`, `GT_SERVICE` with their columns. No deserialize error.
 3. Do not add or move anything in the Context. If it imports clean click "I've done this - confirm" and I start the layout. If SAP throws an error, use "Report a problem" with the exact message.
+
+## 2026-10-09T11:22:15.071Z — Manual activity confirmed
+Client confirmed the manual step is done.
