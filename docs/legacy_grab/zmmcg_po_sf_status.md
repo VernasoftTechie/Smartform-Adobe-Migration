@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T12:02:13.176Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T12:05:30.482Z
+WAITING_ON: operator
+NOTE: Layout step 2d (watermark and main-window frame on the page itself) pushed - pull onto ZMMCG_PO_SF_ADT, activate, open the Layout FIRST and report at once if it is blank or odd, then preview an approved and an unapproved PO of 1 page and of 3 pages, then confirm or report exactly what you see.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -229,3 +229,30 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T12:02:13.176Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T12:05:29.481Z — Layout step 2d built (watermark and main-window frame)
+Step 2c (terms and conditions) is confirmed with no remarks, and so were the earlier steps, including the multi-page items tables. This step adds the last two legacy elements: the **"Approved PO" / "UnApproved PO" watermark** (window WATER_MARK) and the **frame around the main window** (0.75 pt, all four sides). Both are printed by the page itself, so they appear on every page. The file `src/zmmcg_po_sf_adt.sfpf.xdp` replaces the previous one (steps 1 to 2d together); nothing outside the page body changed from your SAP baseline.
+
+**How it is built (from your export)**
+- **Two page layouts**, as in the legacy form (PAGE1 and PAGE2): the first page, and the continuation page that repeats for every further page.
+- **Watermark:** text "Approved PO" when `LV_FLAG` = Y (the approval flag set by the Initialization from `IV_REL_INDICATOR` = R or A), otherwise "UnApproved PO", centred in an 18.00 x 4.70 cm box. Position as the legacy window: 23.76 cm from the top on page 1 and 17.76 cm on the following pages (the legacy page 2 window), moved 0.25 cm right and 0.10 cm down like the rest.
+- **Frame:** on page 1 from the start of the items table (13.5 cm) down to the bottom margin; on the other pages the whole content area. It is drawn on the page behind the table; the table's own row lines coincide with it.
+- The "Background Image" the legacy page 1 defines has no graphic assigned in the export, so there is nothing to draw.
+
+**Not evidenced - guesses (Developer Extension Points)**
+- The watermark's **font, size and colour** (I used Arial 40 pt bold, light grey) - the legacy style `ZMM_PURCHASE_REQ` paragraph P6 is not in the export. Please send the style or tell me what it should look like.
+- The frame stops at the bottom margin (1 cm); the legacy frame ran to 0.7 cm from the edge.
+
+**Unconfirmed in SAP - this step carries the most risk, please look at the Layout first**
+1. **Objects on the page itself (master page).** Adobe's samples do this, but an earlier build on this project (rulebook F15) saw a **blank Design View** in your SAP when content sat inside the page area; ZMM_PO_DEMO's result for the same idea is still outstanding. If the Layout is blank, shows nothing of the form, or you cannot select anything, **do not continue testing - report it**: I will go back to the previous step and move the watermark into the body (printed once, near the header) instead of on every page.
+2. The first page layout is limited to one page (`occur max=1`) so that the second layout repeats for pages 2, 3, ...; if page 2 or 3 is missing or the form stops after one page, report it.
+3. The watermark is shown or hidden by a script reading the approval flag from a hidden field bound by name (`<bind match="global"/>`) - a binding type not used before on this project. If neither text shows, or both show, report it.
+
+**Checks run here:** strict XML parse OK, all scripts parse as JavaScript, nothing outside the page body differs from your baseline, margins >= 1 cm, elements inside their parents, bindings resolve. The checker warns (as expected) about the page-area occurrence and the master-page objects, and still lists texts that are deliberately not in the layout (parts switched off with `1 = 2`).
+
+## 2026-10-09T12:05:30.482Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT** and activate it. Note the activation result.
+2. **Open the Layout first.** You should see the same form as before with a frame and a watermark text. If it is blank or odd, stop and report (see point 1 above).
+3. Preview: (a) an **approved** PO (release indicator R or A) with few items - "Approved PO" at the lower part of page 1; (b) an **unapproved** PO - "UnApproved PO"; (c) a PO with enough items for **3 pages** - check the watermark and frame on each page and that nothing else moved; (d) a ZPOT, a ZPOL and a service PO for a last look.
+4. If it looks right, confirm. If anything is off, tell me which page and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
