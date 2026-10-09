@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:54:01.325Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:59:47.381Z
+WAITING_ON: operator
+NOTE: Layout step 2c (terms and conditions, closing rows, service-order French) pushed - pull onto ZMMCG_PO_SF_ADT, activate, preview an import PO (ZPOI), a local PO (ZPOL), a service PO (ZPOS) and a normal goods PO, compare with the legacy print, and answer the language question in the latest entry.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -194,3 +194,35 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T11:54:01.325Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:59:46.379Z — Layout step 2c built (terms and conditions, closing rows)
+Step 2b (totals and amount in words) is confirmed, so I added the **terms and conditions** under the totals, the **closing rows** that finish the table, and the French variants for service orders. Left: the watermark. The file `src/zmmcg_po_sf_adt.sfpf.xdp` replaces the previous one (steps 1, 2a, 2b, 2c together); nothing outside the page body changed from your SAP baseline.
+
+**Terms and conditions (legacy folders, texts copied from your export letter for letter)**
+- **Goods, import order type ZPOI** (folder "IMPORTS"): heading "Purchase Order Terms & Conditions:" and the 11 numbered terms, English only (ZPOI always prints in English).
+- **Goods, every other type** (folder "Local PO Terms"): heading and 10 terms; **French text** (the legacy translations) when the order prints in French, otherwise English.
+- **Service orders** (folder "Service PO Terms", every type except ZPOI): heading and 10 terms, English or French the same way; for ZPOS the first term is blank, as in the legacy form.
+- Layout: number in a 0.55 cm column, text in the 18.10 cm column (legacy PO_TERM_I widths 0.25 / 0.55 / 0.05 / 18.10 / 0.05), rows grow with their text, left/right frame lines on the whole row, bottom line under the last term. Lines the legacy export marks as comment lines (`/*`, e.g. a person's name and an old address inside term 8) are not printed - they were never printed.
+- Disabled in the legacy form (`1 = 2`) and left out: the old "Terms" block, signature texts, date text.
+
+**Closing rows** after the terms (goods and service): three blank framed rows, one empty three-column "signature" row and the closing row with the bottom border, as the legacy line types. The heights (0.45 cm each) are my estimate - the legacy rows hold no printed text, so their height is not in the export.
+
+**French (language) rule used** - the driver prints ZPOL and ZPOS in French (`ls_control-langu = F`), ZPOI in English, other types in the user's login language. In this step:
+- French is used when the order type is ZPOL or ZPOS, or the print language (`GV_LANGU`, filled with `SY-LANGU` by the Initialization) is F.
+- For **service orders** the table headings (Code Article, Description, Prix Unitaire (Excl.TVA), Total (Excl.TVA)), the totals labels (Prix Brut, Remise, Sous Total, TVA) and the amount-in-words line ("Montant Total en Lettre(...)", with the currency code instead of the currency text when both Inco fields are empty, exactly as the legacy French translation) now switch to French, from the legacy translations.
+
+**Open question for you (please answer in Bolt Console, ideally with a legacy ZPOL print attached).** For **ZPOL** orders, steps 1-2b show the French wording of the legacy nodes that are switched by order type (e.g. "Code Article", "Description", "Prix Unitaire (Excl.TVA)"). But in the export those four table-heading nodes have a stored translation for language F that reads **English** ("Material No.", "Item Description", "Unit Price (Excl.VAT)", "&V_WAERS& Total (Excl.VAT)"), and the ZPOL amount-in-words node has its own F wording ("...&gv_inco1&&gv_inco2&" and a separate line "basis"). If your legacy ZPOL printout shows **English headings**, tell me and I will switch them; if it shows French, nothing changes. The same applies to the "SuosTotal" label (no F translation exists, so the legacy prints the typo).
+Also not done: the legacy translations for **goods orders of non-ZPOL types printed under a French login** (e.g. French table headings on a ZPOC). Tell me if French users print those.
+
+**Checks run here:** strict XML parse OK, all 60 scripts parse as JavaScript, nothing outside the page body differs from your baseline, margins >= 1 cm, all 543 elements inside their parents, all 119 bindings resolve to the Context, continuation wiring still passes. The completeness check still fails only on what is left (the watermark; and, deliberately, fields the layout prints through the prepared `GT_*`/`GS_*` fields and legacy texts switched off with `1 = 2`).
+
+**Unconfirmed in SAP:** 1) rows with long text grow, and their frame lines are drawn on the row, so a long term keeps a complete frame; 2) the French/English switch depends on `GV_LANGU` actually carrying the print language in the Adobe run - please check a ZPOS order prints French and a ZPOI order English; 3) all fonts, bold heading and spacings are guesses (style definitions still missing).
+
+## 2026-10-09T11:59:47.381Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT** and activate it. Note the activation result.
+2. Open the Layout. Report any warning/overflow badge.
+3. Preview: (a) an import goods PO (ZPOI) - English terms; (b) a local goods PO (ZPOL) - French terms; (c) a service PO (ZPOS) - French headings, totals and terms; (d) a service PO that is not ZPOS or ZPOL - English; (e) a normal goods PO - English terms; (f) one order long enough that the terms start on page 2.
+4. Check the heading, the numbering, that no term is cut, the frame around the table, and that the table ends with a bottom line after the last row.
+5. Please also answer the open question above about ZPOL headings.
+6. If it looks right, confirm. If anything is off, tell me which order type and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
