@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T12:07:23.625Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T12:08:32.997Z
+WAITING_ON: operator
+NOTE: All layout steps are built and every step you tested was confirmed - please do the final review of ZMMCG_PO_SF_ADT against your legacy printouts (one of each order type) and either confirm sign-off or send the differences; also answer the open questions in the latest entry.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -259,3 +259,25 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T12:07:23.625Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T12:08:31.996Z — Layout complete - ready for your review
+Every part of the legacy form has now been built and every step you tested (interface, Context, header blocks, items tables with page continuation, totals and amount in words, terms and conditions, watermark and frame) has been confirmed by you without a problem report. Nothing is "done" until you have compared the result with the legacy printouts - that comparison is the sign-off.
+
+**What exists on this branch**
+- Interface `ZMMCG_PO_SF_INT` (`src/zmmcg_po_sf_int.sfpi.xml`), Context 81 nodes and layout (`src/zmmcg_po_sf_adt.sfpf.xml` / `.xdp`), A4 portrait, one to many pages.
+- The record of every decision, deviation and open item: `docs/legacy_grab/zmmcg_po_sf_post_implementation.md` (14 numbered open items), and the full Initialization with every change to legacy code marked "BOLT:" in `docs/legacy_grab/ZMMCG_PO_SF_initialization.abap`.
+
+**Please do (one review, then one answer)**
+1. Print, with the new form and with the legacy Smart Form, the same real documents of each kind: goods (ZPOC or ZPOR), import (ZPOI), local French (ZPOL), stock transfer (ZPOT or ZPIC), service (ZPOS and one other service type), one with header text, one with more than 60 items, one approved and one unapproved, one in XAF or XOF.
+2. Compare: every header value, supplier block (vendor vs plant), item rows (serial no., material, description with long text, quantity, unit, prices, totals), the totals block and amount in words, the terms (language and wording), watermark, frame and page breaks.
+3. If everything matches, confirm. If anything differs, use "Change requested" with the order type, the place on the page, what legacy shows and what the new form shows (screenshot helps).
+
+**Questions I need answered (they decide what I change)**
+- **ZPOL headings:** do the legacy ZPOL printouts show the table headings in French (Code Article, Description, ...) or in English (Material No., Item Description, ...)? And what does the legacy ZPOL amount-in-words line look like (the export has two different wordings)?
+- **French for other order types:** do French-login users print goods orders of types other than ZPOL, and should those be French (table headings, totals, supplier and detail labels)?
+- **Rounding:** goods Total (except ZPOI) and all service amounts except CA print rounded to whole numbers in the legacy form; I reproduced that. Keep it, or print two decimals?
+- **"SuosTotal"** on ZPOL (typo of "Sous Total") - keep or correct?
+- **Fonts and styles:** please supply `ZWSA_COMMON_STYLE`, `ZMM_PURCHASE_REQ` and `YMM_PO_STYLE` (SMARTSTYLES > Utilities > Download, then "SmartStyle exports" in Configure), or the font, size and alignment of paragraphs HP, P1, P2, P3, P4, P6, P8, PQ. Until then all fonts are Arial placeholders.
+- **Print language:** how will the driver hand the print language (F for ZPOL/ZPOS, E for ZPOI) to the Adobe form? The form assumes `SY-LANGU` in the form run carries it (`GV_LANGU`).
+
+**Not changed, as a reminder:** driver `ZCGMMPOP001` is untouched; the form needs no new parameter from it. Not rebuilt on purpose (switched off in the legacy form): draft window and image, old terms block, signature texts, date text, insurance row, legacy plant address text.
