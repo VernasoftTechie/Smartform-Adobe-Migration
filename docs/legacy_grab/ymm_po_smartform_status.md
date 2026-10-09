@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:56:04.693Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:59:20.975Z
+WAITING_ON: operator
+NOTE: Layout increment 3 (item texts + terms and conditions) is pushed. In abapGit PULL this branch, ACTIVATE the form and PREVIEW with orders that have item texts (F01-F05) and with different order types: ZREL, ZIMP, ZLOC, ZCAS, ZBUK, a service order (V_FLAG = Y, e.g. ZSE1/ZSE2) and plant 1021 / LV_EKGRP CE2 or CE4 if you have them. Report: which terms block appears for each order (compare with the legacy PDF), whether the numbers and delivery date in the terms are right, whether item text headings and lines are right, anything clipped, and any activation error text exactly. Also please tell us whether the item-table preview from the last step (rows growing, header repeated on page 2) looked right. Confirm in Bolt Console or report problems.
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -68,3 +68,12 @@ Client confirmed the manual step is done.
 
 ## 2026-10-09T11:56:04.693Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:59:20.975Z — Layout increment 3 pushed (item texts, terms and conditions), waiting for your preview
+**Note on the last step:** your confirmation for increment 2 arrived about two minutes after we pushed it. We recorded it, but it is not clear a full preview (a 25+ item order, a service order) was done in that time. Please say in your next entry what you actually saw in the item table (rows growing with long text, the column header repeating on page 2, totals and words line); that table uses a construct not yet proven in your SAP.
+
+**Delivered** in src/ymm_po_smartform_adt.sfpf.xdp (on top of increments 1 and 2, your baseline and the Context untouched): (1) the item text lines (F01-F05 with their headings) from the prepared table; (2) the terms and conditions: 11 variants for V_FLAG = X and 7 for V_FLAG = Y, each shown by the legacy condition of its text node (copied verbatim from the Smart Form, evaluated independently as before) with the amounts, delivery date, payment condition, shipping medium and incoterms filled in. One variant (%TEXT212) is not built because its condition contains 1 = 2 (permanently off). Mapping and the text-conversion rules: docs/legacy_grab/ymm_po_smartform_layout_notes.md.
+
+**Checks (sfp_check layout):** 23 passed; the same 3 explained FAIL as before (57 printed fields not yet bound in the sense of the checker, mostly the fields the print tables replaced and the watermark, and the two item tables being Adobe table/row layouts). WARN: 50 holder fields that the legacy form did not print, SFSY page fields (increment 4), static terms texts are in scripts so the checker lists them as not found.
+
+**Unconfirmed / differences:** emphasis inside the terms (character formats C1, C2, C4, C5, C6) is dropped and all terms use one 8 pt Arial (paragraph formats P6/P9 are not in the export); tabs at the start of a line are shown as a 4-space indent; the French texts are not built; page break behaviour of a long bordered terms block is unconfirmed (a block longer than the page space may move to the next page as a whole or split; please look at it). Not built yet: watermark, footer PO No / Page x of y, the MAIN window outline box and the page-2 geometry (increment 4).
