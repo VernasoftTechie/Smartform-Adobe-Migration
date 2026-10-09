@@ -11,3 +11,4 @@
 | 2026-10-09T11:54:22Z | Window-2 | Layout increment 2 (header texts, EKPO/ESLL item tables) pushed, waiting for client activation/preview; client confirmed increment 1 | see git log |
 | 2026-10-09T11:59:21Z | Window-2 | Layout increment 3 (item texts, 18 terms variants) pushed, waiting for client activation/preview; client confirmed increment 2 two minutes after the push | see git log |
 | 2026-10-09T12:03:56Z | Window-2 | Layout increment 4 (master page: watermark, page footer) pushed - layout build complete, waiting for client full test; confirmations for increments 2 and 3 came about 2 minutes after each push | see git log |
+| 2026-10-09T12:11:51Z | Window-2 | Layout revised to exact legacy geometry at the owner request (unscaled, two page areas, per-page box/footer); client asked to test this version | see git log |
