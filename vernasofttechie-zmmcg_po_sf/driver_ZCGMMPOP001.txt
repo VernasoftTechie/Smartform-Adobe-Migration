@@ -1,0 +1,54 @@
+*&---------------------------------------------------------------------*
+*& Report  ZMMET_PO_DRIVER_RP
+*
+*&---------------------------------------------------------------------*
+
+***********************************************************************
+* Program Title:Purchase order print Driver program                   *
+*                                                                     *
+* Created by   :Karunakar                          Date : 05/06/2015  *
+*                                                                     *
+* Description  :This Program is used to print Purchase                *
+* order details                                                       *
+*                                                                     *
+* Module name  : MM                                                   *
+*                                                                     *
+* Type         : Driver Program                                       *
+*                                                                     *
+* Special note :                                                      *
+*---------------------------------------------------------------------*
+* Related Objects: Transaction Code ME23N and ME9F                    *
+*---------------------------------------------------------------------*
+*                       Modification History                          *
+*---------------------------------------------------------------------*
+* Date     | USER ID       | CR#   | Transport  | Mod.Key             *
+*----------|---------------|-------|------------|---------------------*
+*06.05.2015|ABAP01         |1600110| DCDK920807 | Intital Version     *
+*----------|---------------|-------|------------|---------------------*
+*02.09.2015 ABAP02         |1600329| DCDK921611 | Mod01               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod02               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod03               *
+*---------------------------------------------------------------------*
+*Mod01: A)Changes in the logic for Buyer's Name,Email Adress,Telephone*
+*       Number and Incoterms, PO Terms and Conditions.                *
+*       B)Changes for setting the PO Language in Form based on the PO *
+*         Type                                                        *
+*         For Imports - Language always in English                    *
+*         For Local   - Language always in French                     *
+*         For Others  - Based on users current language               *
+*---------------------------------------------------------------------*
+
+REPORT  zcgmmpop001.
+
+*---------------------------------------------------------------------*
+* Include for  data declaration
+*---------------------------------------------------------------------*
+INCLUDE ZCGMMPOP001_TOP.
+*INCLUDE zcmmmpop001_top.
+*---------------------------------------------------------------------*
+* Include for Forms
+*---------------------------------------------------------------------*
+INCLUDE ZCGMMPOP001_FRMS.
+*INCLUDE zcmmmpop001_frms.

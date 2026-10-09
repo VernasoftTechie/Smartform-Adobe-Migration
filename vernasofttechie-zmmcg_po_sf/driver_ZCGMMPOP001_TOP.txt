@@ -1,0 +1,191 @@
+
+*&----------------------------------------------------------------------*
+*&  Include           ZCMMMPOP001_TOP
+*&----------------------------------------------------------------------*
+
+**********************************************************************
+* Program Title:Purchase order print Include program                  *
+*                                                                     *
+* Created by   :Karunakar                          Date : 05/06/2015  *
+*                                                                     *
+* Description  :This Include is used to declare global declaration    *
+* Module name  : MM                                                   *
+*                                                                     *
+* Type         :Include Program                                       *
+*                                                                     *
+* Special note :                                                      *
+*---------------------------------------------------------------------*
+* Related Objects:  program<ZCMMMPOP001>                             *
+*---------------------------------------------------------------------*
+*                       Modification History                          *
+*---------------------------------------------------------------------*
+* Date     | USER ID       | CR#   | Transport  | Mod.Key             *
+*----------|---------------|-------|------------|---------------------*
+*06.05.2015|ABAP01         |1600110| DCDK920807 | Intital Version     *
+*----------|---------------|-------|------------|---------------------*
+*02.09.2015 ABAP02         |1600329| DCDK921611 | Mod01               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod02               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod03               *
+*---------------------------------------------------------------------*
+*Mod01: A)Changes in the logic for Buyer's Name,Email Adress,Telephone*
+*       Number and Incoterms, PO Terms and Conditions.                *
+*       B)Changes for setting the PO Language in Form based on the PO *
+*         Type                                                        *
+*         For Imports - Language always in English                    *
+*         For Local   - Language always in French                     *
+*         For Others  - Based on users current language               *
+*---------------------------------------------------------------------*
+
+TABLES: nast.
+
+TYPES:BEGIN OF ty_esll,
+        packno     TYPE esll-packno,
+        introw     TYPE esll-introw,
+        sub_packno TYPE esll-sub_packno,
+        srvpos     TYPE esll-srvpos,
+        menge      TYPE esll-menge,
+        meins      TYPE esll-meins,
+        netwr      TYPE esll-netwr,
+        ktext1     TYPE esll-ktext1,
+        tbtwr      TYPE esll-tbtwr,
+      END OF ty_esll.
+DATA:gs_esll  TYPE ty_esll,           "service po
+     gt_esll  TYPE STANDARD TABLE OF ty_esll,
+     t_esll_t TYPE STANDARD TABLE OF esll,
+     gs_esll1 TYPE esll.
+
+TYPES:BEGIN OF ty_makt,
+        matnr TYPE makt-matnr,
+        maktx TYPE makt-maktx,
+      END OF ty_makt.
+TYPES:BEGIN OF ty_konv,
+        knumv TYPE konv-knumv,
+        kschl TYPE konv-kschl,
+        kwert TYPE konv-kwert,
+        kposn TYPE konv-kposn,
+        waers TYPE konv-waers,
+        kpein TYPE konv-kpein,
+        lifnr TYPE konv-lifnr,
+      END OF ty_konv.
+TYPES:BEGIN OF ty_t001w,
+        werks TYPE t001w-werks,
+        land1 TYPE t001w-land1,
+        name1 TYPE t001w-name1,
+        regio TYPE t001w-regio,
+        stras TYPE t001w-stras,
+        adrnr TYPE t001w-adrnr,
+      END OF ty_t001w.
+DATA:gs_vend  TYPE adrc,
+     gt_vend  TYPE TABLE OF adrc,
+     gs_makt  TYPE ty_makt,
+     gt_makt  TYPE TABLE OF ty_makt,
+     gs_t005t TYPE t005t,
+     gt_t005t TYPE TABLE OF t005t.
+
+DATA: gs_konv    TYPE ty_konv,
+      gt_konv    TYPE TABLE OF ty_konv,
+      gt_esll1   TYPE TABLE OF ty_esll,
+      t_eban     TYPE STANDARD TABLE OF eban,
+      gs_ekpo    TYPE ekpo,
+      gt_ekpo    TYPE STANDARD TABLE OF ekpo,
+      t_ekpo     TYPE STANDARD TABLE OF ekpo,
+      gs_plant   TYPE ty_t001w,
+      gs_plant1  TYPE t001w,
+      t_addsmtp  TYPE STANDARD TABLE OF  bapiadsmtp,
+      gs_addsmtp TYPE bapiadsmtp,
+      t_return   TYPE STANDARD TABLE OF bapiret2.
+
+
+DATA: gv_company_name    TYPE adrc-name1, "COMPANY NAME
+      gv_pono            TYPE  char26,          "PO NO     "char20 changed by abap2.
+      gv_podate          TYPE  char10,        "PO DDATE
+      gv_departmnt       TYPE  t024-eknam,  "DEPARTMENT
+      gv_dept            TYPE char4,             "First 3 character of department
+      gv_bedat           TYPE  ebdat,           "DATE
+      gv_ebeln           TYPE ebeln,            "PURCHASE DOCUMENT NO
+      gv_ername          TYPE ernam,            "Name of Person who Created the Object    "DCDK914608
+      gv_frgke           TYPE frgke,            "RELEASE INDICATOR
+      gv_banfn           TYPE banfn,            "PR NO
+      gv_badat           TYPE badat,            "DATE
+      gv_bednr           TYPE bednr,            "TRACKING NUMBER
+      gv_bsart           TYPE esart,            "PURCHSING DOC TYPE
+      gv_netpr           TYPE ymmquantity,            "NET PRICE
+      gv_menge           TYPE bstmg,            "PO QTY
+***SOC BY KALYAN ON 19.05.2025
+      gv_netwr           TYPE wmto_s-amount,           "NET VALUE UTEM
+*      gv_netwr       TYPE snetwr,           "NET VALUE UTEM
+***EOC BY KALYAN ON 19.05.2025
+      gv_menge1          TYPE mengev,          "QTY WITH SIGN
+      gv_mwskz           TYPE mwskz,           "SALES TAX CODE
+      gv_zterm           TYPE dzterm,           "PAYMENT TERMS
+      gv_dppct           TYPE me_dppcnt,
+      gv_reswk           TYPE reswk,
+      gv_flag            TYPE char1 VALUE ' ',
+      gv_fval            TYPE ymmquantity,
+      gv_fval1           TYPE netwr,
+      gv_waers           TYPE waers,
+      gv_knumv           TYPE knumv,
+      gv_kwert           TYPE kwert,
+      gv_oth             TYPE kwert,
+      gv_kwert1          TYPE kwert,
+      gv_eindt           TYPE char10,
+      gv_eindt1          TYPE eindt,
+      gv_kwert_d         TYPE kwert,
+      gv1_kwert          TYPE kwert,
+      gv1_zdoc           TYPE kwert,
+      gv1_zfob           TYPE kwert,
+      gv1_zpk1           TYPE kwert,
+      gv1_zpcf           TYPE kwert,
+      gv2_kwert          TYPE kwert,
+      gv_vtext           TYPE dzterm_bez,
+      gv_downtext        TYPE char50,
+      gv_text1           TYPE text1_007s,
+      gv_inco1           TYPE ekko-inco1,
+      gv_inco2           TYPE ekko-inco2,
+      gv_lvalue          TYPE netwr,
+      gv_email           TYPE ad_smtpadr,
+      gv_buyeremail      TYPE ad_smtpadr,
+      gv_buyertelfx      TYPE t024-telfx,
+      gv_buyertele       TYPE t024-ektel,
+      gv_airsea(3)       TYPE c,
+      gv_ktokk           TYPE lfa1-ktokk,
+      gv_ekgrp           TYPE ekko-ekgrp,
+      gv_dollars         TYPE char50,
+      gv_cents           TYPE char50,
+      gv_ktext           TYPE ktext_curt,
+      gv_landx50         TYPE t005t-landx50,
+      gv_bezei           TYPE t005u-bezei,
+      gv_str3            TYPE string,
+      gv_str4            TYPE string,
+      gv_str5            TYPE string,
+      gv_str6            TYPE string,
+      gv_esllnetwr       TYPE esll-netwr,
+      gv_lifnr_v         TYPE ekko-lifnr,
+      gv_kwertf          TYPE wmto_s-amount,
+      gv_kwert1_a        TYPE wmto_s-amount,
+      gv2_kwert1_a       TYPE wmto_s-amount,
+      gv1_zpk            TYPE wmto_s-amount,
+      gv_konv_tabix      TYPE sy-tabix,
+* Begin of change <Mod01>
+      gv_buyer           TYPE ad_namtext, " Buyer Name
+      gv_persnumber      TYPE ad_persnum, " Person Number of User
+      gv_navs1           TYPE kwert,
+      gv_navs1_a         TYPE wmto_s-amount.
+
+"""SOC by kalyan on 24.09.2024
+DATA :lt_adrc TYPE STANDARD TABLE OF tline,
+**SOC BY KALYAN ON 30.09.2026
+      lv_potext          TYPE char1.
+**EOC By Kalyan on 30.09.2026
+"""EOC by kalyan on 24.09.2024
+
+* Constants Declaration
+CONSTANTS : gc_x    TYPE ad_flgdfnr VALUE 'X',
+            gc_en   TYPE syst-langu VALUE 'E',   "English
+            gc_fr   TYPE syst-langu VALUE 'F',   "French
+            gc_zpoi TYPE bsart      VALUE 'ZPOI', "Imports PO
+            gc_zpol TYPE bsart      VALUE 'ZPOL', "Local PO
+            gc_zpos TYPE bsart      VALUE 'ZPOS'. "Local PO
+* End of change <Mod01>

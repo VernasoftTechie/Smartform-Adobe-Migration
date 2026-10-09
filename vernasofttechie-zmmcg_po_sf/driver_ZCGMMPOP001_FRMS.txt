@@ -1,0 +1,1195 @@
+*&----------------------------------------------------------------------*
+*&  Include           ZCMMMPOP001_FRMS
+*&----------------------------------------------------------------------*
+
+**********************************************************************
+* Program Title:Purchase order print Include program                  *
+*                                                                     *
+* Created by   :Karunakar                          Date : 05/06/2015  *
+*                                                                     *
+* Description  :This Include is used to declare global routines       *
+* Module name  : MM                                                   *
+*                                                                     *
+* Type         :Include Program                                       *
+*                                                                     *
+* Special note :                                                      *
+*---------------------------------------------------------------------*
+* Related Objects:  program<ZCMMMPOP001>                             *
+*---------------------------------------------------------------------*
+*                       Modification History                          *
+*---------------------------------------------------------------------*
+* Date     | USER ID       | CR#   | Transport  | Mod.Key             *
+*----------|---------------|-------|------------|---------------------*
+*06.05.2015|ABAP01         |1600110| DCDK920807 | Intital Version     *
+*----------|---------------|-------|------------|---------------------*
+*02.09.2015 ABAP02         |1600329| DCDK921611 | Mod01               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod02               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod03               *
+*---------------------------------------------------------------------*
+*Mod01: A)Changes in the logic for Buyer's Name,Email Adress,Telephone*
+*       Number and Incoterms, PO Terms and Conditions.                *
+*       B)Changes for setting the PO Language in Form based on the PO *
+*         Type                                                        *
+*         For Imports - Language always in English                    *
+*         For Local   - Language always in French                     *
+*         For Others  - Based on users current language               *
+*---------------------------------------------------------------------*
+
+  FORM entry_neu USING return_code TYPE sy-subrc us_screen TYPE c.
+
+    IF nast-objky IS NOT INITIAL.
+
+*---------------------------------------------------------------*
+*FORM: clear_data
+*---------------------------------------------------------------*
+* To initialize global variables and internal tables
+*---------------------------------------------------------------*
+      PERFORM clear_data.
+*---------------------------------------------------------------*
+*FORM: get_data
+*---------------------------------------------------------------*
+* Fetching and processing the data based on purchase document number
+*---------------------------------------------------------------*
+      PERFORM get_data.
+*---------------------------------------------------------------*
+*---------------------------------------------------------------*
+*FORM: Print_form
+*---------------------------------------------------------------*
+* Caling smartform and printing the data on form
+*---------------------------------------------------------------*
+      PERFORM print_form.
+*---------------------------------------------------------------*
+      IF sy-subrc = 0.
+        CLEAR return_code.
+      ENDIF.
+
+    ENDIF.
+  ENDFORM.                    "ENTRY_NEU
+
+  START-OF-SELECTION.
+
+*&---------------------------------------------------------------------*
+*&      FORM  GET_DATA
+*&---------------------------------------------------------------------*
+*       Fetch data and calculate the quantities using condition types
+*----------------------------------------------------------------------*
+  FORM get_data .
+
+    DATA: lv_bukrs TYPE ekko-bukrs,
+          lv_lifnr TYPE ekko-lifnr,
+          gv_adrnr TYPE t001-adrnr,
+          lv_text  TYPE char3.
+
+    CONSTANTS: lc_en   TYPE spras VALUE 'F',
+               lc_jpy  TYPE waers VALUE 'JPY',
+               lc_zpol TYPE bsart VALUE 'ZPOL',
+               lc_zpos TYPE bsart VALUE 'ZPOS'.
+
+    gv_ebeln = nast-objky.
+
+*Fetching data from EKKO table based on
+*Input Purchase document
+    IF gv_ebeln IS NOT INITIAL.
+      SELECT SINGLE ebeln bukrs ernam bedat ekgrp lifnr frgke bsart waers zterm knumv inco1 inco2 dppct reswk INTO
+                                (gv_ebeln,lv_bukrs,gv_ername,gv_bedat,gv_ekgrp,lv_lifnr,gv_frgke,gv_bsart,gv_waers,gv_zterm,gv_knumv,gv_inco1,gv_inco2,gv_dppct,gv_reswk)
+                                 FROM ekko WHERE ebeln = gv_ebeln.
+    ENDIF.
+    gv_lifnr_v = lv_lifnr.
+
+* Get Currency key decimals words from the
+* table YCURRDENOM based on Currency key
+    IF gv_waers IS NOT INITIAL.
+      SELECT SINGLE word1 word2 FROM ycurrdenom INTO (gv_dollars,gv_cents)
+       WHERE curr = gv_waers.
+
+**Checng document type is it local Po or not
+      IF gv_bsart NE lc_zpol AND gv_bsart NE lc_zpos.
+** Fetching short text from table based on
+*  Currency key and system language
+        SELECT SINGLE ktext FROM tcurt INTO gv_ktext WHERE waers = gv_waers
+                                                       AND spras = sy-langu.
+      ELSE.
+** Fetching short text from table TCURT based on
+*  Currency key and French language
+        SELECT SINGLE ktext FROM tcurt INTO gv_ktext WHERE waers = gv_waers
+                                                       AND spras = lc_en.
+      ENDIF.
+    ENDIF.
+**Checng document type is it local Po or not
+    IF gv_zterm IS NOT INITIAL.
+      IF gv_bsart NE lc_zpol AND gv_bsart NE lc_zpos.
+* Fetching Down payment text from tabel TVZBT
+*  Based on terms of payment and systme language
+        SELECT SINGLE vtext INTO gv_vtext FROM tvzbt WHERE  zterm = gv_zterm
+                                                       AND spras = sy-langu.
+      ELSE.
+* Fetching Down payment text from tabel TVZBT
+*  Based on terms of payment and French language
+        SELECT SINGLE vtext INTO gv_vtext FROM tvzbt WHERE  zterm = gv_zterm
+                                                        AND spras = lc_en.
+      ENDIF.
+**Checking  Down payment text is initail or not
+      IF gv_vtext IS INITIAL.
+**Checng document type is it local Po or not
+        IF gv_bsart NE lc_zpol AND gv_bsart NE lc_zpos.
+*Fetching Explanation text from table T052U
+*  Based on downpayment and system language
+          SELECT SINGLE text1 INTO gv_vtext FROM t052u WHERE  zterm = gv_zterm
+                                                          AND spras = sy-langu.
+        ELSE.
+*Fetching Explanation text from table T052U
+*  Based on downpayment and French Language
+          SELECT SINGLE text1 INTO gv_vtext FROM t052u WHERE  zterm = gv_zterm
+                                                          AND spras = lc_en.
+
+        ENDIF.
+      ENDIF.
+    ENDIF.
+**Converting text using FM
+* 'ISP_CONVERT_FIRSTCHARS_TOUPPER'
+    PERFORM letter_change.
+**Fetching telephone number and e-mail address from
+* table T024 based on purchasing group
+    IF gv_ekgrp IS NOT INITIAL.
+      SELECT SINGLE telfx smtp_addr INTO (gv_buyertelfx, gv_buyeremail ) FROM t024 WHERE ekgrp = gv_ekgrp.
+    ENDIF.
+    CLEAR gv_buyeremail.
+
+*Getting user details by calling
+*the BAPI 'BAPI_USER_GET_DETAIL'
+    CALL FUNCTION 'BAPI_USER_GET_DETAIL'
+      EXPORTING
+        username = gv_ername
+      TABLES
+        return   = t_return
+        addsmtp  = t_addsmtp.
+    READ TABLE t_addsmtp INTO gs_addsmtp INDEX 1.
+    IF sy-subrc = 0.
+      gv_buyeremail = gs_addsmtp-e_mail.
+    ENDIF.
+
+* Fetching address number for
+* Company code  from table T001 basd on company code
+    IF lv_bukrs IS NOT INITIAL.
+      SELECT SINGLE adrnr INTO gv_adrnr FROM t001 WHERE bukrs = lv_bukrs.
+
+      IF sy-subrc = 0.
+
+* Fetching name of the Company
+* From the table ADRC based on address number
+        SELECT SINGLE  name1 INTO gv_company_name
+                             FROM adrc WHERE addrnumber = gv_adrnr.
+      ENDIF.
+    ENDIF.
+
+*GET THE PO NUMBER AND PO DATE
+    IF lv_bukrs = '1140'.
+      lv_text  = 'DCS'.
+    ELSE.
+      lv_text = 'DCZ'.
+    ENDIF.
+**SOC by Kalyan on 30.09.2026
+   SELECT SINGLE * FROM zab_dcp_param INTO @DATA(ls_param) WHERE param1 = 'ZCGMMPOP001_FRMS'
+                                                            AND  param2 = @nast-KSCHL
+                                                            AND  param3 = @lv_bukrs
+                                                            AND  value1 = @abap_true.
+     IF sy-subrc = 0.
+       lv_potext = abap_true.
+     ENDIF.
+**EOC by Kalayn on 30.09.2026
+* get PO date
+    CONCATENATE gv_bedat+6(2)
+                gv_bedat+4(2)
+                gv_bedat(4) INTO gv_podate SEPARATED  BY '-'.
+
+* Fetching  buyer details from table T024
+* based on purchasing group
+    IF gv_ekgrp IS NOT INITIAL.
+      SELECT SINGLE telfx smtp_addr ektel  INTO (gv_buyertelfx, gv_buyeremail,gv_buyertele ) FROM t024 WHERE ekgrp = gv_ekgrp.
+    ENDIF.
+*fetching the PR date and PR number based on purchase doc
+*from tbale EBAN
+    IF gv_ebeln IS NOT INITIAL.
+      SELECT SINGLE  banfn badat ebeln bednr INTO (gv_banfn,gv_badat,gv_ebeln,gv_bednr) "#EC CI_NOFIELD
+                                     FROM eban WHERE ebeln = gv_ebeln.
+    ENDIF.
+**Checking document tyoe is it local PO or not
+    IF gv_mwskz IS NOT INITIAL.
+      IF gv_bsart NE lc_zpol AND gv_bsart NE lc_zpos.
+* Fetching text of name of value added tax
+* from table T007S based on Tax on sales/purchases code
+* and system language
+
+        SELECT SINGLE text1 INTO gv_text1 FROM t007s WHERE mwskz = gv_mwskz
+                                                          AND spras = sy-langu.
+      ELSE.
+* Fetching text of name of value added tax
+* from table T007S based on Tax on sales/purchases code
+* and system language
+        SELECT SINGLE text1 INTO gv_text1 FROM t007s WHERE mwskz = gv_mwskz
+                                                          AND spras = lc_en.
+      ENDIF.
+    ENDIF.
+*Fetching the vendor details from table LFA1
+*based on vendor
+    CLEAR: gv_adrnr.
+    IF lv_lifnr IS NOT INITIAL.
+      SELECT SINGLE adrnr ktokk INTO (gv_adrnr,gv_ktokk) FROM lfa1 WHERE lifnr = lv_lifnr.
+      IF sy-subrc = 0.
+
+*Fetching Vendor address details from
+*tabel ADRC based on address number
+        SELECT
+        addrnumber
+        date_from
+        nation
+        name1
+        name2
+        street
+        str_suppl1
+        str_suppl2
+        city2
+        post_code1
+        city1
+        country
+        tel_number
+        fax_number INTO CORRESPONDING FIELDS OF TABLE gt_vend
+                   FROM adrc WHERE addrnumber = gv_adrnr.
+      ENDIF.                                     "SY-SUBRC
+    ENDIF.                                     "SY-SUBRC
+
+    IF gv_adrnr IS NOT INITIAL.
+* Fetching email details from table ADR6
+*  Based on address number
+      SELECT SINGLE smtp_addr FROM adr6 INTO gv_email WHERE addrnumber = gv_adrnr.
+**Validating internal table it_vend is initial or not
+      IF gt_vend IS NOT INITIAL.
+*
+        SELECT * FROM t005t INTO TABLE gt_t005t FOR ALL ENTRIES IN gt_vend
+             WHERE spras = sy-langu
+              AND  land1 = gt_vend-country.
+      ENDIF.
+    ENDIF.
+*  IF it_t005t IS NOT INITIAL.
+*    LOOP AT it_t005t INTO wa_t005t.
+*    ENDLOOP.
+*  ENDIF.
+    READ TABLE gt_t005t INTO gs_t005t INDEX 1.
+    READ TABLE gt_vend INTO gs_vend INDEX 1.
+*  IF NOT it_vend IS INITIAL.
+*    LOOP AT it_vend INTO wa_vend.
+*    ENDLOOP.
+* ENDIF.
+* Fetching Flag from custom table based on doc type
+    IF gv_bsart IS NOT INITIAL.
+      SELECT SINGLE flag
+              FROM zmm_data_flag
+              INTO gv_flag
+              WHERE object = gv_bsart.
+    ENDIF.
+*Fetching PO item details based on Purchase order
+*and delition indicator not equal to 'L' From table EKPO
+    IF gv_ebeln IS NOT INITIAL.
+      SELECT ebeln
+             ebelp
+             matnr
+             txz01
+             werks
+             meins
+             menge
+             netpr
+             peinh
+             netwr
+             brtwr
+             mwskz
+             packno
+             banfn
+             INTO CORRESPONDING FIELDS OF TABLE  gt_ekpo
+        FROM ekpo WHERE ebeln = gv_ebeln
+      AND   loekz <> 'L'.
+    ENDIF.
+    IF NOT gt_ekpo IS INITIAL.
+*   select from eban table
+*    SELECT * FROM eban INTO TABLE it_eban FOR ALL ENTRIES IN it_ekpo WHERE ebeln = it_ekpo-ebeln. "#EC CI_NOFIELD
+*    DELETE ADJACENT DUPLICATES FROM it_eban COMPARING banfn.
+*   select material description
+
+      SELECT matnr maktx FROM makt INTO TABLE gt_makt FOR ALL ENTRIES IN gt_ekpo WHERE matnr = gt_ekpo-matnr.
+    ENDIF.
+    SORT gt_makt BY matnr.
+    SORT gt_ekpo BY matnr.
+    LOOP AT gt_ekpo INTO gs_ekpo.
+      READ TABLE gt_makt INTO gs_makt WITH KEY matnr = gs_ekpo-matnr BINARY SEARCH.
+
+      gv_menge = gv_menge + gs_ekpo-menge.
+      gv_mwskz = gs_ekpo-mwskz.
+      gs_ekpo-txz01 = gs_makt-maktx.
+      CLEAR:gs_makt.
+    ENDLOOP.
+* select from konv to get condition records
+
+*-Begin of HANA Adaptation
+*---Old
+*    IF gv_knumv IS NOT INITIAL.
+*      SELECT  knumv                    "#EC CI_DB_OPERATION_OK[2220005]
+*              kschl
+*              kwert
+*              kposn
+*              waers
+*              kpein
+*              lifnr  FROM konv INTO TABLE gt_konv  WHERE knumv = gv_knumv.
+*    ENDIF.
+*---New
+    IF gv_knumv IS NOT INITIAL.
+** ORDER BY added by Zubin on 25.03.2020 as part of ABAP remediation
+      SELECT  knumv,
+              kschl,
+              kwert,
+              kposn,
+              waers,
+              kpein,
+              lifnr  FROM v_konv INTO TABLE @gt_konv  WHERE knumv = @gv_knumv ORDER BY knumv, kposn.
+    ENDIF.
+*-End of HANA Adaptation
+
+    CLEAR: gv_kwert, gv1_kwert, gv1_zdoc, gv1_zfob, gv1_zpk1, gv1_zpcf, gv_kwert, gv2_kwert,gv_oth.
+
+    LOOP AT gt_ekpo INTO gs_ekpo.
+** Binary search added by Zubin on 25.03.2020 for preformance improvement
+      READ TABLE gt_konv INTO gs_konv WITH KEY knumv = gv_knumv
+                                               kposn = gs_ekpo-ebelp BINARY SEARCH.
+      IF sy-subrc = 0.
+        gv_konv_tabix  = sy-tabix.
+      ENDIF.
+      LOOP AT gt_konv INTO gs_konv  FROM gv_konv_tabix."WHERE  knumv = v_knumv
+*                                  AND   kposn = wa_ekpo-ebelp.
+        IF gs_konv-knumv = gv_knumv AND gs_konv-kposn = gs_ekpo-ebelp.
+          IF gs_konv-waers = lc_jpy OR gv_waers = lc_jpy.
+            gs_konv-kwert = gs_konv-kwert / 10.
+          ENDIF.
+* calculate quantity based on condition records
+          IF gs_konv-kschl = 'JEXS'.                                                         " Tax caluclation for line item wise
+            gv_kwert = gv_kwert + gs_konv-kwert.
+          ELSEIF gs_konv-kschl = 'ZOTH'
+            OR gs_konv-kschl =  'ZOT1'
+            OR gs_konv-kschl = 'ZHAN'
+            OR gs_konv-kschl = 'ZOT2'
+            OR gs_konv-kschl = 'ZOT3'
+            OR gs_konv-kschl = 'ZOT4'
+            OR gs_konv-kschl = 'ZINC'
+            OR gs_konv-kschl = 'ZSER'
+            OR gs_konv-kschl = 'ZLCC'
+            OR gs_konv-kschl = 'ZFIN'
+            OR gs_konv-kschl = 'Z002'
+             OR gs_konv-kschl = 'ZPOR'
+            OR gs_konv-kschl = 'ZSCA'
+            OR gs_konv-kschl = 'ZSHP'
+            OR gs_konv-kschl = 'ZTMC'
+            OR gs_konv-kschl = 'ZOB1'
+            OR gs_konv-kschl = 'ZDOC'
+            OR gs_konv-kschl = 'ZPC1'
+            OR gs_konv-kschl = 'ZCD1'
+            OR gs_konv-kschl = 'Z001'
+            OR gs_konv-kschl = 'ZCLE'
+            OR gs_konv-kschl = 'ZCVT'
+            OR gs_konv-kschl = 'ZCLR'
+
+            .
+            gv_oth = gv_oth + gs_konv-kwert.
+
+          ELSEIF ( gs_konv-kschl = 'P001' OR gs_konv-kschl = 'P000' OR gs_konv-kschl = 'PB00' OR gs_konv-kschl = 'P101' ).                       " Gross price calculations
+* calculate quantity based on condition records
+            gv_kwertf = gs_konv-kwert.
+            CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+              EXPORTING
+                currency        = gv_waers
+                amount_internal = gv_kwertf
+              IMPORTING
+                amount_display  = gv_kwertf
+              EXCEPTIONS
+                internal_error  = 1
+                OTHERS          = 2.
+            IF sy-subrc <> 0.
+              MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                               WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+            ENDIF.
+* calculate quantity based on condition records
+            gs_konv-kwert = gv_kwertf.
+            IF gs_ekpo-menge IS NOT INITIAL.
+              gs_ekpo-netpr =  ( gs_konv-kwert * gs_konv-kpein ) / gs_ekpo-menge .
+            ENDIF.
+            gs_ekpo-netwr = gs_konv-kwert.
+            gv_netpr = gv_netpr + gs_ekpo-netwr.
+          ELSEIF
+            (                                                "gs_konv-kschl = 'ZOTH' OR
+             gs_konv-kschl = 'ZINS'  OR gs_konv-kschl = 'ZINV'
+            ).
+            IF lv_lifnr = gs_konv-lifnr.
+              gv1_kwert = gv1_kwert + gs_konv-kwert.
+            ENDIF.
+* calculate quantity based on condition records
+          ELSEIF ( gs_konv-kschl = 'ZPK1' ).
+
+            IF  lv_lifnr = gs_konv-lifnr.
+              gv1_zpk = gv1_zpk + gs_konv-kwert.
+            ENDIF.
+* calculate quantity based on condition records
+          ELSEIF ( gs_konv-kschl = 'ZPCF' ).
+            gv1_zpcf = gv1_zpcf + gs_konv-kwert.
+* calculate quantity based on condition records
+          ELSEIF ( gs_konv-kschl = 'R000' OR gs_konv-kschl = 'R001' OR
+                   gs_konv-kschl = 'RA01' OR gs_konv-kschl = 'RC00' OR
+                   gs_konv-kschl = 'RB00' OR
+                   gs_konv-kschl = 'R002' OR gs_konv-kschl = 'KR00' OR
+                   gs_konv-kschl = 'R003' OR gs_konv-kschl = 'K000' ).
+
+            gv_kwert_d = gv_kwert_d + gs_konv-kwert.
+* calculate quantity based on condition records
+          ELSEIF ( gs_konv-kschl = 'ZFR1' OR gs_konv-kschl = 'ZAIR' OR
+                   gs_konv-kschl = 'ZSEA' OR gs_konv-kschl = 'FRB1' OR gs_konv-kschl = 'HB00'
+                   OR gs_konv-kschl = 'FRC1' OR gs_konv-kschl = 'ZFOB' ).
+* calculate quantity based on condition records
+            IF lv_lifnr = gs_konv-lifnr.
+              gv2_kwert = gv2_kwert + gs_konv-kwert.
+            ENDIF.
+
+            IF gs_konv-kschl = 'ZAIR'.
+              gv_airsea = 'AIR'.
+            ELSE.
+              gs_konv-kschl = 'ZSEA'.
+              gv_airsea = 'SEA'.
+            ENDIF.
+          ENDIF.
+          MODIFY gt_ekpo FROM gs_ekpo.
+        ELSE.
+          EXIT.
+        ENDIF.
+      ENDLOOP.
+
+    ENDLOOP.
+* calculate quantity based on condition records
+    gv_kwert1_a = gv_kwert_d.
+    IF gv_kwert1_a IS NOT INITIAL.
+
+**Converting amount format based on currency
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv_kwert1_a
+        IMPORTING
+          amount_display  = gv_kwert1_a
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+    gv_kwert_d = gv_kwert1_a.
+    gv2_kwert1_a = gv2_kwert.
+* calculate quantity based on condition records
+    IF gv2_kwert1_a IS NOT INITIAL.
+**Converting amount format based on currency
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv2_kwert1_a
+        IMPORTING
+          amount_display  = gv2_kwert1_a
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+* calculate quantity based on condition records
+    gv2_kwert = gv2_kwert1_a.
+    gv1_zpk = gv1_zpk1.
+    IF gv1_zpk IS NOT INITIAL.
+**Converting amount format based on currency
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv1_zpk
+        IMPORTING
+          amount_display  = gv1_zpk
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+* calculate quantity based on condition records
+    gv1_zpk1 = gv1_zpk.
+    CLEAR gv1_zpk.
+    gv1_zpk = gv1_kwert.
+    IF gv1_zpk IS NOT INITIAL.
+**Converting amount format based on currency
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv1_zpk
+        IMPORTING
+          amount_display  = gv1_zpk
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+
+
+* calculate quantity based on condition records
+    gv1_kwert = gv1_zpk.
+    gv_fval = gv_netpr + gv_kwert + gv2_kwert + ( gv1_kwert + gv1_zdoc + gv1_zfob + gv1_zpk1 ) + gv_kwert_d + gv_oth.
+*Fetching the  package number and sub package number
+*  from table ESLL based on package number
+    IF NOT gt_ekpo IS INITIAL.
+      SELECT packno
+             introw
+             sub_packno
+             srvpos
+             menge
+             meins
+             netwr
+             ktext1
+             tbtwr
+              FROM esll
+              INTO  TABLE  gt_esll
+              FOR ALL ENTRIES IN gt_ekpo
+              WHERE packno = gt_ekpo-packno.
+
+    ENDIF.
+*Fetching package line items from table ESLL
+*  based on sub package number
+    IF gt_esll IS NOT INITIAL.
+      SELECT packno
+             introw
+             sub_packno
+             srvpos
+             menge
+             meins
+             netwr
+             ktext1
+             tbtwr
+         FROM esll
+         INTO  TABLE gt_esll1
+         FOR ALL ENTRIES IN gt_esll
+         WHERE packno = gt_esll-sub_packno.
+
+
+    ENDIF.
+
+    SORT gt_esll1 BY packno ASCENDING introw ASCENDING.
+    SORT gt_esll BY packno.
+    CLEAR:gt_esll.
+    APPEND LINES OF gt_esll1 TO gt_esll.
+*process the package line items
+    LOOP AT gt_esll INTO gs_esll.
+      IF gv_waers = lc_jpy.
+        CLEAR gv_esllnetwr.
+        gv_esllnetwr = gs_esll-netwr / 10 .
+        gv_netwr = gv_netwr +  gv_esllnetwr .
+      ELSE.
+        gv_netwr = gv_netwr +  gs_esll-netwr .
+      ENDIF.
+      gv_menge1 = gv_menge1 + gs_esll-menge.
+      MOVE-CORRESPONDING gs_esll TO gs_esll1.
+      APPEND gs_esll1 TO t_esll_t.
+    ENDLOOP.
+
+
+    IF NOT gt_ekpo IS INITIAL.
+** Fetching Condition records from table
+*  KONV based on condition record value
+
+*-Begin of HANA Adaptation
+*---Old
+*      SELECT knumv                     "#EC CI_DB_OPERATION_OK[2220005]
+*            kschl
+*            kwert
+*            kposn
+*            waers
+*            kpein
+*           lifnr  FROM konv INTO TABLE gt_konv  WHERE knumv = gv_knumv.
+*---New
+** ORDER BY added by Zubin on 25.03.2020 as part of ABAP remediation
+      SELECT knumv,
+            kschl,
+            kwert,
+            kposn,
+            waers,
+            kpein,
+           lifnr  FROM v_konv INTO TABLE @gt_konv  WHERE knumv = @gv_knumv ORDER BY knumv, kposn.
+*-End of HANA Adaptation
+
+      "BREAK-POINT.
+      IF sy-subrc = 0.
+        CLEAR: gv_kwert1, gv1_kwert, gv1_zdoc, gv1_zfob, gv1_zpk, gv_kwert_d, gv2_kwert,gv_oth, gv_navs1.
+        CLEAR gv_konv_tabix.
+        LOOP AT gt_ekpo INTO gs_ekpo.
+**Processing data using parllel cursor technoque
+** Binary search added by Zubin on 25.03.2020 for preformance improvement
+          READ TABLE gt_konv INTO gs_konv WITH KEY knumv = gv_knumv
+                                                   kposn = gs_ekpo-ebelp BINARY SEARCH.
+          IF sy-subrc = 0.
+            gv_konv_tabix  = sy-tabix.
+          ENDIF.
+
+          LOOP AT gt_konv INTO gs_konv FROM gv_konv_tabix."WHERE knumv = v_knumv
+*                                     AND   kposn = wa_ekpo-ebelp.
+            IF gs_konv-knumv = gv_knumv AND gs_konv-kposn = gs_ekpo-ebelp.
+              IF gs_konv-waers = lc_jpy OR gv_waers = lc_jpy.
+                gs_konv-kwert = gs_konv-kwert / 10.
+              ENDIF.
+
+              IF gs_konv-kschl = 'NAVS'.
+                gv_navs1 = gv_navs1 + gs_konv-kwert.
+              ENDIF.
+* calculate quantity based on condition records
+              IF gs_konv-kschl = 'JEXS'.
+                gv_kwert1 = gv_kwert1 + gs_konv-kwert.
+              ELSEIF    gs_konv-kschl = 'ZOTH'
+                     OR gs_konv-kschl = 'ZOT1'
+                     OR gs_konv-kschl = 'ZHAN'
+                     OR gs_konv-kschl = 'ZOT2'
+                     OR gs_konv-kschl = 'ZOT3'
+                     OR gs_konv-kschl = 'ZOT4'
+                     OR gs_konv-kschl = 'ZINC'
+                     OR gs_konv-kschl = 'ZSER'
+                     OR gs_konv-kschl = 'ZLCC'
+                     OR gs_konv-kschl = 'ZFIN'
+                     OR gs_konv-kschl = 'Z002'
+                     OR gs_konv-kschl = 'ZPOR'
+                     OR gs_konv-kschl = 'ZSCA'
+                     OR gs_konv-kschl = 'ZSHP'
+                     OR gs_konv-kschl = 'ZTMC'
+                     OR gs_konv-kschl = 'ZOB1'
+                     OR gs_konv-kschl = 'ZDOC'
+                     OR gs_konv-kschl = 'ZPC1'
+                     OR gs_konv-kschl = 'ZCD1'
+                     OR gs_konv-kschl = 'Z001'
+                     OR gs_konv-kschl = 'ZCLE'
+                     OR gs_konv-kschl = 'ZCVT'
+                     OR gs_konv-kschl = 'ZCLR'.
+
+                IF gs_konv-lifnr = lv_lifnr.
+                  gv_oth = gv_oth + gs_konv-kwert.
+                ENDIF.
+* calculate quantity based on condition records
+              ELSEIF ( gs_konv-kschl = 'ZINV'
+                    OR gs_konv-kschl = 'ZINS' ).
+
+                IF gs_konv-lifnr = lv_lifnr.
+                  gv1_kwert = gv1_kwert + gs_konv-kwert.
+                ENDIF.
+* calculate quantity based on condition records
+              ELSEIF ( gs_konv-kschl = 'ZPK1' ).
+
+                IF gs_konv-lifnr = lv_lifnr.
+                  gv1_zpk = gv1_zpk + gs_konv-kwert.
+                ENDIF.
+* calculate quantity based on condition records
+              ELSEIF ( gs_konv-kschl = 'R000' OR gs_konv-kschl = 'R001' OR              """Discount applicable
+
+                     gs_konv-kschl = 'RA01' OR gs_konv-kschl = 'RC00' OR
+                     gs_konv-kschl = 'RB00' OR
+                     gs_konv-kschl = 'R002' OR gs_konv-kschl = 'KR00' OR gs_konv-kschl = 'R003' OR gs_konv-kschl = 'K000' ).
+
+                gv_kwert_d = gv_kwert_d + gs_konv-kwert.
+              ELSEIF ( gs_konv-kschl = 'ZFR1'    OR gs_konv-kschl = 'ZAIR'
+                       OR gs_konv-kschl = 'ZSEA' OR gs_konv-kschl = 'FRB1' OR gs_konv-kschl = 'HB00'
+                       OR gs_konv-kschl = 'FRC1' OR gs_konv-kschl = 'ZFOB' OR gs_konv-kschl = 'ZFRQ').""freight
+* calculate quantity based on condition records
+                IF gs_konv-lifnr = lv_lifnr.
+                  gv2_kwert = gv2_kwert + gs_konv-kwert.
+                ENDIF.
+                IF gs_konv-kschl = 'ZAIR'.
+                  gv_airsea = 'AIR'.
+                ELSE.
+                  gs_konv-kschl = 'ZSEA'.
+                  gv_airsea = 'SEA'.
+                ENDIF.
+              ENDIF.
+            ELSE.
+              EXIT.
+            ENDIF.
+          ENDLOOP.
+        ENDLOOP.
+
+      ENDIF.
+
+    ENDIF.
+    CLEAR: gv_kwert1_a, gv_navs1_a.
+    gv_kwert1_a = gv_kwert_d.
+    IF gv_kwert1_a IS NOT INITIAL.
+* calculate quantity based on condition records
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv_kwert1_a
+        IMPORTING
+          amount_display  = gv_kwert1_a
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+    gv_kwert_d = gv_kwert1_a.
+    CLEAR gv2_kwert1_a.
+    gv2_kwert1_a = gv2_kwert.
+* calculate quantity based on condition records
+    IF gv2_kwert1_a IS NOT INITIAL.
+
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv2_kwert1_a
+        IMPORTING
+          amount_display  = gv2_kwert1_a
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+* calculate quantity based on condition records
+    gv2_kwert = gv2_kwert1_a.
+    CLEAR gv1_zpk1.
+    gv1_zpk = gv1_zpk1.
+    IF gv1_zpk IS NOT INITIAL.
+
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv1_zpk
+        IMPORTING
+          amount_display  = gv1_zpk
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+* calculate quantity based on condition records
+    gv1_zpk1 = gv1_zpk.
+    CLEAR gv1_zpk.
+    gv1_zpk = gv1_kwert.
+    IF gv1_zpk IS NOT INITIAL.
+
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv1_zpk
+        IMPORTING
+          amount_display  = gv1_zpk
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+* calculate quantity based on condition records
+    gv1_kwert = gv1_zpk.
+    CLEAR gv1_zpk.
+    gv1_zpk = gv_netwr.
+    IF gv1_zpk IS NOT INITIAL.
+
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv1_zpk
+        IMPORTING
+          amount_display  = gv1_zpk
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                         WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+    ENDIF.
+* calculate quantity based on condition records
+    gv_netwr = gv1_zpk.
+
+    gv_kwert1 = gv_kwert1 - gv_navs1. "Subtracting frieght value from VAT
+    gv_fval1 = gv_netwr + gv_kwert1 + gv_navs1 + gv2_kwert + ( gv1_kwert + gv1_zdoc + gv1_zfob + gv1_zpk1 ) + gv_kwert_d + gv_oth .
+
+*GET THE PLANT DETAILS
+    READ TABLE gt_ekpo INTO gs_ekpo INDEX 1.
+
+    SELECT SINGLE eindt INTO gv_eindt1 FROM eket WHERE ebeln = gs_ekpo-ebeln
+                                                  AND ebelp = gs_ekpo-ebelp.
+
+    CONCATENATE gv_eindt1+6(2)
+        gv_eindt1+4(2)
+        gv_eindt1(4) INTO gv_eindt SEPARATED  BY '/'.
+    IF gs_ekpo-werks IS NOT INITIAL.
+      SELECT SINGLE werks
+                    land1
+                    name1
+                    regio
+                    stras
+                    adrnr
+                    INTO gs_plant
+                    FROM t001w
+                    WHERE werks = gs_ekpo-werks.
+    ENDIF.
+    MOVE-CORRESPONDING gs_plant TO gs_plant1.
+*Checking doc type is local po or not
+    IF gv_bsart NE lc_zpol AND gv_bsart NE lc_zpos.
+** Fetching the long text of a plant based
+*  on country key and system language
+      IF gs_plant-land1 IS NOT INITIAL.
+        SELECT SINGLE landx50 FROM t005t INTO gv_landx50 WHERE land1 = gs_plant-land1 AND
+                                                               spras = sy-langu.
+      ENDIF.
+** Fetching the long text of a plant based
+*  on country key system language  and region
+      IF gs_plant-regio IS NOT INITIAL.
+        SELECT SINGLE bezei FROM t005u INTO gv_bezei WHERE bland = gs_plant-regio AND
+                                                        land1 = gs_plant-land1 AND
+                                                        spras = sy-langu.
+      ENDIF.
+    ELSE.
+** Fetching the long text of a plant based
+*  on country key and French Language
+      IF gs_plant-regio IS NOT INITIAL.
+        SELECT SINGLE bezei FROM t005u INTO gv_bezei WHERE bland = gs_plant-regio AND
+                                                         land1 = gs_plant-land1 AND
+                                                           spras = lc_en.
+      ENDIF.
+** Fetching the long text of a plant based
+*  on country key French language  and region
+      SELECT SINGLE landx50 FROM t005t INTO gv_landx50 WHERE land1 = gs_plant-land1 AND
+                                                            spras = lc_en.
+
+    ENDIF.
+
+*GET THE PLANT DETAILS
+    IF gv_bezei IS NOT INITIAL.
+      CONCATENATE gv_bezei 'State,'(001) INTO gv_bezei SEPARATED BY space.
+    ENDIF.
+
+** Replaced by Zubin on 28.03.2022 - P1 remediation
+    CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+      EXPORTING
+        input_string  = gs_plant-name1
+        separators    = ' -.,;:'
+      IMPORTING
+        output_string = gs_plant-name1.
+** Replaced by Zubin on 28.03.2022 - P1 remediation
+    CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+      EXPORTING
+        input_string  = gs_plant-stras
+        separators    = ' -.,;:'
+      IMPORTING
+        output_string = gs_plant-stras.
+
+    gv_str3 = gs_plant-stras.
+
+    IF gs_ekpo-werks EQ '1000' AND gv_bsart = lc_zpol OR gv_bsart = lc_zpos.
+      CLEAR: gv_str4, gv_str5.
+      SPLIT gs_plant-name1 AT '&' INTO gv_str4 gv_str5 .
+      CONCATENATE gv_str4 '& 2' INTO gv_str6 SEPARATED BY space.
+    ENDIF.
+
+*GET THE DEPARTMENT
+    SELECT SINGLE eknam INTO gv_departmnt FROM t024 WHERE ekgrp = gv_ekgrp.
+    gv_dept = gv_departmnt+0(4).
+    TRANSLATE gv_dept TO UPPER CASE.
+
+    CONCATENATE lv_text gv_bedat(4) gv_ebeln gv_dept INTO gv_pono SEPARATED BY '/'.
+
+* Begin of changes <Mod01>
+    CLEAR : gv_buyer,gv_persnumber,gv_buyertele,gv_buyeremail.
+    " Buyer Name
+    SELECT SINGLE name_text FROM v_usr_name INTO gv_buyer
+     WHERE bname = gv_ername.
+    " Person Numberof user
+    SELECT SINGLE persnumber FROM usr21 INTO gv_persnumber
+            WHERE bname = gv_ername.
+    IF sy-subrc = 0.
+      " Telephone Number
+      SELECT SINGLE telnr_long FROM adr2 INTO gv_buyertele
+              WHERE persnumber = gv_persnumber
+                AND flgdefault = gc_x.
+      " Buyer Email
+      SELECT SINGLE smtp_addr FROM adr6 INTO gv_buyeremail
+              WHERE persnumber = gv_persnumber.
+    ENDIF.
+* End of changes   <Mod01>
+
+  ENDFORM.                    " GET_DATA
+*&---------------------------------------------------------------------*
+*&      FORM  CLEAR_DATA
+*&---------------------------------------------------------------------*
+*       Initialise global data
+*----------------------------------------------------------------------*
+  FORM clear_data .
+    CLEAR:gt_ekpo,
+          gs_ekpo,
+          gs_esll,
+          t_esll_t,
+          gt_esll,
+          gt_esll1,
+          gs_plant,
+          gv_company_name,
+          gv_pono,
+          gv_podate,
+          gv_departmnt,
+          gv_bedat,
+          gv_ebeln,
+          gv_frgke,
+          gv_banfn,
+          gv_bednr,
+          gv_badat,
+          gv_fval,
+          gv_fval1,
+          gv_menge,
+          gv_netpr,
+          gv_menge1,
+          gv_netwr,
+          gv_waers,
+          gv_text1,
+          gv_zterm,
+          gv_reswk,
+          gv_flag,
+          gv1_kwert,
+          gv1_zdoc,
+          gv1_zpk,
+          gv1_zpcf,
+          gv1_zfob,
+          gv2_kwert,
+          gv_email,
+          gv_buyertelfx,
+          gv_buyeremail,
+          gv_airsea,
+          gv_downtext,
+          gv_ktokk,
+          gv_ekgrp,
+          gv_dollars,
+          gv_cents,
+          gv_ktext,
+          gv_landx50,
+          gv_bezei,
+          gv_vtext,
+          gv_dept,
+          gv_oth.
+
+
+  ENDFORM.                    " CLEAR_DATA
+*&---------------------------------------------------------------------*
+*&      FORM  PRINT_FORM
+*&---------------------------------------------------------------------*
+*       Print the PO Form
+*----------------------------------------------------------------------*
+  FORM print_form .
+    CONSTANTS:lc_form TYPE tdsfname VALUE 'ZMMCG_PO_SF'.
+* Start of change <Mod01>
+    DATA     :ls_control TYPE ssfctrlop.
+* End of change   <Mod01>
+    t_ekpo = gt_ekpo.
+    IF gv_kwert1 IS NOT INITIAL.
+      gv_kwert1_a = gv_kwert1.
+
+
+**Converting amount format based on currency
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv_kwert1_a
+        IMPORTING
+          amount_display  = gv_kwert1_a
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+      gv_kwert1 = gv_kwert1_a.
+    ENDIF.
+
+    IF gv_navs1 IS NOT INITIAL.
+      gv_navs1_a = gv_navs1.
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'              "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = gv_waers
+          amount_internal = gv_navs1_a
+        IMPORTING
+          amount_display  = gv_navs1_a
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                  WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+      ENDIF.
+      gv_navs1 =  gv_navs1_a .
+
+    ENDIF.
+
+    DATA: lv_fname          TYPE rs38l_fnam,
+          ls_output_options TYPE ssfcompop.
+*get smartform FM name
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname           = lc_form
+      IMPORTING
+        fm_name            = lv_fname
+      EXCEPTIONS
+        no_form            = 1
+        no_function_module = 2
+        OTHERS             = 3.
+
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+          WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+* Start of change <Mod01>
+    " Setting the language in which PO needs to be printed
+    CASE gv_bsart.
+      WHEN gc_zpoi." For Import - Language is English
+        ls_control-langu = gc_en.
+      WHEN gc_zpol." For Local  - Language is French
+        ls_control-langu = gc_fr.
+      WHEN gc_zpos." For Local  - Language is French
+        ls_control-langu = gc_fr.
+      WHEN OTHERS. " For Others - Based on Current Language
+        ls_control-langu = sy-langu.
+    ENDCASE.
+* End of change <Mod01>
+
+*call smartform
+    CALL FUNCTION lv_fname
+      EXPORTING
+* Start of change <Mod01>
+        control_parameters = ls_control
+* End of change <Mod01>
+        output_options     = ls_output_options
+        v_company_name     = gv_company_name
+        v_pono             = gv_pono
+        v_departmnt        = gv_departmnt
+        v_bedat            = gv_bedat
+        v_podate           = gv_podate
+        v_banfn            = gv_banfn
+        v_badat            = gv_badat
+        wa_plant           = gs_plant1
+        v_bsart            = gv_bsart
+        v_flag             = gv_flag
+        v_fval             = gv_fval
+        v_fval1            = gv_fval1
+        iv_rel_indicator   = gv_frgke
+        wa_vend            = gs_vend
+        v_bednr            = gv_bednr
+        v_zterm            = gv_zterm
+        v_text1            = gv_text1
+        v_ebeln            = gv_ebeln
+        lv_kwert           = gv_kwert
+        lv_eindt           = gv_eindt
+        lv_oth             = gv_oth
+        lv_vtext           = gv_vtext
+        v1_kwert           = gv1_kwert
+        v2_kwert           = gv2_kwert
+        gv_inco1           = gv_inco1
+        gv_inco2           = gv_inco2
+        v_waers            = gv_waers
+        v_netpr            = gv_netpr
+        v_netwr            = gv_netwr
+        v_lvalue           = gv_lvalue
+        lv_kwert1          = gv_kwert1
+        v_email            = gv_email
+        wa_t005t           = gs_t005t
+        v_buyertelfx       = gv_buyertelfx
+        v_buyeremail       = gv_buyeremail
+        v1_zdoc            = gv1_zdoc
+        v1_zfob            = gv1_zfob
+        v1_zpk1            = gv1_zpk1
+        lv_airsea          = gv_airsea
+        lv_downtext        = gv_downtext
+        lv_ktokk           = gv_ktokk
+        lv_dollars         = gv_dollars
+        lv_cents           = gv_cents
+        lv_ktext           = gv_ktext
+        lv_landx50         = gv_landx50
+        lv_bezei           = gv_bezei
+        lv_str3            = gv_str3
+        lv_str6            = gv_str6
+        lv_lifnr           = gv_lifnr_v
+        lv_reswk           = gv_reswk
+        v_buyertele        = gv_buyertele
+* Start of changes <Mod01>
+        g_ername           = gv_buyer  "gv_ername
+* End of changes   <Mod01>
+        v_kwert            = gv_kwert_d
+        lv_navs1           = gv_navs1
+**SOC by Kalyan on 06.10.2026
+        v_potext           = lv_potext
+**EOC by Kalyan on 06.10.2026
+      TABLES
+        it_ekpo            = t_ekpo
+        it_esll            = t_esll_t
+        it_eban            = t_eban
+        lt_adrc            = lt_adrc"""Added by kalyan on 24.09.2024
+      EXCEPTIONS
+        formatting_error   = 1
+        internal_error     = 2
+        send_error         = 3
+        user_canceled      = 4
+        OTHERS             = 5.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                       WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+
+    ENDIF.
+
+
+  ENDFORM.                    " PRINT_FORM
+*&---------------------------------------------------------------------*
+*&      Form  LETTER_CHANGE
+*&---------------------------------------------------------------------*
+*       Text conversions
+*----------------------------------------------------------------------*
+  FORM letter_change .
+*convert text
+** Replaced by Zubin on 28.03.2022 - P1 remediation
+  CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+      EXPORTING
+        input_string  = gv_vtext
+        separators    = ' -.,;:'
+      IMPORTING
+        output_string = gv_vtext.
+
+  ENDFORM.                    " LETTER_CHANGE
