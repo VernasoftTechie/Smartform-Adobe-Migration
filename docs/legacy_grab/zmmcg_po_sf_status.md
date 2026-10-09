@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T09:10:50.199Z
-WAITING_ON: operator
-NOTE: Interface pushed - in SFP create the EMPTY interface ZMMCG_PO_SF_INT and form ZMMCG_PO_SF_ADT (package ZAB_ADOBE), pull this branch onto them, activate the interface and tell me if SAP reports any error (exact message), then Stage/Commit/Push both objects back to this branch.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:14:51.679Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -64,3 +64,6 @@ Please do these in SAP, in order:
 5. In abapGit do Stage, Commit and Push **both** the interface and the (empty) form back to this same branch.
 
 When it is done click "I've done this - confirm" below. If anything fails, use "Report a problem" and give the exact message.
+
+## 2026-10-09T11:14:51.678Z — Manual activity confirmed
+Client confirmed the manual step is done.
