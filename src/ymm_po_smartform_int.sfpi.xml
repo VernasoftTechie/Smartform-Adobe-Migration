@@ -159,7 +159,7 @@
       <FPCLINE>         gv_prno2 TYPE string,</FPCLINE>
       <FPCLINE>         gv_prno3 TYPE string,</FPCLINE>
       <FPCLINE>         gv_prno4 TYPE string,</FPCLINE>
-      <FPCLINE>         gv_prno5 TYPE string.</FPCLINE>
+      <FPCLINE>         gv_prno5 TYPE string,</FPCLINE>
       <FPCLINE>       END OF ty_s_fmt_out.</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_s_head_out,</FPCLINE>
       <FPCLINE>         idx    TYPE i,</FPCLINE>
