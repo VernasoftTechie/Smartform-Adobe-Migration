@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:41:34.432Z
-WAITING_ON: operator
-NOTE: Layout step 2a (items tables with page continuation) pushed - pull onto ZMMCG_PO_SF_ADT, activate, preview a goods PO with 60+ items, a short goods PO, a service PO and a PO with header text, then confirm or report exactly what you see on page 1, 2 and 3.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:48:04.499Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -159,3 +159,6 @@ Please do these in SAP, in order:
 3. Preview with: (a) a goods PO (V_FLAG = X) with **more than 60 items**, (b) a short goods PO, (c) a service PO (V_FLAG = Y), (d) a PO that has header text (V_POTEXT = X), and one item with a long material long text.
 4. On the long PO check pages 1, 2 and 3: the heading row is repeated at the top of each page, rows continue in order with none missing, no row is cut at a page end, and the last page ends cleanly. On the short PO check it prints on one page.
 5. If it looks right, confirm. If anything is off, tell me which page and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
+
+## 2026-10-09T11:48:04.499Z — Manual activity confirmed
+Client confirmed the manual step is done.
