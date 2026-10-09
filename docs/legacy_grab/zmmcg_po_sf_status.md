@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:50:01.576Z
-WAITING_ON: operator
-NOTE: Layout step 2b (totals and amount in words) pushed - pull onto ZMMCG_PO_SF_ADT, activate, preview goods POs (a normal currency, XAF or XOF, and a ZPOI), a ZPOL and a service PO, compare every amount with the legacy print, then confirm or report exactly what you see.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:54:01.325Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -191,3 +191,6 @@ Please do these in SAP, in order:
 2. Open the Layout. Report any warning/overflow badge.
 3. Preview and compare **every amount, label and the words line** with the same order printed from the legacy Smart Form: (a) a goods PO in a normal currency, (b) a goods PO in XAF or XOF, (c) a ZPOI goods PO, (d) a ZPOL (French labels), (e) a service PO, and (f) one PO with a long items list so the totals land on page 2.
 4. If it looks right, confirm. If anything differs, tell me which PO type, which row, what the legacy shows and what the new form shows (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
+
+## 2026-10-09T11:54:01.325Z — Manual activity confirmed
+Client confirmed the manual step is done.
