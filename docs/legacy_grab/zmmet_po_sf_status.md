@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:18:29.943Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:21:41.000Z
+WAITING_ON: operator
+NOTE: Context tree built and pushed. In SFP pull this branch onto form ZMMET_PO_SF_ADT, check the Context tree shows 89 nodes with no error, activate if you can, then confirm or report the exact error. If SAP asks for a reference field on the MENGE column, report it.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -78,3 +78,27 @@ Please pull this branch again onto ZMMET_PO_SF_INT in abapGit (overwriting the i
 
 ## 2026-10-09T11:18:29.943Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:21:41.000Z — Context tree built
+Checked the branch first: the form you pushed (`src/zmmet_po_sf_adt.sfpf.xml`, commit 71af67a) is exactly the safe empty starting point, wired to ZMMET_PO_SF_INT, with only the root Context node. The interface file is unchanged from my corrected version. I built the Context on top of it and pushed it to the same file. The layout file (`.xdp`) is untouched (byte-identical to what you pushed).
+
+**What is bound (89 nodes), only what the legacy form prints**
+- 33 single fields: the PO header and address values (V_COMPANY_NAME, V_PODATE, V_EBELN, LV_EINDT, V_DEPARTMNT, G_ERNAME, the buyer phone/fax/e-mail, V_EMAIL, LV_VTEXT payment terms, GV_INCO1/GV_INCO2, V_WAERS, LV_LIFNR, LV_RESWK, LV_LAND, GV_ISD, LV_VAR4 "last changed on"), the totals (V_KWERT, V2_KWERT, V1_KWERT, LV_OTH, G_NETWR, SUB_TOTAL, LV_KWERT1, TOTAL), the amount in words (LV_AMT_WORDS, LV_KTEXT).
+- 4 fields that only drive conditions in the layout: V_BSART (title, insurance row, words wording), V_FLAG (goods or service table), V_POTEXT (where the header comments print), LV_FLAG (Approved / UnApproved PO watermark).
+- 4 structures: WA_VEND (10 supplier fields), WA_T005T (country name), LS_DADRC (7 delivery-address fields), LS_ADRC (10 supplier-plant fields for stock transfers).
+- 4 repeating tables: GT_OTHER_PO (7 columns, goods items), GT_SERVICE_PO (7 columns, service lines), LT_LINES (header comment text lines, TDLINE) and GT_TERMS_TEXT (standard text lines, TDLINE).
+
+**Left out on purpose**
+- IT_EKPO, IT_ESLL and IT_EBAN are not bound: the item rows print from the two prepared tables above (see "Interface prepared"). IT_EBAN is never printed by the legacy form.
+- The French-only fields (WA_PLANT-NAME1, LV_STR3, LV_BEZEI, LV_LANDX50), V_SLNO, LV_MENGE, MATDESC, G_TXZ01 (now columns of the item tables) and G_CURR_DATE (only used in a branch switched off by `1 = 2`).
+- Nothing quantity- or currency-typed is bound without a reference field. The 8 reference fields in the interface cover V_KWERT, V1_KWERT, V2_KWERT, LV_OTH, LV_KWERT1, G_NETWR, SUB_TOTAL and TOTAL.
+
+**Checks before pushing:** valid XML (also under a strict parser); every node's parent/child/sibling and condition link resolves, no duplicate ids; `sfp_check context`: 0 FAIL, 0 WARN, 10 passed. All 89 bound fields exist in the interface. The plan listed no unresolved printed field. Layout checks are not run yet (there is no layout).
+
+**Please check in SAP — I can't see it from here**
+1. In SFP pull this branch onto form ZMMET_PO_SF_ADT. Note any error message (especially about a reference field on the MENGE column: the type Z_MENGE is custom and I could not check its definition; if SAP asks for a reference, report it and I will add it).
+2. Check the Context tree shows the 89 nodes: the single fields, the 4 structures with their fields, and the 4 tables with their columns (7, 7, 1, 1). No deserialize error.
+3. Activate if you can and note the result.
+4. If it imports clean, click confirm and I start the layout. If SAP throws an error, use "Report a problem" with the exact message.
+
+**Still open:** French output needed or not? (Only the English master is designed.) Fonts: the SmartStyle YMM_PO_STYLE is not in the global library; the other two are.
