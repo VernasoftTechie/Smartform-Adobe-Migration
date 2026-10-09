@@ -1,0 +1,938 @@
+*----------------------------------------------------------------------*
+* Title         : Purchase Order (PO)
+*----------------------------------------------------------------------*
+* Project Rel.  :
+* Object Type   : Smartforms
+* Author        : SAGAR (User ID : SAGAR)
+*----------------------------------------------------------------------*
+* Program description: This form used for creating Purchase order.
+*----------------------------------------------------------------------*
+* Change-History: Change history
+* Date | Transport no. | UserName | Description
+* 19.07.2013 DCDK904425 ABAP02   ABAP_MM_PO Modfi. NG & Ghana-30.05.2013
+* 23.07.2013 DCDK906414 ABAP02   ABAP_MM_PO for Ghana - 23.07.2013
+* 06.01.2014 DCDK910855 ABAP02   WSL_MM_PO for SL plant rollout-021 - 06.01.2013
+* 25.03.2014 DCDK912736 ABAP02   WNG_1404013_MM_PO Added doc.type cond in SL Plant
+*-----------------------------------------------------------------------
+
+REPORT  ymm_po_program_sl.
+
+TABLES: nast.
+
+INITIALIZATION.
+
+*  TYPES: BEGIN OF ty_plant,
+*          werks TYPE werks_d,"PLANT
+*          name1 TYPE name1,  "NAME
+*          stras TYPE stras,  "HOUSE NUMBER AND STREET
+*          pfach TYPE pfach,  "PO BOX
+*          ort01 TYPE ort01,  "CITY
+*         END OF ty_plant.
+
+
+  DATA:wa_esll TYPE esll,           "service po
+       it_esll TYPE STANDARD TABLE OF esll.
+
+  DATA:wa_vend TYPE adrc,
+       it_vend TYPE TABLE OF adrc.
+  DATA:wa_makt TYPE makt,
+       it_makt TYPE TABLE OF makt.
+
+  DATA: wa_t005t TYPE t005t,
+        it_t005t TYPE TABLE OF t005t.
+
+  DATA:"WA_ESLL1 TYPE TY_ESLL1,
+       it_esll1 TYPE TABLE OF esll.
+*       wa_esll1 TYPE esll.                                    " added by karthikeyan s
+
+  DATA: tname   LIKE thead-tdname,                          "#EC NEEDED
+        tdname1 LIKE thead-tdname.
+
+*  DATA: BEGIN OF HTEXT.
+*        INCLUDE STRUCTURE THEAD.
+*  DATA: END OF HTEXT.
+*
+*  DATA: BEGIN OF LTEXT OCCURS 100.
+*        INCLUDE STRUCTURE TLINE.
+*  DATA: END OF LTEXT.
+*  DATA: TNAME LIKE THEAD-TDNAME,
+*        TDNAME LIKE THEAD-TDNAME.
+
+  DATA:ls_konv TYPE konv,
+*        wa_konv TYPE konv,
+       lt_konv TYPE TABLE OF konv.
+
+  DATA: it_eban TYPE STANDARD TABLE OF eban.
+*        wa_eban TYPE eban.
+
+  DATA: wa_ekpo   TYPE ekpo,
+        it_ekpo   TYPE STANDARD TABLE OF ekpo,
+        wa_plant  TYPE t001w,
+        wa_plant1 TYPE adrc.
+
+*        item_text TYPE tline,
+
+*        IT_HEADER TYPE TABLE OF TLINE,
+*        IS_HEADER LIKE LINE OF IT_HEADER,
+*        IT_ITEM TYPE TABLE OF TLINE,
+*        IS_ITEM LIKE LINE OF IT_ITEM,
+*        ls_job_info TYPE ssfcrescl.
+*        INDEX TYPE SY-TABIX.
+
+  DATA: v_company_name     TYPE adrc-name1, "COMPANY NAME
+        v_pono             TYPE  char20,          "PO NO
+        v_podate           TYPE  char10,        "PO DDATE
+        v_departmnt        TYPE  t024-eknam,  "DEPARTMENT
+        v_bedat            TYPE  ebdat,           "DATE
+        v_ebeln            TYPE ebeln,            "PURCHASE DOCUMENT NO
+        v_frgke            TYPE frgke,            "RELEASE INDICATOR
+        v_banfn            TYPE banfn,            "PR NO
+        v_badat            TYPE badat,            "DATE
+        v_bednr            TYPE bednr,            "TRACKING NUMBER
+        v_bsart            TYPE esart,            "PURCHSING DOC TYPE
+        v_pstyp            TYPE pstyp,
+        v_netpr            TYPE ymmquantity,            "NET PRICE
+        v_menge            TYPE bstmg,            "PO QTY
+        v_netwr            TYPE snetwr,           "NET VALUE UTEM
+        v_menge1           TYPE mengev,          "QTY WITH SIGN
+        v_mwskz            TYPE mwskz,           "SALES TAX CODE
+        v_zterm            TYPE dzterm,           "PAYMENT TERMS
+        v_dppct            TYPE me_dppcnt,
+        lv_dwnpay          TYPE string,
+        v_flag             TYPE char1 VALUE ' ',
+*        V_FLAG1 TYPE CHAR1 VALUE ' ',
+*        v_vat TYPE netpr,
+*        v_vat1 TYPE netwr,
+        v_fval             TYPE ymmquantity,
+        v_fval1            TYPE netwr,
+        v_waers            TYPE waers,
+        v_knumv            TYPE knumv,
+        lv_kwert           TYPE kwert,
+        lv_kwert1          TYPE kwert,                                " added by karthikeyan s
+        lv_eindt           TYPE eindt,
+        v_kwert            TYPE kwert,
+        v1_kwert           TYPE kwert,
+        v1_zdoc            TYPE kwert,
+        v1_zfob            TYPE kwert,
+        v1_zpk1            TYPE kwert,
+        v1_zpcf            TYPE kwert,                                  " added by karthikeyan for Ghana plant from shiladri - 18.07.2013
+        v2_kwert           TYPE kwert,
+
+        lv_vtext           TYPE dzterm_bez,
+        lv_downtext        TYPE char50,
+        v_text1            TYPE text1_007s,
+        gv_inco1           TYPE ekko-inco1,
+        gv_inco2           TYPE ekko-inco2,
+        v_lvalue           TYPE netwr,                                 " added by karthikeyan s
+        v_email            TYPE ad_smtpadr,
+        v_buyeremail       TYPE ad_smtpadr,
+        v_buyertelfx       TYPE t024-telfx,
+        lv_airsea(3)       TYPE c,
+        lv_ktokk           TYPE lfa1-ktokk,
+        lv_ekgrp           TYPE ekko-ekgrp,
+        lv_dollars         TYPE char50,
+        lv_cents           TYPE char50,
+        lv_ktext           TYPE ktext_curt,                 "#EC NEEDED
+        lv_landx50         TYPE t005t-landx50,              "#EC NEEDED
+        lv_bezei           TYPE t005u-bezei,
+        lv_str1            TYPE string,
+        lv_str2            TYPE string,
+        lv_str3            TYPE string,                     "#EC NEEDED
+        lv_company         TYPE t001-butxt,
+        v1_bc              TYPE konv-kwert.
+*        V_SPRAS TYPE SPRAS.
+*&---------------------------------------------------------------------*
+*&      FORM  ENTRY_NEU
+*&---------------------------------------------------------------------*
+*       TEXT
+*----------------------------------------------------------------------*
+*      -->RETURN_CODE  TEXT
+*      -->US_SCREEN    TEXT
+*----------------------------------------------------------------------*
+FORM entry_neu USING return_code TYPE sy-subrc us_screen TYPE c. "#EC CALLED
+
+  IF nast-objky IS NOT INITIAL.
+    PERFORM clear_data.
+    PERFORM get_data.
+*    IF sy-ucomm = 'PREVOUTPUT'.
+    PERFORM print_form.
+*    ENDIF.
+    IF sy-subrc = 0.
+      CLEAR return_code.
+    ENDIF.
+
+  ENDIF.
+ENDFORM.                    "ENTRY_NEU
+
+START-OF-SELECTION.
+
+*&---------------------------------------------------------------------*
+*&      FORM  GET_DATA
+*&---------------------------------------------------------------------*
+*       TEXT
+*----------------------------------------------------------------------*
+FORM get_data .
+
+  DATA: lv_bukrs TYPE ekko-bukrs,
+*        lv_ekgrp TYPE ekko-ekgrp,
+        lv_lifnr TYPE ekko-lifnr,
+        lv_adrnr TYPE t001-adrnr,
+        lv_text  TYPE char3.
+
+
+  v_ebeln = nast-objky.
+
+*GET THE COMPANY NAME
+  SELECT SINGLE ebeln bukrs bedat ekgrp lifnr frgke bsart waers zterm knumv inco1 inco2 dppct INTO
+                            (v_ebeln,lv_bukrs,v_bedat,lv_ekgrp,lv_lifnr,v_frgke,v_bsart,v_waers,v_zterm,v_knumv,gv_inco1,gv_inco2,v_dppct)
+                             FROM ekko WHERE ebeln = v_ebeln.
+
+  tname = v_ebeln.
+
+  SELECT SINGLE butxt FROM t001 INTO lv_company WHERE bukrs = lv_bukrs.
+* GET CURRENCY KEY DECIMAL WORDS (CENTS,)
+
+  SELECT SINGLE word1 word2 FROM ycurrdenom INTO (lv_dollars,lv_cents)
+   WHERE curr = v_waers.
+
+  SELECT SINGLE ktext FROM tcurt INTO lv_ktext WHERE waers = v_waers. "#EC WARNOK   "#EC CI_GENBUFF                " Added by karthikeyan s for currency changed filed from Rahull - 22.07.2013.
+
+* GET THE DOWN PAYMENT TEXT
+*  SELECT SINGLE vtext INTO lv_vtext FROM tvzbt WHERE  zterm = v_zterm
+*                                                  AND spras = 'EN'.
+
+  SELECT SINGLE text1 INTO lv_vtext FROM t052u WHERE  zterm = v_zterm
+                                                  AND spras = 'EN'. "#EC WARNOK
+
+  IF v_dppct NE '' AND v_zterm = 'ZL/C'.
+    lv_dwnpay = v_dppct.
+    CONCATENATE lv_dwnpay '% Down payment and the balance against LC'(001) INTO lv_downtext.
+  ENDIF.
+
+  SELECT SINGLE eindt INTO lv_eindt FROM eket WHERE ebeln = v_ebeln. "#EC WARNOK
+
+  SELECT SINGLE telfx smtp_addr INTO (v_buyertelfx, v_buyeremail ) FROM t024 WHERE ekgrp = lv_ekgrp.
+
+**  SELECT SINGLE kwert FROM konv INTO v_kwert WHERE knumv = v_knumv
+**                                           AND ( kschl = 'R000'
+**                                           OR kschl = 'R001'
+**                                           OR kschl = 'R002'
+**                                           OR kschl = 'KR00'
+**                                           OR kschl = 'R003' ).
+**  SELECT SINGLE kwert FROM konv INTO v1_kwert WHERE knumv = v_knumv
+**                                           AND ( kschl = 'ZOTH' or kschl = 'ZPK1' ).
+
+**  SELECT SINGLE kwert FROM konv INTO v2_kwert WHERE knumv = v_knumv
+**                                              AND ( kschl = 'ZFR1' or kschl = 'ZAIR' or kschl = 'ZSEA' or kschl = 'FRB1' ).
+  IF sy-subrc = 0.
+    SELECT SINGLE adrnr INTO lv_adrnr FROM t001 WHERE bukrs = lv_bukrs.
+
+    IF sy-subrc = 0.
+      SELECT SINGLE  name1 INTO v_company_name
+                           FROM adrc WHERE addrnumber = lv_adrnr. "#EC WARNOK
+    ENDIF.                             "SY-SUBRC
+  ENDIF.
+
+*GET THE PO NUMBER AND PO DATE
+  IF lv_bukrs = '1000'.
+    lv_text  = 'DCP'.
+  ELSE.
+  ENDIF.
+
+  CONCATENATE lv_text v_bedat(4) v_ebeln INTO v_pono SEPARATED BY '/'.
+  CONCATENATE v_bedat+6(2)
+              v_bedat+4(2)
+              v_bedat(4) INTO v_podate SEPARATED  BY '-'.
+
+
+*GET THE PR DATE AND PR NO.
+  SELECT SINGLE  banfn badat ebeln bednr INTO (v_banfn,v_badat,v_ebeln,v_bednr)
+                                 FROM eban WHERE ebeln = v_ebeln. "#EC WARNOK "#EC CI_NOFIELD
+*                                 AND BANFN = L_BANFN.
+
+  SELECT SINGLE text1 INTO v_text1 FROM t007s WHERE mwskz = v_mwskz
+                                                    AND spras = 'EN'. "#EC WARNOK
+
+*GET THE VENDOR DETAILS
+
+  CLEAR: lv_adrnr.
+  SELECT SINGLE adrnr ktokk INTO (lv_adrnr,lv_ktokk) FROM lfa1 WHERE lifnr = lv_lifnr.
+
+  IF sy-subrc = 0.
+    SELECT  addrnumber
+              name1
+              city1
+              city2
+              post_code1
+              street
+              house_num1
+              country
+              langu
+              region
+              tel_number
+              fax_number
+              time_zone
+              INTO CORRESPONDING FIELDS OF TABLE it_vend
+ FROM adrc WHERE addrnumber = lv_adrnr.
+  ENDIF.                                     "SY-SUBRC
+
+  SELECT SINGLE smtp_addr FROM adr6 INTO v_email WHERE addrnumber = lv_adrnr. "#EC WARNOK
+
+  SELECT * FROM t005t INTO TABLE it_t005t FOR ALL ENTRIES IN it_vend
+       WHERE spras = it_vend-langu
+        AND  land1 = it_vend-country.
+  IF it_t005t IS NOT INITIAL.
+    LOOP AT it_t005t INTO wa_t005t.
+    ENDLOOP.
+  ENDIF.
+
+  IF NOT it_vend IS INITIAL.
+    LOOP AT it_vend INTO wa_vend.
+    ENDLOOP.
+  ENDIF.
+  IF ( v_bsart = 'ZLOC' OR v_bsart EQ 'ZCAS'
+     OR v_bsart EQ 'ZIM2' OR v_bsart EQ 'ZLLO' OR v_bsart EQ 'ZLCA' ) .
+    v_flag = 'X'.
+  ENDIF.
+  IF v_bsart = 'ZIMP' OR v_bsart = 'ZLIM' .
+    v_flag = 'X'.
+  ENDIF.
+  IF v_bsart = 'ZREL' AND v_pstyp NE 'D'.
+    v_flag = 'X'.
+  ENDIF.
+
+
+*************************** Added by Karthikeyan s - codnditions for Ghana plant from shiladri - 18.07.2013.
+  IF v_bsart = 'ZGS' OR v_bsart = 'ZGCA' OR v_bsart = 'ZGLO' OR v_bsart = 'ZGSE'.
+    v_flag = 'X'.
+  ENDIF.
+  IF v_bsart = 'ZLIM' OR v_bsart = 'ZLLO'.   " Changed ZGIM to ZLIM - by abap2 -Tr No.DCDK912736
+    v_flag = 'X'.
+  ENDIF.
+*************************** Added by Karthikeyan s - codnditions for Ghana plant from shiladri - 18.07.2013.
+*GET THE PURCHASE ORDER ITEM DETAILS
+
+  SELECT ebeln
+         ebelp
+         matnr
+         txz01
+         werks
+         meins
+         menge
+         netpr
+         peinh
+         netwr                                                 " added by karthikeyan s
+         brtwr                                                 " added by karthikeyan s
+         mwskz
+         packno
+         banfn
+         INTO CORRESPONDING FIELDS OF TABLE  it_ekpo
+    FROM ekpo WHERE ebeln = v_ebeln
+  AND   loekz <> 'L'.
+
+  IF NOT it_ekpo IS INITIAL.
+
+** ORDER BY added by Zubin on 25.03.2020 as part of ABAP remediation
+    SELECT * FROM eban INTO TABLE it_eban FOR ALL ENTRIES IN it_ekpo WHERE ebeln = it_ekpo-ebeln ORDER BY PRIMARY KEY. "#EC CI_NOFIELD
+    DELETE ADJACENT DUPLICATES FROM it_eban COMPARING banfn.
+
+    SELECT * FROM makt INTO TABLE it_makt FOR ALL ENTRIES IN it_ekpo WHERE matnr = it_ekpo-matnr.
+  ENDIF.
+*  IF sy-subrc = 0.                                                                " Commented by karthikeyan s for Ghana plant only - from sheladri - 13.08.2013
+
+  LOOP AT it_ekpo INTO wa_ekpo.
+    READ TABLE it_makt INTO wa_makt WITH KEY matnr = wa_ekpo-matnr.
+
+    v_menge = v_menge + wa_ekpo-menge.
+*      v_netpr = v_netpr + ( wa_ekpo-netpr * wa_ekpo-menge ).
+*      v_netpr = v_netpr + wa_ekpo-netwr.                                          " changed by karthikeyan s
+    v_mwskz = wa_ekpo-mwskz.
+    tdname1 = wa_ekpo-ebeln.
+    wa_ekpo-txz01 = wa_makt-maktx.
+    CLEAR:wa_makt.
+  ENDLOOP.
+
+
+************************Commented by Sagar on 27/6/2012 to rectiry the above code**********************************************
+
+*-Begin of HANA Adaptation
+*---Old
+*  SELECT  * FROM KONV INTO TABLE LT_KONV  WHERE KNUMV = V_KNUMV.
+**                                          AND kschl = 'JEXS'.
+**                                           and kposn = wa_ekpo-ebelp.
+*---New
+  SELECT  * FROM v_konv INTO CORRESPONDING FIELDS OF TABLE @lt_konv  WHERE knumv = @v_knumv.
+*                                          AND kschl = 'JEXS'.
+*                                           and kposn = wa_ekpo-ebelp.
+*-End of HANA Adaptation
+
+
+  CLEAR: lv_kwert, v1_kwert, v1_zdoc, v1_zfob, v1_zpk1, v1_zpcf, v_kwert, v2_kwert.
+
+
+  LOOP AT it_ekpo INTO wa_ekpo.
+    LOOP AT lt_konv INTO ls_konv WHERE  knumv = v_knumv
+                                  AND   kposn = wa_ekpo-ebelp.
+      IF sy-subrc = 0.
+        IF ls_konv-kschl = 'JEXS'.                                                         " Tax caluclation for line item wise
+          lv_kwert = lv_kwert + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'P001' OR ls_konv-kschl = 'P000' ).                       " Gross price calculations
+          wa_ekpo-netpr = ls_konv-kbetr.
+          wa_ekpo-netwr = ls_konv-kwert.
+          v_netpr = v_netpr + wa_ekpo-netwr.
+        ELSEIF
+          ( ls_konv-kschl = 'ZOTH' OR ls_konv-kschl = 'ZINC'
+          OR ls_konv-kschl = 'ZMAN' OR ls_konv-kschl = 'Z001'  "or ls_konv-kschl = 'ZCOM'
+          OR ls_konv-kschl = 'ZFIN' OR ls_konv-kschl = 'ZINS' OR ls_konv-kschl = 'ZLCC'
+          OR ls_konv-kschl = 'ZOT1' OR ls_konv-kschl = 'ZOT2' OR ls_konv-kschl = 'ZOT3'
+          OR ls_konv-kschl = 'ZSER' ).
+          v1_kwert = v1_kwert + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'ZDOC' ).
+          v1_zdoc = v1_zdoc + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'ZFOB' ).
+          v1_zfob = v1_zfob + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'ZPK1' OR ls_konv-kschl = 'ZPKG' ).
+          v1_zpk1 = v1_zpk1 + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'ZPCF' ).                                          " added by karthikeyan s for ghana plant from shiladri - 18.07.2013
+          v1_zpcf = v1_zpcf + ls_konv-kwert.
+        ELSEIF ls_konv-kschl = 'ZCOM' OR ls_konv-kschl = 'ZCOV' .
+          v1_bc = v1_bc + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'R000' OR ls_konv-kschl = 'R001' OR
+                 ls_konv-kschl = 'R002' OR ls_konv-kschl = 'KR00' OR ls_konv-kschl = 'R003').
+          v_kwert = v_kwert + ls_konv-kwert.
+        ELSEIF ( ls_konv-kschl = 'ZFR1' OR ls_konv-kschl = 'ZAIR' OR ls_konv-kschl = 'ZSEA' OR ls_konv-kschl = 'FRB1' ).
+          v2_kwert = v2_kwert + ls_konv-kwert.
+          IF ls_konv-kschl = 'ZAIR'.
+            lv_airsea = 'AIR'.
+          ELSE.
+            ls_konv-kschl = 'ZSEA'.
+            lv_airsea = 'SEA'.
+          ENDIF.
+        ENDIF.
+        MODIFY it_ekpo FROM wa_ekpo.
+      ENDIF.
+    ENDLOOP.
+  ENDLOOP.
+
+*ENDIF.
+
+
+*v_vat = ( v_netpr * 5 ) / 100.
+*  V_FVAL = V_MENGE * V_NETPR + V_VAT.
+*  v_fval = v_netpr + lv_kwert + v2_kwert.
+  v_fval = v_netpr + lv_kwert + v2_kwert + ( v1_kwert + v1_zdoc + v1_zfob + v1_zpk1 ) + v_kwert + v1_bc.                                   "changed by karthikeyan s
+
+  IF v_bsart = 'ZLIM'. " Changed ZGIM to ZLIM - by abap2 -Tr No.DCDK912736
+    v_fval = v_netpr + lv_kwert + v2_kwert + ( v1_zpcf + v1_zpk1 ) + v_kwert.
+  ENDIF.
+
+
+  IF NOT it_ekpo IS INITIAL.
+
+    IF v_bsart = 'ZSE1' OR v_bsart = 'ZLSE'.
+      v_flag = 'Y'.
+    ENDIF.
+    IF v_bsart = 'ZSE2'.
+      v_flag = 'Y'.
+    ENDIF.
+    IF v_bsart = 'ZREL' AND v_pstyp = 'D'.
+      v_flag = 'Y'.
+    ENDIF.
+
+*    IF v_bsart = 'ZGSE'.                                " Added by karthikeyan s for Ghana plant from Sheeladri - 18.07.2013
+*      v_flag = 'Y'.
+*    ENDIF.
+
+
+    SELECT packno
+            sub_packno FROM esll
+            INTO CORRESPONDING FIELDS OF TABLE  it_esll
+            FOR ALL ENTRIES IN it_ekpo
+            WHERE packno = it_ekpo-packno.
+
+  ENDIF.
+
+  IF it_esll IS NOT INITIAL.
+    SELECT packno
+           introw                                                            " avoiding line item missing (Key field combination) by karthikeyan s - 22.03.2013
+           sub_packno
+           srvpos
+           menge
+           meins
+           netwr
+           ktext1
+           tbtwr
+       FROM esll
+       INTO CORRESPONDING FIELDS OF  TABLE it_esll1
+       FOR ALL ENTRIES IN it_esll
+       WHERE packno = it_esll-sub_packno.
+
+
+  ENDIF.
+
+*IF NOT IT_ESLL IS INITIAL.
+  SORT it_esll1 BY packno.
+  SORT it_esll BY packno.
+*ENDIF.
+  CLEAR:it_esll.
+  APPEND LINES OF it_esll1 TO it_esll.
+*ENDIF.
+
+  LOOP AT it_esll INTO wa_esll.
+    v_netwr = v_netwr +  wa_esll-netwr .
+    v_menge1 = v_menge1 + wa_esll-menge.
+  ENDLOOP.
+
+
+  IF NOT it_ekpo IS INITIAL.
+
+    IF v_bsart = 'ZSE1' OR v_bsart = 'ZSE2' OR ( v_bsart = 'ZREL' AND v_pstyp = 'D').
+*-Begin of HANA Adaptation
+*---Old
+*      SELECT  * FROM KONV INTO TABLE LT_KONV  WHERE KNUMV = V_KNUMV.
+*---New
+      SELECT  * FROM v_konv INTO CORRESPONDING FIELDS OF TABLE @lt_konv  WHERE knumv = @v_knumv.
+*-End of HANA Adaptation
+
+      IF sy-subrc = 0.
+        CLEAR: lv_kwert1, v1_kwert, v1_zdoc, v1_zfob, v1_zpk1, v_kwert, v2_kwert.
+
+        LOOP AT it_ekpo INTO wa_ekpo.
+          LOOP AT lt_konv INTO ls_konv WHERE knumv = v_knumv
+                                       AND   kposn = wa_ekpo-ebelp.
+            IF sy-subrc = 0.
+
+              IF ls_konv-kschl = 'JEXS'.
+                lv_kwert1 = lv_kwert1 + ls_konv-kwert.
+              ELSEIF ( ls_konv-kschl = 'ZOTH' OR ls_konv-kschl = 'ZHAN' OR ls_konv-kschl = 'ZINC'
+              OR ls_konv-kschl = 'ZMAN' OR ls_konv-kschl = 'Z001' OR ls_konv-kschl = 'ZCLE' "or ls_konv-kschl = 'ZCOM'
+              OR ls_konv-kschl = 'ZFIN' OR ls_konv-kschl = 'ZINS' OR ls_konv-kschl = 'ZLCC' OR ls_konv-kschl = 'ZOT1'
+              OR ls_konv-kschl = 'ZOT2' OR ls_konv-kschl = 'ZOT3' OR ls_konv-kschl = 'ZPOR' OR ls_konv-kschl = 'ZSCA'
+              OR ls_konv-kschl = 'ZSER' ).
+                v1_kwert = v1_kwert + ls_konv-kwert.
+              ELSEIF ( ls_konv-kschl = 'ZDOC' ).
+                v1_zdoc = v1_zdoc + ls_konv-kwert.
+              ELSEIF ( ls_konv-kschl = 'ZFOB' ).
+                v1_zfob = v1_zfob + ls_konv-kwert.
+              ELSEIF ( ls_konv-kschl = 'ZPK1' ).
+                v1_zpk1 = v1_zpk1 + ls_konv-kwert.
+              ELSEIF ls_konv-kschl = 'ZCOM' OR ls_konv-kschl = 'ZCOV' .
+                v1_bc = v1_bc + ls_konv-kwert.
+              ELSEIF ( ls_konv-kschl = 'R000' OR ls_konv-kschl = 'R001' OR
+                     ls_konv-kschl = 'R002' OR ls_konv-kschl = 'KR00' OR ls_konv-kschl = 'R003').
+                v_kwert = v_kwert + ls_konv-kwert.
+              ELSEIF ( ls_konv-kschl = 'ZFR1' OR ls_konv-kschl = 'ZAIR' OR ls_konv-kschl = 'ZSEA' OR ls_konv-kschl = 'FRB1' ).
+                v2_kwert = v2_kwert + ls_konv-kwert.
+                IF ls_konv-kschl = 'ZAIR'.
+                  lv_airsea = 'AIR'.
+                ELSE.
+                  ls_konv-kschl = 'ZSEA'.
+                  lv_airsea = 'SEA'.
+                ENDIF.
+              ENDIF.
+            ENDIF.
+          ENDLOOP.
+        ENDLOOP.
+
+      ENDIF.
+
+    ENDIF.
+
+  ENDIF.
+
+*  v_vat1 = ( v_netwr * 5 ) / 100.
+*  V_FVAL1 = V_MENGE1 * V_NETWR + V_VAT1.
+
+*  v_fval1 = v_netwr + lv_kwert.
+
+  v_fval1 = v_netwr + lv_kwert1 + v2_kwert + ( v1_kwert + v1_zdoc + v1_zfob + v1_zpk1 ) + v_kwert + v1_bc.                    " changed by karthikeyan s
+
+*GET THE PLANT DETAILS
+
+  READ TABLE it_ekpo INTO wa_ekpo INDEX 1.
+  SELECT SINGLE *  INTO wa_plant
+  FROM t001w
+  WHERE werks = wa_ekpo-werks.
+
+  SELECT SINGLE  * FROM  adrc INTO wa_plant1
+                   WHERE addrnumber = wa_plant-adrnr.       "#EC WARNOK
+  SELECT SINGLE landx50 FROM t005t INTO lv_landx50 WHERE land1 = wa_plant-land1 AND                    " added by karthikeyan for plant address from Sumeet sharma - 03.08.2013
+                                                         spras = 'EN'.
+  SELECT SINGLE bezei FROM t005u INTO lv_bezei WHERE bland = wa_plant-regio AND                        " added by karthikeyan for plant address from Sumeet sharma - 03.08.2013
+                                                     land1 = wa_plant-land1 AND
+                                                     spras = 'EN'.
+  IF lv_bezei IS NOT INITIAL.
+    CONCATENATE lv_bezei 'State,'(002) INTO lv_bezei SEPARATED BY space.
+  ENDIF.
+
+** Replaced by Zubin on 28.03.2022 - P1 remediation
+  CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+    EXPORTING
+      input_string  = wa_plant-name1
+      separators    = ' -.,;:'
+    IMPORTING
+      output_string = wa_plant-name1.
+** Replaced by Zubin on 28.03.2022 - P1 remediation
+  CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+    EXPORTING
+      input_string  = wa_plant-stras
+      separators    = ' -.,;:'
+    IMPORTING
+      output_string = wa_plant-stras.
+  SPLIT wa_plant-stras AT space INTO lv_str1 lv_str2 lv_str3.
+  CONCATENATE lv_str1 lv_str2 INTO lv_str3 SEPARATED BY space.
+
+
+*GET THE DEPARTMENT
+  SELECT SINGLE eknam INTO v_departmnt FROM t024 WHERE ekgrp = lv_ekgrp.
+  "SY-SUBRC
+
+ENDFORM.                    " GET_DATA
+*&---------------------------------------------------------------------*
+*&      FORM  CLEAR_DATA
+*&---------------------------------------------------------------------*
+*       TEXT
+*----------------------------------------------------------------------*
+FORM clear_data .
+  CLEAR:it_ekpo,
+*        IT_HEADER,
+        wa_ekpo,
+        wa_esll,
+*        WA_VEND,
+        wa_plant,
+        v_company_name,
+        v_pono,
+        v_podate,
+        v_departmnt,
+        v_bedat,
+        v_ebeln,
+        v_frgke,
+        v_banfn,
+        v_bednr,
+        v_badat,
+        v_fval,
+        v_fval1,
+        v_menge,
+        v_netpr,
+        v_menge1,
+        v_netwr,
+        v_waers,
+        v_text1,
+        v_zterm,
+*        v_vat,
+*        v_vat1,
+        v_flag,
+*        lt_final,
+        v1_kwert,
+        v1_zdoc,
+        v1_zpk1,
+        v1_zpcf,
+        v1_zfob,
+        v2_kwert,
+
+        v_email,
+        v_buyertelfx,
+        v_buyeremail,
+        lv_airsea,
+        lv_downtext,
+        lv_ktokk,
+        lv_ekgrp,
+        lv_dollars,
+        lv_cents,
+        lv_ktext,
+        lv_landx50,
+        lv_bezei.
+ENDFORM.                    " CLEAR_DATA
+*&---------------------------------------------------------------------*
+*&      FORM  PRINT_FORM
+*&---------------------------------------------------------------------*
+*       TEXT
+*----------------------------------------------------------------------*
+FORM print_form .
+  DATA: "lv_fname TYPE rs38l_fnam,
+    lv_fname1          TYPE rs38l_fnam,
+*        ls_output_options TYPE ssfcompop,
+    ls_output_options1 TYPE ssfcompop.
+
+*  IF v_frgke NE 'R'.
+*    ls_output_options-tdnoprint = 'X'.
+*  ENDIF.
+
+  IF wa_ekpo-werks CP 'SL*'.
+
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname           = 'YMM_PO_SMARTFORM_SL'
+      IMPORTING
+        fm_name            = lv_fname1
+      EXCEPTIONS
+        no_form            = 1
+        no_function_module = 2
+        OTHERS             = 3.
+
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+          WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+    CALL FUNCTION lv_fname1
+      EXPORTING
+*       ARCHIVE_INDEX      =
+*       ARCHIVE_INDEX_TAB  =
+*       ARCHIVE_PARAMETERS =
+*       CONTROL_PARAMETERS =
+*       MAIL_APPL_OBJ      =
+*       MAIL_RECIPIENT     =
+*       MAIL_SENDER        =
+        output_options     = ls_output_options1
+*       USER_SETTINGS      = 'X'
+        v_company_name     = v_company_name
+        v_pono             = v_pono
+        v_departmnt        = v_departmnt
+        v_bedat            = v_bedat
+        v_podate           = v_podate
+        v_banfn            = v_banfn
+        v_badat            = v_badat
+        wa_plant           = wa_plant
+        v_bsart            = v_bsart
+        v_flag             = v_flag
+        v_fval             = v_fval
+        v_fval1            = v_fval1
+        iv_rel_indicator   = v_frgke
+        wa_vend            = wa_vend
+        v_bednr            = v_bednr
+        v_zterm            = v_zterm
+        v_text1            = v_text1
+*       IS_HEADER          =
+        v_ebeln            = v_ebeln
+        lv_kwert           = lv_kwert
+        lv_eindt           = lv_eindt
+*       LS_KONV            =
+        v_kwert            = v_kwert
+*       ITEM_TEXT          =
+        lv_vtext           = lv_vtext
+        v1_kwert           = v1_kwert
+        v2_kwert           = v2_kwert
+        gv_inco1           = gv_inco1
+        gv_inco2           = gv_inco2
+        v_waers            = v_waers
+        v_netpr            = v_netpr
+        v_netwr            = v_netwr
+        v_lvalue           = v_lvalue
+        lv_kwert1          = lv_kwert1
+        v_email            = v_email
+        wa_t005t           = wa_t005t
+        v_buyertelfx       = v_buyertelfx
+        v_buyeremail       = v_buyeremail
+        v1_zdoc            = v1_zdoc
+        v1_zfob            = v1_zfob
+        v1_zpk1            = v1_zpk1
+        v1_zpcf            = v1_zpcf
+        lv_airsea          = lv_airsea
+        lv_downtext        = lv_downtext
+        lv_ktokk           = lv_ktokk
+        lv_ekgrp           = lv_ekgrp
+        lv_dollars         = lv_dollars
+        lv_cents           = lv_cents
+        lv_company         = lv_company
+        v1_bc              = v1_bc
+        wa_plant1          = wa_plant1
+*   IMPORTING
+*       DOCUMENT_OUTPUT_INFO       =
+*       JOB_OUTPUT_INFO    =
+*       JOB_OUTPUT_OPTIONS =
+      TABLES
+        it_ekpo            = it_ekpo
+        it_esll            = it_esll
+        it_eban            = it_eban
+      EXCEPTIONS
+        formatting_error   = 1
+        internal_error     = 2
+        send_error         = 3
+        user_canceled      = 4
+        OTHERS             = 5.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+  ELSE.
+
+*  CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+*    EXPORTING
+*      formname           = 'YMM_PO_SMARTFORM'
+*    IMPORTING
+*      fm_name            = lv_fname
+*    EXCEPTIONS
+*      no_form            = 1
+*      no_function_module = 2
+*      OTHERS             = 3.
+*
+*  IF sy-subrc <> 0.
+*    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+*        WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+*  ENDIF.
+
+*
+*  CALL FUNCTION '/1BCDWB/SF00000115'
+*    EXPORTING
+**     ARCHIVE_INDEX              =
+**     ARCHIVE_INDEX_TAB          =
+**     ARCHIVE_PARAMETERS         =
+**     CONTROL_PARAMETERS         =
+**     MAIL_APPL_OBJ              =
+**     MAIL_RECIPIENT             =
+**     MAIL_SENDER                =
+*     OUTPUT_OPTIONS             = ls_output_options
+**     USER_SETTINGS              = 'X'
+*      v_company_name             = v_company_name
+*      v_pono                     = v_pono
+*      v_departmnt                = v_departmnt
+*      v_bedat                    = v_bedat
+*      v_podate                   = v_podate
+*      v_banfn                    = v_banfn
+*      v_badat                    = v_badat
+*      wa_plant                   = wa_plant
+*      v_bsart                    = v_bsart
+*      v_flag                     = v_flag
+*      v_fval                     = v_fval
+*      v_fval1                    = v_fval1
+*      iv_rel_indicator           = v_frgke
+*      wa_vend                    = wa_vend
+*      v_bednr                    = v_bednr
+*      v_zterm                    = v_zterm
+*      v_text1                    = v_text1
+**     IS_HEADER                  =
+*      v_ebeln                    = v_ebeln
+*      lv_kwert                   = lv_kwert
+*      lv_eindt                   = lv_eindt
+**     LS_KONV                    =
+*      v_kwert                    = v_kwert
+**     ITEM_TEXT                  =
+*      lv_vtext                   = lv_vtext
+*      v1_kwert                   = v1_kwert
+*      v2_kwert                   = v2_kwert
+*      gv_inco1                   = gv_inco1
+*      gv_inco2                   = gv_inco2
+*      v_waers                    = v_waers
+*      v_netpr                    = v_netpr
+*      v_netwr                    = v_netwr
+*      v_lvalue                   = v_lvalue
+*      lv_kwert1                  = lv_kwert1
+*      v_email                    = v_email
+*      wa_t005t                   = wa_t005t
+*      v_buyertelfx               = v_buyertelfx
+*      v_buyeremail               = v_buyeremail
+*      v1_zdoc                    = v1_zdoc
+*      v1_zfob                    = v1_zfob
+*      v1_zpk1                    = v1_zpk1
+*      v1_zpcf                    = v1_zpcf
+*      lv_airsea                  = lv_airsea
+*      lv_downtext                = lv_downtext
+*      lv_ktokk                   = lv_ktokk
+*      lv_ekgrp                   = lv_ekgrp
+*      lv_dollars                 = lv_dollars
+*      lv_cents                   = lv_cents
+*      lv_company                 = lv_ktext
+*      v1_bc                      = v1_bc
+*      wa_plant1                  =
+**   IMPORTING
+**     DOCUMENT_OUTPUT_INFO       =
+**     JOB_OUTPUT_INFO            =
+**     JOB_OUTPUT_OPTIONS         =
+*    TABLES
+*      it_ekpo                    =
+*      it_esll                    =
+*      it_eban                    =
+**   EXCEPTIONS
+**     FORMATTING_ERROR           = 1
+**     INTERNAL_ERROR             = 2
+**     SEND_ERROR                 = 3
+**     USER_CANCELED              = 4
+**     OTHERS                     = 5
+*            .
+*  IF sy-subrc <> 0.
+** Implement suitable error handling here
+*  ENDIF.
+**
+**    CALL FUNCTION lv_fname
+**    EXPORTING
+**      output_options   = ls_output_options
+**      v_company_name   = v_company_name
+**      v_pono           = v_pono
+**      v_podate         = v_podate
+**      v_departmnt      = v_departmnt
+**      v_bedat          = v_bedat
+**      v_banfn          = v_banfn
+**      v_bednr          = v_bednr
+**      v_badat          = v_badat
+**      wa_vend          = wa_vend
+**      wa_plant         = wa_plant
+**      v_bsart          = v_bsart
+**      v_flag           = v_flag
+***     V_FLAG1          = V_FLAG1
+**      v_fval           = v_fval
+**      v_fval1          = v_fval1
+**      v_waers          = v_waers
+**      v_zterm          = v_zterm
+**      v_text1          = v_text1
+**      lv_kwert         = lv_kwert
+**      lv_kwert1        = lv_kwert1
+***     IS_HEADER        = IS_HEADER
+***     IS_ITEM          = IS_ITEM
+**      iv_rel_indicator = v_frgke
+**      lv_eindt         = lv_eindt
+**      v_ebeln          = v_ebeln
+***     LS_KONV          = LS_KONV
+**      v_kwert          = v_kwert
+**      v1_kwert         = v1_kwert
+**      v1_zdoc          = v1_zdoc
+**      v1_zfob          = v1_zfob
+**      v1_zpk1          = v1_zpk1
+**      v1_zpcf          = v1_zpcf
+**      v2_kwert         = v2_kwert
+**      lv_vtext         = lv_vtext
+**      lv_downtext      = lv_downtext
+**      gv_inco1         = gv_inco1
+**      gv_inco2         = gv_inco2
+***     ITEM_TEXT        =  ITEM_TEXT
+**      v_netpr          = v_netpr                                                    " added by karthikeyan s
+**      v_netwr          = v_netwr
+**      v_lvalue         = v_lvalue                                                   " added by karthikeyan s
+**      v_email          = v_email
+**      wa_t005t         = wa_t005t
+**      v_buyertelfx     = v_buyertelfx
+**      v_buyeremail     = v_buyeremail
+**      lv_airsea        = lv_airsea
+**      lv_ktokk         = lv_ktokk
+**      lv_ekgrp         = lv_ekgrp
+**      lv_dollars       = lv_dollars
+**      lv_cents         = lv_cents
+**      lv_ktext         = lv_ktext
+**      lv_landx50       = lv_landx50
+**      lv_bezei         = lv_bezei
+**      lv_str3          = lv_str3
+**       v1_bc            = v1_bc
+**     lv_company                = lv_company
+**    TABLES
+**      it_ekpo          = it_ekpo
+**      it_esll          = it_esll
+**      it_eban          = it_eban
+***     IT_ITEM          = IT_ITEM
+***     IT_HEADER        = IT_HEADER
+***     IT_VEND          = IT_VEND
+**    EXCEPTIONS
+**      formatting_error = 1
+**      internal_error   = 2
+**      send_error       = 3
+**      user_canceled    = 4
+**      OTHERS           = 5.
+**
+**  IF sy-subrc <> 0.
+**    MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+**            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+**  ENDIF.
+  ENDIF.
+
+
+ENDFORM.                    " PRINT_FORM
