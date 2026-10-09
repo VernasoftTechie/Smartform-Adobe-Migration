@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:49:36.000Z
-WAITING_ON: operator
-NOTE: Layout increment 2 pushed (items tables with repeating headings, totals, amount in words, terms; helper-field overflow fix). Pull this branch onto ZMMET_PO_SF_ADT in abapGit, activate, report any overflow badge with its element name, and preview a goods PO (1 item and 25+ items), a service PO and an import PO; then confirm or report what you see.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:52:30.836Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -184,3 +184,6 @@ Please do these in SAP, in order:
 2. Open the Layout and report every overflow or warning badge with the element name or a screenshot.
 3. Preview with real orders: a goods PO (V_FLAG = X) with one item and with more than 25 items (check page 2: repeated column headings, rows continuing, totals at the end), a service PO (V_FLAG = Y), an import PO (ZPOI: insurance line, terms text ZPOI_ET), and one with V_POTEXT = X (Additional Comments table above the items).
 4. Tell me what is wrong or ugly (screenshots help), or confirm and I continue with the frame, the watermark and page 2.
+
+## 2026-10-09T11:52:30.836Z — Manual activity confirmed
+Client confirmed the manual step is done.
