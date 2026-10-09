@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T10:40:49.000Z
-WAITING_ON: operator
-NOTE: Interface pushed. In SFP create the EMPTY interface YMM_PO_SMARTFORM_INT and the EMPTY Adobe form YMM_PO_SMARTFORM_ADT (package ZAB_ADOBE, interface assigned, add one native static field, save, activate). In abapGit PULL this branch so src/ymm_po_smartform_int.sfpi.xml loads onto the interface, ACTIVATE the interface (this is its first compile) and report any error text exactly. Then Stage, Commit and Push the SAP-generated empty baseline (form + interface) to this branch and confirm in Bolt Console. Do not build any layout yet.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:05:27.362Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -24,3 +24,8 @@ Window-2 pushed `src/ymm_po_smartform_int.sfpi.xml` (interface YMM_PO_SMARTFORM_
 **Please be aware / please answer when you can:** (1) The ABAP in Initialization has not been compiled anywhere; your first activation is its syntax check, so please send the exact error text if any. (2) Legacy chunking of header texts and item texts silently drops lines when the line count rounds down (e.g. 101-149 header lines); the new code prints all lines. Tell us if you want the legacy truncation kept. (3) Page 2 of the Smart Form has its own copy of the item tables and terms; we treat the page-1 main window as the only executed flow. Please confirm with a multi-page legacy PDF (a V_FLAG=X and a V_FLAG=Y order). (4) SmartStyle definitions for YMM_PO_STYLE, SYSTEM and YMMDRAFTSTYLE were not supplied, so fonts will be placeholders (Developer Extension Point). (5) The form has French (F) texts; whether Adobe should carry translations is open. (6) Driver YMM_PO_PROGRAM is confirmed by NACE (MATCH) and stays read-only.
 
 Not done yet, by design: Context, layout, sign-off. Nothing is complete until your SAP activation/preview result is recorded here.
+
+## 2026-10-09T11:05:27.362Z — Manual activity confirmed
+Client confirmed the manual step is done: 1. For Styles - Take the best possible selection on your own.. On rest of the points make your own decisions to fit in best possible..
+
+I've pulled the interface object and pushed the adobe form..
