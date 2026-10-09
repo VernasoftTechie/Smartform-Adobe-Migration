@@ -18,6 +18,14 @@ pattern is still unconfirmed or only tested once, that is stated explicitly.
 Follow that same discipline going forward: never present a guess as a proven
 pattern.
 
+**Revision 2026-10-09 (on request, for the bulk migration run).** Changed:
+§0 accuracy target (was "80–85% accepted"); §3 and §10 on Context
+hand-authoring (now allowed for the proven shapes, per `docs/strategy/S04` —
+this file had not caught up); §8.10 new (page continuation, **unconfirmed**);
+§9 step 5 and §15 Levels 1–2 to match the flow actually practised; §11 the
+multi-page open item; §16.6 multi-window rules; §17 new (the shared pre-push
+checkers). Everything else is unchanged.
+
 ---
 
 ## 0. What this project delivers — and what it never touches
@@ -36,10 +44,24 @@ pattern.
   comes from that form's legacy-grab snapshot (`docs/legacy_grab/<form>.md`
   plus its raw `.xml` export) or is confirmed live in the system — never
   guessed, never pattern-matched from a similar-looking form.
-- **80–85% design accuracy is the accepted target**, with the remainder
-  handled manually with suggestions — not a reason to lower rigor on the part
-  that is automated, but a signal that an unresolved item is not a blocker:
-  log it as a Developer Extension Point (§7) and keep moving.
+- **The target is 100% accuracy in design and in ABAP** (owner's instruction,
+  2026-10-09; this replaces the earlier "80–85% accepted" wording). "Accurate"
+  is never asserted — it is established three ways, in this order: every field,
+  position, width and line of code traces to evidence in the legacy export (§14);
+  the shared pre-push checkers pass, with every WARN stated in the status entry
+  (§17); and the client's own SAP activation and preview result is recorded in
+  the status file (§16). Nothing is "done" before that last one, and XML that
+  parses is necessary, never sufficient. An item that genuinely cannot be
+  resolved is logged as a Developer Extension Point (§9 step 9) and **stated in
+  the status entry** — never smoothed over, never closed silently.
+- **ABAP — working default, pending the owner's decision.** Legacy form code
+  is carried into Initialization verbatim (diffable against the extract; the
+  checker enforces it when the source node is declared), and every place it
+  departs from the owner's ABAP standards (DIL naming, 7.4+ syntax, no
+  `INTO CORRESPONDING`, no `INSERT`, sorted tables) is listed in the status
+  entry rather than silently rewritten. ABAP written from scratch follows those
+  standards. The owner may instead ask for migrated code to be modernized —
+  until that is said, do not change legacy logic.
 - **Every form is risk-scored before conversion** (business criticality,
   interactivity, layout complexity, driver complexity, integration
   touchpoints, localization, volume) → Low/Medium/High/Critical. High/Critical
@@ -142,6 +164,46 @@ pair currently in the safe empty baseline:
   line, blank lines as empty `<FPCLINE/>`).
 - `CL_FP_REFERENCE_FIELDS` (`SFPREF`) — flat list, proven safe repeatedly.
 
+Two practices that earlier forms learned the hard way — apply both from the
+**first** push, not as a later correction:
+
+- **Include `CL_FP_CODING` (Initialization + its input/output parameters) in the
+  first interface push.** Leaving it empty "to be typed natively" was an
+  oversight on `ZFING_CUST_ACT_SUM`, not a limitation. Only *active* legacy code
+  needs carrying; a block that is entirely commented out has no behaviour. A
+  legacy program-lines node can be moved into Initialization only if it is
+  unconditional and independent of what was printed before it — that is a
+  judgment, so name the node and say so in the status entry.
+- **A legacy `TYPE TABLE OF x` global is declared via a table type in the
+  `TYPES` block** (`ty_x_tab TYPE TABLE OF x`) and the global is typed with that
+  name; an interface global cannot be declared "table of" directly.
+
+**`CL_FP_CONTEXT` — hand-authoring is allowed for three proven shapes only**
+(updated 2026-10-09; this file previously said "never", which `docs/strategy/S04`
+had already overturned on 2026-10-01). Each shape is a direct sibling under the
+root `CONTEXT` node:
+
+- a scalar — `CL_FP_DATA`;
+- a structure — `CL_FP_STRUCTURE` with its `CL_FP_DATA` leaves (`FIELD` =
+  `STRUCT-COMP`);
+- a table — `CL_FP_LOOP` + `CL_FP_LOOP_DATA` + leaves (`FIELD` = `WORKAREA-COMP`),
+  with two `CL_FP_CONDITION` wrappers on the loop. For a table that is global
+  data or a table parameter, `WORK_AREA` = the table's own name — exactly how SAP
+  serializes it (checked against `YMM_ISSUE_RESERVATION_ADT`).
+
+Evidence: the three shapes imported clean on the disposable `ctxtest` branch
+(`8d71383`, `f930564`, `daa7f1e`); `ZMM_PO_DEMO_ADT`'s 14-node Context (a
+scalar, a **global** structure and a **global** table loop) imported clean in the
+client's SAP on 2026-10-06; `ZFING_CUST_ACT_SUM_ADT`'s 24-node Context (tables
+that are table parameters) was pushed 2026-10-02 and, at the date of this
+revision, is **still awaiting the client's confirmation** — scale is therefore
+not yet proven beyond 14 nodes. Build it with `tools/sfp_context.mjs` (§17), which
+only emits these shapes, never overwrites a populated Context, and validates the
+node graph before writing. **Bind only the fields the legacy form prints**
+(extract section 8): a quantity or currency field that is never bound never
+needs a reference field (§4), and dragging a whole structure natively pulls them
+all in.
+
 **Never hand-author:**
 
 - **`EXCEPTIONS`** (under `CL_FP_PARAMETERS`). Two attempts threw a hard
@@ -153,14 +215,17 @@ pair currently in the safe empty baseline:
   `/1BCDWB/DOCPARAMS`. Hand-authoring them has no effect — skip them
   entirely; only include the form's genuinely custom, non-`STANDARD`
   parameters.
-- **`CL_FP_CONTEXT`** (the Context tree), under any circumstances. It is a
-  linked graph of GUID-identified nodes (`CL_FP_FOLDER`/`CL_FP_DATA`/
-  `CL_FP_LOOP`/`CL_FP_CONDITION`/`CL_FP_ALTERNATIVE`, threaded by `PARENT`/
-  `SUCCESSOR`/`CHILD`), not a flat list. Always drag nodes from the Interface
-  tree into Context manually in SFP, then capture with Stage → Commit → Push.
-  Context is build-once-in-the-tool-then-pull-to-capture — never
-  push-from-repo. Every Pull overwrites SAP's live Context with whatever the
-  repo file holds, so re-pulling an old file discards hand-built Context.
+- **Any `CL_FP_CONTEXT` shape beyond the three above** — `CL_FP_FOLDER`
+  (grouping), `CL_FP_ALTERNATIVE` (conditional branches), a `CL_FP_CONDITION`
+  with real (non-empty) conditions, a node nested more than one level deep (a
+  loop inside a loop, or a structure field inside a loop row). These stay
+  native-drag-only in SFP, then captured with Stage → Commit → Push, until each
+  has its own disposable-branch confirmation. Never author `SFPSY` (SAP
+  generates that system-field node itself).
+- **A Context over one that already has nodes.** Every Pull overwrites SAP's
+  live Context with whatever the repo file holds, so a hand-built Context goes
+  only onto the client's **empty** SAP-generated baseline; re-pulling an old file
+  later discards whatever has been dragged in natively since.
 
 **Validation, every time**: confirm the target form/interface is in the safe
 empty baseline before pushing; validate the XML is well-formed before
@@ -453,6 +518,53 @@ Adjust `this.parent.parent` to the actual nesting depth between the
 conditional subform and the sibling flag field — it must resolve to the
 subform that is the flag field's own direct parent.
 
+### 8.10 Multi-page table with a repeating page header — **UNCONFIRMED in the client's SAP**
+
+First used on `ZMM_PO_DEMO` (2026-10-06, commit `122bed5`); the client's SAP
+preview result is still outstanding. Structure copied from Adobe's own Dunning
+Notice / Purchase Order samples in the local Designer 11 install
+(`…\Adobe\Designer 11.0\EN\Samples\`) — those files are the authoritative
+reference for XFA constructs, load them with a strict XML parser. Until the
+client confirms it renders, quote this pattern as *unconfirmed* in the status
+entry.
+
+What differs from the single-page rules in §5/§7/§8.5:
+
+- The body container (`po_doc`) is **`layout="tb"` with no fixed `h`**, so it
+  can flow across pages. Everything that must stay at an absolute x/y lives in
+  fixed-size child subforms (`layout="position"`), not in the container.
+- A **header subform** carries the document header grid and the column headings.
+  It has `id` = its `name`, `<occur max="-1"/>`, and is the **first sibling** in
+  the container, so it prints at the top of page 1.
+- The **repeating row** (§8.5) names that header as its overflow leader:
+  `<overflow leader="page_head"/>` as its last child. The header then reprints
+  at the top of every continuation page.
+- Exactly one `pageArea`, with **no** `<occur>` — occurrence limits on a page
+  area stop the flow at the limit.
+- Content that must print on every page at a fixed place (title, a box outline)
+  is a `<draw>` on the `pageArea` itself, with explicit x/y (S06).
+
+```xml
+<subform layout="tb" name="po_doc" w="16.43cm"><bind match="none"/>
+  <subform h="5.84cm" id="page_head" layout="position" name="page_head" w="16.43cm">
+    <occur max="-1"/><bind match="none"/> <!-- header rows + column headings -->
+  </subform>
+  <subform h="0.55cm" layout="position" name="table_row" w="16cm">
+    <occur max="-1" min="0"/><bind match="dataRef" ref="$.LT_EKPO.DATA[*]"/>
+    <!-- fields with bare refs --> <overflow leader="page_head"/>
+  </subform>
+</subform>
+```
+
+**Known conflict — read before relying on it.** §10 ("Absolutely-positioned
+content belongs inside the page's body subform … `<pageArea>` holds only
+geometry") records a lesson from F15 where content placed in `<pageArea>`
+showed a blank Design View in this SAP. §8.10's master-page draws are exactly
+that. If the client reports a blank or odd Design View, suspect the pageArea
+draws first. **Fallback:** a body-only layout with the title and header
+repeated inside the leader subform (no draws in `pageArea`), and the box
+outline dropped or moved into the leader.
+
 ## 9. Per-form conversion procedure
 
 1. **Naming**: Adobe Form uses `_ADT` suffix; its interface uses `_INT`
@@ -476,9 +588,15 @@ subform that is the flag field's own direct parent.
    form's `Utilities → Download` XML (byte-offset extraction if large) plus
    the SmartStyle's own export. Build the layout mapping and build checklist
    from that.
-5. **Author the interface** per §3's boundary, get Context built natively in
-   SFP (drag nodes from Interface tree, set every QUAN/CURR reference field
-   per §4), capture via Stage → Commit → Push.
+5. **Author the interface** per §3's boundary — including Initialization code
+   from the first push — with `tools/sfp_interface.mjs` (§17), then **build the
+   Context**: hand-authored with `tools/sfp_context.mjs` for the proven shapes
+   (§3), or dragged natively in SFP for anything else. Set every QUAN/CURR
+   reference field per §4 (or leave the field unbound if the legacy form never
+   prints it). A hand-authored Context goes onto the client's empty
+   SAP-generated baseline and is confirmed by the client's Pull + Activate
+   (§16) before layout starts; a natively built one is captured via Stage →
+   Commit → Push. Run `tools/sfp_check.mjs` before every push (§17).
 6. **Author the layout** per §5–§8, in small independently-renderable
    increments — never assemble a whole complex section at once and find out
    via one big screenshot.
@@ -543,9 +661,10 @@ This section carries only the reusable rule each one produced.
   use classic `CALL METHOD ... EXCEPTIONS ... OTHERS = n.` + `sy-subrc`.
 - **The Context tab is genuinely separate from the SFPF's own serialized
   Context node graph** — it doesn't auto-populate from an abapGit-imported
-  interface. It has to be built once in SFP's own tooling (drag nodes in),
-  then captured by Pull — never assume it, never push a hand-authored
-  version over it.
+  interface. It has to be built once: either dragged in natively in SFP and
+  captured, or (proven shapes only, §3) hand-authored onto the client's
+  **empty** baseline and confirmed by their Pull + Activate. Never push a
+  hand-authored Context over one that already has nodes.
 - **A reference field's `UNIT`/`CURRENCY` value must resolve to an actually
   existing, uniquely-addressable field somewhere in the interface's own data
   model** — never a bare same-named sibling column assumed to auto-resolve.
@@ -593,11 +712,21 @@ This section carries only the reusable rule each one produced.
   checklist for a given form remains open until a functional owner resolves
   it — never close one silently.
 - **Multi-page / flowed content** (a table that genuinely overflows one
-  page, headers/footers repeating across pages) has no proven pattern yet —
-  every form converted so far is single-page. Do not assume §5's
-  position-by-default approach extends automatically to a genuinely
-  multi-page form; treat it as a new, unproven case requiring its own
-  smallest-test-case validation before trusting it.
+  page, headers/footers repeating across pages) has **one candidate pattern,
+  not yet confirmed in the client's SAP** — §8.10 (built for `ZMM_PO_DEMO`,
+  2026-10-06, awaiting the client's preview). Every *completed* form is still
+  single-page. Do not assume §5's position-by-default approach extends
+  automatically to a multi-page form; use §8.10 as the starting point, say in
+  the status entry that it is unconfirmed, and record the client's preview
+  result. When it is confirmed, promote it and delete this bullet.
+- **`ZFING_CUST_ACT_SUM`**: pushed Context (24 nodes) awaiting the client's
+  Pull confirmation; pushed interface omits the legacy `%CODE2` flag logic
+  (`FLAG_PA/RE/IN/BO/ATC`, which layout conditions depend on) — to be added
+  with `sfp_interface.mjs --init-nodes %CODE2` when the ticket is released.
+- **Style definitions**: where a SmartStyle's font definition was not supplied
+  with the legacy grab (e.g. `ZMM_STYLE` on `ZMM_PO_DEMO`), the layout uses
+  Arial placeholders — a Developer Extension Point (§9 step 9), never a silent
+  guess.
 
 ## 12. Creating a conversion branch for a new requirement
 
@@ -706,15 +835,20 @@ byte-offset discipline for any large raw export) and author the interface
 content per §3's boundary — `IMPORT_PARAMETERS`/`EXPORT_PARAMETERS`/
 `TABLE_PARAMETERS`/`GLOBAL_DATA`/`TYPES`/`CL_FP_CODING`/
 `CL_FP_REFERENCE_FIELDS`. Present this as a proposal in the response — not
-yet pushed, not yet assumed correct. Never propose content for `EXCEPTIONS`
-or `CL_FP_CONTEXT` (§3's never-hand-author list).
+yet pushed, not yet assumed correct. Never propose content for `EXCEPTIONS`,
+STANDARD/SSF-envelope parameters, or any `CL_FP_CONTEXT` shape outside §3's
+three proven ones. Include the Initialization code (`CL_FP_CODING`) in this
+first proposal, and run `tools/sfp_check.mjs interface` before presenting it
+(§17).
 
 **Level 2 — Confirm the native baseline and push, then stop and wait.** Tell
 the operator plainly what has to happen next in SAP, and stop there: create
-the form/interface in SFP with one native static field (S01), build Context
-by dragging the interface's own nodes in and resolving every QUAN/CURR
-reference field (§4), then abapGit **Stage → Commit → Push** onto this
-migration's own branch. Ask directly — *"Confirm once you've created the
+the **empty** form/interface in SFP (S01), Pull the pushed interface, then
+abapGit **Stage → Commit → Push** that empty SAP-generated baseline onto this
+migration's own branch. Then build the Context (§3: hand-authored with
+`tools/sfp_context.mjs` for the three proven shapes, otherwise the operator
+drags nodes natively and resolves every QUAN/CURR reference field, §4) and
+hand it off for the operator's Pull and Activate. Ask directly — *"Confirm once you've created the
 baseline and pushed it"* — and do not proceed until the operator's confirmation
 is recorded in the migration's status file (§16) — a "continue" typed into chat
 is not a confirmation. Never treat silence, a timeout, or an assumption as
@@ -837,3 +971,52 @@ as READY / IN WORK / WAITING ON CLIENT / STOPPED / COMPLETED.
 item (first push wins; anything not READY is refused) and
 `release` hands it back. Never work a branch claimed by another window; give
 each window a distinct name.
+
+Rules every window follows (added 2026-10-09 for bulk runs):
+
+- **One private clone per window, outside OneDrive** — e.g.
+  `git clone <repo> "$LOCALAPPDATA/Temp/bolt-win-<name>/repo"`. Never run git in
+  the shared OneDrive clone: its file locks and the console's per-clone queue
+  make windows block each other. All `git worktree add` and queue calls use
+  the window's own clone.
+- **Claim before any work, and only READY items.** Never claim without being
+  told to work. The first push of the `CLAIMED_BY` header wins; if the push is
+  rejected, another window got it — pick another item.
+- **Status writes use `git push origin HEAD:<branch>`.** Bolt Console also
+  commits to the same status file, so a rejected push is routine: fetch,
+  re-apply the entry on top, push again. Never force.
+- **The gate (16.2) is per ticket and per window.** `WAITING_ON: operator`
+  means that window does nothing on that ticket, whatever is typed in chat; it
+  moves to a different READY item only if the user has told it to.
+- **Run the shared checkers (§17) before every push** and put each remaining
+  WARN in the status entry. Accuracy is established by evidence, the checkers
+  and the client's SAP activation/preview — not by effort or elapsed time.
+
+## 17. Shared pre-push checkers and builders
+
+Added 2026-10-09. These tools live in the Bolt Console repo's `tools/` folder
+(next to `queue.mjs`), run with plain `node`, and read the migration's own
+files from the current repo/worktree root. They make XML *trustworthy*; they
+never replace the client's SAP activation and preview (§16), which remain the
+only evidence a step is done.
+
+| Tool | Use |
+|---|---|
+| `sfp_check.mjs all --form <name_lower> --extract docs/legacy_grab/<FORM>_extract.json [--init-nodes …] [--allow-extra …] [--grab <FORM>.md] [--baseline <client-pushed .xdp>]` | **Run before every push.** `interface`, `context` or `layout` alone also work. FAIL (exit 1) must be fixed; every WARN is a judgment call or an unconfirmed construct and goes into the status entry. |
+| `sfp_interface.mjs --extract … --out src/<name>_int.sfpi.xml [--init-nodes …] [--grab …] [--curr-unit …] [--quan-unit …] [--ref PATH:CURR\|QUAN:UNIT]` | Builds the interface from the legacy extract, then re-checks it. Stops (does not guess) on a legacy-grab currency/quantity gap that has no unit target. Carries a program-lines node into Initialization only when named in `--init-nodes`. |
+| `sfp_context.mjs plan` then `build` | Plans the Context from the fields the legacy form prints, builds only the three proven shapes (§3), refuses a populated Context, validates the node graph before writing. |
+| `sfp_check.test.mjs`, `sfp_build.test.mjs` | Self-tests (mutation cases and builder regression against real branches) — re-run after changing any tool. |
+
+What `sfp_check` verifies: interface parity with the extract (parameters,
+globals, TYPES, Initialization verbatim); the Context node graph and that
+every bound field exists in the interface; layout geometry inside parents,
+margins (S02), explicit x/y (S06), bind syntax, and that every binding resolves
+to a Context node; that **every field and static label the legacy form prints**
+appears in the layout (waive one deliberately with `--waive PATH`); continuation
+wiring (§8.10); and, given `--baseline`, that nothing outside `<template>`
+changed from what the client's SAP generated.
+
+A check passing is *necessary, not sufficient*: layout design itself, fonts
+whose definition was not supplied, and anything in the WARN list are still
+judged from evidence, and anything unresolved is a Developer Extension Point
+(§9 step 9) stated in the status entry.
