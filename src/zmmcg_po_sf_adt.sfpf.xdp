@@ -5,11 +5,723 @@
    <subform layout="tb" locale="en_IN" name="data" restoreState="auto">
       <pageSet>
          <pageArea id="Page1" name="Page1">
-            <contentArea h="10.5in" w="8in" x="0.25in" y="0.25in"/>
-            <medium long="11in" short="8.5in" stock="letter"/>
-            <?templateDesigner expand 1?></pageArea>
-         <?templateDesigner expand 1?></pageSet>
-      <subform h="10.5in" w="8in"/>
+            <contentArea h="27.7cm" w="19cm" x="1cm" y="1cm"/>
+            <medium long="29.7cm" orientation="portrait" short="21cm" stock="a4"/>
+         <?templateDesigner expand 1?></pageArea>
+      <?templateDesigner expand 1?></pageSet>
+      <subform h="27.7cm" layout="position" name="page_body" w="19cm">
+         <bind match="none"/>
+         <font size="8pt" typeface="Arial"/>
+         <draw h="2.23cm" name="logo" w="2.8cm" x="0.05cm" y="0.2cm">
+            <value><image contentType="image/bmp" href="/sap/bc/fp/graphics/public/graphics/bmap/bcol/DANGOTE%20LOGO%20WHITE.bmp"/></value>
+         </draw>
+         <subform h="4.08cm" layout="position" name="po_heading" w="14.56cm" x="1.12cm" y="0.7cm">
+            <bind match="none"/>
+            <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+            <subform h="0.8cm" layout="position" name="ttl_zpor" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOR") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_zpor_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>RELEASE ORDER</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_zpoc" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOC") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_zpoc_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>CASH PURCHASE ORDER</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_zpol" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_zpol_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>BON DE COMMANDE / LOCAL</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_zpoi" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOI") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_zpoi_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>IMPORT PURCHASE ORDER</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_ycap" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "YCAP") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_ycap_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>Capex Purchase Order</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_yraw" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "YRAW") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_yraw_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>PURCHASE ORDER</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_zpos" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOS") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_zpos_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>SERVICE PURCHASE ORDER</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="0.8cm" layout="position" name="ttl_zpot" presence="hidden" w="14.1cm" x="0.23cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOT" || v === "ZPIC") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.8cm" name="ttl_zpot_t" w="14.1cm" x="0cm" y="0cm">
+                  <value><text>STOCK TRANSFER PO</text></value>
+                  <font size="14pt" typeface="Arial" weight="bold"/>
+                  <para hAlign="center" vAlign="middle"/>
+               </draw>
+            </subform>
+            <field h="0.8cm" name="fld_ebeln" w="14.1cm" x="0.23cm" y="1.6cm">
+               <ui><textEdit/></ui>
+               <bind match="dataRef" ref="$.V_EBELN"/>
+               <font size="14pt" typeface="Arial" weight="bold"/>
+               <para hAlign="center" vAlign="middle"/>
+            </field>
+         </subform>
+         <subform h="5.73cm" layout="position" name="plant_address" w="5.02cm" x="13.98cm" y="0.03cm">
+            <bind match="none"/>
+            <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+            <subform layout="tb" name="adrc_lines" w="4.82cm" x="0.1cm" y="0.1cm" h="5.53cm">
+               <bind match="none"/>
+               <subform h="0.45cm" layout="position" name="adrc_row" w="4.82cm">
+                  <occur max="-1" min="0"/>
+                  <bind match="dataRef" ref="$.LT_ADRC.DATA[*]"/>
+                  <field h="0.45cm" name="fld_adrc_line" w="4.82cm" x="0cm" y="0cm">
+                     <ui><textEdit multiLine="1"/></ui>
+                     <bind match="dataRef" ref="TDLINE"/>
+                     <font size="7.5pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </field>
+               </subform>
+            </subform>
+         </subform>
+         <subform h="2cm" layout="position" name="po_last_changed" w="5.84cm" x="0.12cm" y="2.74cm">
+            <bind match="none"/>
+            <draw h="0.5cm" name="lbl_last_changed" w="2.5cm" x="0cm" y="0cm">
+               <value><text>Last Changed On:</text></value>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </draw>
+            <field h="0.5cm" name="fld_last_changed" w="3.3cm" x="2.5cm" y="0cm">
+               <ui><textEdit/></ui>
+               <bind match="dataRef" ref="$.LV_VAR4"/>
+               <font size="8pt" typeface="Arial" weight="bold"/>
+               <para vAlign="middle"/>
+            </field>
+         </subform>
+         <subform h="11.5cm" layout="position" name="supplier_add" w="10.13cm" x="0cm" y="5.6cm">
+            <bind match="none"/>
+            <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+            <subform h="6.5cm" layout="position" name="sup_std" presence="hidden" w="10.13cm" x="0cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v !== "ZPOT") ? "visible" : "hidden";</script>
+               </event>
+               <field h="0.5cm" name="fld_sup_1" w="6.13cm" x="4cm" y="0cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LV_LIFNR"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_2" w="6.13cm" x="4cm" y="0.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.NAME1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_3" w="6.13cm" x="4cm" y="1cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.NAME2"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_4" w="6.13cm" x="4cm" y="1.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.STREET"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_5" w="6.13cm" x="4cm" y="2cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.STR_SUPPL1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_6" w="6.13cm" x="4cm" y="2.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.STR_SUPPL2"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_7" w="6.13cm" x="4cm" y="3cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.CITY1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_8" w="6.13cm" x="4cm" y="3.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.CITY2"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_9" w="6.13cm" x="4cm" y="4cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.GS_PRINT.COUNTRY"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_10" w="6.13cm" x="4cm" y="4.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.WA_VEND.POST_CODE1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_11" w="6.13cm" x="4cm" y="5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.GS_PRINT.VENDTEL"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_12" w="6.13cm" x="4cm" y="5.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.GS_PRINT.VENDFAX"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <field h="0.5cm" name="fld_sup_13" w="6.13cm" x="4cm" y="6cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.V_EMAIL"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <subform h="6.5cm" layout="position" name="sup_lbl_en" presence="hidden" w="4cm" x="0cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     this.presence = (v !== "ZPOT" &amp;&amp; v !== "ZPOL") ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.5cm" name="lbl_sup_en_1" w="4cm" x="0cm" y="0cm">
+                     <value><text>SAP Supplier Number</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_2" w="4cm" x="0cm" y="0.5cm">
+                     <value><text>Supplier Name</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_3" w="4cm" x="0cm" y="1cm">
+                     <value><text>Supplier Name 2</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_4" w="4cm" x="0cm" y="1.5cm">
+                     <value><text>No. &amp; Street Name</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_5" w="4cm" x="0cm" y="2cm">
+                     <value><text>Street 2</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_6" w="4cm" x="0cm" y="2.5cm">
+                     <value><text>Street 3</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_7" w="4cm" x="0cm" y="3cm">
+                     <value><text>City</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_8" w="4cm" x="0cm" y="3.5cm">
+                     <value><text>District</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_9" w="4cm" x="0cm" y="4cm">
+                     <value><text>Country</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_10" w="4cm" x="0cm" y="4.5cm">
+                     <value><text>Postal/Zip Code</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_11" w="4cm" x="0cm" y="5cm">
+                     <value><text>Telephone Number</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_12" w="4cm" x="0cm" y="5.5cm">
+                     <value><text>Fax Number</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_en_13" w="4cm" x="0cm" y="6cm">
+                     <value><text>Email address</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+               </subform>
+               <subform h="6.5cm" layout="position" name="sup_lbl_fr" presence="hidden" w="4cm" x="0cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.5cm" name="lbl_sup_fr_1" w="4cm" x="0cm" y="0cm">
+                     <value><text>Reference Fournisseur</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_2" w="4cm" x="0cm" y="0.5cm">
+                     <value><text>Nom du Fournisseur</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_3" w="4cm" x="0cm" y="1cm">
+                     <value><text>Nom du Fournisseur 2</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_4" w="4cm" x="0cm" y="1.5cm">
+                     <value><text>No. &amp; Nom de la Rue</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_5" w="4cm" x="0cm" y="2cm">
+                     <value><text>Rue 2</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_6" w="4cm" x="0cm" y="2.5cm">
+                     <value><text>Rue 3</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_7" w="4cm" x="0cm" y="3cm">
+                     <value><text>Ville</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_8" w="4cm" x="0cm" y="3.5cm">
+                     <value><text>District</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_9" w="4cm" x="0cm" y="4cm">
+                     <value><text>Pays</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_10" w="4cm" x="0cm" y="4.5cm">
+                     <value><text>Code Postal</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_11" w="4cm" x="0cm" y="5cm">
+                     <value><text>Numero Telephone</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_12" w="4cm" x="0cm" y="5.5cm">
+                     <value><text>Numero Fax</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw h="0.5cm" name="lbl_sup_fr_13" w="4cm" x="0cm" y="6cm">
+                     <value><text>Email address</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                  </draw>
+               </subform>
+            </subform>
+            <subform h="6.5cm" layout="position" name="sup_sto" presence="hidden" w="10.13cm" x="0cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOT") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.5cm" name="lbl_sto_1" w="3.5cm" x="0cm" y="0cm">
+                  <value><text>SAP Supplier Number</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_1" w="6.63cm" x="3.5cm" y="0cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LV_RESWK"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_2" w="3.5cm" x="0cm" y="0.5cm">
+                  <value><text>Supplier Name</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_2" w="6.63cm" x="3.5cm" y="0.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.NAME1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_3" w="3.5cm" x="0cm" y="1cm">
+                  <value><text>Supplier Name 2</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_3" w="6.63cm" x="3.5cm" y="1cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.NAME2"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_4" w="3.5cm" x="0cm" y="1.5cm">
+                  <value><text>No. &amp; Street Name</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_4" w="6.63cm" x="3.5cm" y="1.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.STREET"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_5" w="3.5cm" x="0cm" y="2cm">
+                  <value><text>Street 2</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_5" w="6.63cm" x="3.5cm" y="2cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.STR_SUPPL1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_6" w="3.5cm" x="0cm" y="2.5cm">
+                  <value><text>Street 3</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_6" w="6.63cm" x="3.5cm" y="2.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.STR_SUPPL2"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_7" w="3.5cm" x="0cm" y="3cm">
+                  <value><text>City</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_7" w="6.63cm" x="3.5cm" y="3cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.CITY1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_8" w="3.5cm" x="0cm" y="3.5cm">
+                  <value><text>District</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_8" w="6.63cm" x="3.5cm" y="3.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.CITY2"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_9" w="3.5cm" x="0cm" y="4cm">
+                  <value><text>Country</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_9" w="6.63cm" x="3.5cm" y="4cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LV_LAND"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_10" w="3.5cm" x="0cm" y="4.5cm">
+                  <value><text>Postal/Zip Code</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_10" w="6.63cm" x="3.5cm" y="4.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.POST_CODE1"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_11" w="3.5cm" x="0cm" y="5cm">
+                  <value><text>Telephone Number</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_11" w="6.63cm" x="3.5cm" y="5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.TEL_NUMBER"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_12" w="3.5cm" x="0cm" y="5.5cm">
+                  <value><text>Fax Number</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <field h="0.5cm" name="fld_sto_12" w="6.63cm" x="3.5cm" y="5.5cm">
+                  <ui><textEdit multiLine="1"/></ui>
+                  <bind match="dataRef" ref="$.LS_ADRC.FAX_NUMBER"/>
+                  <font size="8pt" typeface="Arial"/>
+                  <para vAlign="middle"/>
+               </field>
+               <draw h="0.5cm" name="lbl_sto_13" w="3.5cm" x="0cm" y="6cm">
+                  <value><text>Email address</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+            </subform>
+         </subform>
+         <subform h="11.5cm" layout="position" name="po_detail" w="8.62cm" x="10.38cm" y="5.6cm">
+            <bind match="none"/>
+            <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+            <field h="0.5cm" name="fld_det_1_1" w="5.4cm" x="3.2cm" y="0cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.PODATE"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_2_1" w="5.4cm" x="3.2cm" y="0.5cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.EINDT"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_3_1" w="5.4cm" x="3.2cm" y="1cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.V_DEPARTMNT"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_4_1" w="5.4cm" x="3.2cm" y="1.5cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.G_ERNAME"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_5_1" w="5.4cm" x="3.2cm" y="2cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.V_BUYERTELE"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_6_1" w="5.4cm" x="3.2cm" y="2.5cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.V_BUYERTELFX"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_7_1" w="5.4cm" x="3.2cm" y="3cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.V_BUYEREMAIL"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_8_1" w="5.4cm" x="3.2cm" y="3.5cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.LV_VTEXT"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_9_1" w="1.3cm" x="3.2cm" y="4cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.GV_INCO1"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <field h="0.5cm" name="fld_det_9_2" w="4cm" x="4.6cm" y="4cm">
+               <ui><textEdit multiLine="1"/></ui>
+               <bind match="dataRef" ref="$.GV_INCO2"/>
+               <font size="8pt" typeface="Arial"/>
+               <para vAlign="middle"/>
+            </field>
+            <subform h="5cm" layout="position" name="det_lbl_en" presence="hidden" w="3.2cm" x="0cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.5cm" name="lbl_det_en_1" w="3.2cm" x="0cm" y="0cm">
+                  <value><text>PO Date</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_2" w="3.2cm" x="0cm" y="0.5cm">
+                  <value><text>Delivery Date</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_3" w="3.2cm" x="0cm" y="1cm">
+                  <value><text>Department</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_4" w="3.2cm" x="0cm" y="1.5cm">
+                  <value><text>Buyer Name</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_5" w="3.2cm" x="0cm" y="2cm">
+                  <value><text>Telephone Number</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_6" w="3.2cm" x="0cm" y="2.5cm">
+                  <value><text>Fax Number</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_7" w="3.2cm" x="0cm" y="3cm">
+                  <value><text>Email address</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_8" w="3.2cm" x="0cm" y="3.5cm">
+                  <value><text>Payment Terms</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_9" w="3.2cm" x="0cm" y="4cm">
+                  <value><text>Inco Terms</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_en_10" w="3.2cm" x="0cm" y="4.5cm">
+                  <value><text>Additional Comments</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+            </subform>
+            <subform h="5cm" layout="position" name="det_lbl_fr" presence="hidden" w="3.2cm" x="0cm" y="0cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                  var v = f ? f.rawValue : "";
+                  this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+               </event>
+               <draw h="0.5cm" name="lbl_det_fr_1" w="3.2cm" x="0cm" y="0cm">
+                  <value><text>Date de Bon de Cde.</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_2" w="3.2cm" x="0cm" y="0.5cm">
+                  <value><text>Date de Livraison</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_3" w="3.2cm" x="0cm" y="1cm">
+                  <value><text>Department</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_4" w="3.2cm" x="0cm" y="1.5cm">
+                  <value><text>Nom de l'acheteur</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_5" w="3.2cm" x="0cm" y="2cm">
+                  <value><text>Numero Telephone</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_6" w="3.2cm" x="0cm" y="2.5cm">
+                  <value><text>Numero Fax</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_7" w="3.2cm" x="0cm" y="3cm">
+                  <value><text>Email address</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_8" w="3.2cm" x="0cm" y="3.5cm">
+                  <value><text>Termes de Paiement</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_9" w="3.2cm" x="0cm" y="4cm">
+                  <value><text>Inco Terms</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+               <draw h="0.5cm" name="lbl_det_fr_10" w="3.2cm" x="0cm" y="4.5cm">
+                  <value><text>Commentaires</text></value>
+                  <font size="8pt" typeface="Arial" weight="bold"/>
+                  <para vAlign="middle"/>
+               </draw>
+            </subform>
+         </subform>
+      </subform>
       <proto/>
       <desc>
          <text name="version">11.0.9.20240701.1.52.2</text>
