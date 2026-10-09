@@ -931,3 +931,49 @@ IF v_flag = 'X'.
 *split wa_eban-banfn at ',' into gv_prno1 gv_prno2.
   ENDLOOP.
 ENDIF.
+
+" --- (3g) formatted header values: the Smart Form text nodes print these through WRITE (user formats, conversion exits);
+"      bound raw they would lose that and the CURR ones would need currency reference fields. (new)
+CLEAR gs_fmt_out.
+WRITE lv_kwert TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-lv_kwert = lv_wr.
+WRITE lv_kwert1 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-lv_kwert1 = lv_wr.
+WRITE v_kwert TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v_kwert = lv_wr.
+WRITE v2_kwert TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v2_kwert = lv_wr.
+WRITE v1_kwert TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v1_kwert = lv_wr.
+WRITE v1_zpk1 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v1_zpk1 = lv_wr.
+WRITE v1_zfob TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v1_zfob = lv_wr.
+WRITE v1_zdoc TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v1_zdoc = lv_wr.
+WRITE v_fval TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v_fval = lv_wr.
+WRITE v_fval1 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v_fval1 = lv_wr.
+WRITE lv_fval1 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-lv_fval1 = lv_wr.
+WRITE lv_fval2 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-lv_fval2 = lv_wr.
+WRITE v_badat TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v_badat = lv_wr.
+WRITE lv_eindt TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-lv_eindt = lv_wr.
+WRITE v_banfn TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-v_banfn = lv_wr.
+WRITE lv_lifnr TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-lv_lifnr = lv_wr.
+WRITE gv_prno1 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-gv_prno1 = lv_wr.
+WRITE gv_prno2 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-gv_prno2 = lv_wr.
+WRITE gv_prno3 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-gv_prno3 = lv_wr.
+WRITE gv_prno4 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-gv_prno4 = lv_wr.
+WRITE gv_prno5 TO lv_wr LEFT-JUSTIFIED.
+gs_fmt_out-gv_prno5 = lv_wr.

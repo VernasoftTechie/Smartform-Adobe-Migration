@@ -130,6 +130,7 @@
       <SFPGDATA><NAME>GV_EKPO_TOTAL_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GV_ESLL_TOTAL_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GT_ITXT_OUT</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_ITXT_OUT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GS_FMT_OUT</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_S_FMT_OUT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
       <FPCLINE>types:begin of ty_count,</FPCLINE>
@@ -137,6 +138,29 @@
       <FPCLINE>end of ty_count.</FPCLINE>
       <FPCLINE>TYPES: TY_TLINE_TAB TYPE TABLE OF TLINE.</FPCLINE>
       <FPCLINE>TYPES: TY_COUNT_TAB TYPE TABLE OF TY_COUNT.</FPCLINE>
+      <FPCLINE>TYPES: BEGIN OF ty_s_fmt_out,</FPCLINE>
+      <FPCLINE>         lv_kwert TYPE string,</FPCLINE>
+      <FPCLINE>         lv_kwert1 TYPE string,</FPCLINE>
+      <FPCLINE>         v_kwert TYPE string,</FPCLINE>
+      <FPCLINE>         v2_kwert TYPE string,</FPCLINE>
+      <FPCLINE>         v1_kwert TYPE string,</FPCLINE>
+      <FPCLINE>         v1_zpk1 TYPE string,</FPCLINE>
+      <FPCLINE>         v1_zfob TYPE string,</FPCLINE>
+      <FPCLINE>         v1_zdoc TYPE string,</FPCLINE>
+      <FPCLINE>         v_fval TYPE string,</FPCLINE>
+      <FPCLINE>         v_fval1 TYPE string,</FPCLINE>
+      <FPCLINE>         lv_fval1 TYPE string,</FPCLINE>
+      <FPCLINE>         lv_fval2 TYPE string,</FPCLINE>
+      <FPCLINE>         v_badat TYPE string,</FPCLINE>
+      <FPCLINE>         lv_eindt TYPE string,</FPCLINE>
+      <FPCLINE>         v_banfn TYPE string,</FPCLINE>
+      <FPCLINE>         lv_lifnr TYPE string,</FPCLINE>
+      <FPCLINE>         gv_prno1 TYPE string,</FPCLINE>
+      <FPCLINE>         gv_prno2 TYPE string,</FPCLINE>
+      <FPCLINE>         gv_prno3 TYPE string,</FPCLINE>
+      <FPCLINE>         gv_prno4 TYPE string,</FPCLINE>
+      <FPCLINE>         gv_prno5 TYPE string.</FPCLINE>
+      <FPCLINE>       END OF ty_s_fmt_out.</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_s_head_out,</FPCLINE>
       <FPCLINE>         idx    TYPE i,</FPCLINE>
       <FPCLINE>         tdline TYPE tline-tdline,</FPCLINE>
@@ -242,17 +266,29 @@
     <CL_FP_CODING classVersion="1">
      <INPUT_PARAMETERS>
       <FPPARAMETER>V_PONO</FPPARAMETER>
+      <FPPARAMETER>V_BANFN</FPPARAMETER>
+      <FPPARAMETER>V_BADAT</FPPARAMETER>
       <FPPARAMETER>WA_PLANT</FPPARAMETER>
       <FPPARAMETER>V_BSART</FPPARAMETER>
       <FPPARAMETER>V_FLAG</FPPARAMETER>
       <FPPARAMETER>V_FVAL</FPPARAMETER>
       <FPPARAMETER>V_FVAL1</FPPARAMETER>
       <FPPARAMETER>V_EBELN</FPPARAMETER>
+      <FPPARAMETER>LV_KWERT</FPPARAMETER>
+      <FPPARAMETER>LV_EINDT</FPPARAMETER>
+      <FPPARAMETER>V_KWERT</FPPARAMETER>
+      <FPPARAMETER>V1_KWERT</FPPARAMETER>
+      <FPPARAMETER>V2_KWERT</FPPARAMETER>
       <FPPARAMETER>V_WAERS</FPPARAMETER>
+      <FPPARAMETER>LV_KWERT1</FPPARAMETER>
+      <FPPARAMETER>V1_ZDOC</FPPARAMETER>
+      <FPPARAMETER>V1_ZFOB</FPPARAMETER>
+      <FPPARAMETER>V1_ZPK1</FPPARAMETER>
       <FPPARAMETER>LV_KTOKK</FPPARAMETER>
       <FPPARAMETER>LV_EKGRP</FPPARAMETER>
       <FPPARAMETER>LV_CENTS</FPPARAMETER>
       <FPPARAMETER>LV_KTEXT</FPPARAMETER>
+      <FPPARAMETER>LV_LIFNR</FPPARAMETER>
       <FPPARAMETER>IT_EKPO</FPPARAMETER>
       <FPPARAMETER>IT_ESLL</FPPARAMETER>
       <FPPARAMETER>IT_EBAN</FPPARAMETER>
@@ -312,6 +348,7 @@
       <FPPARAMETER>GV_EKPO_TOTAL_TXT</FPPARAMETER>
       <FPPARAMETER>GV_ESLL_TOTAL_TXT</FPPARAMETER>
       <FPPARAMETER>GT_ITXT_OUT</FPPARAMETER>
+      <FPPARAMETER>GS_FMT_OUT</FPPARAMETER>
      </INPUT_PARAMETERS>
      <OUTPUT_PARAMETERS>
       <FPPARAMETER>LV_SWAP_TEXT_SES</FPPARAMETER>
@@ -370,6 +407,7 @@
       <FPPARAMETER>GV_EKPO_TOTAL_TXT</FPPARAMETER>
       <FPPARAMETER>GV_ESLL_TOTAL_TXT</FPPARAMETER>
       <FPPARAMETER>GT_ITXT_OUT</FPPARAMETER>
+      <FPPARAMETER>GS_FMT_OUT</FPPARAMETER>
       <FPPARAMETER>V_NETWR</FPPARAMETER>
      </OUTPUT_PARAMETERS>
      <INITIALIZATION>
@@ -1306,6 +1344,52 @@
       <FPCLINE>*split wa_eban-banfn at &apos;,&apos; into gv_prno1 gv_prno2.</FPCLINE>
       <FPCLINE>  ENDLOOP.</FPCLINE>
       <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" --- (3g) formatted header values: the Smart Form text nodes print these through WRITE (user formats, conversion exits);</FPCLINE>
+      <FPCLINE>"      bound raw they would lose that and the CURR ones would need currency reference fields. (new)</FPCLINE>
+      <FPCLINE>CLEAR gs_fmt_out.</FPCLINE>
+      <FPCLINE>WRITE lv_kwert TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-lv_kwert = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE lv_kwert1 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-lv_kwert1 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v_kwert TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v_kwert = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v2_kwert TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v2_kwert = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v1_kwert TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v1_kwert = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v1_zpk1 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v1_zpk1 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v1_zfob TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v1_zfob = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v1_zdoc TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v1_zdoc = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v_fval TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v_fval = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v_fval1 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v_fval1 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE lv_fval1 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-lv_fval1 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE lv_fval2 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-lv_fval2 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v_badat TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v_badat = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE lv_eindt TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-lv_eindt = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE v_banfn TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-v_banfn = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE lv_lifnr TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-lv_lifnr = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE gv_prno1 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-gv_prno1 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE gv_prno2 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-gv_prno2 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE gv_prno3 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-gv_prno3 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE gv_prno4 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-gv_prno4 = lv_wr.</FPCLINE>
+      <FPCLINE>WRITE gv_prno5 TO lv_wr LEFT-JUSTIFIED.</FPCLINE>
+      <FPCLINE>gs_fmt_out-gv_prno5 = lv_wr.</FPCLINE>
      </INITIALIZATION>
      <FORMS/>
     </CL_FP_CODING>

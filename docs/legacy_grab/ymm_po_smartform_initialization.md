@@ -35,6 +35,33 @@ Types `ty_s_head_out/ty_t_head_out`, `ty_s_item_out/ty_t_item_out`, `ty_s_itxt_o
 `WRITE ... TO` (same formatting as the Smart Form text nodes), so no QUAN/CURR reference fields
 are needed.
 
+Added with the Context step (revision 2 of the interface): global structure `GS_FMT_OUT`
+(type `ty_s_fmt_out`, block 3g). The Smart Form text nodes print KWERT/NETWR amounts, the PR date,
+the delivery date and ALPHA-exit numbers (PR no., vendor code, PR list) through WRITE; bound raw
+they would lose that formatting and the CURR ones would need currency reference fields (S04/F9).
+They are therefore written to text once, with `WRITE ... TO ... LEFT-JUSTIFIED` (equivalent of the
+`(C)` condense used in the text nodes).
+
+## Context (92 nodes, built with tools/sfp_context.mjs, only the three proven shapes)
+
+- 33 scalars: plain character values the text nodes print, plus the values the layout needs for the
+  legacy conditions (`V_BSART`, `V_FLAG`, `LV_COND`, `LV_KTOKK`, `LV_EKGRP`, `LV_BUKRS`, `LV_FLAG`,
+  `IV_REL_INDICATOR`, `LV_SWAP_TEXT_SES`, `CUR_KEY`, `V_WAERS`) - conditions are evaluated in the
+  layout from these (non-empty Context conditions are not a proven shape).
+- 4 structures: `WA_PLANT` (NAME1, WERKS), `WA_VEND`, `WA_T005T`, `GS_FMT_OUT`.
+- 4 loops over global tables (flat, one level, no nesting): `GT_HEAD_OUT`, `GT_EKPO_OUT`,
+  `GT_ESLL_OUT`, `GT_ITXT_OUT`. `IT_EKPO/IT_ESLL/IT_EBAN` are not looped: the print tables replace them.
+- No QUAN/CURR field is bound, so no reference fields are needed.
+- Not bound on purpose: fields printed only in dead (`1 = 2`) nodes or only on the unexecuted page-2
+  copy (`WA_PLANT-STRAS/ORT01/PFACH`, `V_ZTERM`, `V_NETPR`, `LV_TEXT`).
+
+## Client decisions received (status file, 2026-10-09T11:05Z)
+
+"For styles take the best possible selection on your own; on the rest make your own decisions to
+fit in best possible." Applied: fonts are Arial placeholders chosen from the Smart Form paragraph
+formats (Developer Extension Point, not a silent guess); D1-D3 below stand (all lines printed);
+page 1 `MAIN` is treated as the executed flow (Q1 stays flagged until a PDF comparison).
+
 ## Deviations from "legacy verbatim" (listed, not silent)
 
 - D1 Header texts: the legacy chunk loop prints `round(lines/100)` x 100 lines, so with 101-149

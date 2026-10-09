@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:05:27.362Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:16:19.196Z
+WAITING_ON: operator
+NOTE: Context (92 nodes) and a small interface revision are pushed. In abapGit PULL this branch (it updates YMM_PO_SMARTFORM_INT and YMM_PO_SMARTFORM_ADT together; do not change anything in SFP between the pull and the next step), ACTIVATE the interface and then the form, open the Context tab and check it shows the nodes without errors. Report the exact error text if anything fails. If it is clean, confirm in Bolt Console; no push back is needed unless SFP changed something. Layout is built only after your confirmation.
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -29,3 +29,12 @@ Not done yet, by design: Context, layout, sign-off. Nothing is complete until yo
 Client confirmed the manual step is done: 1. For Styles - Take the best possible selection on your own.. On rest of the points make your own decisions to fit in best possible..
 
 I've pulled the interface object and pushed the adobe form..
+
+## 2026-10-09T11:16:19.196Z — Context built on your baseline, waiting for your pull
+Verified your baseline first: empty Context (no child nodes), root subform named data, and the interface round-tripped from SAP with no difference to what we pushed, so the interface imported cleanly on your side. Thank you for the style/decision guidance; fonts will use Arial placeholders chosen from the legacy paragraph formats (Developer Extension Point), and the open points (print all text lines, page 1 main window as the executed flow) go ahead as proposed.
+
+**Pushed:** (1) src/ymm_po_smartform_adt.sfpf.xml now carries the Context: 33 scalars, 4 structures (WA_PLANT, WA_VEND, WA_T005T and the new GS_FMT_OUT) and 4 flat table loops (GT_HEAD_OUT, GT_EKPO_OUT, GT_ESLL_OUT, GT_ITXT_OUT), built only from the three proven node shapes and only onto your empty Context. Your .xdp layout file is untouched (byte-identical). (2) src/ymm_po_smartform_int.sfpi.xml revision 2: one added global structure GS_FMT_OUT plus 46 more Initialization lines that write the amounts, dates and ALPHA-exit numbers the Smart Form printed (KWERT amounts, PR date, PR/vendor numbers) into text, so no currency reference fields are needed. Details: docs/legacy_grab/ymm_po_smartform_initialization.md.
+
+**Checks:** sfp_check context 0 fail, 0 warn (10 passed, every bound field exists in the interface, node graph consistent); sfp_check interface 0 fail, 172 warn, 292 passed (same WARN groups as the previous entry: added globals and legacy nodes deliberately not carried).
+
+**Still unconfirmed:** the Initialization ABAP has never been compiled; please send the exact error text from the interface activation if there is one. Not built yet: layout and sign-off.
