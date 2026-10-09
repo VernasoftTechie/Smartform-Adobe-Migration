@@ -3,15 +3,15 @@
 Evidence source for every number below: window table of `YMM_PO_SMARTFORM_extract.md` section 4 and the
 raw `OUTATTR` of each window in `ymm_po_smartform.xml`.
 
-## Page and scaling
+## Page and geometry (revised: exact legacy positions)
 
-- A4 portrait (`long=297mm short=210mm`), one `pageArea`, `contentArea` x=10 mm y=10 mm w=190 mm h=277 mm
-  (1 cm margins, rulebook S02/F48).
-- The legacy windows span x = 0.17 .. 20.59 cm (20.42 cm wide, 0.41 cm from the right edge). To honour the 1 cm
-  margin rule every x and width is scaled by 19/20.42 = 0.9305 and shifted by -0.17 cm; heights and y keep their
-  legacy value (minus 0.03 cm, the top of `COMPANY_NAME`). Unscaled geometry would need 0.4 cm margins - say so
-  after the preview if you prefer that.
-- Body is `po_doc` (layout tb, flowing) holding hidden condition holders and `po_header` (position, 19 x 9.67 cm).
+Owner request 2026-10-09: every window at its legacy position. Coordinates are page-absolute as in the Smart Form export.
+
+- A4 portrait. Page 1 content area = the legacy MAIN window region: x 0.17 cm, y 0.03 cm, w 20.42 cm, h 25.80 cm (bottom 25.83 cm). Page 2 content area = legacy %WINDOW7: x 0.17, y 0.63, w 20.42, h 25.00 (bottom 25.63). Two page areas (page 1 once, page 2 repeated).
+- The page-1 header block (`po_header`, 20.42 x 9.73 cm, origin 0.17/0.03) holds the legacy windows at their exact left/top/width/height; the flow (MAIN window) therefore starts at y = 9.76 cm like the legacy MAIN window.
+- Margins are therefore 0.17 cm left and 0.41 cm right (the legacy values); the rulebook S02/F48 margin rule (at least 1 cm) is deliberately not applied. `sfp_check` warns; if the preview shows overflow badges, the first thing to try is the scaled variant (x and width x 0.93).
+- Tables: legacy column widths unscaled (19.30 cm) with the table left margin 0.07 cm.
+- Independent audit (generated XDP versus export window table): logo, COMPANY_NAME, HEADING_PO, PR_DETAILS, PO_DETAILS, SUPPLIER_ORDER_ADDRESS match to 0.01 cm; LOCAL_IMPORT_PO_TEXT keeps left/top/height but is 20.26 cm wide instead of 20.42 (borderless window that would otherwise exceed its parent by 0.16 cm). PR_DETAILS has no left value in the export: 0.30 cm assumed.
 
 ## Increment 1 — page-1 header block (this push)
 
@@ -49,8 +49,6 @@ directly. Amounts, the PR date and PR/vendor numbers come from `GS_FMT_OUT` (alr
 
 ## Increment 2 — header texts and item tables (page-1 MAIN flow)
 
-Content area is now 190 x 255 mm (bottom room reserved for the page footer, increment 4).
-
 | Legacy node(s) | Layout | Evidence |
 |---|---|---|
 | `%LOOP70/71` + `%TEXT198` (header text lines) | `head_texts` / `head_row`, one growable line per `GT_HEAD_OUT` row, 8 pt | extract section 4, MAIN window; the 100-line chunk loop is not carried (D1) |
@@ -62,8 +60,8 @@ Content area is now 190 x 255 mm (bottom room reserved for the page footer, incr
 | footer words (`%ROW29`, `%ROW30`) | one full-width cell: "Total Value In Words(K): words INCO1 INCO2 basis"; for ZIMP/ZLOC "Total Order Value In Words(...)" | `AMOUNT_WORDS`, `%TEXT171`, `%TEXT49` |
 
 Table frame and cell borders: the export shows a 0.75 pt frame, header cells with all four sides and item/footer
-cells with left/right/bottom; here every cell has four 0.26 mm edges (adjacent edges coincide).
-Widths are scaled by 19.00/19.30 so the table fits the 19 cm content width.
+cells with left/right/bottom; here every cell has four 0.26 mm edges (adjacent edges coincide). Column widths are the
+legacy ones (19.30 cm); EKPO header cell 5 is the two paragraphs "Req." / "Qty", ESLL header cell 5 is "Req.Qty".
 
 ### Deliberate deviation from the S06 default — UNCONFIRMED in the client's SAP
 
@@ -104,13 +102,12 @@ and the legacy `YMM_PO_STYLE` spacing between paragraphs is not reproduced. Stat
 
 ## Increment 4 — master page: watermark and page footer (UNCONFIRMED in the client's SAP)
 
-Content area is now 190 x 245 mm (ends at 25.5 cm) so the footer can sit at the legacy position of the `PAGE_NO`
-window (25.80 cm, 20.42 x 0.90 cm, box). The master page (`pageArea`, prints on every page) holds:
+Two master pages (page 1 and page 2, exactly as the legacy form has two pages) hold:
 
 | Legacy | Layout | Evidence |
 |---|---|---|
 | `WATER_MARK` window (1.52/17.76, 18.00 x 4.70 cm; on pages 1 and 2) with the alternative `%CONDITION127` (`LV_FLAG = 'Y'`, which `%CODE21` sets for release indicator R or A) | `wm_approved` "Approved PO" when `IV_REL_INDICATOR` is R or A, else `wm_unapproved` "UnApproved PO"; 56 pt Courier New bold, grey, centred | `%CODE21`, raw XML of `%CONDITION127` (the extract tree omits that condition) |
-| `PAGE_NO` window, text `%TEXT110` "PO No:&V_PONO& Page &SFSY-PAGE& of &SFSY-FORMPAGES(3ZC)&" | `mp_footer`: box, one field with a calculate script "PO No:<V_PONO>   Page <absPage> of <pageCount>" (`xfa.layout.absPage/pageCount`, the pilot's page counter) | extract section 4 |
+| `PAGE_NO` window (0.17/25.80 on page 1, 0.17/25.70 on page 2), text `%TEXT110` "PO No:&V_PONO& Page &SFSY-PAGE& of &SFSY-FORMPAGES(3ZC)&" | `mp_footer`: box, one field with a calculate script "PO No:<V_PONO>   Page <absPage> of <pageCount>" (`xfa.layout.absPage/pageCount`, the pilot's page counter) | extract section 4 |
 
 The two data values reach the master page through hidden fields bound with `$record.IV_REL_INDICATOR` and
 `$record.V_PONO` (Adobe's *Purchase Order Dynamic* sample binds its master page the same way). `sfp_check` warns
@@ -123,9 +120,8 @@ footer text has no blank first line (legacy had one empty `PF` paragraph before 
 
 ### Not built (stated, not hidden)
 
-- The legacy MAIN window outline box (page 1: 9.76-25.83 cm, page 2: 0.63-25.63 cm) is not drawn; the tables and the
-  terms blocks carry their own borders. A box that differs per page would need two page areas.
-- Page 2 uses the same content area as page 1 (the header block is page 1 only, as in the legacy form).
+- The MAIN window outline box is now drawn on both master pages (page 1: 9.76-25.83 cm, page 2: 0.63-25.63 cm).
+- Page 2 has its own page area with the legacy %WINDOW7 geometry; the header block is page 1 only, as in the legacy form.
 - The unreferenced legacy page-2 copy of the main window (see Q1 in `ymm_po_smartform_initialization.md`) is not built.
 
 ### Coverage of legacy printed fields (36 legacy references without a same-named binding)
