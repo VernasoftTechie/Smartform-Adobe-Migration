@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:33:53.154Z
-WAITING_ON: operator
-NOTE: Corrected interface pushed (fixes the SAP error Statement END not allowed in context). In abapGit PULL this branch again (interface and form), ACTIVATE the interface and then the form, open the Context tab and check the nodes show without errors. Report the exact error text if anything fails, otherwise confirm in Bolt Console. No push back is needed. Layout is built only after your confirmation.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:38:42.159Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -45,3 +45,6 @@ Reported by SAP on activation of YMM_PO_SMARTFORM_INT: 2 errors, Statement END n
 **Cause (ours):** in the TYPES block of interface revision 2 the new structure ty_s_fmt_out ended its last component line (gv_prno5) with a period instead of a comma, which closed the TYPES statement before END OF ty_s_fmt_out. The same defect is reported twice by SAP. It is one character in src/ymm_po_smartform_int.sfpi.xml; nothing else changed and the Context file is unchanged.
 
 **Checked before pushing:** every TYPES statement in the interface is a well-formed chain (7 statements, 0 malformed); every IF/LOOP/DO/CASE in the Initialization has its END statement (0 unclosed, 0 mismatched); sfp_check interface 0 fail, 172 warn (same groups as before); sfp_check context 0 fail, 0 warn. As before, the Initialization has never been compiled, so a further error is possible; please send the exact text if one appears.
+
+## 2026-10-09T11:38:42.159Z — Manual activity confirmed
+Client confirmed the manual step is done.
