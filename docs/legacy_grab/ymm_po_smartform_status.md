@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:50:06.792Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:54:21.920Z
+WAITING_ON: operator
+NOTE: Layout increment 2 (header texts + item tables) is pushed. In abapGit PULL this branch, ACTIVATE the form and PREVIEW with (a) a normal purchase order (V_FLAG = X) with 3+ items, (b) one with MORE THAN 25 items so it runs onto page 2, (c) a service order (V_FLAG = Y). Report: do the item rows grow when the description / material text is long, is the column header repeated on page 2, are the totals and the words line shown at the end, is anything clipped or overlapping, and any activation error text exactly (screenshots help). Confirm in Bolt Console or report problems.
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -58,3 +58,10 @@ Client confirmed the manual step is done.
 
 ## 2026-10-09T11:50:06.792Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:54:21.920Z — Layout increment 2 pushed (header texts, item tables), waiting for your preview
+**Delivered** in src/ymm_po_smartform_adt.sfpf.xdp (on top of increment 1, your baseline and Context untouched): the header text lines, the item table for V_FLAG = X (SNo, Item Code, Description with material text, UOM, Req. Qty, Unit Rate, Value) and the service table for V_FLAG = Y, each with a repeating column header, a total, and the Total Value In Words line. Page content area is now 190 x 255 mm (room kept for the page footer, increment 4). Details and evidence per node: docs/legacy_grab/ymm_po_smartform_layout_notes.md.
+
+**Checks (sfp_check layout):** 22 passed (nothing outside the template differs from your baseline, margins >= 1 cm, geometry, bind syntax, all bindings resolve to Context nodes). **3 FAIL, all explained:** (1) 60 legacy printed fields not bound yet: the item texts, terms and conditions variants, watermark, and fields that the print tables replaced (GV_DMBTR, GV_DMBTR_TOTAL, GV_TEXT are bound as GT_ESLL_OUT / GT_EKPO_OUT columns); (2) and (3) the checker requires continuation containers to be layout tb; the two item tables are deliberately Adobe table/row layouts (see below), 8 matching S06 warnings. WARN: 35 holder fields the legacy form did not print, SFSY page fields (increment 4), 165 legacy static texts not yet in the layout, 1 S06 note.
+
+**UNCONFIRMED and different from our usual pattern:** the item tables use Adobe’s own table/row construct copied from the Designer 11 Purchase Order sample, because item descriptions and material long texts must grow and S06 position rows have a fixed height. This is not yet proven in your SAP. If the preview is wrong, say what you see; the fallback is the S06 fixed-height row with the header row as overflow leader. Also unconfirmed: repeating of the column header on page 2 (rulebook 8.10), alignment (SNo centred, text left, numbers right) and bold values (character format C4 assumed bold), Arial placeholder fonts. The legacy chunking of header texts is not carried: all lines print. The MAIN window outline box and the page-2 geometry are not built yet.

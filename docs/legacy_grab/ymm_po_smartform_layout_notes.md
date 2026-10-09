@@ -46,3 +46,37 @@ directly. Amounts, the PR date and PR/vendor numbers come from `GS_FMT_OUT` (alr
 2. Header texts, EKPO/ESLL item table with repeating header (rulebook 8.10, unconfirmed), totals, amount in words.
 3. Item texts F01-F05 and the terms-and-conditions variants (18 variants selected by V_FLAG / LV_COND ...).
 4. Watermark and "PO No / Page x of y" on every page (needs master-page content or the documented fallback).
+
+## Increment 2 — header texts and item tables (page-1 MAIN flow)
+
+Content area is now 190 x 255 mm (bottom room reserved for the page footer, increment 4).
+
+| Legacy node(s) | Layout | Evidence |
+|---|---|---|
+| `%LOOP70/71` + `%TEXT198` (header text lines) | `head_texts` / `head_row`, one growable line per `GT_HEAD_OUT` row, 8 pt | extract section 4, MAIN window; the 100-line chunk loop is not carried (D1) |
+| `%TABLE1` (V_FLAG = X, IT_EKPO) | `items_ekpo`, columns 1.00/2.90/5.46/1.40/2.56/2.80/3.18 cm | table `CELLS` in the export (19.30 cm) |
+| `%TABLE2` (V_FLAG = Y, IT_ESLL) | `items_esll`, columns 1.00/3.00/5.93/1.50/2.33/2.46/3.08 cm | same (19.30 cm) |
+| header row (`%ROW1`, `%ROW5`) | repeating header row (`occur max=-1`), titles SNo / Item Code / Description / UOM / Req. Qty / Unit Rate (CUR) / Value (CUR) | `%TEXT5-9,15,106`, `%TEXT24-29,98` |
+| item row (`%ROW2`, `%ROW6`) | one row per `GT_EKPO_OUT` / `GT_ESLL_OUT` record; description cell = short text + material long text (EKPO) | `%TEXT10/11/101/102/13/21/16/14/184/107/187`, `%TEXT30/31/103/33/35/34/185/42/186` |
+| footer total (`%ROW9`, `%ROW4`) | six empty bordered cells + total text in the last column | `%TEXT108/189`, `%TEXT18/188` |
+| footer words (`%ROW29`, `%ROW30`) | one full-width cell: "Total Value In Words(K): words INCO1 INCO2 basis"; for ZIMP/ZLOC "Total Order Value In Words(...)" | `AMOUNT_WORDS`, `%TEXT171`, `%TEXT49` |
+
+Table frame and cell borders: the export shows a 0.75 pt frame, header cells with all four sides and item/footer
+cells with left/right/bottom; here every cell has four 0.26 mm edges (adjacent edges coincide).
+Widths are scaled by 19.00/19.30 so the table fits the 19 cm content width.
+
+### Deliberate deviation from the S06 default — UNCONFIRMED in the client's SAP
+
+The two item tables use Adobe's own table construct (`layout="table"` with `layout="row"` rows, `minH` growable
+multi-line cells, header row with `occur max=-1` named as `<overflow leader>` of the data row), copied from the
+Designer 11 sample `Purchase Order/Dynamic/Forms/Purchase Order.xdp`. S06 says to avoid `layout="row"` and uses
+fixed-height position rows; fixed-height rows clip item long text (material text can be 1,000+ characters), so
+growth was judged more important. `sfp_check` therefore reports FAIL "continuation container must be layout tb"
+and eight S06 `layout="row"` warnings for these two tables. **Fallback if the preview is wrong:** S06/S07 pattern 5
+position rows (fixed height) with the header row as the overflow leader (rulebook 8.10).
+
+### Not in this increment
+
+Item texts, terms and conditions, watermark, footer "PO No / Page x of y", the MAIN window outline box, the
+page-2 window geometry. The text-line column alignment (centre for SNo and headings, left for code/description,
+right for UOM/quantity/amounts) and the bold values (character format C4) are assumptions.
