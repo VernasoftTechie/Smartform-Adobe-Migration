@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:58:10.844Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T12:00:19.000Z
+WAITING_ON: operator
+NOTE: Final test results needed. Run the 15 tests listed in the last entry in SAP (activation, previews of goods, 25+ items, import, service, stock transfer, approved/unapproved, comments, numbers) and send one line per test (PASS or what is wrong) with your confirmation. This migration is not closed without your explicit test result.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -218,3 +218,36 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T11:58:10.844Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T12:00:19.000Z — Final test results needed before this form can be closed
+Thank you for confirming the last pulls. The confirmations so far came without any result, so I cannot tell what was tested, and nothing is closed on a bare confirmation. The form stays open until you send the results below. All four layout increments are on this branch (interface, Context, header blocks, goods and service tables with footers, frame and watermark). I am not changing anything until I hear from you.
+
+**Please send, in the confirmation text (or "Report a problem" with a screenshot), one line per test: PASS, or what is wrong**
+
+*A. Activation*
+1. Interface ZMMET_PO_SF_INT activates without errors or warnings.
+2. Form ZMMET_PO_SF_ADT activates without errors. Layout shows a page (not blank) with the frame and the header blocks. List every overflow or warning badge with its element name.
+
+*B. Preview with real purchase orders (compare each with the printout of the legacy Smart Form ZMMET_PO_SF for the same PO)*
+3. Goods PO (V_FLAG = X), 1 item: logo, title, PO number, delivery box, supplier grid, PO detail grid, item row, discount / freight / other lines, sub total, VAT, total, amount in words, terms text (ZPOL_ET).
+4. Goods PO with more than 25 items: on page 2 the frame, repeated column headings, rows in order, totals on the last page, nothing missing or overlapping.
+5. Import PO (ZPOI): title "Import Purchase Order", Insurance Charges line, terms text ZPOI_ET.
+6. Service PO (V_FLAG = Y, order type ZPOS): service table columns, Gross Price / Net Discount lines, terms text ZPOL_ET.
+7. Stock transfer PO (ZPOT or ZPIC): title "Stock Transfer PO", supplier grid shows the supplying plant data.
+8. A PO with release indicator R or A shows the watermark "Approved PO"; one without shows "UnApproved PO".
+9. A PO with V_POTEXT = X: "Additional Comments" table above the items; with V_POTEXT blank: the comments inside the PO detail grid.
+10. Numbers: unit price, value, totals and amount in words equal the legacy printout (also for a currency other than the document's two-decimal case, if you have one, for example JPY).
+11. Long material descriptions: the description cell grows and the row still reads correctly.
+
+*C. Questions I could not answer from the export*
+12. Is French output still needed? (Only the English wording is designed.)
+13. Does "Last Changed On" collide with the delivery box in your printout?
+14. Fonts, sizes and alignment: please send the SmartStyle exports of ZWSA_COMMON_STYLE, ZMM_PURCHASE_REQ and YMM_PO_STYLE (SMARTSTYLES > Utilities > Download), or the font, size, bold and alignment of the paragraphs P1 to P8 and the character formats B1, C4. Until then fonts are Arial placeholders.
+15. Does the logo show? (SE78 graphic DANGOTE LOGO WHITE; if not, send the exact name or the image.)
+
+**Known limits you should judge in the preview:** the Approved / UnApproved watermark is a light grey placeholder; the other cells of an item row stay 0.6 cm high when a description wraps to a second line; the signature rows for order type ZBUK are not drawn (their texts are switched off in the legacy form).
+
+When all lines are PASS and you accept the open points, say so in your confirmation and I record the sign-off. If anything fails, report the line number and what you see and I fix it and ask for a new test.
+
+## 2026-10-09T12:00:19.000Z — Action needed from you (SAP)
+Please run the tests above in SAP and send the results (one line per test) with your confirmation. If something differs from the legacy printout, use "Report a problem" with a screenshot. I will not close this migration without your explicit test result.
