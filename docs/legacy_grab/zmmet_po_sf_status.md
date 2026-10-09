@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:21:41.000Z
-WAITING_ON: operator
-NOTE: Context tree built and pushed. In SFP pull this branch onto form ZMMET_PO_SF_ADT, check the Context tree shows 89 nodes with no error, activate if you can, then confirm or report the exact error. If SAP asks for a reference field on the MENGE column, report it.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:29:39.531Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -102,3 +102,6 @@ Checked the branch first: the form you pushed (`src/zmmet_po_sf_adt.sfpf.xml`, c
 4. If it imports clean, click confirm and I start the layout. If SAP throws an error, use "Report a problem" with the exact message.
 
 **Still open:** French output needed or not? (Only the English master is designed.) Fonts: the SmartStyle YMM_PO_STYLE is not in the global library; the other two are.
+
+## 2026-10-09T11:29:39.531Z — Manual activity confirmed
+Client confirmed the manual step is done.
