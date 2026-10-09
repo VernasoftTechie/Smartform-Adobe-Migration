@@ -27,6 +27,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOR") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_zpor_t" w="14.1cm" x="0cm" y="0cm">
@@ -40,6 +41,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOC") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_zpoc_t" w="14.1cm" x="0cm" y="0cm">
@@ -53,6 +55,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_zpol_t" w="14.1cm" x="0cm" y="0cm">
@@ -66,6 +69,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOI") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_zpoi_t" w="14.1cm" x="0cm" y="0cm">
@@ -79,6 +83,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "YCAP") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_ycap_t" w="14.1cm" x="0cm" y="0cm">
@@ -92,6 +97,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "YRAW") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_yraw_t" w="14.1cm" x="0cm" y="0cm">
@@ -105,6 +111,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOS") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_zpos_t" w="14.1cm" x="0cm" y="0cm">
@@ -118,6 +125,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOT" || v === "ZPIC") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.8cm" name="ttl_zpot_t" w="14.1cm" x="0cm" y="0cm">
@@ -172,6 +180,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v !== "ZPOT") ? "visible" : "hidden";</script>
                   </event>
                   <field h="0.5cm" name="fld_sup_1" w="6.13cm" x="4cm" y="0cm">
@@ -257,6 +266,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOT" &amp;&amp; v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="lbl_sup_en_1" w="4cm" x="0cm" y="0cm">
@@ -330,6 +340,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="lbl_sup_fr_1" w="4cm" x="0cm" y="0cm">
@@ -404,6 +415,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOT") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.5cm" name="lbl_sto_1" w="3.5cm" x="0cm" y="0cm">
@@ -613,6 +625,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.5cm" name="lbl_det_en_1" w="3.2cm" x="0cm" y="0cm">
@@ -671,6 +684,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.5cm" name="lbl_det_fr_1" w="3.2cm" x="0cm" y="0cm">
@@ -771,6 +785,7 @@
                <occur max="-1"/>
                <bind match="none"/>
                <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+               <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                <draw h="0.9cm" name="g_h1" w="1.13cm" x="0cm" y="0cm">
                   <value><text>Sr No</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
@@ -782,6 +797,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.9cm" name="g_h2_en_t" w="3.14cm" x="0cm" y="0cm">
@@ -796,6 +812,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.9cm" name="g_h2_fr_t" w="3.14cm" x="0cm" y="0cm">
@@ -810,6 +827,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.9cm" name="g_h3_en_t" w="6.45cm" x="0cm" y="0cm">
@@ -824,6 +842,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.9cm" name="g_h3_fr_t" w="6.45cm" x="0cm" y="0cm">
@@ -850,6 +869,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.9cm" name="g_h6_en_t" w="2.37cm" x="0cm" y="0cm">
@@ -864,6 +884,7 @@
                   <event activity="initialize" name="initialize">
                      <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                      var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                      this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                   </event>
                   <draw h="0.9cm" name="g_h6_fr_t" w="2.37cm" x="0cm" y="0cm">
@@ -887,6 +908,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.45cm" name="g_h7_en_t" w="2.59cm" x="0cm" y="0cm">
@@ -900,6 +922,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.45cm" name="g_h7_fr_t" w="2.59cm" x="0cm" y="0cm">
@@ -985,11 +1008,13 @@
                   <bind match="none"/>
                   <draw h="0.5cm" name="g_f_disc_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
                   <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <subform h="0.5cm" layout="position" name="g_f_disc_en" presence="hidden" w="4.25cm" x="11.2cm" y="0cm">
                      <bind match="none"/>
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_disc_en_t" w="4.25cm" x="0cm" y="0cm">
@@ -1003,6 +1028,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_disc_fr_t" w="4.25cm" x="0cm" y="0cm">
@@ -1024,11 +1050,13 @@
                   <bind match="none"/>
                   <draw h="0.5cm" name="g_f_frg_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
                   <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <subform h="0.5cm" layout="position" name="g_f_frg_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
                      <bind match="none"/>
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_frg_en_t" w="4.3cm" x="0cm" y="0cm">
@@ -1042,6 +1070,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_frg_fr_t" w="4.3cm" x="0cm" y="0cm">
@@ -1063,11 +1092,13 @@
                   <bind match="none"/>
                   <draw h="0.5cm" name="g_f_oth_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
                   <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <subform h="0.5cm" layout="position" name="g_f_oth_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
                      <bind match="none"/>
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_oth_en_t" w="4.3cm" x="0cm" y="0cm">
@@ -1081,6 +1112,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_oth_fr_t" w="4.3cm" x="0cm" y="0cm">
@@ -1107,11 +1139,13 @@
                   <bind match="none"/>
                   <draw h="0.5cm" name="g_f_sub_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
                   <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <subform h="0.5cm" layout="position" name="g_f_sub_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
                      <bind match="none"/>
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_sub_en_t" w="4.3cm" x="0cm" y="0cm">
@@ -1125,6 +1159,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_sub_fr_t" w="4.3cm" x="0cm" y="0cm">
@@ -1146,11 +1181,13 @@
                   <bind match="none"/>
                   <draw h="0.5cm" name="g_f_vat_c1" w="11.2cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
                   <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <subform h="0.5cm" layout="position" name="g_f_vat_en" presence="hidden" w="4.3cm" x="11.2cm" y="0cm">
                      <bind match="none"/>
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_vat_en_t" w="4.3cm" x="0cm" y="0cm">
@@ -1164,6 +1201,7 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
                         this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.5cm" name="g_f_vat_fr_t" w="4.3cm" x="0cm" y="0cm">
@@ -1222,6 +1260,8 @@
                   <field h="1mm" name="f_words" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_AMT_WORDS"/></field>
                   <field h="1mm" name="f_inco1" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO1"/></field>
                   <field h="1mm" name="f_inco2" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO2"/></field>
+                  <field h="1mm" name="f_waers" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_WAERS"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <field minH="0.6cm" name="g_f_words_txt" w="19cm" x="0cm" y="0cm">
                      <ui><textEdit multiLine="1"/></ui>
                      <bind match="none"/>
@@ -1239,6 +1279,524 @@
                   </field>
                </subform>
             </subform>
+            <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+            <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
+            <subform layout="tb" name="g_terms_imp" presence="hidden" w="19cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var p = this.parent;
+                  function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                  var v = g("f_bsart"); var l = g("f_langu");
+                  this.presence = (v === "ZPOI") ? "visible" : "hidden";</script>
+               </event>
+               <subform layout="position" minH="1.0cm" name="folder1_E_head" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw minH="1.0cm" name="folder1_E_head_t" w="19cm" x="0cm" y="0cm">
+                     <value><text>&#10; Purchase Order Terms &amp; Conditions:&#10;</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin leftInset="0.25cm"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms1" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms1_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>1.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms1_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Vendor must send one non-negotiable original Master Bill of Lading directly to applicant bank, immediately after shipment is done.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms2" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms2_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>2.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms2_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Bill of Lading/Air Way Bill Number, Commercial Invoice, Packing List, Manufacturer Certificate, CCVO (Combined Certificate for Value &amp; Origin), ECTN (Electronic Cargo Tracking Note) are mandatory documents as shipping advice to buyer and our Clearing/Logistic Department.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms3" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms3_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>3.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms3_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>L/C (Letter of Credit) Number should appear on every individual shipping documents..</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms4" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms4_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>4.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms4_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>All the Bank charges within CONGO REPUBLIC are to Buyer's account &amp; all other bank charges are to supplier's account.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms5" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms5_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>5.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms5_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>The Purchase Order number must be reflected on all invoices to effect payment. All invoices must be sent to the Finance Department.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms6" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms6_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>6.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms6_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary documentation most accompany the goods or services. Otherwise, as a default, the items covered under this order shall stand guarantee/warranty of 18 months from the date of supply or 12 months from the date of installation / commissioning.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms7" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms7_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>7.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms7_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operating Manuals, Waste Disposal etc., needs to be current and must accompany this Purchase Order.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms8" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms8_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>8.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms8_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Logistics Manager&#10;Ste. Dangote Cement Congo SA,&#10;Quartier NDJINDJI, Vers CFAO CONGO,&#10;BP 1103, Pointe Noire,&#10;Republic of Congo&#10;Tel: +242 05 799 9383&#10;Email: DCCG-LOGISTICS@DANGOTE.COM&#10;       DCCG-PURCHASE@DANGOTE.COM</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms9" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms9_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>9.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms9_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Goods and/or Services would be accepted, only if it conforms to our quality and/or standard specifications.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms10" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms10_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>10.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms10_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Invoice shall be raised based on the lowest between principal vendor's weighbridge quantity and Dangote's weighbridge quantity.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder1_E_terms11" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <draw h="0.5cm" name="folder1_E_terms11_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>11.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder1_E_terms11_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>No variation in this terms and conditions will be accepted.&#10;</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+            </subform>
+            <subform layout="tb" name="g_terms_loc_en" presence="hidden" w="19cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var p = this.parent;
+                  function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                  var v = g("f_bsart"); var l = g("f_langu");
+                  this.presence = (v !== "ZPOI" &amp;&amp; !(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+               </event>
+               <subform layout="position" minH="1.0cm" name="folder2_E_head" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw minH="1.0cm" name="folder2_E_head_t" w="19cm" x="0cm" y="0cm">
+                     <value><text>&#10; Purchase Order Terms &amp; Conditions:&#10;</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin leftInset="0.25cm"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_1" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_1_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>1.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_1_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Prices expressed are based on a delivered price in Congo.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_2" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_2_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>2.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_2_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Unit Prices are exclusive of Value Added Tax (VAT).</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_3" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_3_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>3.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_3_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>The Purchase Order number must be reflected on all invoices to effect payment.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_4" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_4_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>4.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_4_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Payment terms, is strictly 30 days after delivery, unless otherwise agreed as per signed contractual agreement.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_5" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_5_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>5.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_5_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary documentation most accompany the goods or services. Otherwise, as a default, the items covered under this order shall stand guarantee/warranty of 18 months from the date of supply or 12 months from the date of installation / commissioning.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_6" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_6_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>6.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_6_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operating Manuals, Waste Disposal etc., needs to be current and must accompany this Purchase Order.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_7" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_7_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>7.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_7_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Goods and/or Services would be accepted, only if it conforms to our quality and/or standard specifications.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_8" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_8_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>8.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_8_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Invoice shall be raised based on the lowest between principal vendor's weighbridge quantity and Dangote's weighbridge quantity.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_9" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_9_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>9.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_9_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>All invoices must be sent to the Finance Department.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_E_term_10" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <draw h="0.5cm" name="folder2_E_term_10_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>10.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_E_term_10_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>No variation in this terms and conditions will be accepted.&#10;</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+            </subform>
+            <subform layout="tb" name="g_terms_loc_fr" presence="hidden" w="19cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var p = this.parent;
+                  function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                  var v = g("f_bsart"); var l = g("f_langu");
+                  this.presence = (v !== "ZPOI" &amp;&amp; (v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+               </event>
+               <subform layout="position" minH="1.0cm" name="folder2_F_head" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw minH="1.0cm" name="folder2_F_head_t" w="19cm" x="0cm" y="0cm">
+                     <value><text>&#10; Les autres termes et conditions applicables au bon de commande:&#10;</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin leftInset="0.25cm"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_1" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_1_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>1.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_1_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Prix exprimés sont basés sur un prix rendu au Congo.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_2" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_2_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>2.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_2_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_3" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_3_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>3.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_3_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Le numéro de commande doit être inscrit sur toutes les factures afin d'effectuer le paiement.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_4" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_4_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>4.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_4_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Le terme de paiement, est strictement de 30 jours après la livraison, sauf accord contraire conformément à l'accord contractuel signé.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_5" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_5_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>5.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_5_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Guarantie: Lorsqu' une garantie est applicable, la documentation nécessaire doit accompagner les biens ou les services. Sinon, par défaut, les éléments couverts par ce bon  seront garanties pour 18 mois à compter de la date d'installation / mise en service.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_6" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_6_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>6.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_6_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Tous les autres certificats réglementaires à l'exemple de la Fiche de données de Sécurité (FDS), les Manuels d'Utilisation, de traitement des dechets etc., doivent être actuels et doivent accompagner ce bon de commande.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_7" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_7_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>7.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_7_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Les marchandises et / ou services ne seront acceptés que s'ils sont conformes à nos standards de  qualités et / ou à nos spécifications standar ds.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_8" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_8_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>8.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_8_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>La facture doit être établie sur la base de la plus faible quantité entre celle du pont bascule du fournisseur principal et celle du pont bascule de Dangote.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_9" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_9_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>9.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_9_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Toutes les factures doivent être envoyées au Département des finances.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder2_F_term_10" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <draw h="0.5cm" name="folder2_F_term_10_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>10.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder2_F_term_10_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Aucune modification de ces termes et conditions ne sera acceptée.&#10;</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+            </subform>
+            <subform layout="tb" name="g_close" w="19cm">
+               <bind match="none"/>
+               <subform h="0.45cm" layout="position" name="g_cl_blank1" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_cl_blank1_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="g_cl_blank2" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_cl_blank2_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="g_cl_blank3" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_cl_blank3_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="g_cl_sign" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_cl_sign_1" w="6.33cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.45cm" name="g_cl_sign_3" w="6.34cm" x="12.66cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="g_cl_last" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="g_cl_last_1" w="5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/></border></draw>
+                  <draw h="0.45cm" name="g_cl_last_2" w="14cm" x="5cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
+               </subform>
+            </subform>
          </subform>
          <subform layout="tb" name="service_tbl" presence="hidden" w="19cm">
             <bind match="none"/>
@@ -1251,24 +1809,73 @@
                <occur max="-1"/>
                <bind match="none"/>
                <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+               <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                <draw h="0.9cm" name="s_h1" w="1.13cm" x="0cm" y="0cm">
                   <value><text>Sr No</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
                   <para hAlign="center" vAlign="middle"/>
                   <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
-               <draw h="0.9cm" name="s_h2" w="3.14cm" x="1.13cm" y="0cm">
-                  <value><text>Material No.</text></value>
-                  <font size="8pt" typeface="Arial" weight="bold"/>
-                  <para hAlign="center" vAlign="middle"/>
-                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
-               </draw>
-               <draw h="0.9cm" name="s_h3" w="5.7cm" x="4.27cm" y="0cm">
-                  <value><text>Item Description</text></value>
-                  <font size="8pt" typeface="Arial" weight="bold"/>
-                  <para hAlign="center" vAlign="middle"/>
-                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
-               </draw>
+               <subform h="0.9cm" layout="position" name="s_h2_en" presence="hidden" w="3.14cm" x="1.13cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                     this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.9cm" name="s_h2_en_t" w="3.14cm" x="0cm" y="0cm">
+                     <value><text>Material No.</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="center" vAlign="middle"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
+                  </draw>
+               </subform>
+               <subform h="0.9cm" layout="position" name="s_h2_fr" presence="hidden" w="3.14cm" x="1.13cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                     this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.9cm" name="s_h2_fr_t" w="3.14cm" x="0cm" y="0cm">
+                     <value><text>Code Article</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="center" vAlign="middle"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
+                  </draw>
+               </subform>
+               <subform h="0.9cm" layout="position" name="s_h3_en" presence="hidden" w="5.7cm" x="4.27cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                     this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.9cm" name="s_h3_en_t" w="5.7cm" x="0cm" y="0cm">
+                     <value><text>Item Description</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="center" vAlign="middle"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
+                  </draw>
+               </subform>
+               <subform h="0.9cm" layout="position" name="s_h3_fr" presence="hidden" w="5.7cm" x="4.27cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                     this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.9cm" name="s_h3_fr_t" w="5.7cm" x="0cm" y="0cm">
+                     <value><text>Description</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="center" vAlign="middle"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
+                  </draw>
+               </subform>
                <draw h="0.9cm" name="s_h4" w="2.2cm" x="9.97cm" y="0cm">
                   <value><text>Qty</text></value>
                   <font size="8pt" typeface="Arial" weight="bold"/>
@@ -1281,12 +1888,36 @@
                   <para hAlign="center" vAlign="middle"/>
                   <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
                </draw>
-               <draw h="0.9cm" name="s_h6" w="2.8cm" x="13.41cm" y="0cm">
-                  <value><text>Unit Price (Excl.VAT)</text></value>
-                  <font size="8pt" typeface="Arial" weight="bold"/>
-                  <para hAlign="center" vAlign="middle"/>
-                  <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
-               </draw>
+               <subform h="0.9cm" layout="position" name="s_h6_en" presence="hidden" w="2.8cm" x="13.41cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                     this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.9cm" name="s_h6_en_t" w="2.8cm" x="0cm" y="0cm">
+                     <value><text>Unit Price (Excl.VAT)</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="center" vAlign="middle"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
+                  </draw>
+               </subform>
+               <subform h="0.9cm" layout="position" name="s_h6_fr" presence="hidden" w="2.8cm" x="13.41cm" y="0cm">
+                  <bind match="none"/>
+                  <event activity="initialize" name="initialize">
+                     <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                     var v = f ? f.rawValue : "";
+                     var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                     this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                  </event>
+                  <draw h="0.9cm" name="s_h6_fr_t" w="2.8cm" x="0cm" y="0cm">
+                     <value><text>Prix Unitaire (Excl.TVA)</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para hAlign="center" vAlign="middle"/>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
+                  </draw>
+               </subform>
                <subform h="0.9cm" layout="position" name="s_h7" w="2.79cm" x="16.21cm" y="0cm">
                   <bind match="none"/>
                   <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><fill><color value="176,176,176"/></fill></border>
@@ -1301,7 +1932,8 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
-                        this.presence = (v !== "ZPOL") ? "visible" : "hidden";</script>
+                        var l = ""; try { var fl = this.parent.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.45cm" name="s_h7_en_t" w="2.79cm" x="0cm" y="0cm">
                         <value><text>Total (Excl.VAT)</text></value>
@@ -1314,10 +1946,11 @@
                      <event activity="initialize" name="initialize">
                         <script contentType="application/x-javascript">var f = this.parent.parent.resolveNode("f_bsart");
                         var v = f ? f.rawValue : "";
-                        this.presence = (v === "ZPOL") ? "visible" : "hidden";</script>
+                        var l = ""; try { var fl = this.parent.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
                      </event>
                      <draw h="0.45cm" name="s_h7_fr_t" w="2.79cm" x="0cm" y="0cm">
-                        <value><text>Total (Excl.VAT)</text></value>
+                        <value><text>Total (Excl.TVA)</text></value>
                         <font size="7pt" typeface="Arial" weight="bold"/>
                         <para hAlign="center" vAlign="middle"/>
                      </draw>
@@ -1398,11 +2031,36 @@
                <subform h="0.5cm" layout="position" name="s_f_gross" w="19cm">
                   <bind match="none"/>
                   <draw h="0.5cm" name="s_f_gross_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-                  <draw h="0.5cm" name="s_f_gross_lbl" w="4.33cm" x="11.5cm" y="0cm">
-                     <value><text>Gross Price</text></value>
-                     <font size="8pt" typeface="Arial"/>
-                     <para hAlign="right" vAlign="middle"/>
-                  </draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
+                  <subform h="0.5cm" layout="position" name="s_f_gross_en" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_gross_en_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>Gross Price</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="s_f_gross_fr" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_gross_fr_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>Prix Brut</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
                   <field h="0.5cm" name="s_f_gross_val" w="3.17cm" x="15.83cm" y="0cm">
                      <ui><textEdit/></ui>
                      <bind match="dataRef" ref="$.GS_TOTALS.GROSS"/>
@@ -1415,11 +2073,36 @@
                <subform h="0.5cm" layout="position" name="s_f_disc" w="19cm">
                   <bind match="none"/>
                   <draw h="0.5cm" name="s_f_disc_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-                  <draw h="0.5cm" name="s_f_disc_lbl" w="4.33cm" x="11.5cm" y="0cm">
-                     <value><text>Net Discount</text></value>
-                     <font size="8pt" typeface="Arial"/>
-                     <para hAlign="right" vAlign="middle"/>
-                  </draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
+                  <subform h="0.5cm" layout="position" name="s_f_disc_en" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_disc_en_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>Net Discount</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="s_f_disc_fr" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_disc_fr_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>Remise</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
                   <field h="0.5cm" name="s_f_disc_val" w="3.17cm" x="15.83cm" y="0cm">
                      <ui><textEdit/></ui>
                      <bind match="dataRef" ref="$.GS_TOTALS.DIS"/>
@@ -1442,11 +2125,36 @@
                <subform h="0.5cm" layout="position" name="s_f_sub" w="19cm">
                   <bind match="none"/>
                   <draw h="0.5cm" name="s_f_sub_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-                  <draw h="0.5cm" name="s_f_sub_lbl" w="4.33cm" x="11.5cm" y="0cm">
-                     <value><text>Sub Total</text></value>
-                     <font size="8pt" typeface="Arial" weight="bold"/>
-                     <para hAlign="right" vAlign="middle"/>
-                  </draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
+                  <subform h="0.5cm" layout="position" name="s_f_sub_en" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_sub_en_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>Sub Total</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="s_f_sub_fr" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_sub_fr_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>Sous Total</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
                   <field h="0.5cm" name="s_f_sub_val" w="3.17cm" x="15.83cm" y="0cm">
                      <ui><textEdit/></ui>
                      <bind match="dataRef" ref="$.GS_TOTALS.SUB"/>
@@ -1459,11 +2167,36 @@
                <subform h="0.5cm" layout="position" name="s_f_vat" w="19cm">
                   <bind match="none"/>
                   <draw h="0.5cm" name="s_f_vat_c1" w="11.5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-                  <draw h="0.5cm" name="s_f_vat_lbl" w="4.33cm" x="11.5cm" y="0cm">
-                     <value><text>VAT</text></value>
-                     <font size="8pt" typeface="Arial" weight="bold"/>
-                     <para hAlign="right" vAlign="middle"/>
-                  </draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
+                  <subform h="0.5cm" layout="position" name="s_f_vat_en" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (!(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_vat_en_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>VAT</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
+                  <subform h="0.5cm" layout="position" name="s_f_vat_fr" presence="hidden" w="4.33cm" x="11.5cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v === "ZPOL" || v === "ZPOS" || l === "F") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw h="0.5cm" name="s_f_vat_fr_t" w="4.33cm" x="0cm" y="0cm">
+                        <value><text>TVA</text></value>
+                        <font size="8pt" typeface="Arial" weight="bold"/>
+                        <para hAlign="right" vAlign="middle"/>
+                     </draw>
+                  </subform>
                   <field h="0.5cm" name="s_f_vat_val" w="3.17cm" x="15.83cm" y="0cm">
                      <ui><textEdit/></ui>
                      <bind match="dataRef" ref="$.GS_TOTALS.VAT"/>
@@ -1514,6 +2247,8 @@
                   <field h="1mm" name="f_words" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.LV_AMT_WORDS"/></field>
                   <field h="1mm" name="f_inco1" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO1"/></field>
                   <field h="1mm" name="f_inco2" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_INCO2"/></field>
+                  <field h="1mm" name="f_waers" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_WAERS"/></field>
+                  <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
                   <field minH="0.6cm" name="s_f_words_txt" w="19cm" x="0cm" y="0cm">
                      <ui><textEdit multiLine="1"/></ui>
                      <bind match="none"/>
@@ -1521,7 +2256,10 @@
                         <script contentType="application/x-javascript">var p = this.parent;
                         function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
                         var v = g("f_bsart");
-                        if (g("f_inco1") === "" &amp;&amp; g("f_inco2") === "") {
+                        if (v === "ZPOL" || v === "ZPOS" || g("f_langu") === "F") {
+                          if (g("f_inco1") === "" &amp;&amp; g("f_inco2") === "") this.rawValue = "Montant Total en Lettre(" + g("f_waers") + "): " + g("f_words") + " " + g("f_inco1") + " " + g("f_inco2");
+                          else this.rawValue = "Montant Total en Lettre(" + g("f_ktext") + "): " + g("f_words") + " " + g("f_inco1") + " " + g("f_inco2");
+                        } else if (g("f_inco1") === "" &amp;&amp; g("f_inco2") === "") {
                           this.rawValue = "Total order Value In Words(" + g("f_ktext") + "): " + g("f_words");
                         } else {
                           this.rawValue = "Total Order Value In Words(" + g("f_ktext") + "): " + g("f_words") + " " + g("f_inco1") + " " + g("f_inco2") + " basis";
@@ -1530,8 +2268,373 @@
                      <font size="8pt" typeface="Arial" weight="bold"/>
                      <para vAlign="middle"/>
                      <margin bottomInset="0.05cm" leftInset="0.1cm" rightInset="0.1cm" topInset="0.05cm"/>
-                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                     <border><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
                   </field>
+               </subform>
+            </subform>
+            <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+            <field h="1mm" name="f_langu" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.GV_LANGU"/></field>
+            <subform layout="tb" name="s_terms_en" presence="hidden" w="19cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var p = this.parent;
+                  function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                  var v = g("f_bsart"); var l = g("f_langu");
+                  this.presence = (v !== "ZPOI" &amp;&amp; !(v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+               </event>
+               <subform layout="position" minH="1.0cm" name="folder4_E_head" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw minH="1.0cm" name="folder4_E_head_t" w="19cm" x="0cm" y="0cm">
+                     <value><text>&#10; Purchase Order Terms &amp; Conditions:&#10;</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin leftInset="0.25cm"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term1" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term1_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>1.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="folder4_E_term1_c" presence="hidden" w="18.1cm" x="0.85cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v !== "ZPOS") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw minH="0.5cm" name="folder4_E_term1_t" w="18.1cm" x="0cm" y="0cm">
+                        <value><text>Prices expressed are based on a delivered price in Cameroon.</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para vAlign="top"/>
+                     </draw>
+                  </subform>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term2" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term2_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>2.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term2_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Unit Prices are exclusive of Value Added Tax (VAT).</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term3" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term3_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>3.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term3_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>The Purchase Order number must be reflected on all invoices to effect payment.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term4" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term4_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>4.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term4_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Payment terms, is strictly 30 days after delivery, unless otherwise agreed as per signed contractual agreement.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term5" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term5_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>5.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term5_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary documentation most accompany the goods or services. Otherwise, as a default, the items covered under this order shall stand guarantee/warranty of 18 months from the date of supply or 12 months from the date of installation / commissioning.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term6" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term6_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>6.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term6_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operating Manuals, Waste Disposal etc., needs to be current and must accompany this Purchase Order.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term7" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term7_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>7.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term7_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Goods and/or Services would be accepted, only if it conforms to our quality and/or standard specifications.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term8" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term8_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>8.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term8_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Invoice shall be raised based on the lowest between principal vendor's weighbridge quantity and Dangote's weighbridge quantity.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term9" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_E_term9_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>9.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term9_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>All invoices must be sent to the Finance Department.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_E_term10" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <draw h="0.5cm" name="folder4_E_term10_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>10.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_E_term10_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>No variation in this terms and conditions will be accepted.&#10;</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+            </subform>
+            <subform layout="tb" name="s_terms_fr" presence="hidden" w="19cm">
+               <bind match="none"/>
+               <event activity="initialize" name="initialize">
+                  <script contentType="application/x-javascript">var p = this.parent;
+                  function g(nm) { var f = p.resolveNode(nm); return (f &amp;&amp; f.rawValue) ? String(f.rawValue) : ""; }
+                  var v = g("f_bsart"); var l = g("f_langu");
+                  this.presence = (v !== "ZPOI" &amp;&amp; (v === "ZPOL" || v === "ZPOS" || l === "F")) ? "visible" : "hidden";</script>
+               </event>
+               <subform layout="position" minH="1.0cm" name="folder4_F_head" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw minH="1.0cm" name="folder4_F_head_t" w="19cm" x="0cm" y="0cm">
+                     <value><text>&#10; Les autres termes et conditions applicables au bon de commande:&#10;</text></value>
+                     <font size="8pt" typeface="Arial" weight="bold"/>
+                     <para vAlign="middle"/>
+                     <margin leftInset="0.25cm"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term1" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term1_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>1.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <field h="1mm" name="f_bsart" presence="hidden" w="1mm" x="0cm" y="0cm"><ui><textEdit/></ui><bind match="dataRef" ref="$.V_BSART"/></field>
+                  <subform h="0.5cm" layout="position" name="folder4_F_term1_c" presence="hidden" w="18.1cm" x="0.85cm" y="0cm">
+                     <bind match="none"/>
+                     <event activity="initialize" name="initialize">
+                        <script contentType="application/x-javascript">var f = this.parent.resolveNode("f_bsart");
+                        var v = f ? f.rawValue : "";
+                        var l = ""; try { var fl = this.parent.resolveNode("f_langu"); l = fl ? fl.rawValue : ""; } catch (e) { l = ""; }
+                        this.presence = (v !== "ZPOS") ? "visible" : "hidden";</script>
+                     </event>
+                     <draw minH="0.5cm" name="folder4_F_term1_t" w="18.1cm" x="0cm" y="0cm">
+                        <value><text>Les prix exprimés sont basés sur un prix de livraison au Cameroun.</text></value>
+                        <font size="8pt" typeface="Arial"/>
+                        <para vAlign="top"/>
+                     </draw>
+                  </subform>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term2" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term2_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>2.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term2_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term3" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term3_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>3.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term3_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Le numéro de commande doit être inscrit sur toutes les factures afin d'effectuer le paiement.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term4" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term4_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>4.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term4_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Le terme de paiement, est strictement de 30 jours après la livraison, sauf accord contraire conformément à l'accord contractuel signé.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term5" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term5_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>5.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term5_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Guarantie: Lorsqu' une garantie est applicable, la documentation nécessaire doit accompagner les biens ou les services. Sinon, par défaut, les éléments couverts par ce bon  seront garanties pour 18 mois à compter de la date de l'offre ou de 12 mois à compter de la date d'installation / mise en service.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term6" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term6_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>6.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term6_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Tous les autres certificats réglementaires à l'exemple de la Fiche de données de Sécurité (FDS), les Manuels d'Utilisation, de traitement des dechets etc., doivent être actuels et doivent accompagner ce bon de commande.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term7" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term7_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>7.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term7_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Les marchandises et / ou services ne seront acceptés que s'ils sont conformes à nos standards de  qualités et / ou à nos  spécifications standards.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term8" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term8_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>8.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term8_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>La facture doit être établie sur la base de la plus faible quantité entre celle du pont bascule du fournisseur principal et celle du pont bascule de Dangote.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term9" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border>
+                  <draw h="0.5cm" name="folder4_F_term9_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>9.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term9_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Toutes les factures doivent être envoyées au Département des finances.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+               <subform layout="position" minH="0.5cm" name="folder4_F_term10" w="19cm">
+                  <bind match="none"/>
+                  <border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border>
+                  <draw h="0.5cm" name="folder4_F_term10_n" w="0.55cm" x="0.25cm" y="0cm">
+                     <value><text>10.</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="middle"/>
+                  </draw>
+                  <draw minH="0.5cm" name="folder4_F_term10_t" w="18.1cm" x="0.85cm" y="0cm">
+                     <value><text>Aucune modification de ces termes et conditions ne sera acceptée.&#10;</text></value>
+                     <font size="8pt" typeface="Arial"/>
+                     <para vAlign="top"/>
+                  </draw>
+               </subform>
+            </subform>
+            <subform layout="tb" name="s_close" w="19cm">
+               <bind match="none"/>
+               <subform h="0.45cm" layout="position" name="s_cl_blank1" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_cl_blank1_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_cl_blank2" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_cl_blank2_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_cl_blank3" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_cl_blank3_c" w="19cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_cl_sign" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_cl_sign_1" w="6.33cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+                  <draw h="0.45cm" name="s_cl_sign_3" w="6.34cm" x="12.66cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge presence="hidden"/></border></draw>
+               </subform>
+               <subform h="0.45cm" layout="position" name="s_cl_last" w="19cm">
+                  <bind match="none"/>
+                  <draw h="0.45cm" name="s_cl_last_1" w="5cm" x="0cm" y="0cm"><border><edge thickness="0.26mm"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/></border></draw>
+                  <draw h="0.45cm" name="s_cl_last_2" w="14cm" x="5cm" y="0cm"><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.26mm"/><edge thickness="0.26mm"/></border></draw>
                </subform>
             </subform>
          </subform>
