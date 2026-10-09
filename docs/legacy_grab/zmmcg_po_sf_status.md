@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-09T12:08:32.997Z
+UPDATED: 2026-10-09T12:11:29.259Z
 WAITING_ON: operator
-NOTE: All layout steps are built and every step you tested was confirmed - please do the final review of ZMMCG_PO_SF_ADT against your legacy printouts (one of each order type) and either confirm sign-off or send the differences; also answer the open questions in the latest entry.
+NOTE: Layout corrected to the exact legacy window positions - PULL AGAIN onto ZMMCG_PO_SF_ADT, activate, open the Layout first (report any overflow badge), then do the final review against your legacy printouts and confirm sign-off or send the differences.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -281,3 +281,24 @@ Every part of the legacy form has now been built and every step you tested (inte
 - **Print language:** how will the driver hand the print language (F for ZPOL/ZPOS, E for ZPOI) to the Adobe form? The form assumes `SY-LANGU` in the form run carries it (`GV_LANGU`).
 
 **Not changed, as a reminder:** driver `ZCGMMPOP001` is untouched; the form needs no new parameter from it. Not rebuilt on purpose (switched off in the legacy form): draft window and image, old terms block, signature texts, date text, insurance row, legacy plant address text.
+
+## 2026-10-09T12:11:28.258Z — Layout corrected to the exact legacy positions
+On a second check of every section against the export, I found that my earlier layout was **not** at the legacy positions: to keep 1 cm from the paper edge I had moved the whole header 0.25 cm right and 0.10 cm down, made the plant address box 1.11 cm narrower (5.02 instead of 6.13 cm), the PO detail block 0.45 cm narrower (value column 5.4 instead of 5.8 cm), started page 2 at 1.00 cm instead of 0.55 cm, and put the title 0.23 cm off the window's left edge (a guess). On your instruction these are corrected. **This replaces the layout you reviewed; please pull again before the final review.** (The previous version is commit `7a3fbd1` if you need it back.)
+
+**Now exactly as in your export (position from the paper edge, in cm; checked by calculation from the file):**
+- Logo 0.80 / 1.10 (2.80 x 2.23); title and PO number window 1.87 / 1.60 (14.56 x 4.08), text starts at the window's left edge; plant address box 14.73 / 0.93 (**6.13** x 5.73, bordered); Last Changed On 0.87 / 3.64 (5.84 x 2.00); supplier block 0.75 / 6.50 (10.13; columns 4.00 + 6.13, stock transfer 3.50 + 6.63); PO detail block 11.13 / 6.50 (9.07; columns 3.20 + **5.80**).
+- Items table and frame start at 13.50 cm on page 1 (19.00 cm wide, from 0.75 cm); the frame runs to 29.00 cm; on page 2 and later the frame and the items start at 0.55 cm and run to 29.00 cm.
+- Watermark window 1.52 / 23.76 on page 1 and 1.52 / 17.76 on the following pages (18.00 x 4.70).
+- All column widths of the items tables, totals block and terms were already the legacy ones.
+
+**What this costs - please note:** the page content area now starts at 0.75 / 0.55 cm and runs to the right paper edge, so some elements are closer than 1 cm to the edge (the plant address box ends 0.14 cm from the right edge, the logo starts 0.80 cm from the left edge, the frame ends 0.70 cm from the bottom). The project margin rule (1 cm minimum, rulebook S02/F48) is knowingly not applied here, because you asked for the exact positions. The earlier build on this project showed Designer overflow badges for content about 0.5 cm from the edge: **please open the Layout first and report any badge**, and check the print is not cut at the right edge on your printer/PDF.
+
+**Still estimated, because the export does not contain them:** the height of each row in the supplier and PO detail blocks (0.5 cm - the Smart Form sizes them from fonts that are not in the export), the heights of the three title rows, and the heights of the closing/blank rows. The window heights are cut to the rows used (the legacy windows are taller than the space before the items table and overlap it).
+
+**Checks run here:** strict XML parse OK; nothing outside the page body differs from your baseline; every element inside its parent; bindings resolve; continuation wiring passes; the only new checker warning is the margin warning above.
+
+## 2026-10-09T12:11:29.259Z — Action needed from you (SAP)
+1. Pull this branch (vernasofttechie-zmmcg_po_sf) onto **ZMMCG_PO_SF_ADT** in abapGit and activate. Note the result.
+2. **Open the Layout first.** Report any overflow/warning badge and whether page 1 and page 2 look as before.
+3. Do the final review described in the previous "Layout complete" entry (one real document of each type, legacy vs new, side by side) with special attention to the position of every block and the right edge.
+4. Confirm sign-off, or send the differences (order type, place on the page, legacy vs new).
