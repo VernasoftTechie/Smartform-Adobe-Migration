@@ -134,6 +134,8 @@
       <SFPGDATA><NAME>GT_OTHER_PO</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_OTHER_PO</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GT_SERVICE_PO</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_SERVICE_PO</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GT_TERMS_TEXT</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_TLINE_TAB</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_EBELN_OUT</NAME><TYPING>TYPE</TYPING><TYPENAME>EBELN</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_LIFNR_OUT</NAME><TYPING>TYPE</TYPING><TYPENAME>LIFNR</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
       <FPCLINE>TYPES : BEGIN OF gty_adrc,</FPCLINE>
@@ -271,6 +273,7 @@
       <FPPARAMETER>LV_KWERT1</FPPARAMETER>
       <FPPARAMETER>LV_DOLLARS</FPPARAMETER>
       <FPPARAMETER>LV_CENTS</FPPARAMETER>
+      <FPPARAMETER>LV_LIFNR</FPPARAMETER>
       <FPPARAMETER>LV_RESWK</FPPARAMETER>
       <FPPARAMETER>V_KWERT</FPPARAMETER>
       <FPPARAMETER>IT_EKPO</FPPARAMETER>
@@ -315,6 +318,8 @@
       <FPPARAMETER>GT_OTHER_PO</FPPARAMETER>
       <FPPARAMETER>GT_SERVICE_PO</FPPARAMETER>
       <FPPARAMETER>GT_TERMS_TEXT</FPPARAMETER>
+      <FPPARAMETER>GV_EBELN_OUT</FPPARAMETER>
+      <FPPARAMETER>GV_LIFNR_OUT</FPPARAMETER>
      </INPUT_PARAMETERS>
      <OUTPUT_PARAMETERS>
       <FPPARAMETER>LV_LAND1</FPPARAMETER>
@@ -357,6 +362,8 @@
       <FPPARAMETER>GT_OTHER_PO</FPPARAMETER>
       <FPPARAMETER>GT_SERVICE_PO</FPPARAMETER>
       <FPPARAMETER>GT_TERMS_TEXT</FPPARAMETER>
+      <FPPARAMETER>GV_EBELN_OUT</FPPARAMETER>
+      <FPPARAMETER>GV_LIFNR_OUT</FPPARAMETER>
      </OUTPUT_PARAMETERS>
      <INITIALIZATION>
       <FPCLINE>*---------------------------------------------------------------------*</FPCLINE>
@@ -376,7 +383,18 @@
       <FPCLINE>      lv_c2         TYPE string,</FPCLINE>
       <FPCLINE>      lv_birr       TYPE string,</FPCLINE>
       <FPCLINE>      lv_satim      TYPE string,</FPCLINE>
-      <FPCLINE>      lv_terms_name TYPE thead-tdname.</FPCLINE>
+      <FPCLINE>      lv_terms_name TYPE thead-tdname,</FPCLINE>
+      <FPCLINE>      lv_matnr_out  TYPE ekpo-matnr,</FPCLINE>
+      <FPCLINE>      lv_unit_out   TYPE t006a-mseh3,</FPCLINE>
+      <FPCLINE>      lv_srvpos_out TYPE esll-srvpos.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>*---- NEW: output conversion of the PO number and the vendor number (printed through ALPHA in the Smart Form)</FPCLINE>
+      <FPCLINE>CALL FUNCTION &apos;CONVERSION_EXIT_ALPHA_OUTPUT&apos;</FPCLINE>
+      <FPCLINE>  EXPORTING input = v_ebeln</FPCLINE>
+      <FPCLINE>  IMPORTING output = gv_ebeln_out.</FPCLINE>
+      <FPCLINE>CALL FUNCTION &apos;CONVERSION_EXIT_ALPHA_OUTPUT&apos;</FPCLINE>
+      <FPCLINE>  EXPORTING input = lv_lifnr</FPCLINE>
+      <FPCLINE>  IMPORTING output = gv_lifnr_out.</FPCLINE>
       <FPCLINE/>
       <FPCLINE>*---- Legacy node %CODE15 (window WATER_MARK), verbatim</FPCLINE>
       <FPCLINE>***SOC by kalyan on 09.05.2025</FPCLINE>
@@ -620,12 +638,22 @@
       <FPCLINE>LV_MENGE = WA_EKPO-MENGE.</FPCLINE>
       <FPCLINE>*---- Legacy node %CODE3 (row column 7), verbatim</FPCLINE>
       <FPCLINE>G_NETWR = G_NETWR + WA_EKPO-NETWR.</FPCLINE>
+      <FPCLINE>*---- NEW: output conversion exits (the Smart Form printed these fields through their domain conversion; SFP passes internal values)</FPCLINE>
+      <FPCLINE>    CALL FUNCTION &apos;CONVERSION_EXIT_MATN1_OUTPUT&apos;</FPCLINE>
+      <FPCLINE>      EXPORTING input = wa_ekpo-matnr</FPCLINE>
+      <FPCLINE>      IMPORTING output = lv_matnr_out.</FPCLINE>
+      <FPCLINE>    SELECT SINGLE mseh3 FROM t006a</FPCLINE>
+      <FPCLINE>      WHERE spras = @sy-langu AND msehi = @wa_ekpo-meins</FPCLINE>
+      <FPCLINE>      INTO @lv_unit_out.</FPCLINE>
+      <FPCLINE>    IF sy-subrc &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>      lv_unit_out = wa_ekpo-meins.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
       <FPCLINE>*---- NEW: one display row per item</FPCLINE>
       <FPCLINE>    APPEND VALUE #( slno      = v_slno</FPCLINE>
-      <FPCLINE>                    matnr     = wa_ekpo-matnr</FPCLINE>
+      <FPCLINE>                    matnr     = lv_matnr_out</FPCLINE>
       <FPCLINE>                    item_desc = |{ wa_ekpo-txz01 } ({ matdesc })|</FPCLINE>
       <FPCLINE>                    menge     = lv_menge</FPCLINE>
-      <FPCLINE>                    meins     = wa_ekpo-meins</FPCLINE>
+      <FPCLINE>                    meins     = lv_unit_out</FPCLINE>
       <FPCLINE>                    netpr     = wa_ekpo-netpr</FPCLINE>
       <FPCLINE>                    netwr     = wa_ekpo-netwr ) TO gt_other_po.</FPCLINE>
       <FPCLINE>  ENDLOOP.</FPCLINE>
@@ -819,12 +847,22 @@
       <FPCLINE>*---- Legacy node %CODE7 (row column 7), verbatim</FPCLINE>
       <FPCLINE>G_NETWR = G_NETWR + WA_ESLL-NETWR.</FPCLINE>
       <FPCLINE>*G_NETWR = WA_ESLL-NETWR.</FPCLINE>
+      <FPCLINE>*---- NEW: output conversion exits (see above)</FPCLINE>
+      <FPCLINE>    CALL FUNCTION &apos;CONVERSION_EXIT_ALPHA_OUTPUT&apos;</FPCLINE>
+      <FPCLINE>      EXPORTING input = wa_esll-srvpos</FPCLINE>
+      <FPCLINE>      IMPORTING output = lv_srvpos_out.</FPCLINE>
+      <FPCLINE>    SELECT SINGLE mseh3 FROM t006a</FPCLINE>
+      <FPCLINE>      WHERE spras = @sy-langu AND msehi = @wa_esll-meins</FPCLINE>
+      <FPCLINE>      INTO @lv_unit_out.</FPCLINE>
+      <FPCLINE>    IF sy-subrc &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>      lv_unit_out = wa_esll-meins.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
       <FPCLINE>*---- NEW: one display row per service line</FPCLINE>
       <FPCLINE>    APPEND VALUE #( slno      = v_slno</FPCLINE>
-      <FPCLINE>                    srvpos    = wa_esll-srvpos</FPCLINE>
+      <FPCLINE>                    srvpos    = lv_srvpos_out</FPCLINE>
       <FPCLINE>                    item_desc = |{ condense( g_txz01 ) }({ condense( wa_esll-ktext1 ) })|</FPCLINE>
       <FPCLINE>                    menge     = lv_menge</FPCLINE>
-      <FPCLINE>                    meins     = wa_esll-meins</FPCLINE>
+      <FPCLINE>                    meins     = lv_unit_out</FPCLINE>
       <FPCLINE>                    tbtwr     = wa_esll-tbtwr</FPCLINE>
       <FPCLINE>                    netwr     = wa_esll-netwr ) TO gt_service_po.</FPCLINE>
       <FPCLINE>  ENDLOOP.</FPCLINE>
