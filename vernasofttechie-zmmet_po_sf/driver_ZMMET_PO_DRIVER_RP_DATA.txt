@@ -1,0 +1,118 @@
+*&---------------------------------------------------------------------*
+*& Report  ZMMET_PO_DRIVER_RP
+*&
+*&---------------------------------------------------------------------*
+* Title         : Purchase Order for Zambia (PO)
+*----------------------------------------------------------------------*
+* Project Rel.  :
+* Object Type   : Smartforms
+* Author        : Sabarish Lakshmanan (User ID : ABAP07)
+* Functional    : Raman Pandey
+*----------------------------------------------------------------------*
+* Program description: This form used for creating Purchase order.
+*----------------------------------------------------------------------*
+* Change-History: Change history
+* Date | Transport no. | UserName | Description
+* 20.4.2015  DCDK919604   ABAP07   Purchase Order for Zambia (PO)
+*&---------------------------------------------------------------------*
+
+
+*&---------------------------------------------------------------------*
+*&  Include           ZMMET_PO_DRIVER_RP_DATA
+*&---------------------------------------------------------------------*
+
+TABLES: nast.
+
+DATA:wa_esll TYPE esll,           "service po
+     it_esll TYPE STANDARD TABLE OF esll.
+
+DATA:wa_vend  TYPE adrc,
+     it_vend  TYPE TABLE OF adrc,
+     wa_makt  TYPE makt,
+     it_makt  TYPE TABLE OF makt,
+     wa_t005t TYPE t005t,
+     it_t005t TYPE TABLE OF t005t.
+
+
+
+DATA: ls_konv    TYPE prcd_elements,
+      lt_konv    TYPE TABLE OF prcd_elements,
+      it_esll1   TYPE TABLE OF esll,
+      it_eban    TYPE STANDARD TABLE OF eban,
+      wa_ekpo    TYPE ekpo,
+      it_ekpo    TYPE STANDARD TABLE OF ekpo,
+      wa_plant   TYPE t001w,
+      gt_addsmtp TYPE STANDARD TABLE OF	bapiadsmtp,
+      gs_addsmtp TYPE bapiadsmtp,
+      gt_return	 TYPE STANDARD TABLE OF bapiret2.
+
+
+DATA: v_company_name     TYPE adrc-name1, "COMPANY NAME
+      v_pono             TYPE  char26,          "PO NO     "char20 changed by abap2.
+      v_podate           TYPE  char10,        "PO DDATE
+      v_departmnt        TYPE  t024-eknam,  "DEPARTMENT
+      v_dept             TYPE char4,             "First 3 character of department
+      v_bedat            TYPE  ebdat,           "DATE
+      v_ebeln            TYPE ebeln,            "PURCHASE DOCUMENT NO
+      g_ername           TYPE ernam,            "Name of Person who Created the Object    "DCDK914608
+      v_frgke            TYPE frgke,            "RELEASE INDICATOR
+      v_banfn            TYPE banfn,            "PR NO
+      v_badat            TYPE badat,            "DATE
+      v_bednr            TYPE bednr,            "TRACKING NUMBER
+      v_bsart            TYPE esart,            "PURCHSING DOC TYPE
+      v_netpr            TYPE ymmquantity,            "NET PRICE
+      v_menge            TYPE bstmg,            "PO QTY
+      v_netwr            TYPE snetwr,           "NET VALUE UTEM
+      v_menge1           TYPE mengev,          "QTY WITH SIGN
+      v_mwskz            TYPE mwskz,           "SALES TAX CODE
+      v_zterm            TYPE dzterm,           "PAYMENT TERMS
+      v_dppct            TYPE me_dppcnt,
+      lv_reswk           TYPE reswk,
+      v_flag             TYPE char1 VALUE ' ',
+      v_fval             TYPE ymmquantity,
+      v_fval1            TYPE netwr,
+      v_waers            TYPE waers,
+      v_knumv            TYPE knumv,
+      lv_kwert           TYPE kwert,
+      lv_oth             TYPE kwert,
+      lv_kwert1          TYPE kwert,
+      lv_eindt           TYPE char10,
+      lv_eindt1          TYPE eindt,
+      v_kwert            TYPE kwert,
+      v1_kwert           TYPE kwert,
+      v1_zdoc            TYPE kwert,
+      v1_zfob            TYPE kwert,
+      v1_zpk1            TYPE kwert,
+      v1_zpcf            TYPE kwert,
+      v2_kwert           TYPE kwert,
+      lv_vtext           TYPE dzterm_bez,
+      lv_downtext        TYPE char50,
+      v_text1            TYPE text1_007s,
+      gv_inco1           TYPE ekko-inco1,
+      gv_inco2           TYPE ekko-inco2,
+      v_lvalue           TYPE netwr,
+      v_email            TYPE ad_smtpadr,
+      v_buyeremail       TYPE ad_smtpadr,
+      v_buyertelfx       TYPE t024-telfx,
+      v_buyertele        TYPE t024-ektel,
+      lv_airsea(3)       TYPE c,
+      lv_ktokk           TYPE lfa1-ktokk,
+      lv_ekgrp           TYPE ekko-ekgrp,
+      lv_dollars         TYPE char50,
+      lv_cents           TYPE char50,
+      lv_ktext           TYPE ktext_curt,
+      lv_landx50         TYPE t005t-landx50,
+      lv_bezei           TYPE t005u-bezei,
+      lv_str3            TYPE string,
+      lv_str4            TYPE string,
+      lv_str5            TYPE string,
+      lv_str6            TYPE string,
+      lv_esllnetwr       TYPE esll-netwr,
+      v_lifnr            TYPE ekko-lifnr,
+      lv_kwertf          TYPE wmto_s-amount,
+      v_kwert1           TYPE wmto_s-amount,
+      v2_kwert1          TYPE wmto_s-amount,
+      lv1_zpk1           TYPE wmto_s-amount,
+**SOC BY KALYAN ON 30.09.2026
+      lv_potext          TYPE char1.
+**EOC By Kalyan on 30.09.2026

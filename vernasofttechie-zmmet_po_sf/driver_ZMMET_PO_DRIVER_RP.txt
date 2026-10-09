@@ -1,0 +1,24 @@
+*&---------------------------------------------------------------------*
+*& Report  ZMMET_PO_DRIVER_RP
+*&
+*&---------------------------------------------------------------------*
+* Title         : Purchase Order for Zambia (PO)
+*----------------------------------------------------------------------*
+* Project Rel.  :
+* Object Type   : Smartforms
+* Author        : Sabarish Lakshmanan (User ID : ABAP07)
+* Functional    : Raman Pandey
+*----------------------------------------------------------------------*
+* Program description: This form used for creating Purchase order.
+*----------------------------------------------------------------------*
+* Change-History: Change history
+* Date | Transport no. | UserName | Description
+* 20.4.2015  DCDK919604   ABAP07   Purchase Order for Zambia (PO)
+*&---------------------------------------------------------------------*
+
+REPORT  zmmet_po_driver_rp.
+
+*-----GLobal declarations----------*
+INCLUDE zmmet_po_driver_rp_data.
+*-----Subroutines------------------*
+INCLUDE zmmet_po_driver_rp_frms.
