@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T12:05:30.482Z
-WAITING_ON: operator
-NOTE: Layout step 2d (watermark and main-window frame on the page itself) pushed - pull onto ZMMCG_PO_SF_ADT, activate, open the Layout FIRST and report at once if it is blank or odd, then preview an approved and an unapproved PO of 1 page and of 3 pages, then confirm or report exactly what you see.
+STATUS: in_progress
+UPDATED: 2026-10-09T12:07:23.625Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -256,3 +256,6 @@ Please do these in SAP, in order:
 2. **Open the Layout first.** You should see the same form as before with a frame and a watermark text. If it is blank or odd, stop and report (see point 1 above).
 3. Preview: (a) an **approved** PO (release indicator R or A) with few items - "Approved PO" at the lower part of page 1; (b) an **unapproved** PO - "UnApproved PO"; (c) a PO with enough items for **3 pages** - check the watermark and frame on each page and that nothing else moved; (d) a ZPOT, a ZPOL and a service PO for a last look.
 4. If it looks right, confirm. If anything is off, tell me which page and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
+
+## 2026-10-09T12:07:23.625Z — Manual activity confirmed
+Client confirmed the manual step is done.
