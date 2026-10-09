@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:37:04.094Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:41:34.432Z
+WAITING_ON: operator
+NOTE: Layout step 2a (items tables with page continuation) pushed - pull onto ZMMCG_PO_SF_ADT, activate, preview a goods PO with 60+ items, a short goods PO, a service PO and a PO with header text, then confirm or report exactly what you see on page 1, 2 and 3.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -130,3 +130,32 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T11:37:04.094Z — Manual activity confirmed
 Client confirmed the manual step is done: There were many overlappings that I could see in the initial built. Please beautify as much as possible.. Continue building the leftover items ..
+
+## 2026-10-09T11:41:33.432Z — Layout step 2a built (items tables with page continuation)
+Step 1 (page and header blocks) is confirmed, so I have started on the items. This step adds **only the items**; totals, amount in words, terms and the watermark are the next steps. It replaces the previous layout file, so one pull gives you step 1 plus step 2a (`src/zmmcg_po_sf_adt.sfpf.xdp`; nothing outside the page body changed from the page SAP generated for you).
+
+**What changed in the structure:** the page body is now one flowing document (`po_doc`) that can run over several pages, instead of one fixed page. The header blocks of step 1 are unchanged; they now sit in one fixed block at the top of page 1 (12.6 cm high) and the items flow below it, and onto page 2, 3... starting at the top of each new page (1 cm margins). Page 2 onwards shows no logo/title/address blocks, as in the legacy form (only page 1 has them).
+
+**What is in this step**
+- **Additional Comments** (legacy table over `LT_LINES`): header "Additional Comments", one row per text line, a closing line. Shown only when `V_POTEXT` = X, as in the legacy form.
+- **Goods items table** (legacy OTHER_PO), shown when `V_FLAG` = X: columns Sr No / Material No. / Item Description / Qty / UOM / Unit Price (Excl.VAT) / [currency] Total (Excl.VAT) with the legacy widths 1.13 / 3.14 / 6.45 / 2.22 / 1.10 / 2.37 / 2.59 cm (= 19.00 cm), grey header (176/176/176), 0.75 pt borders as in the line types. Heading texts switch to French for ZPOL (Code Article, Description, Prix Unitaire (Excl.TVA), Total (Excl.TVA)). One row per `GT_GOODS` line.
+- **Service items table** (legacy SERVCE_PO), shown when `V_FLAG` = Y: same columns with the legacy service widths 1.13 / 3.14 / 5.70 / 2.20 / 1.24 / 2.80 / 2.79 cm; the second column shows the service number under the legacy heading "Material No.". One row per `GT_SERVICE` line.
+- **Page continuation:** the column heading row is repeated at the top of every continuation page, using the structure of Adobe's own Dunning Notice / Purchase Order samples (the same one built for ZMM_PO_DEMO).
+- The item description cell grows with its text (long material long texts are not cut); all other cells keep a 0.55 cm minimum height.
+All 66 bindings resolve to the confirmed Context.
+
+**Checks run here:** strict XML parse OK; nothing outside the page body differs from your SAP baseline; margins >= 1 cm; 196 elements all inside their parents; the continuation wiring (leader is a sibling of the row, has id = name and occur max=-1, container flows with no fixed height) passes. The completeness check still **FAILS (38 printed fields and 131 texts not yet in the layout)** - those are the totals, words, terms, watermark of the next steps - and warns about the plant address width from step 1.
+
+**Unconfirmed in SAP - this is the main thing to test**
+1. **Page continuation has not been confirmed in your SAP yet** (ZMM_PO_DEMO's result is still outstanding). It is copied from Adobe's samples, not seen working here. If the Layout shows a blank or odd page, report it first; the fallback is a single flowing table without the repeated heading.
+2. Growing description cell: the other cells in a tall row stay at 0.55 cm, so the vertical lines between the last four columns stop at 0.55 cm in a row whose description wraps onto several lines. Data is not cut; the look is a compromise. Tell me if it is unacceptable and I will try the table layout Adobe uses.
+3. The legacy frame around the whole main window (0.75 pt, page 1 below the header and the full page 2) is not drawn; the table has its own cell borders.
+4. Alignment and fonts are guesses (Arial 8 pt; Sr No, UOM centred, quantity and amounts right-aligned) - the style definitions are still missing.
+
+## 2026-10-09T11:41:34.432Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT** and activate it. Note the activation result.
+2. Open the Layout. Report any warning/overflow badge.
+3. Preview with: (a) a goods PO (V_FLAG = X) with **more than 60 items**, (b) a short goods PO, (c) a service PO (V_FLAG = Y), (d) a PO that has header text (V_POTEXT = X), and one item with a long material long text.
+4. On the long PO check pages 1, 2 and 3: the heading row is repeated at the top of each page, rows continue in order with none missing, no row is cut at a page end, and the last page ends cleanly. On the short PO check it prints on one page.
+5. If it looks right, confirm. If anything is off, tell me which page and what you see (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
