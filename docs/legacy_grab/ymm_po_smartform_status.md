@@ -1,9 +1,9 @@
 # Migration Status — YMM_PO_SMARTFORM
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:45:53.206Z
-WAITING_ON: operator
-NOTE: Layout increment 1 (page-1 header block only) is pushed. In abapGit PULL this branch, ACTIVATE the form, open Layout in Design View and PREVIEW with real purchase orders: ideally one ZLOC, one ZIMP, one ZSE1/ZSE2 and one V_FLAG=Y (service) order, plus plant 1021 if you have one. Report: does Design View show the page and the header windows, do the right variants appear (title, company block, PR box, PO box, note), is any text clipped or overlapping (screenshots help), and any activation error text exactly. Confirm in Bolt Console or report problems; the item table, texts, terms and watermark come in the next increments.
+STATUS: in_progress
+UPDATED: 2026-10-09T11:50:06.792Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-2
 
@@ -55,3 +55,6 @@ Client confirmed the manual step is done.
 **Checks (sfp_check layout vs your baseline):** 13 passed - layout parses, nothing outside the template differs from your baseline, margins >= 1 cm, every child inside its parent, explicit x/y everywhere (S06), bind syntax, all 37 bindings resolve to Context nodes. 1 FAIL and 4 WARN, all expected at this stage: FAIL = 64 printed fields not bound yet (they belong to increments 2-4: item tables, header/item texts, terms, totals); WARN = 17 condition/holder fields the legacy form did not print (hidden fields that carry V_BSART, V_FLAG, WA_PLANT-WERKS, LV_FLAG, CUR_KEY and the formatted PR date/numbers), SFSY page fields need an XFA page counter (increment 4), 172 legacy static texts not yet in the layout, no repeating table yet.
 
 **Please be aware (unconfirmed until your preview):** (1) Nothing here has been rendered by us; Design View/preview is the real check. (2) The legacy windows reach 0.41 cm from the right edge, so widths are scaled by 0.93 to keep the 1 cm margin; tell us if you want the unscaled geometry instead. (3) PR_DETAILS has no left position in the export; 0.30 cm is assumed. Its box and the supplier box overlap vertically in the legacy form and do here too. (4) Fonts are Arial placeholders (9/10/8/7.5 pt) and company/title lines are centred by assumption because YMM_PO_STYLE is not in the export - please tell us what looks wrong against the legacy PDF. (5) Conditions run in JavaScript initialize scripts reading hidden fields (the pilot watermark pattern); if a variant does not appear, say which order type and plant. (6) The Initialization ABAP: still no compile error reported to us after your activation, thank you.
+
+## 2026-10-09T11:50:06.792Z — Manual activity confirmed
+Client confirmed the manual step is done.
