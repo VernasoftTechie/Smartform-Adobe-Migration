@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-09T11:40:17.000Z
-WAITING_ON: operator
-NOTE: Layout increment 1 pushed (page, logo, title, delivery box, supplier and PO detail grids). In abapGit pull this branch onto ZMMET_PO_SF_ADT, activate, open the Layout and preview a local PO, a stock transfer and a service PO, then confirm or report what you see (screenshot helps).
+STATUS: in_progress
+UPDATED: 2026-10-09T11:45:10.756Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -145,3 +145,6 @@ Please do these in SAP, in order:
 2. Open the Layout. You should see an A4 portrait page with the logo and title at the top, the delivery box top right, the supplier grid at the left, and the PO detail grid at the right. Report any overflow or warning badges. In Design View all 8 titles and both supplier grids sit on top of each other (the conditions only act at run time), so judge one at a time.
 3. Preview with a real purchase order: try a local PO (ZPOL), a stock transfer (ZPOT) and, if you have one, a service PO (ZPOS). Check the title, the PO number, the delivery box, the supplier grid (vendor details, or plant details for ZPOT), the PO detail values, and the Additional Comments text (V_POTEXT blank). Tell me about overlaps (especially "Last Changed On" against the delivery box), the logo, wrapped or clipped text.
 4. If it looks right, confirm and I continue with the watermark and the items table. If anything is off, report it with a screenshot. If you adjust in Designer and push, I compare your save against this version before building on it.
+
+## 2026-10-09T11:45:10.756Z — Manual activity confirmed
+Client confirmed the manual step is done: Some overflows I could see in the layout.. Could you please adjust and beautify the layout..? Also where is the loop section..? If its missing please continue on leftover activities and confirm me.
