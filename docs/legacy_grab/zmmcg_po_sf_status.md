@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:22:15.071Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:30:47.993Z
+WAITING_ON: operator
+NOTE: Layout step 1 (page + header blocks) pushed - pull onto ZMMCG_PO_SF_ADT, activate, open the Layout and preview with 3 purchase orders (types ZPOT, ZPOL and any other), then confirm or report exactly what you see.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -88,3 +88,42 @@ Left out on purpose: `IT_EKPO` / `IT_ESLL` (the layout prints the prepared table
 
 ## 2026-10-09T11:22:15.071Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:30:46.993Z — Layout step 1 built (page and header blocks)
+The Context imported cleanly, so the layout has started. This first step is **only the A4 page and the header blocks**; the items table, totals, terms and watermark are the next steps (each is tested in SAP before the next is added). It is in `src/zmmcg_po_sf_adt.sfpf.xdp`, built on the page SAP generated for you; nothing outside the page body was changed.
+
+**What is in this step (legacy window -> layout, positions read from your export)**
+- **Page:** A4 portrait (legacy DINA4); the SAP baseline was Letter.
+- **Logo** (window LOGO, 2.80 x 2.23 cm): the SE78 graphic `DANGOTE LOGO WHITE`, referenced by name from the graphics repository.
+- **Title and PO number** (window PO_HEADING): the title text depends on the order type exactly as in the Smart Form - ZPOR Release Order, ZPOC Cash Purchase Order, ZPOL Bon de Commande / Local, ZPOI Import Purchase Order, YCAP Capex Purchase Order, YRAW Purchase Order, ZPOS Service Purchase Order, ZPOT or ZPIC Stock Transfer PO (any other type prints no title, as in the legacy form) - then the PO number.
+- **Plant address box** (DELVRY_ADD, bordered): the address text lines (`LT_ADRC`), one per row.
+- **Last Changed On** (PO_LAST_CHANGED).
+- **Supplier block** (SUPPLIER_ADD): 13 label/value rows. For a stock transfer (ZPOT) it shows the supplying plant (`LS_ADRC`, `LV_RESWK`, `LV_LAND`) with its own labels; for every other type the vendor (`WA_VEND`, `LV_LIFNR`, country, phone/fax with the ISD prefix, e-mail). Labels are English, and French for ZPOL, as in the legacy form.
+- **PO detail block** (PO_DETAIL): PO Date, Delivery Date, Department, Buyer Name, Telephone, Fax, Email, Payment Terms, Inco Terms, Additional Comments (label only - the legacy value is an empty text); French labels for ZPOL.
+Every value is bound to the Context you confirmed (42 bindings, all resolve).
+
+**Where I had to depart from the legacy positions - please check these in the preview**
+1. The whole header is moved 0.25 cm right and 0.10 cm down so no element is closer than 1 cm to the paper edge (project margin rule). Legacy had the plant address box ending 0.14 cm from the right edge and the PO detail block 0.80 cm.
+2. Because of that the plant address box is **5.02 cm wide instead of 6.13 cm** and the PO detail value column is 5.4 cm instead of 5.8 cm. Long address lines will wrap or be cut in the 0.45 cm rows - tell me if any address line is cut.
+3. Row height in the supplier and detail blocks is 0.5 cm (the Smart Form's templates size rows by their text; 13 rows must end above the items table at 13.5 cm, which allows at most 0.53 cm). Long values (street, e-mail) are single-line and may be cut.
+4. The two parts of the Inco Terms value (`GV_INCO1`, `GV_INCO2`) sit side by side in two boxes instead of one text with a space.
+
+**Not evidenced - Arial placeholders / guesses (Developer Extension Points)**
+- Fonts: the SmartStyle definitions (`ZWSA_COMMON_STYLE`, `ZMM_PURCHASE_REQ`, `YMM_PO_STYLE`) were not supplied. I used Arial 8 pt for labels/values (labels bold) and 14 pt bold centred for the title - **a guess, not read from your style**. Please download the three styles (SMARTSTYLES > Utilities > Download) and add them under "SmartStyle exports" in Configure, or tell me font, size and alignment of paragraphs HP, P1, P6, P2, P3, P8, PQ.
+- Title/PO-number row positions (0 and 1.6 cm in the heading box) are my estimate of the legacy three-line template.
+- The French variants the Smart Form selects with the *login language* on non-ZPOL types (the "also in F" translations) are **not** reproduced; only the explicit ZPOL (French) and ZPOI (English) variants are. Tell me if French is also needed for other types.
+- Draft window (condition `1 = 2`) and the legacy address text switched off by `1 = 2` are left out.
+
+**Unconfirmed in SAP - treat as unproven**
+- The logo reference (`.../bmap/bcol/DANGOTE%20LOGO%20WHITE.bmp`): the graphic name contains spaces, no earlier form had one. If the logo does not show, report it.
+- Show/hide of the label sets and titles by order type uses the same script pattern as the earlier watermark (rulebook 8.9), now with 14 scripts.
+
+**Checks run here:** strict XML parse OK; nothing outside the page body differs from your SAP baseline; margins >= 1 cm; all 131 elements inside their parents; explicit x/y everywhere; all 42 bindings resolve. The checker still **FAILS on completeness (40 printed fields and 143 texts not yet in the layout)** - that is the items table, totals, terms and watermark, which are the next steps - and warns about the two width changes above.
+
+## 2026-10-09T11:30:47.993Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT**, then activate it. Note the activation result.
+2. Open the Layout. You should see an A4 portrait page with the logo, title area, plant address box, supplier block and PO detail block. Report any warning/overflow badges.
+3. Preview with real purchase orders of three kinds: a stock transfer (ZPOT), a local order (ZPOL, French labels) and any other type. Check the title, the supplier block (vendor vs plant), the PO detail values, the address box, and whether the logo shows.
+4. If you change anything in Designer, push it back and tell me - I compare every Designer save with this version before building on it.
+5. If it looks right, confirm. If anything is off, tell me which block and what you see (a screenshot helps).
