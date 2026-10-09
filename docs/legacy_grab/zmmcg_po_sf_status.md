@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-09T11:48:04.499Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-09T11:50:01.576Z
+WAITING_ON: operator
+NOTE: Layout step 2b (totals and amount in words) pushed - pull onto ZMMCG_PO_SF_ADT, activate, preview goods POs (a normal currency, XAF or XOF, and a ZPOI), a ZPOL and a service PO, compare every amount with the legacy print, then confirm or report exactly what you see.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -162,3 +162,32 @@ Please do these in SAP, in order:
 
 ## 2026-10-09T11:48:04.499Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-09T11:50:00.575Z — Layout step 2b built (totals and amount in words)
+Step 2a (items tables and page continuation) is confirmed, so I have added the **totals block and the amount in words** under each items table. Still to come: the terms and conditions, the signature/empty rows and the watermark. The file `src/zmmcg_po_sf_adt.sfpf.xdp` replaces the previous one (steps 1, 2a and 2b together); nothing outside the page body changed from your SAP baseline.
+
+**Goods order (V_FLAG = X)** - below the items, in the legacy order and with the legacy widths (11.20 / 4.25 or 4.30 / 3.55 or 3.50 cm), left and right borders only:
+two blank rows, then Net Discount, Freight Charges, Other Charges, one blank row, **Sub Total, VAT, CA, Total** (these four bold, as the legacy `<B1>`), then the "Total order Value In Words" line (bold, top border). Labels switch to French for ZPOL (Remise, Frais de Transport, Autres Charges, SuosTotal, TVA) exactly as in the legacy form.
+**Service order (V_FLAG = Y)** - two blank rows, Gross Price, Net Discount, the empty "other charges" row, one blank row, **Sub Total, VAT, CA, Total**, then the words line; widths 11.50 / 4.33 / 3.17 cm.
+
+**Where the amounts come from:** the figures were prepared in the interface's Initialization exactly as the Smart Form printed them (`GS_TOTALS`): your decimal notation, and for XOF/XAF the whole-number variables, otherwise the amounts with two decimals. Nothing is recalculated in the layout.
+- **Please note - this is legacy behaviour, reproduced as is:** for goods orders other than ZPOI the **Total** is printed from a whole-number variable (`V_TOTAL`, 0 decimals), so e.g. 1,234.56 prints as 1,235; and for service orders Gross Price, Net Discount, Sub Total, VAT and Total are all whole-number variables. Only ZPOI goods orders print the Total with decimals. Tell me if you want this corrected rather than reproduced.
+- **Apparent typo kept:** the ZPOL French label for Sub Total is "SuosTotal" in the legacy form (probably meant "Sous Total"). I reproduced it letter for letter; tell me if it should be changed.
+
+**Amount in words:** one text line built from the same pieces as the Smart Form: "Total order Value In Words(<currency text>): <amount in words> <Inco1> <Inco2> basis" for goods orders (capital "Order" for ZIMP/ZLOC/ZPOI; French "Montant Total en Lettre(" for ZPOL). For service orders the Inco part and "basis" are left out when both Inco fields are empty, as in the legacy form. The line grows in height if the words are long.
+
+**Left out on purpose:** the Insurance Charges row (switched off with `1 = 2`), the signature and date lines (switched off), and the legacy French/other-language translations selected by login language (see step 1).
+
+**Checks run here:** strict XML parse OK; nothing outside the page body differs from your baseline; margins >= 1 cm; every element inside its parent; all bindings resolve to the Context. The completeness check still FAILS only because the terms, watermark and similar are not built yet (36 printed fields - most of them deliberate, because the layout prints the prepared `GT_*` / `GS_*` fields instead - and 122 texts).
+
+**Unconfirmed in SAP**
+1. The amount-in-words line is put together by a script that reads hidden bound fields (`LV_KTEXT`, `LV_AMT_WORDS`, `GV_INCO1`, `GV_INCO2`, `V_BSART`) and sets the text. Earlier scripts in this project only showed or hid objects; **setting text by script has not been seen working in your SAP**. If the line is empty or odd, report it; the fallback is to prepare the whole sentence in the interface.
+2. Alignment (labels and amounts right-aligned, bold for the four total rows), fonts and row heights (0.5 cm, 0.45 cm for blank rows) are guesses - the style definitions are still missing.
+3. The table has no closing bottom border until the terms block (next step) is added.
+
+## 2026-10-09T11:50:01.576Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto form **ZMMCG_PO_SF_ADT** and activate it. Note the activation result.
+2. Open the Layout. Report any warning/overflow badge.
+3. Preview and compare **every amount, label and the words line** with the same order printed from the legacy Smart Form: (a) a goods PO in a normal currency, (b) a goods PO in XAF or XOF, (c) a ZPOI goods PO, (d) a ZPOL (French labels), (e) a service PO, and (f) one PO with a long items list so the totals land on page 2.
+4. If it looks right, confirm. If anything differs, tell me which PO type, which row, what the legacy shows and what the new form shows (a screenshot helps). If you adjust in Designer and push, I compare your save with this version before building on it.
