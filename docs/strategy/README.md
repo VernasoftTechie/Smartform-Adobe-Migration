@@ -32,6 +32,7 @@ stay in the relevant conversion branch.
 | [S05 — Diff after every native SFP/Designer save](S05_post_native_edit_diff_discipline.md) | Every form, after every native SFP/Designer edit | F41 |
 | [S06 — Explicit `x`/`y` position is the default for every row](S06_explicit_position_layout_default.md) | Every form's `.sfpf.xdp`, from the first line written | F35, F41, F44 |
 | [S07 — Reusable XDP patterns](S07_reusable_xdp_patterns.md) | Every form — copy-paste library for rows, tables, totals, signatures, page footers | F34-F44, pilot `Z_MM_PR_FORM_ADT` |
+| [S08 — SAP-wizard reference constructs](S08_sap_wizard_reference_constructs.md) **(candidate: evidence is the client's SAP-generated form; where it conflicts with S02/S04/S06/S07 it wins once our form has rendered)** | Every form — flat Context, `$record` binds, FormCalc, `ready` hide, table layout, multi-page, conversion exits, intake asks | wizard form `ZMMET_PO_SF_ZETO_F`; `ZMMET_PO_SF_ADT` |
 
 ## Promotion standard
 
