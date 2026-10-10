@@ -8,6 +8,11 @@ load there. It becomes a *validated* strategy only when our own form built with 
 the client's SAP (promotion standard in `README.md`). It supersedes the older hand-built patterns
 wherever it contradicts them; the conflicts are listed in section 13.
 
+> **Amended 2026-10-10 (S10):** the numbers in sections 7 and 10 (top inset 0.5 mm, line height 3.387 mm, `minH` 4.177 mm, 28 pt title,
+> 8.1 / 1.23 mm indents) are those of `ZMMET_PO_SF` only. The wizard form of `ZMMCG_PO_SF` uses top inset 1.122 mm, no line height, fixed
+> single-line cells and a whole-body content area; the first baseline is cell top + top inset + 0.717 em. Constructs are reusable, numbers are
+> form-specific: take them from the wizard form of the SAME form and the printout (S10).
+
 ## 1. Select this strategy
 
 Use for **every** form, from the first layout line. At intake **ask the client for the wizard
@@ -79,8 +84,9 @@ subform layout=table columnWidths="11.3mm 31.4mm ..."  name=<table>   bind $reco
   subform layout=row name=HeaderRow  <assist role="TH"/>  <occur max="-1"/>      (draws, minH, fill 176 grey, 4 borders)
   subform layout=row name=DATA       <assist role="TR"/>  <occur min=0 max=-1/>  bind $.DATA[*]   (fields, minH)
 ```
-- Widths come from the legacy line type (`CWIDTH` cm x 10 = mm). Cells use `minH` (4.177 mm for one
-  9 pt line) so rows grow with their text; spacer cells use `h`/`minH` 0.
+- Widths come from the legacy line type (`CWIDTH` cm x 10 = mm). On ZMMET_PO_SF the cells use `minH` (4.177 mm for one
+  9 pt line) so rows grow with their text; spacer cells use `h`/`minH` 0. On ZMMCG_PO_SF the wizard uses **fixed** `h` 4.183 mm for
+  single-line cells (keeps the legacy pitch; S10 section 4 says when a cell may still grow).
 - **`<overflow leader="HeaderRow"/>` is on the table subform**, and the header row repeats
   (`occur max=-1`): the heading reprints at the top of every continuation page. This is the
   construct the wizard uses for every item table; it replaces the "leader on the row" version in
@@ -124,7 +130,7 @@ subform layout=table columnWidths="11.3mm 31.4mm ..."  name=<table>   bind $reco
 - Label cells of the grids and table headings carry `<fill><color value="176,176,176"/></fill>`
   inside the border (the wizard's grey).
 
-## 10. Fonts and paragraphs (from the wizard, i.e. from the SmartStyles)
+## 10. Fonts and paragraphs (from the wizard, i.e. from the SmartStyles) - ZMMET_PO_SF values, see the S10 amendment above
 
 9 pt Arial body; labels and headings 9 pt bold; delivery heading 11 pt bold; sub total, VAT, total
 11 pt bold right-aligned; title and PO number 28 pt bold centred; watermark Courier New 12 pt grey.
