@@ -81,6 +81,8 @@ client's baseline. A pass is necessary, never sufficient: the client's preview d
 
 ## 6. Calibrate every number against the client's wizard form of the SAME form and the legacy printout (ZMMCG_PO_SF lessons)
 
+*The full method, the cell constructs, the verifier pattern and the anti-pattern table are in `S10`; this section keeps the summary.*
+
 Two pieces of evidence beat the export and beat any sibling form, and both must be compared **numerically, element by element,
 before the first layout push and after every rework**:
 
