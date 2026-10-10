@@ -1,0 +1,201 @@
+{
+ "flat": {
+  "LV_FLAG": {
+   "field": "LV_FLAG"
+  },
+  "V_BSART": {
+   "field": "V_BSART"
+  },
+  "GV_LANGU": {
+   "field": "GV_LANGU"
+  },
+  "V_EBELN": {
+   "field": "V_EBELN"
+  },
+  "LV_RESWK": {
+   "field": "LV_RESWK"
+  },
+  "LS_ADRC_NAME1": {
+   "field": "LS_ADRC-NAME1"
+  },
+  "LS_ADRC_NAME2": {
+   "field": "LS_ADRC-NAME2"
+  },
+  "LS_ADRC_STREET": {
+   "field": "LS_ADRC-STREET"
+  },
+  "LS_ADRC_STR_SUPPL1": {
+   "field": "LS_ADRC-STR_SUPPL1"
+  },
+  "LS_ADRC_STR_SUPPL2": {
+   "field": "LS_ADRC-STR_SUPPL2"
+  },
+  "LS_ADRC_CITY1": {
+   "field": "LS_ADRC-CITY1"
+  },
+  "LS_ADRC_CITY2": {
+   "field": "LS_ADRC-CITY2"
+  },
+  "LV_LAND": {
+   "field": "LV_LAND"
+  },
+  "LS_ADRC_POST_CODE1": {
+   "field": "LS_ADRC-POST_CODE1"
+  },
+  "LS_ADRC_TEL_NUMBER": {
+   "field": "LS_ADRC-TEL_NUMBER"
+  },
+  "LS_ADRC_FAX_NUMBER": {
+   "field": "LS_ADRC-FAX_NUMBER"
+  },
+  "GV_LIFNR_OUT": {
+   "field": "GV_LIFNR_OUT"
+  },
+  "WA_VEND_NAME1": {
+   "field": "WA_VEND-NAME1"
+  },
+  "WA_VEND_NAME2": {
+   "field": "WA_VEND-NAME2"
+  },
+  "WA_VEND_STREET": {
+   "field": "WA_VEND-STREET"
+  },
+  "WA_VEND_STR_SUPPL1": {
+   "field": "WA_VEND-STR_SUPPL1"
+  },
+  "WA_VEND_STR_SUPPL2": {
+   "field": "WA_VEND-STR_SUPPL2"
+  },
+  "WA_VEND_CITY1": {
+   "field": "WA_VEND-CITY1"
+  },
+  "WA_VEND_CITY2": {
+   "field": "WA_VEND-CITY2"
+  },
+  "WA_T005T_LANDX50": {
+   "field": "WA_T005T-LANDX50"
+  },
+  "WA_T005T_LANDX": {
+   "field": "WA_T005T-LANDX"
+  },
+  "WA_VEND_POST_CODE1": {
+   "field": "WA_VEND-POST_CODE1"
+  },
+  "GV_ISD": {
+   "field": "GV_ISD"
+  },
+  "WA_VEND_TEL_NUMBER": {
+   "field": "WA_VEND-TEL_NUMBER"
+  },
+  "WA_VEND_FAX_NUMBER": {
+   "field": "WA_VEND-FAX_NUMBER"
+  },
+  "V_EMAIL": {
+   "field": "V_EMAIL"
+  },
+  "LV_VAR4": {
+   "field": "LV_VAR4"
+  },
+  "PODATE": {
+   "field": "PODATE"
+  },
+  "EINDT": {
+   "field": "EINDT"
+  },
+  "V_DEPARTMNT": {
+   "field": "V_DEPARTMNT"
+  },
+  "G_ERNAME": {
+   "field": "G_ERNAME"
+  },
+  "V_BUYERTELE": {
+   "field": "V_BUYERTELE"
+  },
+  "V_BUYERTELFX": {
+   "field": "V_BUYERTELFX"
+  },
+  "V_BUYEREMAIL": {
+   "field": "V_BUYEREMAIL"
+  },
+  "LV_VTEXT": {
+   "field": "LV_VTEXT"
+  },
+  "GV_INCO1": {
+   "field": "GV_INCO1"
+  },
+  "GV_INCO2": {
+   "field": "GV_INCO2"
+  },
+  "V_POTEXT": {
+   "field": "V_POTEXT"
+  },
+  "GV_HDRTXT": {
+   "field": "GV_HDRTXT"
+  },
+  "V_FLAG": {
+   "field": "V_FLAG"
+  },
+  "V_WAERS": {
+   "field": "V_WAERS"
+  },
+  "GS_TOTALS_DIS": {
+   "field": "GS_TOTALS-DIS"
+  },
+  "GS_TOTALS_FRG": {
+   "field": "GS_TOTALS-FRG"
+  },
+  "GS_TOTALS_OTH": {
+   "field": "GS_TOTALS-OTH"
+  },
+  "GS_TOTALS_SUB": {
+   "field": "GS_TOTALS-SUB"
+  },
+  "GS_TOTALS_VAT": {
+   "field": "GS_TOTALS-VAT"
+  },
+  "GS_TOTALS_CA": {
+   "field": "GS_TOTALS-CA"
+  },
+  "GS_TOTALS_TOTAL": {
+   "field": "GS_TOTALS-TOTAL"
+  },
+  "LV_KTEXT": {
+   "field": "LV_KTEXT"
+  },
+  "LV_AMT_WORDS": {
+   "field": "LV_AMT_WORDS"
+  },
+  "GS_TOTALS_GROSS": {
+   "field": "GS_TOTALS-GROSS"
+  },
+  "GV_TERM1_ZPOS": {
+   "field": "GV_TERM1_ZPOS"
+  }
+ },
+ "tables": {
+  "LT_ADRC": [
+   "TDLINE"
+  ],
+  "LT_LINES": [
+   "TDLINE"
+  ],
+  "GT_GOODS": [
+   "SLNO",
+   "MATNR",
+   "DESCR",
+   "MENGE",
+   "MEINS",
+   "NETPR",
+   "NETWR"
+  ],
+  "GT_SERVICE": [
+   "SLNO",
+   "SRVPOS",
+   "DESCR",
+   "MENGE",
+   "MEINS",
+   "UNITPR",
+   "TOTAL"
+  ]
+ }
+}

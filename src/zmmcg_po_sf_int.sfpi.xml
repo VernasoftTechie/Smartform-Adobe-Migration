@@ -139,8 +139,10 @@
       <SFPGDATA><NAME>GT_GOODS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_GOODS</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GT_SERVICE</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_SERVICE</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GS_TOTALS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_S_TOTALS</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
-      <SFPGDATA><NAME>GS_PRINT</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_S_PRINT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GV_LANGU</NAME><TYPING>TYPE</TYPING><TYPENAME>SYLANGU</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_LIFNR_OUT</NAME><TYPING>TYPE</TYPING><TYPENAME>C LENGTH 20</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_HDRTXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_TERM1_ZPOS</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
       <FPCLINE>TYPES : BEGIN OF gty_adrc,</FPCLINE>
@@ -192,11 +194,6 @@
       <FPCLINE>         ca    TYPE c LENGTH 40,</FPCLINE>
       <FPCLINE>         total TYPE c LENGTH 40,</FPCLINE>
       <FPCLINE>       END OF ty_s_totals.</FPCLINE>
-      <FPCLINE>TYPES: BEGIN OF ty_s_print,</FPCLINE>
-      <FPCLINE>         country TYPE c LENGTH 50,</FPCLINE>
-      <FPCLINE>         vendtel TYPE c LENGTH 80,</FPCLINE>
-      <FPCLINE>         vendfax TYPE c LENGTH 80,</FPCLINE>
-      <FPCLINE>       END OF ty_s_print.</FPCLINE>
      </TYPES>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
@@ -308,7 +305,9 @@
       <FPPARAMETER>GT_GOODS</FPPARAMETER>
       <FPPARAMETER>GT_SERVICE</FPPARAMETER>
       <FPPARAMETER>GS_TOTALS</FPPARAMETER>
-      <FPPARAMETER>GS_PRINT</FPPARAMETER>
+      <FPPARAMETER>GV_LIFNR_OUT</FPPARAMETER>
+      <FPPARAMETER>GV_HDRTXT</FPPARAMETER>
+      <FPPARAMETER>GV_TERM1_ZPOS</FPPARAMETER>
       <FPPARAMETER>GV_LANGU</FPPARAMETER>
       <FPPARAMETER>IV_REL_INDICATOR</FPPARAMETER>
       <FPPARAMETER>LS_DADRC</FPPARAMETER>
@@ -334,9 +333,8 @@
       <FPPARAMETER>LV_EINDT</FPPARAMETER>
       <FPPARAMETER>EINDT</FPPARAMETER>
       <FPPARAMETER>LT_LINES</FPPARAMETER>
-      <FPPARAMETER>WA_T005T</FPPARAMETER>
-      <FPPARAMETER>GV_ISD</FPPARAMETER>
-      <FPPARAMETER>WA_VEND</FPPARAMETER>
+      <FPPARAMETER>LV_LIFNR</FPPARAMETER>
+      <FPPARAMETER>LS_LINE</FPPARAMETER>
       <FPPARAMETER>V_FLAG</FPPARAMETER>
       <FPPARAMETER>WA_EKPO</FPPARAMETER>
       <FPPARAMETER>MATDESC1</FPPARAMETER>
@@ -390,7 +388,9 @@
       <FPPARAMETER>GT_GOODS</FPPARAMETER>
       <FPPARAMETER>GT_SERVICE</FPPARAMETER>
       <FPPARAMETER>GS_TOTALS</FPPARAMETER>
-      <FPPARAMETER>GS_PRINT</FPPARAMETER>
+      <FPPARAMETER>GV_LIFNR_OUT</FPPARAMETER>
+      <FPPARAMETER>GV_HDRTXT</FPPARAMETER>
+      <FPPARAMETER>GV_TERM1_ZPOS</FPPARAMETER>
       <FPPARAMETER>GV_LANGU</FPPARAMETER>
       <FPPARAMETER>LS_DADRC</FPPARAMETER>
       <FPPARAMETER>LV_LAND1</FPPARAMETER>
@@ -408,6 +408,7 @@
       <FPPARAMETER>PODATE</FPPARAMETER>
       <FPPARAMETER>EINDT</FPPARAMETER>
       <FPPARAMETER>LT_LINES</FPPARAMETER>
+      <FPPARAMETER>LS_LINE</FPPARAMETER>
       <FPPARAMETER>WA_EKPO</FPPARAMETER>
       <FPPARAMETER>MATDESC1</FPPARAMETER>
       <FPPARAMETER>WA_RTEXT</FPPARAMETER>
@@ -446,13 +447,15 @@
       <FPCLINE>      lv_birr        TYPE string,</FPCLINE>
       <FPCLINE>      lv_satim       TYPE string,</FPCLINE>
       <FPCLINE>      lv_lang        LIKE sy-langu VALUE &apos;F&apos;,</FPCLINE>
+      <FPCLINE>      lt_zpos        TYPE ty_tline_tab,</FPCLINE>
+      <FPCLINE>      ls_zpos        TYPE tline,</FPCLINE>
       <FPCLINE>      ls_goods       TYPE ty_s_goods,</FPCLINE>
       <FPCLINE>      ls_service     TYPE ty_s_service.</FPCLINE>
       <FPCLINE/>
       <FPCLINE>* BOLT: Smart Forms start every document with empty globals; make that explicit.</FPCLINE>
       <FPCLINE>CLEAR: v_slno, g_netwr, lv_flag, v_dis, v_frg, v_ins, v_oth, v_sub, v_total, v_totali,</FPCLINE>
       <FPCLINE>       lv_vat, lv_ca, sub_total, vat, total, v_total1, gflag, lv_unitprice1, lv_total1,</FPCLINE>
-      <FPCLINE>       gt_goods, gt_service, gs_totals, gs_print.</FPCLINE>
+      <FPCLINE>       gt_goods, gt_service, gs_totals, gv_lifnr_out, gv_hdrtxt, gv_term1_zpos.</FPCLINE>
       <FPCLINE>gv_langu = sy-langu.</FPCLINE>
       <FPCLINE/>
       <FPCLINE>*--- legacy node %CODE32 (WATER_MARK window: approved flag)</FPCLINE>
@@ -660,15 +663,58 @@
       <FPCLINE>**EOC by Kalyan on 21.09.2026</FPCLINE>
       <FPCLINE/>
       <FPCLINE/>
-      <FPCLINE>* BOLT: values the layout prints that the Smart Form composed inside text nodes.</FPCLINE>
-      <FPCLINE>CLEAR gs_print.</FPCLINE>
-      <FPCLINE>IF sy-langu = &apos;E&apos;.</FPCLINE>
-      <FPCLINE>  gs_print-country = wa_t005t-landx50.      "legacy %TEXT143 (SY-LANGU = E)</FPCLINE>
-      <FPCLINE>ELSEIF sy-langu = &apos;F&apos;.</FPCLINE>
-      <FPCLINE>  gs_print-country = wa_t005t-landx.        "legacy %TEXT236 (SY-LANGU = F)</FPCLINE>
+      <FPCLINE>* BOLT: values the layout prints in converted / joined form (strategy S08 section 12).</FPCLINE>
+      <FPCLINE>WRITE lv_lifnr TO gv_lifnr_out.   "vendor number through its domain output routine (legacy &amp;LV_LIFNR&amp;)</FPCLINE>
+      <FPCLINE>CONDENSE gv_lifnr_out.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>* header text F01/EKKO (read by legacy %CODE34 into LT_LINES): paragraphs joined; the legacy form prints it</FPCLINE>
+      <FPCLINE>* in PO_DETAIL (%TEXT39, include text) when V_POTEXT is not X</FPCLINE>
+      <FPCLINE>CLEAR gv_hdrtxt.</FPCLINE>
+      <FPCLINE>LOOP AT lt_lines INTO ls_line.</FPCLINE>
+      <FPCLINE>  IF ls_line-tdformat = &apos;/*&apos; OR ls_line-tdformat = &apos;/:&apos;.</FPCLINE>
+      <FPCLINE>    CONTINUE.                                      "comment and command lines are never printed</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>  IF gv_hdrtxt IS INITIAL.</FPCLINE>
+      <FPCLINE>    gv_hdrtxt = ls_line-tdline.</FPCLINE>
+      <FPCLINE>  ELSEIF ls_line-tdformat IS INITIAL.               "continuation line: joined with a blank</FPCLINE>
+      <FPCLINE>    gv_hdrtxt = |{ gv_hdrtxt } { ls_line-tdline }|.</FPCLINE>
+      <FPCLINE>  ELSEIF ls_line-tdformat = &apos;=&apos;.                    "joined without a blank</FPCLINE>
+      <FPCLINE>    gv_hdrtxt = |{ gv_hdrtxt }{ ls_line-tdline }|.</FPCLINE>
+      <FPCLINE>  ELSE.                                             "new paragraph = new line</FPCLINE>
+      <FPCLINE>    gv_hdrtxt = |{ gv_hdrtxt }{ cl_abap_char_utilities=&gt;newline }{ ls_line-tdline }|.</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>ENDLOOP.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>* standard text ZMMCG_PO_TEXT (ST, language F): legacy include text %TEXT288 = term 1 of the service</FPCLINE>
+      <FPCLINE>* terms for order type ZPOS</FPCLINE>
+      <FPCLINE>CLEAR gv_term1_zpos.</FPCLINE>
+      <FPCLINE>IF v_bsart = &apos;ZPOS&apos;.</FPCLINE>
+      <FPCLINE>  CLEAR lt_zpos.</FPCLINE>
+      <FPCLINE>  CALL FUNCTION &apos;READ_TEXT&apos;</FPCLINE>
+      <FPCLINE>    EXPORTING</FPCLINE>
+      <FPCLINE>      id       = &apos;ST&apos;</FPCLINE>
+      <FPCLINE>      language = &apos;F&apos;</FPCLINE>
+      <FPCLINE>      name     = &apos;ZMMCG_PO_TEXT&apos;</FPCLINE>
+      <FPCLINE>      object   = &apos;TEXT&apos;</FPCLINE>
+      <FPCLINE>    TABLES</FPCLINE>
+      <FPCLINE>      lines    = lt_zpos</FPCLINE>
+      <FPCLINE>    EXCEPTIONS</FPCLINE>
+      <FPCLINE>      OTHERS   = 8.</FPCLINE>
+      <FPCLINE>  LOOP AT lt_zpos INTO ls_zpos.</FPCLINE>
+      <FPCLINE>    IF ls_zpos-tdformat = &apos;/*&apos; OR ls_zpos-tdformat = &apos;/:&apos;.</FPCLINE>
+      <FPCLINE>      CONTINUE.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>    IF gv_term1_zpos IS INITIAL.</FPCLINE>
+      <FPCLINE>      gv_term1_zpos = ls_zpos-tdline.</FPCLINE>
+      <FPCLINE>    ELSEIF ls_zpos-tdformat IS INITIAL.</FPCLINE>
+      <FPCLINE>      gv_term1_zpos = |{ gv_term1_zpos } { ls_zpos-tdline }|.</FPCLINE>
+      <FPCLINE>    ELSEIF ls_zpos-tdformat = &apos;=&apos;.</FPCLINE>
+      <FPCLINE>      gv_term1_zpos = |{ gv_term1_zpos }{ ls_zpos-tdline }|.</FPCLINE>
+      <FPCLINE>    ELSE.</FPCLINE>
+      <FPCLINE>      gv_term1_zpos = |{ gv_term1_zpos }{ cl_abap_char_utilities=&gt;newline }{ ls_zpos-tdline }|.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>  ENDLOOP.</FPCLINE>
       <FPCLINE>ENDIF.</FPCLINE>
-      <FPCLINE>gs_print-vendtel = |+{ gv_isd }{ wa_vend-tel_number }|.   "legacy %TEXT147 +&amp;GV_ISD&amp;&amp;WA_VEND-TEL_NUMBER&amp;</FPCLINE>
-      <FPCLINE>gs_print-vendfax = |+{ gv_isd }{ wa_vend-fax_number }|.   "legacy %TEXT149 +&amp;GV_ISD&amp;&amp;WA_VEND-FAX_NUMBER&amp;</FPCLINE>
       <FPCLINE/>
       <FPCLINE>IF v_flag = &apos;X&apos;.</FPCLINE>
       <FPCLINE>*==================== goods purchase order (legacy table OTHER_PO over IT_EKPO, V_FLAG = X)</FPCLINE>

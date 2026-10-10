@@ -2,7 +2,7 @@
   "nodes": [
     {
       "kind": "scalar",
-      "field": "V_EBELN"
+      "field": "LV_FLAG"
     },
     {
       "kind": "scalar",
@@ -10,23 +10,131 @@
     },
     {
       "kind": "scalar",
-      "field": "V_FLAG"
-    },
-    {
-      "kind": "scalar",
-      "field": "V_POTEXT"
-    },
-    {
-      "kind": "scalar",
-      "field": "V_WAERS"
-    },
-    {
-      "kind": "scalar",
-      "field": "LV_FLAG"
-    },
-    {
-      "kind": "scalar",
       "field": "GV_LANGU"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_EBELN"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_RESWK"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-NAME1"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-NAME2"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-STREET"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-STR_SUPPL1"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-STR_SUPPL2"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-CITY1"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-CITY2"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_LAND"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-POST_CODE1"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-TEL_NUMBER"
+    },
+    {
+      "kind": "scalar",
+      "field": "LS_ADRC-FAX_NUMBER"
+    },
+    {
+      "kind": "scalar",
+      "field": "GV_LIFNR_OUT"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-NAME1"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-NAME2"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-STREET"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-STR_SUPPL1"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-STR_SUPPL2"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-CITY1"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-CITY2"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_T005T-LANDX50"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_T005T-LANDX"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-POST_CODE1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GV_ISD"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-TEL_NUMBER"
+    },
+    {
+      "kind": "scalar",
+      "field": "WA_VEND-FAX_NUMBER"
+    },
+    {
+      "kind": "scalar",
+      "field": "V_EMAIL"
+    },
+    {
+      "kind": "scalar",
+      "field": "LV_VAR4"
+    },
+    {
+      "kind": "scalar",
+      "field": "PODATE"
+    },
+    {
+      "kind": "scalar",
+      "field": "EINDT"
     },
     {
       "kind": "scalar",
@@ -62,31 +170,47 @@
     },
     {
       "kind": "scalar",
-      "field": "V_EMAIL"
+      "field": "V_POTEXT"
     },
     {
       "kind": "scalar",
-      "field": "LV_RESWK"
+      "field": "GV_HDRTXT"
     },
     {
       "kind": "scalar",
-      "field": "LV_LAND"
+      "field": "V_FLAG"
     },
     {
       "kind": "scalar",
-      "field": "LV_LIFNR"
+      "field": "V_WAERS"
     },
     {
       "kind": "scalar",
-      "field": "LV_VAR4"
+      "field": "GS_TOTALS-DIS"
     },
     {
       "kind": "scalar",
-      "field": "PODATE"
+      "field": "GS_TOTALS-FRG"
     },
     {
       "kind": "scalar",
-      "field": "EINDT"
+      "field": "GS_TOTALS-OTH"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_TOTALS-SUB"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_TOTALS-VAT"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_TOTALS-CA"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_TOTALS-TOTAL"
     },
     {
       "kind": "scalar",
@@ -97,57 +221,12 @@
       "field": "LV_AMT_WORDS"
     },
     {
-      "kind": "structure",
-      "field": "WA_VEND",
-      "fields": [
-        "NAME1",
-        "NAME2",
-        "STREET",
-        "STR_SUPPL1",
-        "STR_SUPPL2",
-        "CITY1",
-        "CITY2",
-        "POST_CODE1"
-      ]
+      "kind": "scalar",
+      "field": "GS_TOTALS-GROSS"
     },
     {
-      "kind": "structure",
-      "field": "LS_ADRC",
-      "fields": [
-        "NAME1",
-        "NAME2",
-        "STREET",
-        "STR_SUPPL1",
-        "STR_SUPPL2",
-        "CITY1",
-        "CITY2",
-        "POST_CODE1",
-        "TEL_NUMBER",
-        "FAX_NUMBER"
-      ]
-    },
-    {
-      "kind": "structure",
-      "field": "GS_PRINT",
-      "fields": [
-        "COUNTRY",
-        "VENDTEL",
-        "VENDFAX"
-      ]
-    },
-    {
-      "kind": "structure",
-      "field": "GS_TOTALS",
-      "fields": [
-        "GROSS",
-        "DIS",
-        "FRG",
-        "OTH",
-        "SUB",
-        "VAT",
-        "CA",
-        "TOTAL"
-      ]
+      "kind": "scalar",
+      "field": "GV_TERM1_ZPOS"
     },
     {
       "kind": "loop",
