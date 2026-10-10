@@ -79,40 +79,47 @@ lie inside their parents; **every live legacy text fragment (English and French)
 printed field is bound or deliberately replaced; nothing outside `<template>` and the data description differs from the
 client's baseline. A pass is necessary, never sufficient: the client's preview decides.
 
-## 6. Measure the legacy printout (the most valuable evidence there is) — what the ZMMCG_PO_SF printout corrected
+## 6. Calibrate every number against the client's wizard form of the SAME form and the legacy printout (ZMMCG_PO_SF lessons)
 
-Whenever a real printout of the legacy form exists (PDF), **measure it before the first layout push and again after every
-rework**. A PDF made by the Smart Form keeps text items (origin, font, size), vector lines and rectangles (cell borders,
-grey boxes) and the image placement. Read them with `tools/pdf_probe.mjs` (S08 section 18; pdf.js: item origin `transform[4]/[5]`, pt to cm by 28.3465,
-glyph top = baseline minus the font size) and compare, section by section, with the generator parameters; the ticket
-keeps its own dump script (`tools/zmmcg_po_sf/printout_dump.cjs`, text plus vector shapes plus image placement). Twelve differences were found on ZMMCG_PO_SF **after** the layout had passed 20
-mechanical checks - the checks prove structure, only the printout proves the picture (full list: the ticket's
-`zmmcg_po_sf_printout_comparison.md`). The reusable rules:
+Two pieces of evidence beat the export and beat any sibling form, and both must be compared **numerically, element by element,
+before the first layout push and after every rework**:
 
-1. **Do not copy sizes from the wizard form of a sibling form.** Title 28 pt came from the wizard form of another ticket; the
-   printout shows 18 pt. Wizard forms prove constructs (S08), not the legacy's formats.
-2. **Baseline = cell top + top inset + 0.905 x font size** (Arial). Use it both ways: to check that the generated cell
-   sits where the printout's baseline is (label baselines 6.84, 7.31, ... in a grid starting at 6.50 prove a 0.5 mm inset),
-   and to place a text that the legacy prints above its window (the title baselines sat on the template line tops, i.e.
-   above the window top): put such cells in the parent area, not inside the window subform.
-3. **Window borders in the export are not printed.** The flag on the main window and on a text window did not produce a frame
-   on the printout; the visible outer lines are the left and right edges of the table rows (and the header/closing rows).
-   Never draw a window frame from the flag; read the line types' `CELLS/BORDERS` (S09 section 2).
-4. **Row heights come from the template (`STATLINES` / `LHEIGHT`) and from the text**: a template's last line can be much taller
-   than the window leaves (21.7 mm, not "fill to the table"); a one-line text row is 0.5 mm top inset + 3.387 mm + 0.29 mm
-   = 4.177 mm; blank paragraphs inside a text node are real lines (heading with blank before and after = 3 lines; the last
-   term with a trailing blank line = 2); a row without printable text has no height and no border.
-5. **Cell text starts 0.7 mm after the cell edge** in this legacy form, right-aligned numbers end 1.2 mm before the cell
-   edge, a paragraph indent shows up as a centre that is not the cell centre (item number centred on 1.67 cm in a cell
-   whose centre is 1.32 cm = indent 7.1 mm). Derive the margins from the measured text origin / end, not from a default.
-6. **Check text widths against the area**: a label 30.9 mm wide in a 30.95 mm area wraps in Adobe and overlaps in a fixed
-   row - give text cells in tight grids no right inset.
-7. **SY-LANGU in a condition is the logon language**, not the print language: the French printout showed the English country
-   and month. Keep two language variables apart (print language for static text variants; logon language for every legacy
-   `SY-LANGU` condition and for the data the Initialization reads in `SY-LANGU`).
-8. Put the measured numbers into the verifier (28 checks now) so the next regeneration cannot undo them, and state in the
-   status entry which items a render alone can prove (first-baseline offset with an explicit line height, rows split over
-   a page break, 3-digit numbers in a 2-digit area, long values).
+* the **wizard-generated form of the same Smart Form** ("Create Adobe Form by Migration", XDP): it carries the positions, insets,
+  heights, fonts and alignments that reproduce the legacy output in the client's Adobe; request it at intake (S08 section 14) and
+  keep a copy in the ticket (`docs/legacy_grab/wizard_reference/`);
+* the **legacy printout PDF**: text origins, lines, rectangles, image (`tools/pdf_probe.mjs`, S08 section 18; the ticket keeps
+  `tools/zmmcg_po_sf/printout_dump.cjs`).
+
+ZMMCG_PO_SF passed 20 structural checks and was still wrong in about 20 places, because positions had been taken from a
+**sibling** form's wizard output and from assumptions. What the comparison taught (details in the ticket's
+`zmmcg_po_sf_printout_comparison.md`):
+
+1. **Never take sizes or insets from a sibling's wizard form.** Title 28 pt came from ZMMET_PO_SF; ZMMCG prints 18 pt. Insets
+   0.5 mm / line height 3.387 mm are the sibling's, ZMMCG's wizard form uses 1.122 mm and no line height.
+2. **Calibrate the first-baseline rule from the wizard form + printout, not from the font's ascent.** Every element of the ZMMCG
+   wizard form satisfies *baseline = top + top inset + 0.717 em* (9 pt = 2.28 mm, 11 pt = 2.78 mm, 18 pt = 4.55 mm) against the
+   printout. Using the font ascent (0.905 em) would have printed every text 0.6 mm too high and the title 1.2 mm too high. Derive
+   the inset of a cell as `legacy baseline offset - 0.717 em` (3.4 mm - 2.28 mm = 1.122 mm) and **fix the height of single-line
+   cells** (rows that must keep the legacy pitch); let only genuinely multi-line cells grow, with a line height fitted so that
+   one line is exactly one row (`row height - top inset`).
+3. **Text placed by template line, not by window**: the title baselines sit on the line tops of the template (above the window
+   top); put such cells in the parent area at `baseline - 0.717 em`.
+4. **Window borders in the export are not printed** (no frame, no delivery box); the outer lines are the left and right edges of
+   the rows. Read line-type `CELLS/BORDERS`, never the window flag.
+5. **Heights come from the template (`STATLINES`) and the printout**: 13 grid rows = 61.0 mm (4.692 mm, not the rounded 4.70),
+   last row of the detail grid 21.769 mm (ends 129.0 mm), item row 4.183 mm, text row 4.2 mm, blank line 3.4 mm, 11 pt totals
+   4.3 / 4.4 mm; blank paragraphs inside a text are real lines; a row without printable text has no height and no border.
+6. **Alignments from the wizard form** (it read the paragraph formats): quantity centred, item number right with a right inset,
+   totals labels right aligned. A single printout cannot reveal an alignment (the "10" at 0.8 mm: an integer printed with a
+   trailing blank).
+7. **SY-LANGU in a condition is the logon language**, not the print language (French printout, English country and month). Keep
+   two language variables.
+8. **Read the logical operators of conditions**: the export stores AND / OR as an item *before* the operand it connects; dropping
+   those items turned 12 OR conditions into AND (stock transfer title, import / local branch, Inco terms). Check any generator
+   that reads conditions with a test on a known OR.
+9. Put the comparison into the verifier (`tools/zmmcg_po_sf/conformance.mjs`: absolute coordinates of every element the wizard
+   form contains, tolerance 0.15 mm) so no regeneration can undo it; state in the status entry what only a render can prove (the
+   growing cells' first baseline, rows split over a page break, 3-digit numbers, long values).
 
 ## 7. What to ask the client (put it in the first status entry; repeat it in any rework entry)
 

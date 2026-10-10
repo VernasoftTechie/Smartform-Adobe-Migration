@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-10T06:21:35.373Z
+UPDATED: 2026-10-10T06:51:32.180Z
 WAITING_ON: operator
-NOTE: Layout corrected after a measurement of your legacy printout (ZPOS sample) - in abapGit pull the branch again (only the form layout changed; interface and Context are the same as in the previous entry) and activate; then preview and compare with the legacy printout, and confirm or report exactly what you see. The interface and Context steps of the previous entry still need your SAP result.
+NOTE: Layout re-aligned with your wizard form of ZMMCG_PO_SF and the legacy printout (only the form layout and one condition fix changed; interface and Context are the same) - in abapGit pull the branch again, activate, preview the ZPOS sample against the legacy PDF and confirm or report exactly what you see. The interface and Context steps of the earlier entries still need your SAP result.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -381,4 +381,34 @@ You supplied a real legacy printout (service order, type ZPOS, French, unapprove
 2. Open the Layout first and report any warning or overflow badge.
 3. Preview the same document as your legacy sample (service order ZPOS, 18 items, unapproved) and compare page 1 and page 2 with the legacy PDF: title and PO number, plant address (no box), the two grids (the right one ends at 12.90 cm), table (item number, quantity, prices), totals (right aligned), words row, terms (term 4 splits to page 2), blank closing rows, watermark.
 4. Then the 7 cases of the previous entry (goods with more than 60 items, import ZPOI, local ZPOL, stock transfer ZPOT, header text, long item text).
+5. Confirm, or use "Change requested" with the order type, the place on the page, what the legacy shows and what the new form shows (a screenshot helps).
+
+## 2026-10-10T06:51:32.180Z — Layout re-aligned with your wizard form of this Smart Form
+Thank you for the wizard-generated form of ZMMCG_PO_SF (`ZMMCG_PO_SF_F.XDP`). It is the best evidence of what your SAP renders, and it showed that my previous layout was built on the wrong reference (the wizard form of the sibling ticket ZMMET_PO_SF) and on a wrong assumption about where Adobe puts the first line of text. I compared every element of my layout with your form (and with the legacy printout, which agrees with your form to 0.1 mm) and corrected everything that differed. The interface and the Context did not change; please pull the form again.
+
+**Main findings**
+1. **Text position**: in your form every text sits at *cell top + top inset + 0.717 em* from the printout's baseline (for 9 pt: inset 1.122 mm). I had used the font ascent and 0.5 mm insets, which would have printed **every text about 0.6 mm too high** (the title 1.2 mm). All cells now use your form's insets (1.122 / 1.092 / 0.47 / 1.022 / 4.422 mm) and fixed single-line heights.
+2. **Page and header**: page-1 content area is now the whole body like yours (x 7.5, y 0, 202 x 290 mm) with the header as one 135 mm block at absolute coordinates; logo 8.1 / 11.1 mm, 29.6 x 16.8 mm; title and PO number 18 pt bold at 11.445 / 24.445 mm; plant address as a repeating line subform (4.183 mm lines, no frame); "Last Changed On" at 36.4 + 1.122 mm.
+3. **Grids**: rows 4.692 mm from y 65, last row of the right grid 21.769 mm (ends at 129.0 mm), insets 1.122 / 0.7, the header text cell 1.092 / 0.35 with line height 3.4 mm.
+4. **Item table**: heading row 7.6 mm, item rows fixed 4.183 mm, item number right aligned (1.18 mm), code / quantity / unit centred, prices right (1.28 mm), as your form; only the description cell may grow with a long text.
+5. **Totals, words, terms**: labels right aligned; rows 4.2 / 4.35 mm with your insets; terms heading as one 11.722 mm field (top inset 4.422, left 1.18), term text with the hanging indent 0.353 + 0.353 mm and line height 3.39 mm, rows 4.2 mm as on the printout.
+6. **Watermark** (12 pt grey, 239 / 179 mm) and **no window frames**: as your form.
+7. **A defect in my generator, found during this check**: the AND / OR operators of the legacy conditions were read as AND. Three conditions could never be true: the stock-transfer title (ZPOT or ZPIC), the import / local branch (ZIMP or ZLOC) and the Inco-terms text (Inco 1 or Inco 2 filled). Fixed; the sample (ZPOS) did not show it.
+
+**Checked mechanically** (`tools/zmmcg_po_sf/verify.mjs`, 23 checks, 0 failures): all earlier checks plus a comparison of the generated layout with your wizard form as absolute page coordinates (page areas, watermark, logo, title baseline, address, last changed, both grids row by row, item table widths / heights / margins / alignments, totals block, words row, terms). Details: `docs/legacy_grab/zmmcg_po_sf_printout_comparison.md`. These checks cannot show how it looks: that is your preview.
+
+**Where my layout deliberately goes beyond your form (it is a one-case ZPOS form)**: every order type and both languages with the legacy conditions, the goods table with its own column widths, the comments table, repeating table heading on following pages, description cell and words row that grow with long texts (line height fitted to one row), watermark text by approval, terms rows spaced 4.2 mm as on the printout (your form 3.96 mm).
+
+**Not provable without a render in SAP - please look at these in the preview**
+1. The first line of the growing cells (description, words row, comments), whose line height is fitted to one row height: worst case 0.4 mm higher than the neighbouring cells.
+2. Term 4, which the legacy printout splits across the page break: Adobe decides itself whether to move or split the row.
+3. Item numbers of 100 or more in the 11.3 mm cell; very long values in the fixed grid cells are cut (the legacy cuts them, too).
+4. On the printout the item numbers 10-18 end 0.8 mm further right than 1-9 (the legacy integer is printed with a trailing blank); your form right-aligns all of them, so the new form does too.
+5. Only a ZPOS sample exists; a legacy printout (and, if possible, the wizard form) of a goods order, an import (ZPOI), a local (ZPOL) and a stock transfer (ZPOT) would allow the same comparison for those types.
+
+## 2026-10-10T06:51:32.180Z — Action needed from you (SAP)
+1. In abapGit pull the branch again onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT** (only the layout of the form changed since the previous entry). Activate the interface (if it is not active yet), then the form.
+2. Open the Layout first and report any warning or overflow badge.
+3. Preview the same document as your legacy sample (service order ZPOS, 18 items, unapproved) and compare page 1 and page 2 with the legacy PDF and with the preview of your wizard form: title and PO number, plant address, both grids (the right one ends at 129 mm), item table, totals, words row, terms (term 4 near the page break), closing rows, watermark.
+4. Then the cases of the earlier entries (goods with more than 60 items, import ZPOI, local ZPOL, stock transfer ZPOT, header text, long item text).
 5. Confirm, or use "Change requested" with the order type, the place on the page, what the legacy shows and what the new form shows (a screenshot helps).

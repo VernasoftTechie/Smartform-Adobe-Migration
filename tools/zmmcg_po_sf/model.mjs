@@ -11,7 +11,14 @@ const OPS = { EQ: '=', NE: '<>', GT: '>', LT: '<', GE: '>=', LE: '<=' };
 
 function condItems(condEl) {
   const c = condEl && k1(condEl, 'sf:CONDITION');
-  return k(k1(c, 'COND'), 'item').map((i) => ({ lop: t(i, 'LOP'), op1: t(i, 'OP1'), cop: OPS[t(i, 'COP')] ?? t(i, 'COP'), op2: t(i, 'OP2') })).filter((i) => i.cop);
+  // the logical operator (AND / OR) is stored as its own item BEFORE the operand it connects: carry it to the next operand
+  const out = []; let pending = '';
+  for (const i of k(k1(c, 'COND'), 'item')) {
+    const cop = OPS[t(i, 'COP')] ?? t(i, 'COP');
+    if (!cop) { if (t(i, 'LOP')) pending = t(i, 'LOP'); continue; }
+    out.push({ lop: t(i, 'LOP') || pending, op1: t(i, 'OP1'), cop, op2: t(i, 'OP2') }); pending = '';
+  }
+  return out;
 }
 const unq = (s) => (/^'.*'$/.test(s) ? s.slice(1, -1) : s);
 

@@ -1,47 +1,68 @@
-# ZMMCG_PO_SF - comparison with the real legacy printout
+# ZMMCG_PO_SF - comparison with the legacy printout and with the client's wizard form of this Smart Form
 
-Evidence: `ZCGO Smartform Output.pdf` (Smart Form printout of a service order, type ZPOS, French, "UnApproved PO", 2 pages,
-logon language English), supplied by the project owner on 2026-10-10. Method: text items, vector lines/rectangles and image
-placement read from the PDF with `tools/zmmcg_po_sf/printout_dump.cjs` (pdf.js), all numbers in cm from the top-left of the page.
-Build compared: commit `607d265` (before) and the rework of 2026-10-10 (after). **This is a numeric comparison of the
-generated layout parameters with the printout, not a render of the new form: the new form has not been rendered by us.**
+Three sources, in this order of authority for **geometry**:
 
-## 1. Differences found in the build `607d265` and corrected
+1. `docs/legacy_grab/wizard_reference/ZMMCG_PO_SF_F.XDP` (+ `SFPF_...XML`): the client's SAP wizard form of THIS Smart Form
+   (supplied 2026-10-10). It reproduces the legacy printout of the ZPOS sample, field by field.
+2. `ZCGO Smartform Output.pdf`, the legacy printout (ZPOS, French, unapproved, 2 pages), read with
+   `tools/zmmcg_po_sf/printout_dump.cjs` (text origins, lines, rectangles, image).
+3. The legacy export: conditions, texts (English and French), line types, borders, template line heights.
 
-| # | Legacy printout (measured) | Build 607d265 | Now |
+`tools/zmmcg_po_sf/conformance.mjs` (called by `verify.mjs`) compares the generated layout with source 1 as absolute page
+coordinates; the printout confirms source 1 (title, address, last changed, grids, totals, words row and terms agree with the
+wizard form to 0.1 mm). **The new layout has not been rendered by us.**
+
+## 1. The baseline rule I had wrong (and its consequence)
+
+First baseline of a line = **cell top + top inset + 0.717 em** (9 pt: 2.28 mm, 11 pt: 2.78 mm, 18 pt: 4.55 mm). The wizard form
+satisfies this for every kind of element against the printout: title top 11.445 mm -> baseline 16.0 mm (printout 16.0), address
+10.422 -> 12.70 (printout 12.70), grid cell 65 + 1.122 -> 68.40 (printout 68.4), totals 7.822 -> 10.10 below the table (printout
+10.1), terms heading, words row. My earlier builds used 0.905 em (the font's ascent) with top insets of 0.5 mm: **every text would
+have been printed about 0.6 mm above its legacy place and the 18 pt title 1.2 mm too high.** Insets now follow the wizard form:
+1.122 mm for one-line 9 pt cells (1.092 mm with line height 3.4 mm), 0.47 / 1.022 mm in the totals, 4.422 mm for the terms heading.
+(The sibling form ZMMET_PO_SF uses 0.5 mm with line height 3.387 mm - not applicable here.)
+
+## 2. Differences between the previous build (`b321a85`, `607d265`) and the wizard form / printout, now corrected
+
+| # | Wizard form / printout | Previous build | Now |
 |---|---|---|---|
-| 1 | Title and PO number: **18 pt** bold, centred on 8.92 cm (= window left 1.87 + half the template width 14.10), baselines **1.60 / 2.90 cm** (the baselines sit on the top of template lines 1 and 3: 1.60, 1.60 + 8.0 + 5.0) | 28 pt (copied from the wizard form of the sibling ticket), 14.56 cm wide, at wizard offsets | 18 pt, 141 mm wide cells at x 18.7 mm, y so that the baselines are 16.0 / 29.0 mm; the cells are children of the header area (they lie above the window top) |
-| 2 | **No box** around the plant address; lines 4.175 mm apart (14 lines from 0.95 cm, x 14.80) | box with 4 edges, 3.387 mm lines | no border, line height 4.175 mm |
-| 3 | **No frame** around the items / totals / terms block: the outer lines are the left and right edges of the rows (page 2 starts at 0.55 cm without a top line and ends without a bottom line) | frame drawn by the page area (`MAIN_FRAME`) | removed |
-| 4 | Totals labels (Prix Brut, Remise, Sous Total, TVA, CA, Total) **right aligned**, ending at 16.55 cm; values end at 19.63 cm | labels left aligned | right aligned (all totals cells) |
-| 5 | PO_DETAIL last row (Commentaires) is 21.70 mm: the grid ends at **12.90 cm**; text lines 3.387 mm apart | row filled the space down to the table (27.7 mm) | row heights read from the export (STATLINES): 9 x 4.70 mm + 21.70 mm |
-| 6 | Text in cells starts **0.7 mm** after the cell edge (labels x 0.82 for a cell at 0.75, values 4.82 / 14.40 / 5.09 ...) | 0.5 mm (wizard) | 0.7 mm everywhere |
-| 7 | Terms: text rows are 4.18 mm for one line (top 0.5 mm), the heading text has a blank line before and after (1.09 cm), item 10 has a trailing blank line (0.75 cm), 3 blank rows close the block | rows 3.39 mm, no top inset: block would end about 8 mm too high | rows 4.177 mm with the cell margins; heading and last term keep their blank lines |
-| 8 | Item number centred on **1.67 cm** (1 and 10 both centre there; cell centre would be 1.32 cm) | right aligned at 1.76 cm | centred, 7.1 mm paragraph indent (legacy indent) |
-| 9 | Qty ends at 12.12 cm (8.0 mm from the cell edge); prices end 1.2 mm from the cell edge, big totals values 1.3 mm | 8.1 / 1.23 / 1.43 mm | 8.0 / 1.2 / 1.3 mm |
-| 10 | `SY-LANGU` conditions (country name, month name, ...) follow the **logon language**: English country "Republic of the Congo" and month "April" on a French (ZPOS) document | mapped to the print language (would print "Congo" in French) | mapped to the logon language (`GV_LANGU`); the print language drives only the static text variants |
-| 11 | A legacy row without printable text has no height and no border (no line under the last blank row) | zero-height rows kept their borders | no border on rows without text |
-| 12 | Grid label "Date de Bon de Cde." is 30.9 mm wide in a 30.95 mm area | right inset 0.35 mm (area 30.95 mm: wrap risk) | right inset 0 in grids |
+| 1 | page-1 content area x 7.5, y 0, 202 x 290 mm; the header is one 135 mm positioned block, all windows at their absolute coordinates | content area = bounding box of the windows (y 9.3, 201 x 281 mm) | same as the wizard form |
+| 2 | title / PO number 18 pt bold, top 11.445 / 24.445 mm (baselines 16.0 / 29.0), 110 mm cells centred on 89.2 mm | 28 pt, later 18 pt at the 0.905 em position (1.2 mm too high) | 18 pt, tops 11.447 / 24.447 mm, 141 mm cells with the same centre |
+| 3 | plant address: repeating subform, one 4.183 mm field per line, x 140.5, y 10.422, no frame | one multi-line field with a box | repeating subform bound to LT_ADRC, 4.183 mm lines, no frame |
+| 4 | grids: rows 4.692 mm from y 65, cells 40 + 61.3 and 32 + 58 mm, fixed height, top inset 1.122, left 0.7, right 0; last row 21.769 mm (ends 129.0 mm), left 0.35, top 1.092, line height 3.4 | 4.70 mm rows, top inset 0.5, last row 27.7 / 21.7 mm | as the wizard form |
+| 5 | table: heading row 7.6 mm (inset 1.122, 0.3 left/right, line height 3.4); item rows fixed 4.183 mm; item no. right (right inset 1.18), code / quantity / unit centred, description left, prices right (1.28) | minH rows 4.177 mm, insets 0.5, quantity right aligned with 8.0 mm inset, item no. centred | as the wizard form; the description cell may grow (see 4) |
+| 6 | totals labels right aligned; rows 4.2 mm (9 pt) and 4.3 / 4.4 mm (11 pt bold); amount in words 4.2 mm with a box | left aligned labels, 0.5 mm insets | right aligned, 4.2 / 4.35 mm rows, insets 1.022 / 0.47 mm, words row 4.2 mm |
+| 7 | terms heading: one 11.722 mm field, bold, top inset 4.422, left 1.18; term rows: number cell 5.5 mm (top 0.3), text cell left 0.353 + hanging indent 0.353, right 0.8, line height 3.39 | heading text with blank lines (3 lines), 0.5 / 0.29 mm insets, no hanging indent | as the wizard form (bottom inset 0.51 mm so that one line is 4.2 mm as on the printout) |
+| 8 | no frame around the window, no address box (the printout agrees); outer lines = left / right edges of the rows | frame drawn (607d265), removed in b321a85 | none |
+| 9 | watermark 12 pt grey Courier, x 15.2, y 239 (page 1) / 179 (page 2), 6 mm high, inset 0 | y at the window top, top inset 0.74 mm, line height 4.233 mm | y = window top + 1.4 mm = 239 / 179, inset 0 |
+| 10 | logo x 0.6 + 7.5, y 11.1 mm, 29.6 x 16.8 mm | 8.01 / 11.11 mm, 29.633 x 16.764 mm | 8.1 / 11.1 mm, 29.6 x 16.8 mm |
 
-## 2. Checked and found equal (no change)
+## 3. A defect found in the generator while doing this (not visible in the sample)
 
-Logo at 0.81 / 1.11 cm, 2.96 x 1.68 cm (build: 8.01 / 11.11 mm, 29.633 x 16.764 mm); watermark 12 pt monospace, grey 176,176,176,
-centred in the window at 23.76 cm (page 1) and 17.76 cm (page 2); last-changed text at 0.94 / 3.67 cm; supplier and PO detail grids
-(13 rows x 4.7 mm from 6.50 cm, grey 176 label cells, 0.75 pt edges, widths 4.00 / 6.13 and 3.20 / 5.80 cm); table header 13.50-14.26 cm
-(two-line headings, centred, grey); data rows 4.177 mm, borders left/right/bottom per cell, column widths 11.3 / 31.4 / 57.0 / 22.0 /
-12.4 / 28.0 / 27.9 mm and alignments (code and unit centred, description left, numbers right); blank rows 3.387 mm; totals rows
-4.177 mm and big totals 4.36 mm; words row with top and bottom edge; term numbers at 1.07 cm and term text at 1.67 cm;
-baseline offset in every cell (top inset 0.5 mm + ascent 2.87 mm = 0.34 cm: label baselines 6.84, 7.31, ... measured).
+The legacy export stores the logical operator of a condition (AND / OR) as an **item of its own before the operand it connects**.
+`model.mjs` dropped those items, so every `OR` condition was generated as `AND`: the stock-transfer title (`V_BSART = ZPOT OR ZPIC`),
+the import / local branch (`ZIMP OR ZLOC`) and the Inco-terms text (`GV_INCO1 <> blank OR GV_INCO2 <> blank`) could never be true.
+Fixed (12 `OR` and 55 `AND` operators of 65 multi-item conditions are now read); the three scripts changed.
 
-## 3. Still not provable without a render in SAP (to be judged in the client's preview)
+## 4. Where the generated layout deliberately differs from the wizard form
 
-* Adobe's first-baseline position when a paragraph has an explicit `lineHeight` larger than the font's natural line (address
-  lines 4.175 mm, totals 4.36 mm): up to 0.5 mm vertical offset is possible.
-* Rows that the legacy printout splits across the page break (term 4 starts on page 1 and ends on page 2): Adobe moves or splits
-  the row by its own rule.
-* Item numbers of 100 or more: the 4.2 mm area (legacy indent) holds two digits, as in the legacy form.
-* Wrapping of very long values in the fixed-height grid cells (street, e-mail): the legacy cuts them at the cell.
-* The legacy glyph problems on this printout (characters "e acute" and words broken apart in the French terms) are a
-  font/encoding defect of the legacy output and are not reproduced.
-* Goods orders (ZPOC/ZPOR/ZPOT/ZPOI/ZPOL): only a ZPOS printout was available; the goods table uses the same measured
-  rules (same line types in the export) but is not measured.
+* **All order types and both languages**: the wizard form is one ZPOS case with French labels; the generated layout carries every
+  live legacy text node with its condition, in English and French, the goods table (its own column widths), the comments table and
+  the totals for every type.
+* **Repeating heading row** (`overflow leader`) and growing rows for pages after the first.
+* **Description cell** grows with long texts (the legacy wraps them) with a line height fitted so that one line is exactly 4.183 mm
+  (3.061 mm); the other item cells are fixed like the wizard form. Same fitting for the words row, comments and text rows.
+* **Terms rows** 4.2 mm (bottom inset 0.51 mm) instead of the wizard form's 3.96 mm, which is how the printout is spaced (rows
+  27.25, 27.67 ... cm); the heading is 11.722 mm as in the wizard form so that the first term baseline is 27.57 cm like the printout.
+* **Watermark** text by `LV_FLAG` (approved / unapproved) instead of fixed text.
+* **Item number**: right aligned as in the wizard form. The printout shows "10" ending 0.8 mm right of "1" (the legacy value is an
+  integer printed as "1 " with a trailing blank); not reproduced.
+
+## 5. Not provable without a render in SAP (to be judged in the client's preview)
+
+* The baseline model is taken from the wizard form and agrees with the printout in every element, but only a render can show
+  Adobe's behaviour with the fitted line heights (3.061 / 3.078 mm) of the growing cells: a first baseline up to 0.4 mm higher
+  would be the worst case in those cells.
+* A term row that the legacy splits across the page break (term 4): Adobe decides itself whether to move or split it.
+* Item numbers of 100 or more in the 11.3 mm cell; long values cut at the fixed grid cells (legacy: cut, too).
+* Only a ZPOS sample was available: goods types use the same constructs but are not measured.
