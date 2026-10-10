@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-09T19:31:46.000Z
+UPDATED: 2026-10-10T06:08:58.000Z
 WAITING_ON: operator
-NOTE: Interface, Context and layout rebuilt (SAP-native constructs, tables, terms, frames). Pull the interface ZMMET_PO_SF_INT first, then form ZMMET_PO_SF_ADT, activate both, report overflow badges with element names, preview the listed orders, and send one line per test plus your answers to the four decisions. Not closed without your test results.
+NOTE: Layout cross-checked against the legacy output PDF and corrected (no frames, title position, terms heading and lines). Pull the branch onto ZMMET_PO_SF_ADT again, activate, run the tests and send one line per test, plus a preview PDF of the same service PO as in the legacy PDF. Not closed without your test results.
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -320,3 +320,27 @@ Please do these in SAP, in order:
 3. Open the Layout and report overflow or warning badges with the element name (a screenshot helps).
 4. Preview with real orders and compare with the legacy printout: goods PO with 1 item and with more than 25 items, service PO, import PO (ZPOI), stock transfer (ZPOT), an approved and an unapproved PO, one with V_POTEXT = X, one with a missing standard text (terms and conditions block) and one with the standard text.
 5. Send one line per test (PASS or what is wrong) and your answers to the four decisions above. This migration stays open until you do.
+
+## 2026-10-10T06:08:58.000Z — Layout cross-checked against the legacy output PDF; four corrections
+I compared the layout, element by element, with the printout of the legacy Smart Form (`ZETO Smartform Output.pdf`, a service PO, 2 pages): text positions to 0.1 mm, font sizes, fonts, every drawn line and fill, number notation and wording. The PDF is now the reference. **This push supersedes the previous one; please pull the form again (the interface and Context did not change since the last entry).**
+
+**Confirmed identical to the printout**
+- Header: title 28 pt bold (baseline 17.5 mm) and PO number (30.5 mm); "Delivery Address:" 11 pt bold at x 162.3; address lines 9 pt every 3.39 mm with the empty lines kept; "Last Changed On:" wraps to a second line as in the PDF; watermark "UnApproved PO" in Courier 12 pt at x 88.7, y 181.9 on both pages.
+- Supplier grid: 35 + 66.3 mm, 4.69 mm rows, label cells filled grey (176), 0.26 mm lines; telephone prints "++242..." (literal plus, dial code, number); empty fax prints "+". PO detail grid: 30 + 50 mm columns, comments cell 21.7 mm high, the long text breaks by width.
+- Tables: heading 9 pt bold on two lines ("Unit Price" / "(Excl.VAT)", "XAF Total" / "(Excl.VAT)"); row pitch 4.18 mm (one 9 pt line plus margins); serial number right, material number and unit centred, text left, amounts right; the service description reads `LEON HOTEL(HOTEL BILL)` with no blank; material number printed without leading zeros and the unit as "DAY" (the conversions I added are needed and right).
+- **Number notation: `1,00` and `2.125,00`** (decimal comma, dot grouping, quantity with two decimals): this is the `de_DE` setting I took from the wizard form. Decision 2 of my last entry is answered by the PDF.
+- Footer: spacer rows 3.39 mm, "Gross Price" 213 mm, "Net Discount" 217 mm, Sub Total / VAT / Total 11 pt bold right-aligned, the words row as one 190 x 4.18 mm box ("Total order Value In Words(CFA Franc BEAC): ... basis"), then the terms box.
+- **Terms and conditions are printed in the real output** (Ethiopia wording, 9 points, heading, blank line, the box continuing on page 2 with point 9). The wording equals the static block in the layout, so decision 1 of my last entry is answered: keep it. The legacy export you gave me shows other wording (Sephaku, ZAR) switched off, so it is an older version or the text comes from the standard text; please send a fresh export and the content of the standard texts ZPOI_ET / ZPOL_ET.
+
+**Four things I got wrong, now corrected**
+1. I had drawn a **frame** around the main window (page 1 and 2) and a **border around the delivery box** because the export has border attributes. The real output has neither. Removed.
+2. I had moved the title and the PO number to the export window coordinates (9 mm lower than printed). Restored to the printed position.
+3. The terms heading was bold; the printout is regular. Fixed.
+4. Terms from the standard text were joined into one paragraph; the printout shows them line by line. Now one row per text line, in the same 190 mm box.
+
+**Checks before pushing:** valid XML (strict parser); all 64 bindings resolve to the data schema from the Context; 31 FormCalc scripts reference existing names; leaders, geometry and legacy printed-field coverage pass (13 of 13). The comparison method is now a tool (`tools/pdf_probe.mjs`) and a section of strategy S08 (section 18), so every ticket is checked against its legacy PDF the same way. Still only your SAP can show: pull and activation, that the Layout and the preview show the data, and the page-2 behaviour.
+
+**Still open:** French wording (English only), whether the standard texts exist in your system, a fresh export of the Smart Form. The test list of the previous entry stands.
+
+## 2026-10-10T06:08:58.000Z — Action needed from you (SAP)
+Please pull the branch onto form ZMMET_PO_SF_ADT (the interface needs a pull only if you have not yet done the previous one), activate, and run the tests of the previous entry. Send one line per test (PASS or what is wrong); please include a preview PDF of the same service PO as in `ZETO Smartform Output.pdf` so I can compare the two PDFs directly. This migration stays open until you do.
