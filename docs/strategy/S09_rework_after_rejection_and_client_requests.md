@@ -79,7 +79,42 @@ lie inside their parents; **every live legacy text fragment (English and French)
 printed field is bound or deliberately replaced; nothing outside `<template>` and the data description differs from the
 client's baseline. A pass is necessary, never sufficient: the client's preview decides.
 
-## 6. What to ask the client (put it in the first status entry; repeat it in any rework entry)
+## 6. Measure the legacy printout (the most valuable evidence there is) — what the ZMMCG_PO_SF printout corrected
+
+Whenever a real printout of the legacy form exists (PDF), **measure it before the first layout push and again after every
+rework**. A PDF made by the Smart Form keeps text items (origin, font, size), vector lines and rectangles (cell borders,
+grey boxes) and the image placement. Read them with `tools/pdf_probe.mjs` (S08 section 18; pdf.js: item origin `transform[4]/[5]`, pt to cm by 28.3465,
+glyph top = baseline minus the font size) and compare, section by section, with the generator parameters; the ticket
+keeps its own dump script (`tools/zmmcg_po_sf/printout_dump.cjs`, text plus vector shapes plus image placement). Twelve differences were found on ZMMCG_PO_SF **after** the layout had passed 20
+mechanical checks - the checks prove structure, only the printout proves the picture (full list: the ticket's
+`zmmcg_po_sf_printout_comparison.md`). The reusable rules:
+
+1. **Do not copy sizes from the wizard form of a sibling form.** Title 28 pt came from the wizard form of another ticket; the
+   printout shows 18 pt. Wizard forms prove constructs (S08), not the legacy's formats.
+2. **Baseline = cell top + top inset + 0.905 x font size** (Arial). Use it both ways: to check that the generated cell
+   sits where the printout's baseline is (label baselines 6.84, 7.31, ... in a grid starting at 6.50 prove a 0.5 mm inset),
+   and to place a text that the legacy prints above its window (the title baselines sat on the template line tops, i.e.
+   above the window top): put such cells in the parent area, not inside the window subform.
+3. **Window borders in the export are not printed.** The flag on the main window and on a text window did not produce a frame
+   on the printout; the visible outer lines are the left and right edges of the table rows (and the header/closing rows).
+   Never draw a window frame from the flag; read the line types' `CELLS/BORDERS` (S09 section 2).
+4. **Row heights come from the template (`STATLINES` / `LHEIGHT`) and from the text**: a template's last line can be much taller
+   than the window leaves (21.7 mm, not "fill to the table"); a one-line text row is 0.5 mm top inset + 3.387 mm + 0.29 mm
+   = 4.177 mm; blank paragraphs inside a text node are real lines (heading with blank before and after = 3 lines; the last
+   term with a trailing blank line = 2); a row without printable text has no height and no border.
+5. **Cell text starts 0.7 mm after the cell edge** in this legacy form, right-aligned numbers end 1.2 mm before the cell
+   edge, a paragraph indent shows up as a centre that is not the cell centre (item number centred on 1.67 cm in a cell
+   whose centre is 1.32 cm = indent 7.1 mm). Derive the margins from the measured text origin / end, not from a default.
+6. **Check text widths against the area**: a label 30.9 mm wide in a 30.95 mm area wraps in Adobe and overlaps in a fixed
+   row - give text cells in tight grids no right inset.
+7. **SY-LANGU in a condition is the logon language**, not the print language: the French printout showed the English country
+   and month. Keep two language variables apart (print language for static text variants; logon language for every legacy
+   `SY-LANGU` condition and for the data the Initialization reads in `SY-LANGU`).
+8. Put the measured numbers into the verifier (28 checks now) so the next regeneration cannot undo them, and state in the
+   status entry which items a render alone can prove (first-baseline offset with an explicit line height, rows split over
+   a page break, 3-digit numbers in a 2-digit area, long values).
+
+## 7. What to ask the client (put it in the first status entry; repeat it in any rework entry)
 
 1. The **wizard-generated form** (SFPF xml and XDP, "Create Adobe Form by Migration") of the same Smart Form: the best proof
    of what their SAP renders. If it exists it settles fonts, borders, positions and language wording.
@@ -92,8 +127,8 @@ client's baseline. A pass is necessary, never sufficient: the client's preview d
    standard text that may be missing.
 7. The DDIC definition of custom types and, for standard texts the form reads, their names, ids and languages.
 
-## 7. Rework status entry (skeleton)
+## 8. Rework status entry (skeleton)
 
 Acknowledge the client's comments in their own words; give the **root causes**; list what changed (interface, Context,
 layout) and what did **not**; state the verification result and every WARN; list the unconfirmed constructs; give the
-client the test cases of section 4 point 10; end with the requests of section 6. One hand-off, `WAITING_ON: operator`.
+client the test cases of section 4 point 10; end with the requests of section 7. One hand-off, `WAITING_ON: operator`.

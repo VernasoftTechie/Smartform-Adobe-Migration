@@ -1,6 +1,6 @@
 # ZMMCG_PO_SF -> ZMMCG_PO_SF_ADT / ZMMCG_PO_SF_INT - post-implementation notes
 
-Rewritten 2026-10-10 after the client rejected layout steps 1-2d ("no table, no terms and conditions, spacing and
+Rewritten 2026-10-10 (and corrected the same day against the real legacy printout, see `zmmcg_po_sf_printout_comparison.md`) after the client rejected layout steps 1-2d ("no table, no terms and conditions, spacing and
 overlaps") and the layout, Context and interface additions were rebuilt on the wizard-proven constructs (strategy S08)
 by a generator from the legacy export (strategy S09). **Not signed off**: sign-off is the client's confirmation in the
 status file. Every item below is either unconfirmed in SAP or a decision taken without evidence in the export.
@@ -21,7 +21,7 @@ status file. Every item below is either unconfirmed in SAP or a decision taken w
 * Context: structure fields are **flat nodes** (`WA_VEND_NAME1`), binds `$record.NAME` (S08 s3, s4).
 * Tables are **XFA table layout** with growing cells; heading row repeats through `<overflow leader>` on the table.
 * Borders in the correct order (top, right, bottom, left) and taken from the legacy template / line-type cells (grey 176
-  label boxes, row frames); the main-window frame and the delivery box are drawn.
+  label boxes, row frames); no window frame or delivery box is drawn (the legacy printout has none; the outer lines are the row edges).
 * Positions: content area = bounding box of the legacy windows; header windows at the exact legacy coordinates (no shift,
   exact widths); table at 13.50 cm; page 2 at 0.55 cm; margins under 1 cm accepted (S08 s8).
 * Texts, conditions and the French/English variants come from the export for **every** live text node; the print-language
@@ -34,18 +34,19 @@ status file. Every item below is either unconfirmed in SAP or a decision taken w
 
 | ID | Item | Why open | Needed to close |
 |---|---|---|---|
-| DEP-1 | **Fonts and paragraph formats** (Arial 9 pt, labels bold, totals 11 pt bold, title 28 pt bold, cell insets) are **taken from the wizard form of the sibling ticket ZMMET_PO_SF**, which uses the same three SmartStyles; `PQ` (terms heading) and `HP` are not in that form: terms heading is bold 9 pt, title as the wizard | style definitions not supplied for ZMMCG itself | wizard form of ZMMCG_PO_SF or the style exports |
+| DEP-1 | **Fonts and paragraph formats**: Arial 9 pt (labels bold, totals 11 pt bold) from the wizard form of the sibling ticket ZMMET_PO_SF; **title and PO number 18 pt bold, cell insets 0.7 mm, indents and alignments measured on the legacy printout** (the printout confirms Arial and a monospace grey watermark); style definitions of ZMMCG itself were not supplied | style exports not supplied | wizard form of ZMMCG_PO_SF or the style exports (only to confirm) |
 | DEP-2 | **ZPOL / language wording**: the export stores F translations that differ from the E text (for ZPOL the four table headings read English in F, the ZPOL amount-in-words has its own F wording); reproduced mechanically | which wording the legacy ZPOL printout shows is not provable from the export | legacy ZPOL printout |
-| DEP-3 | **Print language wiring**: French when the order type is ZPOL/ZPOS, or (not ZPOI) when `GV_LANGU` = F; `GV_LANGU` = `SY-LANGU` of the Adobe run; READ_TEXT, month names, units and country names also use `SY-LANGU` | driver sets the language for the Smart Form only | preview of ZPOS (French) and ZPOI (English) |
-| DEP-4 | **Grid cells have a fixed height** (4.7 mm per row, as the wizard and as the legacy windows allow): a very long value (street, e-mail, payment terms) is cut at the cell; the last row of PO_DETAIL (header text) is 27.7 mm | legacy rows grow, the wizard grids do not | client preview with long values |
-| DEP-5 | **Overlap kept from the legacy windows**: the delivery box ends 1.6 mm below the top of PO_DETAIL; PO_LAST_CHANGED overlaps the title window | legacy geometry | none unless asked |
-| DEP-6 | Row heights of blank/spacer rows: 3.387 mm for a blank text line, 0 for rows without text (wizard evidence) | not in the export itself | compare with a legacy printout |
+| DEP-3 | **Print language wiring**: French when the order type is ZPOL/ZPOS, or (not ZPOI) when `GV_LANGU` = F; `GV_LANGU` = `SY-LANGU` = **logon language** of the Adobe run; READ_TEXT, month names, units and every legacy `SY-LANGU` condition (country LANDX50 / LANDX) use it (confirmed by the printout: French terms with the English country and month) | driver sets the language for the Smart Form only | preview of ZPOS (French) and ZPOI (English) |
+| DEP-4 | **Grid cells have a fixed height** (4.7 mm per row, the last row of PO_DETAIL 21.7 mm, both read from the export and equal to the printout): a very long value (street, e-mail, payment terms) wraps and is cut at the cell | legacy rows do not grow either (the printout cuts the street); XFA cuts at the word, the legacy at the character | client preview with long values |
+| DEP-5 | **Window overlaps kept**: the plant address (14 lines of 4.175 mm) runs down to 6.29 cm, PO_DETAIL starts at 6.50 cm; PO_LAST_CHANGED overlaps the title window; the title baselines lie above the title window top (printout) | legacy geometry | none unless asked |
+| DEP-6 | Row heights of blank/spacer rows: 3.387 mm for a blank text line, 0 (and no border) for rows without text - **now equal to the printout** (blank rows 0.33-0.34 cm, text rows 0.42 cm, big totals 0.43-0.44 cm) | measured for ZPOS only | goods-type printout |
 | DEP-7 | **Logo** embedded as PNG taken from the wizard form of ZMMET_PO_SF (same SE78 graphic `DANGOTE LOGO WHITE`), at the legacy window position, native size | no PNG of the ZMMCG graphic itself | preview |
 | DEP-8 | **Numbers are printed as text prepared by the Initialization** (user decimal notation, unit exits, XOF/XAF whole numbers), so there is no `de_DE` locale / numericEdit as in the wizard form | keeps the legacy output exactly; the wizard's notation question stays open | number notation of the client |
 | DEP-9 | **Legacy behaviour reproduced on purpose**: goods Total (except ZPOI) and all service amounts except CA print from whole-number variables (rounded); ZPOL Sub Total label "SuosTotal" (no F translation); service French words line uses the currency code | faithful to the export | client may ask to correct |
 | DEP-10 | **Switched off in the legacy form (`1 = 2`, `2 = 3`) and not rebuilt**: DRAFT window and image, old terms block, signature texts, date text, Insurance row, legacy plant address text; program-lines nodes %CODE10, %CODE14, %CODE18; page-1 "Background Image" has no graphic | never printed | none unless asked |
 | DEP-11 | Driver `ZCGMMPOP001` untouched; how it will call the Adobe form is a separate decision (parameters unchanged; the form needs no new parameter) | out of scope by project rule | owner of the driver |
 | DEP-12 | Per-row ABAP (Initialization, 987 lines) has never been compiled outside SAP; the client confirmed the first interface step without reporting an error, but no activation result is recorded, and the ~45 new lines are unconfirmed | needs the client's activation | activation result in the status file |
+| DEP-13 | **Not provable without a render**: Adobe's first-baseline offset with an explicit line height larger than the font's natural line (address 4.175 mm, totals 4.36 mm: up to 0.5 mm); rows that the legacy splits across the page break; item numbers of 100 or more (the 4.2 mm indent area holds two digits, as in the legacy); legacy font defects in the French terms are not reproduced; goods order types not measured (same line types) | no render of the new form here | client preview |
 
 ## 4. ABAP deviations (Initialization) - working default: legacy code verbatim
 
@@ -59,9 +60,9 @@ telephone with FormCalc, as the wizard does).
 
 ## 5. Verification status
 
-* `tools/zmmcg_po_sf/verify.mjs`: 0 fail, 0 warn, 20 passed (bindings, FormCalc, tables, leaders, borders, page areas,
-  geometry, legacy text coverage, printed-field coverage, baseline, data description).
+* `tools/zmmcg_po_sf/verify.mjs`: 0 fail, 0 warn, 28 passed (bindings, FormCalc, tables, leaders, borders, page areas,
+  geometry, legacy text coverage, printed-field coverage, baseline, data description, and 8 checks of numbers measured on the legacy printout).
 * `sfp_check interface` 0 fail (38 intentional warnings); `sfp_check context` 0 fail; `sfp_check layout` is **not valid** for
   wizard-style layouts (S08 s16).
-* Nothing here is a visual or numeric comparison with a legacy printout and nothing has been rendered in SAP by us: that is
-  the client's preview and sign-off.
+* Numeric comparison with a real legacy printout (ZPOS): `zmmcg_po_sf_printout_comparison.md` (12 differences found and corrected,
+  the equal items, and what only a render can show). Nothing has been rendered in SAP by us: that is the client's preview and sign-off.

@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-10T05:57:01.881Z
+UPDATED: 2026-10-10T06:21:35.373Z
 WAITING_ON: operator
-NOTE: Layout, Context and interface REBUILT after your review comments - in abapGit pull the whole branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT, activate the interface first and then the form (do not edit the Context natively), open the Layout first, preview the 7 test cases in the latest entry, then confirm or report exactly what you see; please also answer the questions and send the items listed at the end of the entry.
+NOTE: Layout corrected after a measurement of your legacy printout (ZPOS sample) - in abapGit pull the branch again (only the form layout changed; interface and Context are the same as in the previous entry) and activate; then preview and compare with the legacy printout, and confirm or report exactly what you see. The interface and Context steps of the previous entry still need your SAP result.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -346,3 +346,39 @@ Please do these in SAP, in order:
    (a) a goods order, a few items, approved (watermark "Approved PO"); (b) a goods order with **more than 60 items** (3 pages: heading row repeated on each page, no row cut, totals and terms after the last row, frame and watermark on every page); (c) an import order ZPOI (English terms); (d) a local order ZPOL; (e) a stock transfer ZPOT (plant address block); (f) a service order, and one of type ZPOS (term 1 from the standard text); (g) an order that has a header text, and one item with a long material text.
 5. Check specifically: items table visible, terms and conditions visible, totals right, nothing overlapping, nothing cut.
 6. Confirm, or use "Change requested" with the order type, the place on the page, what the legacy shows and what the new form shows (a screenshot helps).
+
+## 2026-10-10T06:21:35.373Z — Layout corrected against your legacy printout
+You supplied a real legacy printout (service order, type ZPOS, French, unapproved, 2 pages). I read every text position, line, grey box and the logo out of the PDF (in cm) and compared them with the layout I had built. **12 differences were found and corrected.** The interface and the Context did not change; only the layout (`src/zmmcg_po_sf_adt.sfpf.xdp`) changed - please pull again and activate the form.
+
+**What was different and is corrected**
+1. Title and PO number: the printout has **18 pt** bold (I had 28 pt), centred on 8.92 cm, baselines at 1.60 and 2.90 cm.
+2. **No box** around the plant address; its 14 lines are 4.175 mm apart (I had a box and 3.4 mm lines).
+3. **No frame** around the items / totals / terms block: the outer lines are only the left and right edges of the rows (page 2 starts at 0.55 cm without a top line, ends without a bottom line). I had drawn a frame.
+4. Totals labels (Prix Brut, Remise, Sous Total, TVA, CA, Total) are **right aligned**.
+5. The right grid (PO detail) ends at **12.90 cm**: its last row (Commentaires) is 21.7 mm as in the legacy template (I had 27.7 mm).
+6. Cell text starts **0.7 mm** from the cell edge (I had 0.5 mm); numbers end 1.2 mm before the cell edge, quantity 8.0 mm.
+7. Terms: text rows are 4.18 mm for one line, the heading keeps its blank line before and after, term 10 its trailing blank line, three blank rows close the block (my rows were 3.4 mm, so the block would have ended about 8 mm too high).
+8. Item number is **centred on 1.67 cm** (legacy indent), not right aligned.
+9. Country, month and every legacy `SY-LANGU` condition follow the **logon language** (your printout shows the English country "Republic of the Congo" on the French document); the print language (ZPOL/ZPOS French, ZPOI English) now drives only the fixed texts.
+10. A row without printable text prints no border (no stray line at the end).
+11. Label cells in the grids no longer have a right inset (the label "Date de Bon de Cde." is 30.9 mm in a 30.95 mm cell).
+12. Heights of all grid rows are now read from the legacy template (4.7 mm; last row 21.7 mm).
+
+**Checked and equal to the printout (no change):** logo (0.81 / 1.11 cm, 2.96 x 1.68 cm), watermark (12 pt grey, centred, 23.76 cm on page 1 and 17.76 cm on page 2), "Last Changed On" line, the two grey grids (13 rows of 4.7 mm from 6.50 cm, widths, edges, grey 176), table header (13.50-14.26 cm, two-line headings, centred), data rows 4.18 mm with the same column widths and alignments, blank rows 3.39 mm, totals rows 4.18 / 4.36 mm, words row with top and bottom edge, term numbers and text positions, and the baseline in every cell.
+
+**Method / evidence:** `docs/legacy_grab/zmmcg_po_sf_printout_comparison.md` (the full list with measured numbers) and `tools/zmmcg_po_sf/printout_dump.cjs`. The verifier `tools/zmmcg_po_sf/verify.mjs` now has 28 checks (8 of them on numbers measured on your printout): 0 failures; `sfp_check` Context: 0 failures.
+
+**Not provable without a render in SAP - please look at these in the preview**
+1. Adobe's position of the first line when a paragraph has a line height larger than the font (address lines, totals): up to 0.5 mm vertical offset is possible.
+2. A row that the legacy printout splits across the page break (term 4 starts on page 1 and ends on page 2): Adobe decides itself whether to move or split it.
+3. Item numbers of 100 or more (the legacy indent leaves room for two digits).
+4. Long values in the fixed-height grid cells are cut at the cell (as in the legacy: your sample cuts the street).
+5. The odd characters in the French terms of your printout (a missing "e acute", words broken apart) are a font defect of the legacy output and are not reproduced.
+6. Only a ZPOS printout was measured; the goods order types use the same line types and rules but are not measured. **A printout of a goods order (ZPOC/ZPOR), an import (ZPOI), a local (ZPOL) and a stock transfer (ZPOT) would allow the same comparison.**
+
+## 2026-10-10T06:21:35.373Z — Action needed from you (SAP)
+1. In abapGit pull the branch again onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT** (only the layout of the form changed since the previous entry). Activate the interface (if it is not active yet), then the form.
+2. Open the Layout first and report any warning or overflow badge.
+3. Preview the same document as your legacy sample (service order ZPOS, 18 items, unapproved) and compare page 1 and page 2 with the legacy PDF: title and PO number, plant address (no box), the two grids (the right one ends at 12.90 cm), table (item number, quantity, prices), totals (right aligned), words row, terms (term 4 splits to page 2), blank closing rows, watermark.
+4. Then the 7 cases of the previous entry (goods with more than 60 items, import ZPOI, local ZPOL, stock transfer ZPOT, header text, long item text).
+5. Confirm, or use "Change requested" with the order type, the place on the page, what the legacy shows and what the new form shows (a screenshot helps).

@@ -138,6 +138,30 @@ const flatNames = new Set([...ctxTop].map((x) => x.toUpperCase()));
 const unbound = [...printed].filter((p) => !REPLACED.has(p) && !flatNames.has(p.replace(/-/g, '_')) && !(p === 'LV_LIFNR' && flatNames.has('GV_LIFNR_OUT')));
 check(!unbound.length, `every legacy printed field is bound or deliberately replaced (${printed.size} symbols; ${[...printed].filter((p) => REPLACED.has(p)).length} replaced by the prepared GT_*/GS_* values)`, `printed fields without binding: ${unbound.join(', ')}`);
 
+// ---- measured on the real legacy printout (ZCGO Smartform Output.pdf, order type ZPOS): numbers taken from the PDF text/vector layer
+const fld = (name) => new RegExp(`<(?:field|draw)[^>]* name="${name}"[^>]*>[\\s\\S]*?</(?:field|draw)>`);
+const attrOf = (tag, a) => new RegExp(`${a}="([^"]*)"`).exec(tag)?.[1];
+{
+  check(!/name="MAIN_FRAME"/.test(tpl), 'no window frame drawn (the legacy printout has none; the frame is the row edges)', 'MAIN_FRAME present');
+  const adr = fld('ADDRESS').exec(tpl)?.[0] ?? '';
+  check(adr && !/<border>/.test(adr) && /lineHeight="4\.175mm"/.test(adr), 'plant address: no box, lines 4.175 mm apart', 'DELVRY_ADD has a box or a wrong line height');
+  const ca1y = geo[0][2];
+  const tt = ['HEADING', 'V_EBELN'].map((n) => fld(n).exec(tpl)?.[0] ?? '');
+  const base = tt.map((s) => parseFloat(attrOf(s, 'y')) + ca1y + 0.905 * 18 * 25.4 / 72);
+  check(tt.every((s) => /size="18pt"[^>]*weight="bold"/.test(s) && attrOf(s.slice(0, 200), 'w') === '141mm') && Math.abs(base[0] - 16.0) < 0.1 && Math.abs(base[1] - 29.0) < 0.1, `title / PO number: 18 pt bold, 141 mm centred, baselines ${base.map((b) => (b / 10).toFixed(2)).join(' / ')} cm (legacy printout 1.60 / 2.90)`, 'title block differs from the legacy printout');
+  const slno = [...tpl.matchAll(/<field[^>]* name="SLNO"[^>]*>[\s\S]*?<\/field>/g)].map((m) => m[0]);
+  check(slno.length === 2 && slno.every((s) => /hAlign="center"/.test(s) && /leftInset="7\.1mm"/.test(s)), 'item number centred on 1.67 cm (goods and service tables)', 'SLNO alignment differs from the legacy printout');
+  const lab = [...tpl.matchAll(/<field[^>]* name="(?:C2|C3)"[^>]*>[\s\S]*?<\/field>/g)].map((m) => m[0]).filter((s) => /lineHeight="(3\.387|4\.36)mm"/.test(s) && /<calculate>|<bind match="dataRef"/.test(s) && /rightInset="(0\.35|1\.2|1\.3)mm"/.test(s));
+  check(lab.length > 0 && lab.every((s) => /hAlign="right"/.test(s)), `totals labels and values are right aligned (${lab.length} cells)`, 'a totals cell is not right aligned');
+  const t2 = /<subform[^>]*name="PO_DETAIL"[^>]*>/.exec(tpl)?.[0] ?? '';
+  const lastRow = /<(?:field|draw)[^>]* name="TEMPLATE2_R10C2"[^>]*>/.exec(tpl)?.[0] ?? '';
+  check(attrOf(t2, 'h') === '64mm' && attrOf(lastRow, 'h') === '21.7mm', 'PO_DETAIL: 9 rows of 4.7 mm and a last row of 21.7 mm (header text) = ends at 12.90 cm', 'PO_DETAIL row heights differ from the export');
+  const termRows = [...tpl.matchAll(/name="TERMS_[A-Z_]+_1_(?:[2-9]|1\d)"[\s\S]*?<(?:field|draw) ([^>]*) name="C4"/g)];
+  check(termRows.length > 0 && termRows.every((m) => /minH="4\.177mm"/.test(m[1])), `terms text rows are 4.177 mm for one line (${termRows.length} rows)`, 'terms row heights differ from the legacy printout');
+  const zero = /name="_?ROW24"[\s\S]{0,700}/.exec(tpl)?.[0] ?? '';
+  check(zero !== '' && !/<border>/.test(zero), 'a legacy row without printable text prints no border', 'zero-height row carries a border or ROW24 not found');
+}
+
 // ---- baseline: nothing outside <template> / datasets changed
 if (baselineFile) {
   const strip = (s) => s.replace(/<template[\s\S]*?<\/template>/, '<T/>').replace(/<xfa:datasets[\s\S]*?<\/xfa:datasets>/, '<D/>').replace(/\r\n/g, '\n');

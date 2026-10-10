@@ -45,7 +45,13 @@ export function loadModel(xmlPath) {
       if (out.kind === 'SECTION') {
         out.sect = { type: t(o, 'SECTTYPE'), tab: t(o, 'TABNAME'), wa: t(o, 'TABHEADER'), width: parseFloat(t(o, 'WIDTH')) || null, left: parseFloat(t(o, 'LEFT')) || 0, top: parseFloat(t(o, 'TOP')) || 0 };
         out.cells = k(k1(o, 'CELLS'), 'item').map((c) => ({ line: t(c, 'NAME'), col: parseInt(t(c, 'COLUMNNR'), 10), w: parseFloat(t(c, 'CWIDTH')), b: borders(c)[0] ?? { l: false, t: false, r: false, b: false, fill: null } }));
-        out.lineOrder = k(k1(o, 'DYNLINES'), 'item').map((i) => t(i, 'NAME'));
+        // template line heights (STATLINES), mm per line number (1-based index - 1)
+        out.lineH = [];
+        for (const i of k(k1(o, 'STATLINES'), 'item')) {
+          const f = (t(i, 'U_LHEIGHT') === 'CM' ? 10 : 1) * (parseFloat(t(i, 'LHEIGHT')) || 0);
+          for (let n2 = parseInt(t(i, 'LINEFROM'), 10); n2 <= parseInt(t(i, 'LINETO'), 10); n2 += 1) out.lineH[n2 - 1] = f;
+        }
+        out.lineOrder =k(k1(o, 'DYNLINES'), 'item').map((i) => t(i, 'NAME'));
       }
       if (out.kind === 'WINDOW') out.wtype = t(o, 'WTYPE');
       if (out.kind === 'CODE') out.codeLines = k(k1(o, 'CODE'), 'item').map((i) => i.text);

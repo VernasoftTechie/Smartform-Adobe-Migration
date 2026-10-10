@@ -33,7 +33,9 @@ const FCOP = { '=': 'eq', '<>': 'ne', '>': 'gt', '<': 'lt', '>=': 'ge', '<=': 'l
 function operand(o, ctx) {
   if (/^'.*'$/.test(o)) { const v = o.slice(1, -1); return fcStr(v.trim() === '' ? '' : v); }
   if (/^\d+$/.test(o)) return o;
-  if (o.toUpperCase() === 'SY-LANGU') { ctx.lg = true; return 'lg'; }
+  // legacy SY-LANGU in a condition is the LOGON language (the legacy printout shows English country / month
+  // names on a French document); the print language `lg` only drives the static-text variants (see slot)
+  if (o.toUpperCase() === 'SY-LANGU') return rec(useField('GV_LANGU'));
   const flat = useField(o);
   return rec(flat);
 }
@@ -146,14 +148,17 @@ const FONT = {
   reg: '<font size="9pt" typeface="Arial"/>',
   bold: '<font size="9pt" typeface="Arial" weight="bold"/>',
   big: '<font size="11pt" typeface="Arial" weight="bold"/>',
-  title: '<font size="28pt" typeface="Arial" weight="bold"/>',
+  title: '<font size="18pt" typeface="Arial" weight="bold"/>', // measured on the legacy printout (the wizard form has 28 pt)
 };
 const MARG = {
-  grid: '<margin bottomInset="0mm" leftInset="0.5mm" rightInset="0.35mm" topInset="0.5mm"/>',
-  cell: '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="0.35mm" topInset="0.5mm"/>',
-  term: '<margin bottomInset="0mm" leftInset="0.5mm" rightInset="0.35mm" topInset="0mm"/>',
-  big: '<margin bottomInset="0mm" leftInset="0.5mm" rightInset="0.35mm" topInset="0mm"/>',
-  bigVal: '<margin bottomInset="0mm" leftInset="0.5mm" rightInset="1.43mm" topInset="0mm"/>',
+  grid: '<margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="0.5mm"/>', // right inset 0: "Date de Bon de Cde." is 30.9 of 30.95 mm wide
+  cell: '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="0.35mm" topInset="0.5mm"/>',
+  term: '<margin bottomInset="0mm" leftInset="0.7mm" rightInset="0.35mm" topInset="0mm"/>',
+  big: '<margin bottomInset="0mm" leftInset="0.7mm" rightInset="0.35mm" topInset="0mm"/>',
+  // item number: centred on the legacy printout about 1.67 cm (cell 0.75-1.88 cm centre is 1.32 cm) = centred in an area that
+  // starts 7.1 mm after the cell edge (paragraph indent); 4.2 mm area holds 2 digits like the legacy (1 and 10 centre on 1.67)
+  slno: '<margin bottomInset="0.29mm" leftInset="7.1mm" rightInset="0mm" topInset="0.5mm"/>',
+  bigVal:'<margin bottomInset="0mm" leftInset="0.7mm" rightInset="1.3mm" topInset="0mm"/>',
 };
 const para = (h, lh = '3.387mm') => `<para hAlign="${h}" lineHeight="${lh}" vAlign="top"/>`;
 const E1 = '<edge thickness="0.75pt"/>';
@@ -260,21 +265,23 @@ function gridSection(sect, name, x, y, cond, opts = {}) {
   const nRows = Math.max(...[...slots.keys()].map((k2) => parseInt(k2.split(':')[0], 10)));
   const xs = widths.reduce((a, v) => { a.push(a.length ? a[a.length - 1] + widths[a.length - 1] : 0); return a; }, []);
   const total = widths.reduce((a, v) => a + v, 0);
-  const lastH = opts.lastRowH;
-  const gridH = (nRows - 1) * ROW_PITCH + (lastH ?? ROW_PITCH);
+  // row heights = the template's STATLINES of the export (4.70 mm, last row of PO_DETAIL 21.70 mm)
+  const rowHs = Array.from({ length: nRows }, (_, i) => sect.lineH?.[i] || ROW_PITCH);
+  const rowY = rowHs.map((_, i) => rowHs.slice(0, i).reduce((a, v) => a + v, 0));
+  const gridH = rowHs.reduce((a, v) => a + v, 0);
   const ctx = {};
   const hide = cond ? readyEvt(`if (not (${fcCond([cond], ctx)})) then $.presence = "hidden" endif`) : '';
   open(`<subform h="${mmn(gridH)}" layout="position" name="${name}" w="${mmn(total)}" x="${mmn(x)}" y="${mmn(y)}">`);
   for (let r = 1; r <= nRows; r += 1) {
     const cells = lts[r - 1]?.[1] ?? lts[lts.length - 1][1];
-    const rowH = r === nRows && lastH ? lastH : ROW_PITCH;
+    const rowH = rowHs[r - 1];
     for (let c = 1; c <= widths.length; c += 1) {
       const cd = cells.find((q) => q.col === c);
       const content = slot(slots.get(`${r}:${c}`) ?? []);
       const isLabel = c === 1;
       const b = { ...(cd?.b ?? noB), fill: cd?.b.fill ?? null };
       cellXml({
-        name: `${name}_R${r}C${c}`, w: widths[c - 1], h: rowH, pos: { x: xs[c - 1], y: (r - 1) * ROW_PITCH },
+        name: `${name}_R${r}C${c}`, w: widths[c - 1], h: rowH, pos: { x: xs[c - 1], y: rowY[r - 1] },
         content, font: isLabel ? FONT.bold : FONT.reg, margin: MARG.grid, para: para('left'), b,
       });
     }
@@ -288,15 +295,20 @@ function header() {
   open(`<subform h="${mmn(HDR_H)}" layout="position" name="HEADER_AREA" w="${mmn(CA1w)}">`);
   // ---- PO_HEADING (TEMPLATE3: line 1 title by order type, line 3 PO number)
   {
+    // Measured on the legacy printout: both 18 pt lines are centred on the template width (14.10 cm) from the window
+    // left (1.87 cm) and their BASELINES sit on the line tops of the template (1.60 cm and 1.60 + 8.0 + 5.0 = 2.90 cm),
+    // i.e. above the window top. Cells are therefore placed in HEADER_AREA (not inside the window subform) at
+    // baseline - ascent (Arial bold 18 pt: 0.905 em).
     const wd = WIN.PO_HEADING; const t3 = byName('%TEMPLATE3');
     const slots = templateSlots(t3);
-    open(`<subform h="${mmn(toMM(wd.h))}" layout="position" name="PO_HEADING" w="${mmn(toMM(wd.w))}" x="${mmn(relX(wd.left))}" y="${mmn(relY(wd.top))}">`);
-    for (const [r, nm, yy] of [[1, 'HEADING', 0.59], [3, 'V_EBELN', 13.59]]) {
+    const asc = 0.905 * 18 * 25.4 / 72; // mm
+    const tw = 141.0;
+    const lh = t3.lineH; // 8.00 / 5.00 / 7.88 mm in the export
+    for (const [r, nm] of [[1, 'HEADING'], [3, 'V_EBELN']]) {
+      const base = toMM(wd.top) + lh.slice(0, r - 1).reduce((a, v) => a + v, 0);
       const content = slot(slots.get(`${r}:1`) ?? []);
-      cellXml({ name: nm, w: toMM(wd.w), h: 10, pos: { x: 0, y: yy }, content, font: FONT.title, margin: '<margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/>', para: para('center', '10mm'), b: null });
+      cellXml({ name: nm, w: tw, h: 8, pos: { x: relX(wd.left), y: Math.round((base - asc - CA1y) * 1000) / 1000 }, content, font: FONT.title, margin: '<margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/>', para: '<para hAlign="center" vAlign="top"/>', b: null });
     }
-    w('<bind match="none"/>');
-    close('</subform>');
   }
   // ---- DELVRY_ADD: plant address lines of LT_ADRC in a bordered window
   {
@@ -316,7 +328,7 @@ if (Exists($record.LT_ADRC.DATA)) then
 endif
 $ = s`;
     open(`<subform h="${mmn(toMM(wd.h))}" layout="position" name="DELVRY_ADD" w="${mmn(toMM(wd.w))}" x="${mmn(relX(wd.left))}" y="${mmn(relY(wd.top))}">`);
-    cellXml({ name: 'ADDRESS', w: toMM(wd.w), h: toMM(wd.h), pos: { x: 0, y: 0 }, content: { kind: 'calc', script }, font: FONT.reg, margin: '<margin bottomInset="0mm" leftInset="0.7mm" rightInset="0.35mm" topInset="0.5mm"/>', para: para('left'), b: { t: true, r: true, b: true, l: true, fill: null } });
+    cellXml({ name: 'ADDRESS', w: toMM(wd.w), h: toMM(wd.h), pos: { x: 0, y: 0 }, content: { kind: 'calc', script }, font: FONT.reg, margin: '<margin bottomInset="0mm" leftInset="0.7mm" rightInset="0.35mm" topInset="0.5mm"/>', para: para('left', '4.175mm'), b: null }); // legacy lines are 4.175 mm apart; the window frame is not printed
     w('<bind match="none"/>');
     close('</subform>');
   }
@@ -345,10 +357,10 @@ $ = s`;
   // ---- PO_DETAIL (TEMPLATE2); last row (Additional Comments) fills the space down to the table
   {
     const wd = WIN.PO_DETAIL; const t2 = byName('%TEMPLATE2');
-    const rows = 10; const avail = toMM(mainWin.top - wd.top) - (rows - 1) * ROW_PITCH;
-    const gridH = (rows - 1) * ROW_PITCH + avail;
+    // line heights of TEMPLATE2 in the export: 9 x 4.70 mm and the last line (header text) 21.70 mm (legacy printout: ends 12.90 cm)
+    const gridH = t2.lineH.reduce((a, v) => a + v, 0);
     open(`<subform h="${mmn(gridH)}" layout="position" name="PO_DETAIL" w="${mmn(toMM(wd.w))}" x="${mmn(relX(wd.left))}" y="${mmn(relY(wd.top))}">`);
-    gridSection(t2, 'TEMPLATE2', 0, 0, null, { lastRowH: avail });
+    gridSection(t2, 'TEMPLATE2', 0, 0, null);
     w('<bind match="none"/>');
     close('</subform>');
   }
@@ -384,7 +396,7 @@ function sectionRow(tblName, rowSect, tableSect, opts = {}) {
     const dim = textual(content) ? { minH: opts.minH ?? 4.177 } : (content.kind === 'static' && content.hasLine ? { h: 3.387 } : (rowTextual ? { minH: 0 } : { h: 0 }));
     cellXml({
       name: `C${i + 1}`, w: widths[i], ...dim, content,
-      font: opts.font ?? FONT.reg, margin: opts.margin ?? MARG.cell, para: para(isVal || opts.rightCols?.includes(i) ? 'right' : 'left', opts.lh), b: cd.b,
+      font: opts.font ?? FONT.reg, margin: opts.margin ?? MARG.cell, para: para(isVal || opts.rightCols?.includes(i) ? 'right' : 'left', opts.lh), b: dim.h === 0 ? null : cd.b, // a legacy row without printable text has no height and prints no border
     });
   });
   w('<bind match="none"/>');
@@ -423,8 +435,8 @@ function buildItemTable(tblNode, kind) {
   w('<bind match="none"/>');
   close('</subform>');
   // data row
-  const cols = goods ? [['SLNO', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.2mm" topInset="0.5mm"/>'], ['MATNR', 'center', MARG.cell], ['DESCR', 'left', MARG.cell], ['MENGE', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="8.1mm" topInset="0.5mm"/>'], ['MEINS', 'center', MARG.cell], ['NETPR', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.23mm" topInset="0.5mm"/>'], ['NETWR', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.23mm" topInset="0.5mm"/>']]
-    : [['SLNO', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.2mm" topInset="0.5mm"/>'], ['SRVPOS', 'center', MARG.cell], ['DESCR', 'left', MARG.cell], ['MENGE', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="8.1mm" topInset="0.5mm"/>'], ['MEINS', 'center', MARG.cell], ['UNITPR', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.23mm" topInset="0.5mm"/>'], ['TOTAL', 'right', '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.23mm" topInset="0.5mm"/>']];
+  const cols = goods ? [['SLNO', 'center', MARG.slno], ['MATNR', 'center', MARG.cell], ['DESCR', 'left', MARG.cell], ['MENGE', 'right', '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="8.0mm" topInset="0.5mm"/>'], ['MEINS', 'center', MARG.cell], ['NETPR', 'right', '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="1.2mm" topInset="0.5mm"/>'], ['NETWR', 'right', '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="1.2mm" topInset="0.5mm"/>']]
+    : [['SLNO', 'center', MARG.slno], ['SRVPOS', 'center', MARG.cell], ['DESCR', 'left', MARG.cell], ['MENGE', 'right', '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="8.0mm" topInset="0.5mm"/>'], ['MEINS', 'center', MARG.cell], ['UNITPR', 'right', '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="1.2mm" topInset="0.5mm"/>'], ['TOTAL', 'right', '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="1.2mm" topInset="0.5mm"/>']];
   rowOpen('DATA', 'TR');
   cols.forEach(([col, al, mg], i) => {
     useCol(gtName, col);
@@ -459,7 +471,10 @@ function termsFolder(folder, tableSect, uniq) {
       const nodes = colSects[i] ? liveTexts(colSects[i]).map((tx) => ({ node: tx.node, conds: tx.conds })) : [];
       const content = nodes.length ? slot(nodes) : { kind: 'empty' };
       const head = lt === 'PO_HEADER';
-      cellXml({ name: `C${i + 1}`, w: widths[i], ...(content.kind === 'empty' ? { minH: 0 } : { minH: 3.387 }), content, font: head ? FONT.bold : FONT.reg, margin: MARG.term, para: para('left'), b: cd.b });
+      // legacy printout: text rows are 4.18 mm for one line (0.5 mm top + 3.387 mm line + 0.29 mm bottom), a heading
+      // text with a blank line before and after is 3 lines; the number cell (5.5 mm) gets no right inset so "10." fits
+      const mg = i === 1 && !head ? '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="0mm" topInset="0.5mm"/>' : MARG.cell;
+      cellXml({ name: `C${i + 1}`, w: widths[i], ...(content.kind === 'empty' ? { minH: 0 } : { minH: 4.177 }), content, font: head ? FONT.bold : FONT.reg, margin: mg, para: para('left'), b: cd.b });
     });
     w('<bind match="none"/>');
     close('</subform>');
@@ -517,8 +532,8 @@ function buildSection(tblNode, kind) {
       const label = i === 1;
       cellXml({
         name: `C${i + 1}`, w: widths[i], ...(content.kind === 'empty' ? { minH: 0 } : { minH: big ? 4.36 : 4.177 }), content,
-        font: big ? FONT.big : FONT.reg, margin: big ? (i === 2 ? MARG.bigVal : MARG.big) : (i === 2 ? '<margin bottomInset="0.29mm" leftInset="0.5mm" rightInset="1.23mm" topInset="0.5mm"/>' : MARG.cell),
-        para: para(big || i === 2 ? 'right' : 'left', big ? '4.36mm' : '3.387mm'), b: cd.b,
+        font: big ? FONT.big : FONT.reg, margin: big ? (i === 2 ? MARG.bigVal : MARG.big) : (i === 2 ? '<margin bottomInset="0.29mm" leftInset="0.7mm" rightInset="1.2mm" topInset="0.5mm"/>' : MARG.cell),
+        para: para('right', big ? '4.36mm' : '3.387mm'), b: cd.b, // legacy: labels and values are right aligned (labels end at 16.55 cm)
       });
     });
     w('<bind match="none"/>');
@@ -558,7 +573,7 @@ function commentsBlock() {
   close('</subform>');
   tableOpen('COMMENTS_END', [toMM(l3.w)]);
   rowOpen('Row1', 'TR');
-  cellXml({ name: 'C1', w: toMM(l3.w), h: 3.387, content: { kind: 'empty' }, font: FONT.reg, margin: '<margin bottomInset="0mm" leftInset="0.5mm" rightInset="0.35mm" topInset="0mm"/>', para: para('left'), b: l3.b });
+  cellXml({ name: 'C1', w: toMM(l3.w), h: 3.387, content: { kind: 'empty' }, font: FONT.reg, margin: '<margin bottomInset="0mm" leftInset="0.7mm" rightInset="0.35mm" topInset="0mm"/>', para: para('left'), b: l3.b });
   w('<bind match="none"/>');
   close('</subform>');
   w('<bind match="none"/>');
@@ -574,9 +589,8 @@ function pageArea(id, first, ca, wm) {
   open(`<pageArea id="${id}" name="${id}">`);
   w(`<contentArea h="${mmn(ca.h)}" name="CA${first ? 1 : 2}" w="${mmn(ca.w)}" x="${mmn(ca.x)}" y="${mmn(ca.y)}"/>`);
   w('<medium long="297mm" short="210mm" stock="a4"/>');
-  // main window frame (legacy: 0.75 pt on all four sides) at the window extents
-  const fr = first ? { x: toMM(mainWin.left), y: toMM(mainWin.top), w: toMM(mainWin.w), h: toMM(mainWin.h) } : { x: toMM(p2win.left), y: toMM(p2win.top), w: toMM(p2win.w), h: toMM(p2win.h) };
-  w(`<draw h="${mmn(fr.h)}" name="MAIN_FRAME" w="${mmn(fr.w)}" x="${mmn(fr.x)}" y="${mmn(fr.y)}"><ui><textEdit/></ui><value><text/></value>${border(bAll)}</draw>`);
+  // no window frame: the legacy printout draws no frame for the main window (or for DELVRY_ADD) although the export
+  // flags it; the outer lines of the items / totals / terms block are the left and right edges of the rows
   // WATER_MARK
   const useLV = useField('LV_FLAG');
   w(`<field h="${mmn(toMM(wm.h))}" name="WATER_MARK" w="${mmn(toMM(wm.w))}" x="${mmn(toMM(wm.left))}" y="${mmn(toMM(wm.top))}"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="12pt" typeface="Courier New"><fill><color value="176,176,176"/></fill></font><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0.74mm"/><para hAlign="center" lineHeight="4.233mm" vAlign="top"/><calculate><script contentType="application/x-formcalc">${X(`if (${rec(useLV)} eq "Y") then $ = "Approved PO" else $ = "UnApproved PO" endif`)}</script></calculate><bind match="none"/></field>`);
