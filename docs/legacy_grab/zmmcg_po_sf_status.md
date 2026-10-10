@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-09T12:11:29.259Z
+UPDATED: 2026-10-10T05:57:01.881Z
 WAITING_ON: operator
-NOTE: Layout corrected to the exact legacy window positions - PULL AGAIN onto ZMMCG_PO_SF_ADT, activate, open the Layout first (report any overflow badge), then do the final review against your legacy printouts and confirm sign-off or send the differences.
+NOTE: Layout, Context and interface REBUILT after your review comments - in abapGit pull the whole branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT, activate the interface first and then the form (do not edit the Context natively), open the Layout first, preview the 7 test cases in the latest entry, then confirm or report exactly what you see; please also answer the questions and send the items listed at the end of the entry.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -302,3 +302,47 @@ On a second check of every section against the export, I found that my earlier l
 2. **Open the Layout first.** Report any overflow/warning badge and whether page 1 and page 2 look as before.
 3. Do the final review described in the previous "Layout complete" entry (one real document of each type, legacy vs new, side by side) with special attention to the position of every block and the right edge.
 4. Confirm sign-off, or send the differences (order type, place on the page, legacy vs new).
+
+## 2026-10-10T05:57:00.860Z — Rework after your review comments
+Your review said the form was not good: **no items table, no terms and conditions, spacing and overlapping problems** (relayed by the migration engineer). That is a failure of my build, not a detail to adjust. I compared the form again, line by line, with the legacy export, and with a form that **your own SAP generated** with "Create Adobe Form by Migration" for a sibling purchase order (ZMMET_PO_SF) - the best evidence of what your SAP renders. The previous layout is replaced completely.
+
+**Why the table and the terms did not show (root cause)**
+- I had made the table, the totals and the terms *start hidden* and relied on a script to show them. In your SAP that script did not run, so they stayed invisible. Now everything **starts visible** and is hidden only where the legacy condition says so (the way the SAP-generated form does it).
+- The Context I built grouped the supplier / plant / totals fields in nested structures that the layout could not reach; the SAP-generated form uses flat fields. Rebuilt flat.
+- Rows had a fixed height and text longer than the row was cut or overlapped; borders were written in the wrong order. Now the tables are real table objects whose rows grow with their text, with the borders and grey label boxes **read from the legacy templates and line types** (my first extract had missed those cells and the grey fills).
+- Two items of the legacy form were missing: the **header text** (EKKO F01) that the legacy form prints in PO_DETAIL when it is not shown as the comments table, and the **standard text ZMMCG_PO_TEXT** that is term 1 of the service terms for order type ZPOS. Both are now read in the Initialization and printed.
+
+**What changed**
+- **Interface** (`src/zmmcg_po_sf_int.sfpi.xml`): legacy contract unchanged. Added: `GV_LIFNR_OUT` (vendor number through its output routine), `GV_HDRTXT` and `GV_TERM1_ZPOS` (the two standard texts, paragraphs joined); removed `GS_PRINT` (the layout now composes country and phone itself). Initialization is 987 lines; the new part is the last ~45 lines, nothing else of the legacy code changed.
+- **Context** (`src/zmmcg_po_sf_adt.sfpf.xml`): 81 flat nodes: 57 fields and 4 tables (LT_ADRC, LT_LINES, GT_GOODS, GT_SERVICE).
+- **Layout** (`src/zmmcg_po_sf_adt.sfpf.xdp`), generated from the export, nothing typed by hand: two page layouts (first page / following pages); the content area is the box of the legacy windows, so every block is at the exact legacy position (logo 0.80/1.10, title window 1.87/1.60, delivery box 14.73/0.93 with its frame, last-changed 0.87/3.64, supplier block 0.75/6.50 with its grey label boxes, PO detail 11.13/6.50, items table 13.50 cm on page 1 and 0.55 cm on the following pages, frame to 29.00 cm). Items, comments, totals, amount in words, terms (import / local / service) and the closing rows are table objects in one flowing container: the heading row repeats on every page and the totals and terms flow onto the next page like rows. Watermark, logo and the window frame are printed by the page itself.
+- **Texts and languages:** every live text of the legacy form (294 nodes) is placed with its legacy condition, in English and in the French translation the export stores, chosen by order type and print language; the 27 nodes switched off with `1 = 2` / `2 = 3` are not built.
+
+**Checked here (a script made for this, `tools/zmmcg_po_sf/verify.mjs`): 20 checks, 0 failures:** every bind and every FormCalc reference resolves to the Context; nothing starts hidden; every table has a repeating heading row with its leader; column widths equal the legacy widths; every border has its four edges; page areas and positioned objects are inside their parents; **every legacy text fragment, English and French (369), is in the layout**; every legacy printed field is bound or deliberately replaced by the prepared item and totals values; nothing outside the page body differs from your SAP baseline. Also `sfp_check` interface and Context: 0 failures. These checks cannot show how it looks: that is your preview.
+
+**Not confirmed in SAP - please treat as unproven**
+1. The whole build follows the SAP-generated form, but this exact form has not rendered in your SAP yet.
+2. The Initialization (987 lines) has not been activated since the ~45 new lines.
+3. Grid cells (supplier block, PO detail) have a fixed row height of 4.7 mm as in the SAP-generated form: a very long value is cut at the cell.
+4. Which wording the legacy ZPOL printout shows for the table headings (the export stores English F translations for four of them) - reproduced as stored.
+5. `GV_LANGU` must carry the print language of the Adobe run for the French/English choice for order types other than ZPOL/ZPOS/ZPOI.
+6. Fonts are those of the SAP-generated sibling form (same three SmartStyles); the paragraph formats HP and PQ are not in it (title as that form, terms heading bold 9 pt).
+7. Legacy overlaps are kept: the delivery frame ends 1.6 mm below the top of PO_DETAIL.
+
+**Open decisions / what I need from you** (the same list is now in the framework, strategy S09):
+1. The **SAP-generated form of ZMMCG_PO_SF itself** ("Create Adobe Form by Migration": the SFPF xml and the XDP) - it settles fonts, borders and wording.
+2. One **real document of each type printed with the legacy form** (PDF) - goods (ZPOC/ZPOR), import ZPOI, local ZPOL, stock transfer ZPOT, service ZPOS and one other service type - and, if possible, the same document from the new form, so we can compare line by line.
+3. The SmartStyle exports (`ZWSA_COMMON_STYLE`, `ZMM_PURCHASE_REQ`, `YMM_PO_STYLE`) or the font, size and alignment of paragraphs HP, P1, P2, P3, P4, P6, P8, PQ.
+4. The **number notation** (the SAP-generated form uses a decimal comma) and the **languages** to print (English only, or French for which order types).
+5. How the **print language** will be given to the Adobe form (the driver sets it for the Smart Form only).
+6. The earlier open questions still stand: do the legacy ZPOL printouts show English or French table headings; keep the whole-number totals and the "SuosTotal" label as they are in the legacy form?
+
+## 2026-10-10T05:57:01.881Z — Action needed from you (SAP)
+Please do these in SAP, in order:
+1. In abapGit pull this branch (vernasofttechie-zmmcg_po_sf) onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT** (interface and form; the old Context and layout are replaced). Do not change anything in the Context natively.
+2. Activate the interface, then the form. If SAP reports an error (especially in the Initialization), **do not continue**: use "Report a problem" with the exact message and line.
+3. Open the Layout first and report any warning or overflow badge.
+4. Preview these 7 cases and compare each with the legacy printout:
+   (a) a goods order, a few items, approved (watermark "Approved PO"); (b) a goods order with **more than 60 items** (3 pages: heading row repeated on each page, no row cut, totals and terms after the last row, frame and watermark on every page); (c) an import order ZPOI (English terms); (d) a local order ZPOL; (e) a stock transfer ZPOT (plant address block); (f) a service order, and one of type ZPOS (term 1 from the standard text); (g) an order that has a header text, and one item with a long material text.
+5. Check specifically: items table visible, terms and conditions visible, totals right, nothing overlapping, nothing cut.
+6. Confirm, or use "Change requested" with the order type, the place on the page, what the legacy shows and what the new form shows (a screenshot helps).
