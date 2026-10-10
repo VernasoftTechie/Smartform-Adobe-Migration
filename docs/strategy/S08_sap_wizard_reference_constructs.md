@@ -1,6 +1,6 @@
 # S08 — SAP-wizard reference constructs: table layout, FormCalc, flat data, multi-page
 
-**Status: evidence-backed candidate, not yet promoted.** Derived on 2026-10-10 from a form the
+**Status: evidence-backed candidate, not yet promoted** (calibrated against the real legacy output PDF of `ZMMET_PO_SF`, section 18). Derived on 2026-10-10 from a form the
 client's SAP generated with *Create Adobe Form by Migration* for `ZMMET_PO_SF`
 (`ZMMET_PO_SF_ZETO_F`, interface `ZMMET_PO_SF_ZETO_PI`; files `SFPF_ZMMET_PO_SF_ZETO_F.XML` and
 `ZMMET_PO_SF_ZETO_F.XDP`). That form runs in the client's SAP, so every construct below is known to
@@ -100,10 +100,11 @@ subform layout=table columnWidths="11.3mm 31.4mm ..."  name=<table>   bind $reco
    w 190, h 284.5 mm). Margins under 1 cm are normal here and render in this SAP; the old 1 cm margin
    rule (S02/F48) does not apply.
 3. **Page-level content lives in the page area** and prints on every page of that type: the
-   watermark (a field with a FormCalc `calculate`, Courier New 12 pt, grey 176, `LV_FLAG`), the logo
-   (a draw with an embedded PNG, page 1 only) and, as we add, the frame of the main window.
-   (The old note that content in a page area blanked the Design View is not supported by this
-   evidence.)
+   watermark (a field with a FormCalc `calculate`, Courier New 12 pt, grey 176, `LV_FLAG`) and the logo
+   (a draw with an embedded PNG, page 1 only). **No window frames are drawn:** the legacy export
+   carries border attributes for the windows (delivery box, main window) but the real output PDF
+   prints none (section 18). The old note that content in a page area blanked the Design View is not
+   supported by this evidence.
 4. Body: root `data` subform `layout="tb"` containing (a) a fixed `layout="position"` header
    area, sized exactly to the legacy distance from the content-area top to the table start
    (ZMMET_PO_SF: 115 mm, so the table starts at 12.00 cm), and (b) a `layout="tb"` container of
@@ -171,15 +172,15 @@ notation; **ask the client** and keep it as one constant.
 2. The SmartStyle exports of every style the form uses (fonts the wizard form already shows).
 3. The DDIC type of each custom type used in the interface (for reference fields).
 4. The number notation and the languages required (English only, or also French / local).
-5. Two or three real purchase orders (goods, service, special type) with the legacy printout, to
-   compare line by line.
+5. The **legacy output PDF** of two or three real documents (goods, service, special type): it is the
+   ground truth for positions, fonts, borders, number notation and wording (section 18).
 6. Whether static wording that the legacy form switched off (for example the long terms and
    conditions) is wanted as a fallback, and the approved wording.
 
 ## 15. Defects of the wizard output to correct on every form (checked against the legacy export)
 
-- Window borders are dropped (delivery box, main window frame): add them (frame in the page area).
-- Positions can differ from the legacy windows (ZMMET_PO_SF title 9.5 mm higher): use the export.
+- Window border attributes in the export are **not printed** (no delivery box border, no main window frame in the real output): the wizard is right to omit them; do not add them from the export.
+- The wizard positions match the real output (title baseline 17.5 mm although the export window starts at 17.5 mm top: text in template lines is placed by the line, not by the window top); never "correct" them from the export coordinates.
 - Branches switched off by `1 = 2` are carried or replaced by developer wording: decide with the owner.
 - Language variants (English / French texts) are not carried: record as an extension point.
 - Header cells that the Smart Form printed per line but the wizard merged into one field keep blank
@@ -202,3 +203,23 @@ The ZMMET_PO_SF branch carries this as the verification step of its status entri
 Build a form with these constructs, then in the client's SAP: Pull, activate, preview a short and a
 long order (more than one page), a service order and a special-type order; compare with the
 legacy printout. Record the result and the commit in `docs/BUILD_ISSUES_LOG.md`.
+
+## 18. Calibrate against the legacy output PDF (do this before the first layout push and after every layout change)
+
+The PDF the Smart Form prints is the only reliable evidence of what the client considers correct. Extract
+it with `tools/pdf_probe.mjs` (text with x / baseline y / width / font size, and every painted rectangle
+and line with its fill and width) and compare element by element with the layout:
+
+| Check | Source in the PDF | Found on ZMMET_PO_SF |
+|---|---|---|
+| Positions | text x and baseline y (mm) | wizard header coordinates reproduce the output to 0.1 mm; the export window coordinates do not (title 9 mm higher in the export) |
+| Frames and boxes | long horizontal / vertical segments | no window frame, no delivery border; boxes only for the words row (190 x 4.18 mm) and the terms row |
+| Cell grids and fills | rectangles, fill 176,176,176 | supplier grid labels grey, 35 + 66.3 mm, 4.69 mm rows; detail grid 30 + 50 mm, comment cell 21.7 mm |
+| Fonts | font names and sizes | 28 pt bold title and PO number, 11 pt delivery heading and totals, 9 pt body, Courier 12 pt watermark; terms heading regular |
+| Number notation | printed digits | `1,00`, `2.125,00`: decimal comma, dot grouping (`de_DE`), quantity with 2 decimals |
+| Converted values | printed identifiers | material and service numbers without leading zeros, unit text `DAY` |
+| Computed text | printed strings | `LEON HOTEL(HOTEL BILL)` (no blank), `++242...` (literal plus and the dial code), words line with the Inco terms, `Last Changed On:` wraps to a second line |
+| Row heights | baseline pitch | item rows 4.18 mm (one 9 pt line + insets), spacer rows 3.39 mm |
+| Terms | wording and wrap | standard-text terms printed line by line in a 190 mm box that continues on page 2 |
+
+A mismatch is a defect in the layout, not in the PDF. Record it in `docs/BUILD_ISSUES_LOG.md`.
