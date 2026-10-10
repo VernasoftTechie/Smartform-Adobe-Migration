@@ -33,6 +33,7 @@ stay in the relevant conversion branch.
 | [S06 — Explicit `x`/`y` position is the default for every row](S06_explicit_position_layout_default.md) | Every form's `.sfpf.xdp`, from the first line written | F35, F41, F44 |
 | [S07 — Reusable XDP patterns](S07_reusable_xdp_patterns.md) | Every form — copy-paste library for rows, tables, totals, signatures, page footers | F34-F44, pilot `Z_MM_PR_FORM_ADT` |
 | [S08 — SAP-wizard reference constructs](S08_sap_wizard_reference_constructs.md) **(candidate: evidence is the client's SAP-generated form; where it conflicts with S02/S04/S06/S07 it wins once our form has rendered)** | Every form — flat Context, `$record` binds, FormCalc, `ready` hide, table layout, multi-page, conversion exits, intake asks | wizard form `ZMMET_PO_SF_ZETO_F`; `ZMMET_PO_SF_ADT` |
+| [S09 — Rework after a rejected layout: generate from the export, verify mechanically, ask the client for the right evidence](S09_rework_after_rejection_and_client_requests.md) **(candidate: written from the ZMMCG_PO_SF rework; builds on S08)** | Every form, and every rework after a client rejection — what to read from the raw XML, one generator from the export, multi-page checklist, mechanical verification, the client requests to make at intake | `ZMMCG_PO_SF_ADT` rebuild, `tools/zmmcg_po_sf/` (branch `vernasofttechie-zmmcg_po_sf`) |
 
 ## Promotion standard
 
