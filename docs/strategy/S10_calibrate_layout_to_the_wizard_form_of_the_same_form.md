@@ -111,6 +111,19 @@ palette, zebra rows would break the pixel match the client expects). What applie
 printout as the visual reference). S06 (explicit position for free-standing blocks) is kept for headers and grids; item tables
 and footer rows use the wizard's table layout (S08 section 13).
 
+## 11. The Design View is part of the deliverable (client screenshots of ZMMCG_PO_SF_ADT, 2026-10-12)
+
+The client opens the layout in Designer before any preview. A form that is correct at run time can still be rejected as "confusing":
+
+| Finding | Cause | Rule |
+|---|---|---|
+| grid labels, table headings and terms blank in the Design View | each label that depends on order type / language was a script field (86 scripts); scripts do not run in the Design View | give every computed field a **default text = the wording live for the sample document** (evaluate the conditions on the sample: type, language, currency); the script replaces it at run time |
+| three sets of terms and conditions stacked | one folder per variant, each with its own scripts | prepare variable blocks as **data in the Initialization** (heading field + one table); the layout has one block, hidden by one script when the table is empty |
+| two variants of a position grid at the same place | stock-transfer and standard grid | the variant that is not live for the sample gets **no default text**, so they do not overprint |
+| 63-86 scripts against 29 in the sibling ZMMET_PO_SF_ADT | one form carries every order type and language | **ask the client early** whether one wording (the sample's) is enough, or whether every type / language is required: a one-wording form is plain static text (wizard form, ZMMET); all variants need scripts or prepared data. State the trade-off in the first status entry |
+
+Count the scripts, ready events and stacked variant blocks of the generated layout before pushing (target: the wizard form's order of magnitude for a one-case form) and look at the Design View the way the client does.
+
 ## 10. Anti-patterns that cost a rejected build each (ZMMCG_PO_SF)
 
 | Anti-pattern | Cost |
