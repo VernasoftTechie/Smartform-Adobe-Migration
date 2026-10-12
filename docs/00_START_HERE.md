@@ -2,6 +2,9 @@
 
 ## 🎯 Quick Navigation
 
+- **MANDATORY entry for every window (read first, to the end)**: `docs/rulebook/WINDOW_START_GATE.md` → `docs/rulebook/ADOBE_FORM_BUILD_RULEBOOK.md` (v2, 2026-10-12)
+- **Reference forms of other purposes / complexities (sourced by the user)**: `docs/reference_forms/README.md`; summarise any XDP with `tools/ref_form_probe.mjs`
+
 This repository contains the scoping, framework, build history, and
 working code for migrating SAP SmartForms to Adobe Forms.
 

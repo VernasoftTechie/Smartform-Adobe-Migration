@@ -2,6 +2,11 @@
 
 ## ALWAYS do this first
 
+**Adobe form tickets: read `docs/rulebook/WINDOW_START_GATE.md` to its end and then `docs/rulebook/ADOBE_FORM_BUILD_RULEBOOK.md` (v2) before
+claiming a ticket or touching any file — every window, every AI model, no exceptions.** `queue.mjs claim` needs the acknowledgement printed at the end of
+the gate. The rulebook supersedes older notes where they differ (its section 12 lists them); S09 and S10 carry the calibration method; nothing is "done" before
+the client's SAP result is in the status file, and nothing is committed or handed off before the ten re-check passes (rulebook section 8) are green.
+
 Before writing or changing any ABAP source, any abapGit serialized object
 (`.prog.*`, `.clas.*`, etc.), or before concluding a piece of code "should work":
 read the **Bolt Playbook** (`memory:bolt_playbook`, canonical copy at
