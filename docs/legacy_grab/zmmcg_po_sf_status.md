@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-12T12:25:05.435Z
-WAITING_ON: operator
-NOTE: Import error "SFPF deserialization error: Invalid request" analysed and fixed (two Context node names were over the 30-character limit) - in abapGit pull the WHOLE branch again onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT; if it still fails send the complete abapGit log text.
+STATUS: in_progress
+UPDATED: 2026-10-12T13:14:41.846Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -510,3 +510,6 @@ Thank you for the screenshot (commit c6743ee, import of **ZMMCG_PO_SF_ADT** fail
 2. If the import fails again: send the **complete abapGit log text** (object, message, line); then the cause is somewhere else and I will look for it from that text.
 3. Design View: all labels visible; then preview the ZPOS sample against the legacy PDF and a goods order, an import, a local order and a stock transfer, with a French and an English logon.
 4. Answer when convenient (conversion map, last section): keep totals + terms together on one page or break like the legacy? letterhead as master page instead of a block in the flow? is the character format C4 in "Last Changed On:" bold? And the earlier questions (label utility class, runtime logo, page numbers, one wording for all languages).
+
+## 2026-10-12T13:14:41.846Z — Manual activity confirmed
+Client confirmed the manual step is done.
