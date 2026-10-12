@@ -188,7 +188,7 @@ const MARG = {
   cell: mg(1.122, 0, 0.7, 0),
   desc: mg(1.122, 0, 0.7, 0),
   center: mg(1.122, 0, 0, 0),
-  slno: mg(1.122, 0, 0, 1.18),
+  slno: mg(1.122, 0, 0, 0.4),             // printout: the integer is printed with a trailing blank: 10-18 end 0.4 mm before the cell edge, 1-9 one blank earlier (wizard form: 1.18)
   qty: mg(1.122, 0, 0, 0),
   price: mg(1.122, 0, 0, 1.28),
   totLbl: mg(1.022, 0, 0, 0.3),             // totals label (9 pt): baseline 3.30 mm below the row top
@@ -433,16 +433,18 @@ function sectionRow(tblName, rowSect, tableSect, opts = {}) {
     return nodes.length ? slot(nodes) : { kind: 'empty' };
   });
   const rowTextual = contents.some(textual);
+  // the row has a height when one of its cells has text or a blank text line; only a row with no height at all prints no border
+  const rowHasHeight = rowTextual || contents.some((c) => c.kind === 'static' && c.hasLine);
   tableOpen(tblName, widths);
   rowOpen('Row1', 'TR');
   cells.forEach((cd, i) => {
     const content = contents[i];
     const isVal = opts.valueCol === i;
     // text row: grows with its text; the line height is fitted so that ONE line is exactly ROW_TXT high (inset 1.122 + line 3.078)
-    const dim = textual(content) ? { minH: opts.minH ?? ROW_TXT } : (content.kind === 'static' && content.hasLine ? { h: ROW_BLANK } : (rowTextual ? { minH: 0 } : { h: 0 }));
+    const dim = textual(content) ? { minH: opts.minH ?? ROW_TXT } : (content.kind === 'static' && content.hasLine ? { h: ROW_BLANK } : (rowHasHeight ? { minH: 0 } : { h: 0 }));
     cellXml({
       name: `C${i + 1}`, w: widths[i], ...dim, content,
-      font: opts.font ?? FONT.reg, margin: opts.margin ?? MARG.cell, para: para(isVal || opts.rightCols?.includes(i) ? 'right' : 'left', textual(content) ? fitL(dim.minH, 1.122) : undefined), b: dim.h === 0 ? null : cd.b, // a legacy row without printable text has no height and prints no border
+      font: opts.font ?? FONT.reg, margin: opts.margin ?? MARG.cell, para: para(isVal || opts.rightCols?.includes(i) ? 'right' : 'left', textual(content) ? fitL(dim.minH, 1.122) : undefined), b: rowHasHeight ? cd.b : null, // a legacy row without printable text has no height and prints no border
     });
   });
   w('<bind match="none"/>');
@@ -523,7 +525,7 @@ function termsBlock(tableSect, uniq) {
   tableOpen(`${uniq}_ROWS`, widths);
   rowOpen('DATA', 'TR');
   tc.forEach((cd, i) => {
-    if (i === 1) cellXml({ name: 'SLNO', w: widths[i], minH: ROW_TXT, content: { kind: 'bind', ref: 'SLNO' }, relative: true, font: FONT.reg, margin: MARG.termNo, para: para('left'), b: cd.b, single: true });
+    if (i === 1) cellXml({ name: 'SLNO', w: widths[i], minH: ROW_TXT, content: { kind: 'bind', ref: 'SLNO' }, relative: true, font: FONT.reg, margin: MARG.termNo, para: para('left', '3.39mm'), b: cd.b, single: true });
     else if (i === 3) cellXml({ name: 'TEXT', w: widths[i], minH: ROW_TXT, content: { kind: 'bind', ref: 'TEXT' }, relative: true, font: FONT.reg, margin: MARG.termTxt, para: para('left', '3.39mm', '0.353mm'), b: cd.b });
     else cellXml({ name: `C${i + 1}`, w: widths[i], minH: 0, content: { kind: 'empty' }, font: FONT.reg, margin: MARG.grid, para: para('left'), b: cd.b });
   });
@@ -653,7 +655,7 @@ function pageArea(id, first, ca, wm) {
   // flags it; the outer lines of the items / totals / terms block are the left and right edges of the rows
   // WATER_MARK
   const useLV = useField('LV_FLAG');
-  w(`<field h="6mm" name="WATER_MARK" w="${mmn(toMM(wm.w))}" x="${mmn(toMM(wm.left))}" y="${mmn(toMM(wm.top) + 1.4)}"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="12pt" typeface="Courier New"><fill><color value="176,176,176"/></fill></font><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/><para hAlign="center" vAlign="top"/><calculate><script contentType="application/x-formcalc">${X(`if (${rec(useLV)} eq "Y") then $ = "Approved PO" else $ = "UnApproved PO" endif`)}</script></calculate><bind match="none"/></field>`);
+  w(`<field h="6mm" name="WATER_MARK" w="${mmn(toMM(wm.w))}" x="${mmn(toMM(wm.left))}" y="${mmn(toMM(wm.top) + 1.4)}"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="12pt" typeface="Courier New"><fill><color value="176,176,176"/></fill></font><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/><para hAlign="center" vAlign="top"/><value><text>UnApproved PO</text></value><calculate><script contentType="application/x-formcalc">${X(`if (${rec(useLV)} eq "Y") then $ = "Approved PO" else $ = "UnApproved PO" endif`)}</script></calculate><bind match="none"/></field>`);
   if (first) {
     const lg = win('LOGO').win;
     if (LOGO_PNG) w(`<draw h="16.8mm" name="LOGO" w="29.6mm" x="${mmn(toMM(lg.left) + 0.1)}" y="${mmn(toMM(lg.top) + 0.1)}"><value><image aspect="fit" contentType="image/png">${LOGO_PNG}</image></value></draw>`);

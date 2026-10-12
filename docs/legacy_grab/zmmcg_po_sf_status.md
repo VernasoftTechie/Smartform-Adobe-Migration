@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-12T06:58:35.095Z
+UPDATED: 2026-10-12T11:10:03.260Z
 WAITING_ON: operator
-NOTE: Layout simplified after your Design View screenshots (labels visible in the Design View, one prepared terms table instead of three stacked variants) - this time the INTERFACE changed too (terms prepared in the Initialization): in abapGit pull the whole branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT, activate the interface first (report any error with its line), then the form, then preview the ZPOS sample against the legacy PDF.
+NOTE: Layout and interface re-verified (ten independent checks, all green) - in abapGit pull the WHOLE branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT (the interface changed: terms and item numbers are prepared in the Initialization), activate the interface first and report any error with its line, then the form; preview the ZPOS sample against the legacy PDF; please also answer the questions at the end of the latest entry.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -432,3 +432,41 @@ Your three Design View screenshots were right to ask the question. Comparing the
 1. In abapGit pull the whole branch onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT**. Activate the interface first: if SAP reports an error in the Initialization (the new terms block, near the end of the first third), **stop and report the message and line**.
 2. Activate the form, open the Layout and look at the Design View: are labels and the single terms block now readable? Report any warning or overflow badge.
 3. Preview the ZPOS sample (18 items, unapproved) against the legacy PDF; then answer the open decision above.
+
+## 2026-10-12T11:10:03.260Z — Full re-check of every section; what changed since the last entry
+You asked for every pixel to be re-checked against the legacy printout and your wizard form. This was done with ten independent checks (a script runs them all: `tools/zmmcg_po_sf/recheck.mjs`; the log is `docs/legacy_grab/zmmcg_po_sf_recheck_log.md`). All ten pass.
+
+**What the checks do**
+1. Structure of the layout (XML, bindings, scripts, tables, borders, page areas, your baseline untouched).
+2. Interface parity with the legacy extract.
+3. Every element of your wizard form of this Smart Form, as absolute coordinates (0.15 mm), and every legacy text in English and French.
+4. **A simulation of the layout against the legacy printout**: 236 predicted texts (baseline and position), every line and every grey box of both pages — all match.
+5. **Every layout script, run for 1152 combinations** (order type × flag × language × currency × header text × Inco terms), compared with what the legacy export prints (read by a second, independent reader).
+6. **The new terms ABAP, run for 48 combinations** and compared with the legacy terms.
+7. ABAP standards of everything we wrote (naming, 7.4 syntax, no INSERT / INTO CORRESPONDING).
+8. The AND / OR operators read from the export equal those in the raw file.
+9. Regenerating everything from the export changes nothing.
+10. Context graph and bindings.
+Each checker was tested once by breaking the code on purpose (it fails then).
+
+**Changes found by the re-check**
+- Rows without printable text lost the left or right edge of a neighbouring cell (a stray gap in the frame line at the Other Charges / blank rows): fixed.
+- The terms number cell had no line height (rows would have been 0.26 mm too tall each): fixed.
+- The plant address has 13 lines (the wizard form), not 14.
+- Item numbers: on the printout the numbers 1-9 end 0.8 mm earlier than 10-18 (integer printed with a trailing blank). Now the cell has a 0.4 mm right inset and the Initialization appends a no-break blank to 1-digit numbers.
+- The watermark carries its sample text as default (Design View).
+- **ABAP** (new code only): terms table and text joins use ABAP 7.4 (`VALUE #`, `COND`, `SWITCH`, string templates, inline field symbols); DIL names; the interface now has 1212 Initialization lines; the new ABAP has **not been activated**.
+
+**Known residuals (written down, not hidden)**: the terms text is 0.82 mm higher on a continuation page than on the printout; the first baseline of the cells that may wrap (description, words row) is a model assumption; how Adobe splits the row at the page break (term 4) is its own decision; only a service order has a printout, so the goods table, comments and totals of other types are checked against the export (widths, heights, borders, wording), not against a printout.
+
+**Questions for you (from your own reference forms, strategy S11)**
+1. Do `ZCL_ADOBEFORM_UTILITY=>GET_HEADER_LABELS` and its label table exist in this system, and may the labels of this form be maintained there (as in the form `ZSDAF_V3_SEA001`)? That would replace the 63 label scripts by data.
+2. Should the logo come from the graphics store at run time (`CL_SSF_XSF_UTILITIES=>GET_BDS_GRAPHIC_AS_BMP`) instead of the embedded image? Which graphic name does the legacy form use?
+3. After sign-off: do you want "Page X of Y", repeated totals per page, a QR code or row shading? (all present in your own forms; none in the legacy printout)
+4. One wording only (like your wizard form), or every order type and language (as built)?
+
+## 2026-10-12T11:10:03.260Z — Action needed from you (SAP)
+1. In abapGit pull the whole branch onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT**. Activate the interface first: if SAP reports an error in the Initialization (the terms block, `COND` / `VALUE` statements), **stop and report the message and line**.
+2. Activate the form, open the Layout (Design View) and report warnings or overflow badges.
+3. Preview the ZPOS sample (18 items, unapproved) against the legacy PDF; then an order with more than 60 items (3 pages), an import (ZPOI), a local (ZPOL) and a stock transfer (ZPOT).
+4. Answer the four questions above, and confirm or use "Change requested" (order type, place on the page, what the legacy shows, what the new form shows).

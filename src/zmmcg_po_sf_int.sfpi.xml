@@ -341,7 +341,6 @@
       <FPPARAMETER>EINDT</FPPARAMETER>
       <FPPARAMETER>LT_LINES</FPPARAMETER>
       <FPPARAMETER>LV_LIFNR</FPPARAMETER>
-      <FPPARAMETER>LS_LINE</FPPARAMETER>
       <FPPARAMETER>GT_TERMS</FPPARAMETER>
       <FPPARAMETER>GV_TERMS_TITLE</FPPARAMETER>
       <FPPARAMETER>V_FLAG</FPPARAMETER>
@@ -417,7 +416,6 @@
       <FPPARAMETER>PODATE</FPPARAMETER>
       <FPPARAMETER>EINDT</FPPARAMETER>
       <FPPARAMETER>LT_LINES</FPPARAMETER>
-      <FPPARAMETER>LS_LINE</FPPARAMETER>
       <FPPARAMETER>GT_TERMS</FPPARAMETER>
       <FPPARAMETER>GV_TERMS_TITLE</FPPARAMETER>
       <FPPARAMETER>WA_EKPO</FPPARAMETER>
@@ -459,7 +457,7 @@
       <FPCLINE>      lv_satim       TYPE string,</FPCLINE>
       <FPCLINE>      lv_lang        LIKE sy-langu VALUE &apos;F&apos;,</FPCLINE>
       <FPCLINE>      lt_zpos        TYPE ty_tline_tab,</FPCLINE>
-      <FPCLINE>      ls_zpos        TYPE tline,</FPCLINE>
+      <FPCLINE>      lv_nbsp        TYPE c LENGTH 1,         "no-break blank (item number padding)</FPCLINE>
       <FPCLINE>      lv_fr          TYPE abap_bool,   "print language is French (terms)</FPCLINE>
       <FPCLINE>      ls_term        TYPE ty_s_term,</FPCLINE>
       <FPCLINE>      ls_goods       TYPE ty_s_goods,</FPCLINE>
@@ -679,23 +677,21 @@
       <FPCLINE>* BOLT: values the layout prints in converted / joined form (strategy S08 section 12).</FPCLINE>
       <FPCLINE>WRITE lv_lifnr TO gv_lifnr_out.   "vendor number through its domain output routine (legacy &amp;LV_LIFNR&amp;)</FPCLINE>
       <FPCLINE>CONDENSE gv_lifnr_out.</FPCLINE>
+      <FPCLINE>lv_nbsp = cl_abap_conv_in_ce=&gt;uccp( &apos;00A0&apos; ).   "no-break blank: a 1-digit item number keeps the blank the legacy integer output has</FPCLINE>
       <FPCLINE/>
       <FPCLINE>* header text F01/EKKO (read by legacy %CODE34 into LT_LINES): paragraphs joined; the legacy form prints it</FPCLINE>
       <FPCLINE>* in PO_DETAIL (%TEXT39, include text) when V_POTEXT is not X</FPCLINE>
       <FPCLINE>CLEAR gv_hdrtxt.</FPCLINE>
-      <FPCLINE>LOOP AT lt_lines INTO ls_line.</FPCLINE>
-      <FPCLINE>  IF ls_line-tdformat = &apos;/*&apos; OR ls_line-tdformat = &apos;/:&apos;.</FPCLINE>
+      <FPCLINE>LOOP AT lt_lines ASSIGNING FIELD-SYMBOL(&lt;lfs_line&gt;).</FPCLINE>
+      <FPCLINE>  IF &lt;lfs_line&gt;-tdformat = &apos;/*&apos; OR &lt;lfs_line&gt;-tdformat = &apos;/:&apos;.</FPCLINE>
       <FPCLINE>    CONTINUE.                                      "comment and command lines are never printed</FPCLINE>
       <FPCLINE>  ENDIF.</FPCLINE>
-      <FPCLINE>  IF gv_hdrtxt IS INITIAL.</FPCLINE>
-      <FPCLINE>    gv_hdrtxt = ls_line-tdline.</FPCLINE>
-      <FPCLINE>  ELSEIF ls_line-tdformat IS INITIAL.               "continuation line: joined with a blank</FPCLINE>
-      <FPCLINE>    gv_hdrtxt = |{ gv_hdrtxt } { ls_line-tdline }|.</FPCLINE>
-      <FPCLINE>  ELSEIF ls_line-tdformat = &apos;=&apos;.                    "joined without a blank</FPCLINE>
-      <FPCLINE>    gv_hdrtxt = |{ gv_hdrtxt }{ ls_line-tdline }|.</FPCLINE>
-      <FPCLINE>  ELSE.                                             "new paragraph = new line</FPCLINE>
-      <FPCLINE>    gv_hdrtxt = |{ gv_hdrtxt }{ cl_abap_char_utilities=&gt;newline }{ ls_line-tdline }|.</FPCLINE>
-      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>  gv_hdrtxt = SWITCH string( &lt;lfs_line&gt;-tdformat</FPCLINE>
+      <FPCLINE>                WHEN space THEN COND string( WHEN gv_hdrtxt IS INITIAL THEN &lt;lfs_line&gt;-tdline</FPCLINE>
+      <FPCLINE>                                             ELSE |{ gv_hdrtxt } { &lt;lfs_line&gt;-tdline }| )   "continuation line: joined with a blank</FPCLINE>
+      <FPCLINE>                WHEN &apos;=&apos;   THEN |{ gv_hdrtxt }{ &lt;lfs_line&gt;-tdline }|                         "joined without a blank</FPCLINE>
+      <FPCLINE>                ELSE COND string( WHEN gv_hdrtxt IS INITIAL THEN &lt;lfs_line&gt;-tdline</FPCLINE>
+      <FPCLINE>                                  ELSE |{ gv_hdrtxt }{ cl_abap_char_utilities=&gt;newline }{ &lt;lfs_line&gt;-tdline }| ) ).   "new paragraph = new line</FPCLINE>
       <FPCLINE>ENDLOOP.</FPCLINE>
       <FPCLINE/>
       <FPCLINE>* standard text ZMMCG_PO_TEXT (ST, language F): legacy include text %TEXT288 = term 1 of the service</FPCLINE>
@@ -713,321 +709,239 @@
       <FPCLINE>      lines    = lt_zpos</FPCLINE>
       <FPCLINE>    EXCEPTIONS</FPCLINE>
       <FPCLINE>      OTHERS   = 8.</FPCLINE>
-      <FPCLINE>  LOOP AT lt_zpos INTO ls_zpos.</FPCLINE>
-      <FPCLINE>    IF ls_zpos-tdformat = &apos;/*&apos; OR ls_zpos-tdformat = &apos;/:&apos;.</FPCLINE>
+      <FPCLINE>  LOOP AT lt_zpos ASSIGNING FIELD-SYMBOL(&lt;lfs_zpos&gt;).</FPCLINE>
+      <FPCLINE>    IF &lt;lfs_zpos&gt;-tdformat = &apos;/*&apos; OR &lt;lfs_zpos&gt;-tdformat = &apos;/:&apos;.</FPCLINE>
       <FPCLINE>      CONTINUE.</FPCLINE>
       <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    IF gv_term1_zpos IS INITIAL.</FPCLINE>
-      <FPCLINE>      gv_term1_zpos = ls_zpos-tdline.</FPCLINE>
-      <FPCLINE>    ELSEIF ls_zpos-tdformat IS INITIAL.</FPCLINE>
-      <FPCLINE>      gv_term1_zpos = |{ gv_term1_zpos } { ls_zpos-tdline }|.</FPCLINE>
-      <FPCLINE>    ELSEIF ls_zpos-tdformat = &apos;=&apos;.</FPCLINE>
-      <FPCLINE>      gv_term1_zpos = |{ gv_term1_zpos }{ ls_zpos-tdline }|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      gv_term1_zpos = |{ gv_term1_zpos }{ cl_abap_char_utilities=&gt;newline }{ ls_zpos-tdline }|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>    gv_term1_zpos = SWITCH string( &lt;lfs_zpos&gt;-tdformat</FPCLINE>
+      <FPCLINE>                      WHEN space THEN COND string( WHEN gv_term1_zpos IS INITIAL THEN &lt;lfs_zpos&gt;-tdline</FPCLINE>
+      <FPCLINE>                                                   ELSE |{ gv_term1_zpos } { &lt;lfs_zpos&gt;-tdline }| )</FPCLINE>
+      <FPCLINE>                      WHEN &apos;=&apos;   THEN |{ gv_term1_zpos }{ &lt;lfs_zpos&gt;-tdline }|</FPCLINE>
+      <FPCLINE>                      ELSE COND string( WHEN gv_term1_zpos IS INITIAL THEN &lt;lfs_zpos&gt;-tdline</FPCLINE>
+      <FPCLINE>                                        ELSE |{ gv_term1_zpos }{ cl_abap_char_utilities=&gt;newline }{ &lt;lfs_zpos&gt;-tdline }| ) ).</FPCLINE>
       <FPCLINE>  ENDLOOP.</FPCLINE>
       <FPCLINE>ENDIF.</FPCLINE>
       <FPCLINE/>
       <FPCLINE>* BOLT: terms and conditions prepared for the layout (GV_TERMS_TITLE, GT_TERMS). Generated by tools/zmmcg_po_sf/terms_gen.mjs from the</FPCLINE>
       <FPCLINE>* legacy folders %FOLDER1 / %FOLDER2 (goods, V_FLAG = X) and %FOLDER4 (service, V_FLAG = Y); texts are the legacy texts, English and French.</FPCLINE>
       <FPCLINE>CLEAR: gt_terms, gv_terms_title.</FPCLINE>
-      <FPCLINE>IF v_bsart = &apos;ZPOL&apos; OR v_bsart = &apos;ZPOS&apos;.</FPCLINE>
-      <FPCLINE>  lv_fr = abap_true.                       "legacy driver: French for local and service orders</FPCLINE>
-      <FPCLINE>ELSEIF v_bsart = &apos;ZPOI&apos;.</FPCLINE>
-      <FPCLINE>  lv_fr = abap_false.                      "import orders: English</FPCLINE>
-      <FPCLINE>ELSEIF gv_langu = &apos;F&apos;.</FPCLINE>
-      <FPCLINE>  lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>ELSE.</FPCLINE>
-      <FPCLINE>  lv_fr = abap_false.</FPCLINE>
-      <FPCLINE>ENDIF.</FPCLINE>
-      <FPCLINE>IF ( v_flag = &apos;X&apos; ).      "table OTHER_PO</FPCLINE>
-      <FPCLINE>  IF ( v_bsart = &apos;ZPOI&apos; ).      "folder %FOLDER1</FPCLINE>
+      <FPCLINE>lv_fr = COND #( WHEN v_bsart = &apos;ZPOL&apos; OR v_bsart = &apos;ZPOS&apos; THEN abap_true     "legacy driver: French for local and service orders</FPCLINE>
+      <FPCLINE>                 WHEN v_bsart = &apos;ZPOI&apos; THEN abap_false                          "import orders: English</FPCLINE>
+      <FPCLINE>                 WHEN gv_langu = &apos;F&apos; THEN abap_true</FPCLINE>
+      <FPCLINE>                 ELSE abap_false ).</FPCLINE>
+      <FPCLINE>IF v_flag = &apos;X&apos;.      "table OTHER_PO</FPCLINE>
+      <FPCLINE>  IF v_bsart = &apos;ZPOI&apos;.      "folder %FOLDER1</FPCLINE>
       <FPCLINE>    gv_terms_title = |Purchase Order Terms &amp; Conditions:|.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |1.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Vendor must send one non-negotiable original Master Bill of Lading directly to a| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |pplicant bank, immediately after shipment is done.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |2.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Bill of Lading/Air Way Bill Number, Commercial Invoice, Packing List, Manufactur| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |er Certificate, CCVO (Combined Certificate for Value &amp; Origin), ECTN (Electronic| &amp;&amp;</FPCLINE>
-      <FPCLINE>             | Cargo Tracking Note) are mandatory documents as shipping advice to buyer and ou| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |r Clearing/Logistic Department.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |3.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |L/C (Letter of Credit) Number should appear on every individual shipping documen| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |ts..|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |4.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |All the Bank charges within CONGO REPUBLIC are to Buyer&apos;s account &amp; all other ba| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |nk charges are to supplier&apos;s account.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |5.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |The Purchase Order number must be reflected on all invoices to effect payment. A| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |ll invoices must be sent to the Finance Department.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |6.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary docu| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |mentation most accompany the goods or services. Otherwise, as a default, the ite| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |ms covered under this order shall stand guarantee/warranty of 18 months from the| &amp;&amp;</FPCLINE>
-      <FPCLINE>             | date of supply or 12 months from the date of installation / commissioning.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |7.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operat| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |ing Manuals, Waste Disposal etc., needs to be current and must accompany this Pu| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |rchase Order.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |8.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Logistics Manager| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |Ste. Dangote Cement Congo SA,| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |Quartier NDJINDJI, Vers CFAO CONGO,| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |BP 1103, Pointe Noire,| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |Republic of Congo| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |Tel: +242 05 799 9383| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |Email: DCCG-LOGISTICS@DANGOTE.COM| &amp;&amp;</FPCLINE>
-      <FPCLINE>             cl_abap_char_utilities=&gt;newline &amp;&amp;</FPCLINE>
-      <FPCLINE>             |DCCG-PURCHASE@DANGOTE.COM|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |9.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Goods and/or Services would be accepted, only if it conforms to our quality and/| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |or standard specifications.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |10.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |Invoice shall be raised based on the lowest between principal vendor&apos;s weighbrid| &amp;&amp;</FPCLINE>
-      <FPCLINE>             |ge quantity and Dangote&apos;s weighbridge quantity.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |11.|.</FPCLINE>
-      <FPCLINE>    ls_term-text = |No variation in this terms and conditions will be accepted.|.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>  ELSEIF ( v_bsart &lt;&gt; &apos;ZPOI&apos; ).      "folder %FOLDER2</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      gv_terms_title = |Les autres termes et conditions applicables au bon de commande:|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      gv_terms_title = |Purchase Order Terms &amp; Conditions:|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |1.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Prix exprimés sont basés sur un prix rendu au Congo.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Prices expressed are based on a delivered price in Congo.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |2.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Unit Prices are exclusive of Value Added Tax (VAT).|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |3.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Le numéro de commande doit être inscrit sur toutes les factures afin d&apos;effectuer| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | le paiement.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |The Purchase Order number must be reflected on all invoices to effect payment.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |4.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Le terme de paiement, est strictement de 30 jours après la livraison, sauf accor| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |d contraire conformément à l&apos;accord contractuel signé.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Payment terms, is strictly 30 days after delivery, unless otherwise agreed as pe| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |r signed contractual agreement.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |5.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Guarantie: Lorsqu&apos; une garantie est applicable, la documentation nécessaire doit| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | accompagner les biens ou les services. Sinon, par défaut, les éléments couverts| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | par ce bon  seront garanties pour 18 mois à compter de la date d&apos;installation /| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | mise en service.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary docu| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |mentation most accompany the goods or services. Otherwise, as a default, the ite| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ms covered under this order shall stand guarantee/warranty of 18 months from the| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | date of supply or 12 months from the date of installation / commissioning.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |6.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Tous les autres certificats réglementaires à l&apos;exemple de la Fiche de données de| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | Sécurité (FDS), les Manuels d&apos;Utilisation, de traitement des dechets etc., doiv| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ent être actuels et doivent accompagner ce bon de commande.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operat| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ing Manuals, Waste Disposal etc., needs to be current and must accompany this Pu| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |rchase Order.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |7.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Les marchandises et / ou services ne seront acceptés que s&apos;ils sont conformes à | &amp;&amp;</FPCLINE>
-      <FPCLINE>               |nos standards de  qualités et / ou à nos spécifications standar ds.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Goods and/or Services would be accepted, only if it conforms to our quality and/| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |or standard specifications.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |8.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |La facture doit être établie sur la base de la plus faible quantité entre celle | &amp;&amp;</FPCLINE>
-      <FPCLINE>               |du pont bascule du fournisseur principal et celle du pont bascule de Dangote.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Invoice shall be raised based on the lowest between principal vendor&apos;s weighbrid| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ge quantity and Dangote&apos;s weighbridge quantity.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |9.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Toutes les factures doivent être envoyées au Département des finances.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |All invoices must be sent to the Finance Department.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |10.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Aucune modification de ces termes et conditions ne sera acceptée.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |No variation in this terms and conditions will be accepted.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |1.|</FPCLINE>
+      <FPCLINE>      text = |Vendor must send one non-negotiable original Master Bill of Lading directly to a|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |pplicant bank, immediately after shipment is done.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |2.|</FPCLINE>
+      <FPCLINE>      text = |Bill of Lading/Air Way Bill Number, Commercial Invoice, Packing List, Manufactur|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |er Certificate, CCVO (Combined Certificate for Value &amp; Origin), ECTN (Electronic|</FPCLINE>
+      <FPCLINE>             &amp;&amp; | Cargo Tracking Note) are mandatory documents as shipping advice to buyer and ou|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |r Clearing/Logistic Department.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |3.|</FPCLINE>
+      <FPCLINE>      text = |L/C (Letter of Credit) Number should appear on every individual shipping documen|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |ts..| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |4.|</FPCLINE>
+      <FPCLINE>      text = |All the Bank charges within CONGO REPUBLIC are to Buyer&apos;s account &amp; all other ba|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |nk charges are to supplier&apos;s account.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |5.|</FPCLINE>
+      <FPCLINE>      text = |The Purchase Order number must be reflected on all invoices to effect payment. A|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |ll invoices must be sent to the Finance Department.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |6.|</FPCLINE>
+      <FPCLINE>      text = |Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary docu|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |mentation most accompany the goods or services. Otherwise, as a default, the ite|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |ms covered under this order shall stand guarantee/warranty of 18 months from the|</FPCLINE>
+      <FPCLINE>             &amp;&amp; | date of supply or 12 months from the date of installation / commissioning.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |7.|</FPCLINE>
+      <FPCLINE>      text = |Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operat|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |ing Manuals, Waste Disposal etc., needs to be current and must accompany this Pu|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |rchase Order.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |8.|</FPCLINE>
+      <FPCLINE>      text = |Logistics Manager|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |Ste. Dangote Cement Congo SA,|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |Quartier NDJINDJI, Vers CFAO CONGO,|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |BP 1103, Pointe Noire,|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |Republic of Congo|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |Tel: +242 05 799 9383|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |Email: DCCG-LOGISTICS@DANGOTE.COM|</FPCLINE>
+      <FPCLINE>             &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>             &amp;&amp; |DCCG-PURCHASE@DANGOTE.COM| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |9.|</FPCLINE>
+      <FPCLINE>      text = |Goods and/or Services would be accepted, only if it conforms to our quality and/|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |or standard specifications.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |10.|</FPCLINE>
+      <FPCLINE>      text = |Invoice shall be raised based on the lowest between principal vendor&apos;s weighbrid|</FPCLINE>
+      <FPCLINE>             &amp;&amp; |ge quantity and Dangote&apos;s weighbridge quantity.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |11.|</FPCLINE>
+      <FPCLINE>      text = |No variation in this terms and conditions will be accepted.| ) TO gt_terms.</FPCLINE>
+      <FPCLINE>  ELSEIF v_bsart &lt;&gt; &apos;ZPOI&apos;.      "folder %FOLDER2</FPCLINE>
+      <FPCLINE>    gv_terms_title = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                       THEN |Les autres termes et conditions applicables au bon de commande:|</FPCLINE>
+      <FPCLINE>                       ELSE |Purchase Order Terms &amp; Conditions:| ).</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |1.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Prix exprimés sont basés sur un prix rendu au Congo.|</FPCLINE>
+      <FPCLINE>               ELSE |Prices expressed are based on a delivered price in Congo.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |2.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)|</FPCLINE>
+      <FPCLINE>               ELSE |Unit Prices are exclusive of Value Added Tax (VAT).| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |3.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Le numéro de commande doit être inscrit sur toutes les factures afin d&apos;effectuer|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | le paiement.|</FPCLINE>
+      <FPCLINE>               ELSE |The Purchase Order number must be reflected on all invoices to effect payment.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |4.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Le terme de paiement, est strictement de 30 jours après la livraison, sauf accor|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |d contraire conformément à l&apos;accord contractuel signé.|</FPCLINE>
+      <FPCLINE>               ELSE |Payment terms, is strictly 30 days after delivery, unless otherwise agreed as pe|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |r signed contractual agreement.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |5.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Guarantie: Lorsqu&apos; une garantie est applicable, la documentation nécessaire doit|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | accompagner les biens ou les services. Sinon, par défaut, les éléments couverts|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | par ce bon  seront garanties pour 18 mois à compter de la date d&apos;installation /|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | mise en service.|</FPCLINE>
+      <FPCLINE>               ELSE |Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary docu|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |mentation most accompany the goods or services. Otherwise, as a default, the ite|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ms covered under this order shall stand guarantee/warranty of 18 months from the|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | date of supply or 12 months from the date of installation / commissioning.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |6.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Tous les autres certificats réglementaires à l&apos;exemple de la Fiche de données de|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | Sécurité (FDS), les Manuels d&apos;Utilisation, de traitement des dechets etc., doiv|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ent être actuels et doivent accompagner ce bon de commande.|</FPCLINE>
+      <FPCLINE>               ELSE |Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operat|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ing Manuals, Waste Disposal etc., needs to be current and must accompany this Pu|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |rchase Order.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |7.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Les marchandises et / ou services ne seront acceptés que s&apos;ils sont conformes à |</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |nos standards de  qualités et / ou à nos spécifications standar ds.|</FPCLINE>
+      <FPCLINE>               ELSE |Goods and/or Services would be accepted, only if it conforms to our quality and/|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |or standard specifications.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |8.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |La facture doit être établie sur la base de la plus faible quantité entre celle |</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |du pont bascule du fournisseur principal et celle du pont bascule de Dangote.|</FPCLINE>
+      <FPCLINE>               ELSE |Invoice shall be raised based on the lowest between principal vendor&apos;s weighbrid|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ge quantity and Dangote&apos;s weighbridge quantity.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |9.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Toutes les factures doivent être envoyées au Département des finances.|</FPCLINE>
+      <FPCLINE>               ELSE |All invoices must be sent to the Finance Department.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |10.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Aucune modification de ces termes et conditions ne sera acceptée.|</FPCLINE>
+      <FPCLINE>               ELSE |No variation in this terms and conditions will be accepted.| ) ) TO gt_terms.</FPCLINE>
       <FPCLINE>  ENDIF.</FPCLINE>
-      <FPCLINE>ELSEIF ( v_flag = &apos;Y&apos; ).      "table SERVCE_PO</FPCLINE>
-      <FPCLINE>  IF ( v_bsart &lt;&gt; &apos;ZPOI&apos; ).      "folder %FOLDER4</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      gv_terms_title = |Les autres termes et conditions applicables au bon de commande:|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      gv_terms_title = |Purchase Order Terms &amp; Conditions:|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |1.|.</FPCLINE>
-      <FPCLINE>    IF ( v_bsart &lt;&gt; &apos;ZPOS&apos; ).</FPCLINE>
-      <FPCLINE>      IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>        ls_term-text = |Les prix exprimés sont basés sur un prix de livraison au Cameroun.|.</FPCLINE>
-      <FPCLINE>      ELSE.</FPCLINE>
-      <FPCLINE>        ls_term-text = |Prices expressed are based on a delivered price in Cameroon.|.</FPCLINE>
-      <FPCLINE>      ENDIF.</FPCLINE>
-      <FPCLINE>    ELSEIF ( v_bsart = &apos;ZPOS&apos; ).</FPCLINE>
-      <FPCLINE>      ls_term-text = gv_term1_zpos.           "standard text ZMMCG_PO_TEXT (legacy include text)</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |2.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Unit Prices are exclusive of Value Added Tax (VAT).|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |3.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Le numéro de commande doit être inscrit sur toutes les factures afin d&apos;effectuer| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | le paiement.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |The Purchase Order number must be reflected on all invoices to effect payment.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |4.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Le terme de paiement, est strictement de 30 jours après la livraison, sauf accor| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |d contraire conformément à l&apos;accord contractuel signé.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Payment terms, is strictly 30 days after delivery, unless otherwise agreed as pe| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |r signed contractual agreement.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |5.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Guarantie: Lorsqu&apos; une garantie est applicable, la documentation nécessaire doit| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | accompagner les biens ou les services. Sinon, par défaut, les éléments couverts| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | par ce bon  seront garanties pour 18 mois à compter de la date de l&apos;offre ou de| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | 12 mois à compter de la date d&apos;installation / mise en service.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary docu| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |mentation most accompany the goods or services. Otherwise, as a default, the ite| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ms covered under this order shall stand guarantee/warranty of 18 months from the| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | date of supply or 12 months from the date of installation / commissioning.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |6.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Tous les autres certificats réglementaires à l&apos;exemple de la Fiche de données de| &amp;&amp;</FPCLINE>
-      <FPCLINE>               | Sécurité (FDS), les Manuels d&apos;Utilisation, de traitement des dechets etc., doiv| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ent être actuels et doivent accompagner ce bon de commande.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operat| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ing Manuals, Waste Disposal etc., needs to be current and must accompany this Pu| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |rchase Order.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |7.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Les marchandises et / ou services ne seront acceptés que s&apos;ils sont conformes à | &amp;&amp;</FPCLINE>
-      <FPCLINE>               |nos standards de  qualités et / ou à nos  spécifications standards.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Goods and/or Services would be accepted, only if it conforms to our quality and/| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |or standard specifications.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |8.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |La facture doit être établie sur la base de la plus faible quantité entre celle | &amp;&amp;</FPCLINE>
-      <FPCLINE>               |du pont bascule du fournisseur principal et celle du pont bascule de Dangote.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Invoice shall be raised based on the lowest between principal vendor&apos;s weighbrid| &amp;&amp;</FPCLINE>
-      <FPCLINE>               |ge quantity and Dangote&apos;s weighbridge quantity.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |9.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Toutes les factures doivent être envoyées au Département des finances.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |All invoices must be sent to the Finance Department.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
-      <FPCLINE>    CLEAR ls_term.</FPCLINE>
-      <FPCLINE>    ls_term-slno = |10.|.</FPCLINE>
-      <FPCLINE>    IF lv_fr = abap_true.</FPCLINE>
-      <FPCLINE>      ls_term-text = |Aucune modification de ces termes et conditions ne sera acceptée.|.</FPCLINE>
-      <FPCLINE>    ELSE.</FPCLINE>
-      <FPCLINE>      ls_term-text = |No variation in this terms and conditions will be accepted.|.</FPCLINE>
-      <FPCLINE>    ENDIF.</FPCLINE>
-      <FPCLINE>    APPEND ls_term TO gt_terms.</FPCLINE>
+      <FPCLINE>ELSEIF v_flag = &apos;Y&apos;.      "table SERVCE_PO</FPCLINE>
+      <FPCLINE>  IF v_bsart &lt;&gt; &apos;ZPOI&apos;.      "folder %FOLDER4</FPCLINE>
+      <FPCLINE>    gv_terms_title = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                       THEN |Les autres termes et conditions applicables au bon de commande:|</FPCLINE>
+      <FPCLINE>                       ELSE |Purchase Order Terms &amp; Conditions:| ).</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |1.|</FPCLINE>
+      <FPCLINE>      text = COND string(</FPCLINE>
+      <FPCLINE>               WHEN v_bsart &lt;&gt; &apos;ZPOS&apos;</FPCLINE>
+      <FPCLINE>               THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                       THEN |Les prix exprimés sont basés sur un prix de livraison au Cameroun.|</FPCLINE>
+      <FPCLINE>                       ELSE |Prices expressed are based on a delivered price in Cameroon.| )</FPCLINE>
+      <FPCLINE>               WHEN v_bsart = &apos;ZPOS&apos;</FPCLINE>
+      <FPCLINE>               THEN gv_term1_zpos      "standard text ZMMCG_PO_TEXT (legacy include text)</FPCLINE>
+      <FPCLINE>               ELSE || ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |2.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)|</FPCLINE>
+      <FPCLINE>               ELSE |Unit Prices are exclusive of Value Added Tax (VAT).| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |3.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Le numéro de commande doit être inscrit sur toutes les factures afin d&apos;effectuer|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | le paiement.|</FPCLINE>
+      <FPCLINE>               ELSE |The Purchase Order number must be reflected on all invoices to effect payment.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |4.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Le terme de paiement, est strictement de 30 jours après la livraison, sauf accor|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |d contraire conformément à l&apos;accord contractuel signé.|</FPCLINE>
+      <FPCLINE>               ELSE |Payment terms, is strictly 30 days after delivery, unless otherwise agreed as pe|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |r signed contractual agreement.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |5.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Guarantie: Lorsqu&apos; une garantie est applicable, la documentation nécessaire doit|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | accompagner les biens ou les services. Sinon, par défaut, les éléments couverts|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | par ce bon  seront garanties pour 18 mois à compter de la date de l&apos;offre ou de|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | 12 mois à compter de la date d&apos;installation / mise en service.|</FPCLINE>
+      <FPCLINE>               ELSE |Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary docu|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |mentation most accompany the goods or services. Otherwise, as a default, the ite|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ms covered under this order shall stand guarantee/warranty of 18 months from the|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | date of supply or 12 months from the date of installation / commissioning.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |6.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Tous les autres certificats réglementaires à l&apos;exemple de la Fiche de données de|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; | Sécurité (FDS), les Manuels d&apos;Utilisation, de traitement des dechets etc., doiv|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ent être actuels et doivent accompagner ce bon de commande.|</FPCLINE>
+      <FPCLINE>               ELSE |Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operat|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ing Manuals, Waste Disposal etc., needs to be current and must accompany this Pu|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |rchase Order.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |7.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Les marchandises et / ou services ne seront acceptés que s&apos;ils sont conformes à |</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |nos standards de  qualités et / ou à nos  spécifications standards.|</FPCLINE>
+      <FPCLINE>               ELSE |Goods and/or Services would be accepted, only if it conforms to our quality and/|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |or standard specifications.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |8.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |La facture doit être établie sur la base de la plus faible quantité entre celle |</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |du pont bascule du fournisseur principal et celle du pont bascule de Dangote.|</FPCLINE>
+      <FPCLINE>               ELSE |Invoice shall be raised based on the lowest between principal vendor&apos;s weighbrid|</FPCLINE>
+      <FPCLINE>                    &amp;&amp; |ge quantity and Dangote&apos;s weighbridge quantity.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |9.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Toutes les factures doivent être envoyées au Département des finances.|</FPCLINE>
+      <FPCLINE>               ELSE |All invoices must be sent to the Finance Department.| ) ) TO gt_terms.</FPCLINE>
+      <FPCLINE>    APPEND VALUE #(</FPCLINE>
+      <FPCLINE>      slno = |10.|</FPCLINE>
+      <FPCLINE>      text = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>               THEN |Aucune modification de ces termes et conditions ne sera acceptée.|</FPCLINE>
+      <FPCLINE>               ELSE |No variation in this terms and conditions will be accepted.| ) ) TO gt_terms.</FPCLINE>
       <FPCLINE>  ENDIF.</FPCLINE>
       <FPCLINE>ENDIF.</FPCLINE>
       <FPCLINE>IF v_flag = &apos;X&apos;.</FPCLINE>
@@ -1196,6 +1110,9 @@
       <FPCLINE>      WRITE wa_ekpo-netwr TO ls_goods-netwr.                       "legacy %TEXT221</FPCLINE>
       <FPCLINE>    ENDIF.</FPCLINE>
       <FPCLINE>    CONDENSE: ls_goods-slno, ls_goods-matnr, ls_goods-menge, ls_goods-meins, ls_goods-netpr, ls_goods-netwr.</FPCLINE>
+      <FPCLINE>    IF strlen( ls_goods-slno ) = 1.                                "legacy integer output: a 1-digit number keeps a trailing blank</FPCLINE>
+      <FPCLINE>      ls_goods-slno = |{ ls_goods-slno }{ lv_nbsp }|.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
       <FPCLINE>    APPEND ls_goods TO gt_goods.</FPCLINE>
       <FPCLINE>  ENDLOOP.</FPCLINE>
       <FPCLINE/>
@@ -1588,6 +1505,9 @@
       <FPCLINE>    WRITE lv_unitprice1 TO ls_service-unitpr.</FPCLINE>
       <FPCLINE>    WRITE lv_total1 TO ls_service-total.</FPCLINE>
       <FPCLINE>    CONDENSE: ls_service-slno, ls_service-srvpos, ls_service-menge, ls_service-meins, ls_service-unitpr, ls_service-total.</FPCLINE>
+      <FPCLINE>    IF strlen( ls_service-slno ) = 1.                              "legacy integer output: a 1-digit number keeps a trailing blank</FPCLINE>
+      <FPCLINE>      ls_service-slno = |{ ls_service-slno }{ lv_nbsp }|.</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
       <FPCLINE>    APPEND ls_service TO gt_service.</FPCLINE>
       <FPCLINE>  ENDLOOP.</FPCLINE>
       <FPCLINE/>

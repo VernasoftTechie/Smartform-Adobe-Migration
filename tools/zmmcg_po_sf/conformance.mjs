@@ -68,7 +68,9 @@ export function conformance(ref, mine) {
     const map = [['V_SLNO', 'SLNO'], ['MATNR', 'SRVPOS'], ['TXZ01', 'DESCR'], ['MENGE', 'MENGE'], ['MEINS', 'MEINS'], ['UNITPRICE1', 'UNITPR'], ['TOTAL1', 'TOTAL']];
     for (const [rn, mn] of map) {
       const R = el(ref, rn, ref.indexOf('name="IT_EKPO"')); const M = el(mine, mn, mine.indexOf('name="GT_SERVICE"'));
-      if (!(near(R.h, hh(M), 0.01) && R.m.t === M.m.t && R.m.l === M.m.l && R.m.r === M.m.r)) bad.push(`item cell ${mn}: wizard h ${R.h} ${JSON.stringify(R.m)} generated h ${hh(M)} ${JSON.stringify(M.m)}`);
+      // deliberate deviation (printout, simulate.mjs): item number right inset 0.4 mm instead of the wizard's 1.18 mm (2-digit numbers end at 18.4 mm)
+      const rInset = rn === 'V_SLNO' ? 0.4 : R.m.r;
+      if (!(near(R.h, hh(M), 0.01) && R.m.t === M.m.t && R.m.l === M.m.l && rInset === M.m.r)) bad.push(`item cell ${mn}: wizard h ${R.h} ${JSON.stringify(R.m)} generated h ${hh(M)} ${JSON.stringify(M.m)}`);
       if (R.align !== M.align) bad.push(`item cell ${mn}: alignment wizard ${R.align} generated ${M.align}`);
     } }
   // totals block (sum of row heights), words row, terms
