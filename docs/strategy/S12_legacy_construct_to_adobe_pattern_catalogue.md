@@ -184,6 +184,15 @@ Pitfall: keep rules change pagination relative to the legacy — propose, never 
 | Runtime graphics availability (P14) | graphic names and BDS authorisation | client answer + preview |
 | Label table / utility class (P16) | exists in the client's system? signature? | client answer (asked in the ZMMCG status) |
 
+## 6b. First application: ZMMCG_PO_SF (2026-10-12)
+
+The conversion map of the first ticket is on its branch (`vernasofttechie-zmmcg_po_sf`, `docs/legacy_grab/zmmcg_po_sf_conversion_map.md`): 145 structural legacy nodes in 23 rows, checked by `tools/zmmcg_po_sf/conv_map_check.mjs` (becomes pass 11 of the re-check). Use it as the model of a filled map. What the first application taught:
+* **An alternative (`CD`) is prepared data when the data is known** (P10 realised as P16): watermark TRUE `LV_FLAG = 'Y'` -> label `LB_HDR_WATERMARK`, no script. The condition sits on the alternative object, not on the node; extractors and models must read it (F85).
+* **Hide scripts run on the server** (`runAt="server"`, P11) — the client forms do; rulebook 5.3c.
+* **Hard limit: Context node names at most 30 characters** — breaks the whole form import otherwise (F84).
+* Variant blocks without Context-side TRUE / FALSE groups stay `ready` hides (P11); P22 is the upgrade path once the client confirms the Context mechanism.
+* The mapping exposes **dead nodes** (`1 = 2`, `2 = 3`): they get a row with status `dead`, are not rebuilt, and the checker proves that no dead node is mapped as built.
+
 ## 7. Verification of a pattern choice
 
 For every pattern used: (1) the conversion map row; (2) a generated-layout check that the pattern's structure is present (leader on the table, `occur`, `keep`, page-area `occur`); (3) the ten passes (rulebook section 8); (4) one preview case that exercises the pattern's edge (page break inside the table for P06 / P07 / P08, empty value for P11, missing graphic for P14, two languages for P16); (5) the result recorded in `docs/reference_forms/README.md` and the pattern status updated here.

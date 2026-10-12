@@ -121,6 +121,11 @@ Before designing, fill the **conversion map** of [S12](../strategy/S12_legacy_co
 ### 5.3b Proven client techniques to prefer (S11)
 Before building a script: (1) wording that depends on language / type → **labels as data** (`GS_LABELS` from the label utility, `$.GS_LABELS.LB_X`), (2) block that depends on data → **Context condition** or an empty bound table, (3) page numbers / QR / zebra → `$layout` ready and `indexChange` patterns, (4) logos → BDS graphic at run time, (5) fixed standard texts → text-include Context node. Every technique carries its proof test (S11 section 11).
 
+### 5.3c Hard limits and defaults that cost an import (F84, F86)
+* **SFP Context node names: at most 30 characters.** A flattened name such as `GS_LABELS_LB_<scope>_<name>` exceeded it and abapGit failed with "SFPF deserialization error: Invalid request" on the whole form. Name a label node like its component (`LB_...`); the generator must stop, and the verifier must fail, above 30 (mutation-tested on the failing commit).
+* **Hide scripts on `ready@$form` run on the server** (`<script contentType="application/x-formcalc" runAt="server">`), as all 17 of the same kind in the client form `ZEZC_SD_INVOICE_IN_EMAIL`. A script without `runAt` is a client script.
+* Every new generator feature that reads a legacy construct the model did not read before (alternatives, loops, commands) is first checked against the raw XML by an independent reader (pass 5), because the shared model silently returned "no condition" for alternatives.
+
 ### 5.4 Design View readability (client deliverable)
 Labels visible (static text or default text), no overlapping variant texts, one block per concept, sensible names (`TERMS_TITLE`, not `TEXT123`), no empty subforms, no unexplained zero-height rows.
 
@@ -167,9 +172,9 @@ Parity first; these are proposals the client chooses after sign-off, each with i
 
 ---
 
-## 8. The ten re-check passes (before every commit, every hand-off, every "confirmed")
+## 8. The eleven re-check passes (ten of the checks plus the S12 conversion map) (before every commit, every hand-off, every "confirmed")
 
-Run `node tools/zmmcg_po_sf/recheck.mjs <repo> <baseline.xdp>` (pattern; copy it to the ticket) — all ten must pass:
+Run `node tools/zmmcg_po_sf/recheck.mjs <repo> <baseline.xdp>` (pattern; copy it to the ticket) — all eleven must pass (pass 11 exists from 2026-10-12; tickets older than that copy it in):
 
 | # | Pass | What it proves | Tool |
 |---|---|---|---|
@@ -183,6 +188,7 @@ Run `node tools/zmmcg_po_sf/recheck.mjs <repo> <baseline.xdp>` (pattern; copy it
 | 8 | Condition reader | AND / OR operators of the raw export equal those the model reads | `recheck.mjs` |
 | 9 | Reproducibility | regenerating changes no committed file | `recheck.mjs` |
 | 10 | Context graph | nodes, parents, bound fields exist in the interface | `sfp_check context` |
+| 11 | Conversion map (S12) | every legacy node (page, window, alternative, graphic, program lines, template, table, row, section, folder) has a map row with pattern id and status; every layout object the map names exists; every live program-lines node is in the Initialization, no disabled one is | `conv_map_check.mjs` (ticket copy) |
 
 Mutation test every new checker once (break the code on purpose, see it fail) before relying on it. After the ten passes: read the generated layout once as a human
 (Design View logic: labels, blocks, names) and list what only a render can prove. Record the run in the ticket's recheck log with the commit id.
