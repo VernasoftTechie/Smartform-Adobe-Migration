@@ -24,6 +24,18 @@ The layout binds each label field to `$.GS_LABELS.LB_BILL_TO` etc. No FormCalc, 
 **Use for every form with several languages or order-type-dependent wording** (ZMMCG_PO_SF: 63 scripts → 0): ask the client whether `ZCL_ADOBEFORM_UTILITY` and its label table exist in the target
 system and how labels are maintained; until confirmed, keep default texts (S10 section 11) and propose this as the target design. Proof test: preview in two languages.
 
+### 1b. Applied to ZMMCG_PO_SF_ADT (2026-10-12) — how, and what it taught
+
+* **Generate the label block from the export**, not by hand: the slot engine that produced the FormCalc scripts also emits `COND string( WHEN <legacy condition> THEN <text> ... )` with string templates
+  (`tools/zmmcg_po_sf/abap_emit.mjs`, `gen.mjs`); the order of the `WHEN` branches is reversed (the last live node wins in the legacy). Output: `labels_extra.abap` (included in the Initialization),
+  `labels_spec.json` (the `TY_S_LABELS` components), a **label catalogue** (id, place, wording per condition; the content to load if the client adopts the label table) and the Context spec (generated from what the layout binds).
+* **Component naming** `LB_<block>_<cell>` (`LB_TEMPLATE4_R9C1`), ≤ 30 characters, one string component per computed text; flat Context nodes `GS_LABELS_LB_*` (the proven shape of our forms).
+* **The layout keeps the sample wording as default text**, so the Design View is readable; scripts fell from 63 to 9 (the `ready` hides and the watermark).
+* **Do not call the client's utility class blindly**: an interface calling a class that does not exist in the target system does not activate. Generate first, offer the utility as the target once its signature and label table are confirmed (the label id = component name, the catalogue is the content).
+* **Test**: a small ABAP interpreter (`abap_mini.mjs`) runs the generated block for every order type / flag / language / currency / header-text / Inco combination and the result is compared with the legacy export read by a separate
+  reader (1152 environments); tokens print as `<NAME>` placeholders on both sides so mixed texts (label + value) are compared too; the interface symbols referenced by the block are checked to exist.
+* Generation order: terms → layout (+ labels, Context spec) → interface → Context; one command (`build_all.mjs`), reproducibility is ten-pass check 9 (SFP node ids are random and are normalised).
+
 ## 2. Context-level conditions (SFP does the hiding; no layout script)
 
 `ZEZC_SD_INVOICE_IN_EMAIL`: a Context node can carry an SFP condition (`CL_FP_CONDITION` → `<CONDITIONS><SFPCONDITION><OPERAND1>GV_TAXKD</OPERAND1><COPERATOR>EQ</COPERATOR><OPERAND2>'2'</OPERAND2>`),

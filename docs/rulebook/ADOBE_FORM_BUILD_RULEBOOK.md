@@ -144,7 +144,7 @@ Parity first; these are proposals the client chooses after sign-off, each with i
 | XFA table layout, repeating header (`overflow leader`), growing rows | every item table | proven (ZMMET, ZMMCG wizard forms) |
 | FormCalc `calculate` / `ready` hide | variable text, conditional blocks | proven |
 | Data-prepared blocks (terms, titles, totals) | variants by type / language | candidate (ZMMCG terms, client preview pending) |
-| **Labels as data** (`GS_LABELS` + `zcl_adobeform_utility=>get_header_labels`) | every multi-language / multi-type form | **proven in the client's `ZSDAF_V3_SEA001`**; prerequisite: class and label table exist in the target system (ask) — S11 section 1 |
+| **Labels as data** (`GS_LABELS`, optionally through `zcl_adobeform_utility=>get_header_labels`) | every multi-language / multi-type form | **proven in the client's `ZSDAF_V3_SEA001`; applied to ZMMCG_PO_SF_ADT 2026-10-12** (generated block, 54 labels, scripts 63 → 9; client preview pending); the utility needs the class and label table confirmed — S11 sections 1, 1b |
 | **Context conditions** (`SFPCONDITION` on nodes), `subformSet relation="choice"` TRUE / FALSE | data-dependent blocks without scripts | **proven in `ZEZC_SD_INVOICE_IN_EMAIL`**; Context-side creation of TRUE / FALSE groups to be confirmed — S11 section 2 |
 | Page X of Y (`xfa.layout.page(this)` / `pageCount()` on `ref="$layout"` ready) | long documents | **proven in `ZEZC_...`, `ZSDAF_V3_SEA001`**; legacy has none — S11 section 3 |
 | Runtime graphics (`cl_ssf_xsf_utilities=>get_bds_graphic_as_bmp` + `CL_FP_GRAPHIC_CONTENT` + `imageEdit`) | logos, signatures | **proven in `ZSD_IVORY_FORM`, `ZSDAI_V3_CN0001`** — S11 section 5 |
