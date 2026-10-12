@@ -76,7 +76,7 @@ Display tables that must keep an order are standard tables with explicit `SORT` 
 
 **Legacy code is verbatim** (Initialization re-hosts program-lines nodes; every change is marked `BOLT:` and listed in the post-implementation notes). New code follows the standards.
 
-**Prepared-data principle.** Everything that varies by order type, language, currency or data volume is decided in the Initialization and handed to the layout as
+**Prepared-data principle** (confirmed by the client's own forms: the invoice forms prepare their data in 1600-2700 Initialization lines with 7.4 inline declarations and TVARVC configuration, `docs/reference_forms/README.md`). Everything that varies by order type, language, currency or data volume is decided in the Initialization and handed to the layout as
 data: titles, headings, terms (`GV_TERMS_TITLE` + `GT_TERMS`), formatted amounts and quantities (through `WRITE ... TO` so conversion exits apply), converted keys
 (ALPHA, MATN1, unit text), joined standard texts (SAPscript paragraph rules). The layout then needs no condition for them.
 
@@ -141,12 +141,12 @@ Parity first; these are proposals the client chooses after sign-off, each with i
 | XFA table layout, repeating header (`overflow leader`), growing rows | every item table | proven (ZMMET, ZMMCG wizard forms) |
 | FormCalc `calculate` / `ready` hide | variable text, conditional blocks | proven |
 | Data-prepared blocks (terms, titles, totals) | variants by type / language | candidate (ZMMCG terms, client preview pending) |
-| `keep intact` / page protection for totals, signatures, address | the client wants no split blocks | candidate; changes pagination vs legacy — propose, never apply silently |
+| `keep intact="contentArea"`, `overflow trailer="FooterRow"`, `break overflowLeader` | no split blocks, footers per page, leaders per page area | **proven in the client's forms** (`ZAF_PRE_ORD_COST_FORM`, `ZAF_INVOICE_CA`, `ZEZC_SD_INVOICE_IN_EMAIL`); changes pagination vs legacy — propose, never apply silently |
 | Page X of Y, running totals per page, carried-forward totals | long item lists | candidate; legacy has none |
 | Conditional page areas / master pages per order type | different letterheads | candidate; needs a real second letterhead |
-| Barcode / QR (PO number, verification URL) | scan workflows | candidate; needs the ADS barcode support check |
-| Translation through the SFP translation catalogue instead of per-label scripts | many languages | candidate; prerequisite: client decides the language set |
-| Locale-driven number / date patterns (`numericEdit`, `de_DE`) instead of prepared text | the client wants live reformatting | candidate; the legacy prints prepared text (reproduced) |
+| Barcode / QR (PO number, verification URL) | scan workflows | **proven in the client's own form `ZSDAF_V3_SEA001`** (`<barcode type="QRCode" errorCorrectionLevel="3" .../>` bound to a data node; layout-ready script hides it when the data is empty); not yet built by us |
+| Translation through the SFP translation catalogue (`xliff:rid`) instead of per-label scripts | many languages | **proven: the client's forms carry 4-107 translation ids each**; prerequisite: client decides the language set; our forms do not use it yet |
+| Number / date `<picture>` clauses (`num{z,zzz,zz9.99}`, `date{DD/MM/YYYY}`) or `de_DE` locale instead of prepared text | the client wants live reformatting | **proven in the client's forms**; the ZMMCG legacy prints prepared text (reproduced for parity) |
 | PDF/UA tagging, PDF/A archiving, embedded font subsets | compliance | candidate; ADS configuration, client Basis |
 | Digital signature fields, form version stamp | approval flows | candidate |
 | Dynamic subform occurrence bound to data volume | blocks with variable rows | proven for tables; other uses candidate |
