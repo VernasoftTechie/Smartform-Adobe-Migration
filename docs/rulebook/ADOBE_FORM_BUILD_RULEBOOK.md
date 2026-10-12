@@ -115,6 +115,9 @@ characters; string-template specials (`| { } \`) are escaped. State plainly that
 4. Never read conditions from window flags or by eye; read them from the export (section 6).
 Target script counts: class A ≤ 10, B ≤ 40, C: every script justified; compare with the sibling forms (`ref_form_probe.mjs`).
 
+### 5.3a Legacy construct → layout pattern (S12)
+Before designing, fill the **conversion map** of [S12](../strategy/S12_legacy_construct_to_adobe_pattern_catalogue.md) section 4: every legacy page / window / template / table / loop / alternative / graphic / command gets a pattern id (P01-P26) with its evidence, or becomes a client question with a proof test. No layout object is drawn without a map row.
+
 ### 5.3b Proven client techniques to prefer (S11)
 Before building a script: (1) wording that depends on language / type → **labels as data** (`GS_LABELS` from the label utility, `$.GS_LABELS.LB_X`), (2) block that depends on data → **Context condition** or an empty bound table, (3) page numbers / QR / zebra → `$layout` ready and `indexChange` patterns, (4) logos → BDS graphic at run time, (5) fixed standard texts → text-include Context node. Every technique carries its proof test (S11 section 11).
 
