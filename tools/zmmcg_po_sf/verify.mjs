@@ -113,7 +113,9 @@ check(!outside.length, 'positioned children lie inside their parent subform', `p
 
 // ---- legacy coverage: every live static text appears in the layout (E and F wording)
 const M = loadModel(path.join(repo, 'vernasofttechie-zmmcg_po_sf/zmmcg_po_sf.xml'));
-const hay = tpl.replace(/&#10;/g, '\n').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\\"/g, '"').replace(/\\u000a/g, '\n');
+// the terms texts are prepared by the Initialization (terms_gen.mjs): join the chunked ABAP string templates and add them
+const termsAbap = fs.readFileSync(new URL('./terms_extra.abap', import.meta.url), 'utf8').replace(/\|\s*&&\s*\n\s*\|/g, '').replace(/\\([|{}\\])/g, '$1');
+const hay = `${tpl}\n${termsAbap}`.replace(/&#10;/g, '\n').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\\"/g, '"').replace(/\\u000a/g, '\n');
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
 const nh = norm(hay);
 const cleanTags = (s) => s.replace(/<\(>/g, '').replace(/<\)>/g, '').replace(/<\/>/g, '').replace(/<[A-Z]\d>/g, '');

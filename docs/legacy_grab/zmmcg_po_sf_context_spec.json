@@ -226,7 +226,7 @@
     },
     {
       "kind": "scalar",
-      "field": "GV_TERM1_ZPOS"
+      "field": "GV_TERMS_TITLE"
     },
     {
       "kind": "loop",
@@ -270,6 +270,15 @@
         "MEINS",
         "UNITPR",
         "TOTAL"
+      ]
+    },
+    {
+      "kind": "loop",
+      "table": "GT_TERMS",
+      "workArea": "GT_TERMS",
+      "fields": [
+        "SLNO",
+        "TEXT"
       ]
     }
   ]

@@ -19,7 +19,7 @@
   </pageArea>
 </pageSet>
 <subform h="135mm" layout="position" name="HEADER_AREA" w="202mm">
-  <field h="7mm" name="HEADING" x="11.2mm" y="11.447mm" w="141mm"><ui><textEdit/></ui><font size="18pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/><para hAlign="center" vAlign="top"/><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+  <field h="7mm" name="HEADING" x="11.2mm" y="11.447mm" w="141mm"><ui><textEdit/></ui><font size="18pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/><para hAlign="center" vAlign="top"/><value><text>BON DE COMMANDE / SERVICE</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -128,7 +128,7 @@ if (lg eq "F") then $ = "Numero Fax" else $ = "Fax Number" endif</script></calcu
       <bind match="none"/>
     </subform>
     <subform h="60.996mm" layout="position" name="TEMPLATE4" w="101.3mm" x="0mm" y="0mm">
-      <field h="4.692mm" name="TEMPLATE4_R1C1" x="0mm" y="0mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R1C1" x="0mm" y="0mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Reference Fournisseur</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -142,7 +142,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Reference Fournisseur"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R1C2" x="40mm" y="0mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.GV_LIFNR_OUT"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.GV_LIFNR_OUT" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R2C1" x="0mm" y="4.692mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R2C1" x="0mm" y="4.692mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Nom du Fournisseur</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -156,7 +156,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Nom du Fournisseur"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R2C2" x="40mm" y="4.692mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_NAME1"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_NAME1" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R3C1" x="0mm" y="9.384mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R3C1" x="0mm" y="9.384mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Nom du Fournisseur 2</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -170,7 +170,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Nom du Fournisseur 2"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R3C2" x="40mm" y="9.384mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_NAME2"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_NAME2" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R4C1" x="0mm" y="14.076mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R4C1" x="0mm" y="14.076mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>No. &amp; Nom de la Rue</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -184,7 +184,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "No. &amp; Nom de la Rue"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R4C2" x="40mm" y="14.076mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_STREET"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_STREET" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R5C1" x="0mm" y="18.768mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R5C1" x="0mm" y="18.768mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Rue 2</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -198,7 +198,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Rue 2"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R5C2" x="40mm" y="18.768mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_STR_SUPPL1"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_STR_SUPPL1" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R6C1" x="0mm" y="23.46mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R6C1" x="0mm" y="23.46mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Rue 3</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -212,7 +212,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Rue 3"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R6C2" x="40mm" y="23.46mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_STR_SUPPL2"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_STR_SUPPL2" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R7C1" x="0mm" y="28.152mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R7C1" x="0mm" y="28.152mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Ville</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -228,7 +228,7 @@ endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R7C2" x="40mm" y="28.152mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_CITY1"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_CITY1" usage="importOnly"/></field>
       <draw h="4.692mm" name="TEMPLATE4_R8C1" x="0mm" y="32.844mm" w="40mm"><ui><textEdit/></ui><value><text>District</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
       <field h="4.692mm" name="TEMPLATE4_R8C2" x="40mm" y="32.844mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_CITY2"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_CITY2" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R9C1" x="0mm" y="37.536mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R9C1" x="0mm" y="37.536mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Pays</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -248,7 +248,7 @@ endif
 if (($record.GV_LANGU.value eq "F")) then
   $ = $record.WA_T005T_LANDX.value
 endif</script></calculate><bind match="none"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R10C1" x="0mm" y="42.228mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R10C1" x="0mm" y="42.228mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Code Postal</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -262,7 +262,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Code Postal"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE4_R10C2" x="40mm" y="42.228mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.WA_VEND_POST_CODE1"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.WA_VEND_POST_CODE1" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R11C1" x="0mm" y="46.92mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R11C1" x="0mm" y="46.92mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Numero Telephone</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -275,9 +275,9 @@ endif
 if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Numero Telephone"
 endif</script></calculate><bind match="none"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R11C2" x="40mm" y="46.92mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">$ = ""
+      <field h="4.692mm" name="TEMPLATE4_R11C2" x="40mm" y="46.92mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><value><text>+</text></value><calculate><script contentType="application/x-formcalc">$ = ""
 $ = Concat("+", $record.GV_ISD.value, $record.WA_VEND_TEL_NUMBER.value)</script></calculate><bind match="none"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R12C1" x="0mm" y="51.612mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE4_R12C1" x="0mm" y="51.612mm" w="40mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Numero Fax</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -290,7 +290,7 @@ endif
 if (($record.V_BSART.value eq "ZPOL")) then
   $ = "Numero Fax"
 endif</script></calculate><bind match="none"/></field>
-      <field h="4.692mm" name="TEMPLATE4_R12C2" x="40mm" y="51.612mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">$ = ""
+      <field h="4.692mm" name="TEMPLATE4_R12C2" x="40mm" y="51.612mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><value><text>+</text></value><calculate><script contentType="application/x-formcalc">$ = ""
 $ = Concat("+", $record.GV_ISD.value, $record.WA_VEND_FAX_NUMBER.value)</script></calculate><bind match="none"/></field>
       <draw h="4.692mm" name="TEMPLATE4_R13C1" x="0mm" y="56.304mm" w="40mm"><ui><textEdit/></ui><value><text>Email address</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
       <field h="4.692mm" name="TEMPLATE4_R13C2" x="40mm" y="56.304mm" w="61.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/></border><bind match="dataRef" ref="$record.V_EMAIL"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.V_EMAIL" usage="importOnly"/></field>
@@ -300,13 +300,13 @@ $ = Concat("+", $record.GV_ISD.value, $record.WA_VEND_FAX_NUMBER.value)</script>
     <bind match="none"/>
   </subform>
   <subform h="20mm" layout="position" name="PO_LAST_CHANGED" w="58.4mm" x="1.2mm" y="36.4mm">
-    <field h="5.322mm" name="LAST_CHANGED" x="0mm" y="0mm" w="58.4mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><calculate><script contentType="application/x-formcalc">$ = ""
+    <field h="5.322mm" name="LAST_CHANGED" x="0mm" y="0mm" w="58.4mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><value><text>Last Changed On:</text></value><calculate><script contentType="application/x-formcalc">$ = ""
 $ = Concat("Last Changed On:", $record.LV_VAR4.value)</script></calculate><bind match="none"/></field>
     <bind match="none"/>
   </subform>
   <subform h="64mm" layout="position" name="PO_DETAIL" w="90.7mm" x="103.8mm" y="65mm">
     <subform h="63.997mm" layout="position" name="TEMPLATE2" w="90mm" x="0mm" y="0mm">
-      <field h="4.692mm" name="TEMPLATE2_R1C1" x="0mm" y="0mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE2_R1C1" x="0mm" y="0mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Date de Bon de Cde.</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -320,7 +320,7 @@ if (($record.V_BSART.value eq "ZPOL" and $record.V_BSART.value ne "ZPOI")) then
   $ = "Date de Bon de Cde."
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE2_R1C2" x="32mm" y="0mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.PODATE"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.PODATE" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE2_R2C1" x="0mm" y="4.692mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE2_R2C1" x="0mm" y="4.692mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Date de Livraison</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -336,7 +336,7 @@ endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE2_R2C2" x="32mm" y="4.692mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.EINDT"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.EINDT" usage="importOnly"/></field>
       <draw h="4.692mm" name="TEMPLATE2_R3C1" x="0mm" y="9.384mm" w="32mm"><ui><textEdit/></ui><value><text>Department</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
       <field h="4.692mm" name="TEMPLATE2_R3C2" x="32mm" y="9.384mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.V_DEPARTMNT"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.V_DEPARTMNT" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE2_R4C1" x="0mm" y="14.076mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE2_R4C1" x="0mm" y="14.076mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Nom de l’acheteur</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -350,7 +350,7 @@ if (($record.V_BSART.value eq "ZPOL" and $record.V_BSART.value ne "ZPOI")) then
   if (lg eq "F") then $ = "Nom de l’acheteur" else $ = "Nom de l'acheteur" endif
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE2_R4C2" x="32mm" y="14.076mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.G_ERNAME"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.G_ERNAME" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE2_R5C1" x="0mm" y="18.768mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE2_R5C1" x="0mm" y="18.768mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Numero Telephone</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -364,7 +364,7 @@ if (($record.V_BSART.value eq "ZPOL" and $record.V_BSART.value ne "ZPOI")) then
   $ = "Numero Telephone"
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE2_R5C2" x="32mm" y="18.768mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.V_BUYERTELE"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.V_BUYERTELE" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE2_R6C1" x="0mm" y="23.46mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE2_R6C1" x="0mm" y="23.46mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Numero Fax</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -380,7 +380,7 @@ endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE2_R6C2" x="32mm" y="23.46mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.V_BUYERTELFX"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.V_BUYERTELFX" usage="importOnly"/></field>
       <draw h="4.692mm" name="TEMPLATE2_R7C1" x="0mm" y="28.152mm" w="32mm"><ui><textEdit/></ui><value><text>Email address</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
       <field h="4.692mm" name="TEMPLATE2_R7C2" x="32mm" y="28.152mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.V_BUYEREMAIL"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.V_BUYEREMAIL" usage="importOnly"/></field>
-      <field h="4.692mm" name="TEMPLATE2_R8C1" x="0mm" y="32.844mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="4.692mm" name="TEMPLATE2_R8C1" x="0mm" y="32.844mm" w="32mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Termes de Paiement</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -395,9 +395,9 @@ if (($record.V_BSART.value eq "ZPOL" and $record.V_BSART.value ne "ZPOI")) then
 endif</script></calculate><bind match="none"/></field>
       <field h="4.692mm" name="TEMPLATE2_R8C2" x="32mm" y="32.844mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.LV_VTEXT"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.LV_VTEXT" usage="importOnly"/></field>
       <draw h="4.692mm" name="TEMPLATE2_R9C1" x="0mm" y="37.536mm" w="32mm"><ui><textEdit/></ui><value><text>Inco Terms</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
-      <field h="4.692mm" name="TEMPLATE2_R9C2" x="32mm" y="37.536mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">$ = ""
+      <field h="4.692mm" name="TEMPLATE2_R9C2" x="32mm" y="37.536mm" w="58mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><value><text> </text></value><calculate><script contentType="application/x-formcalc">$ = ""
 $ = Concat($record.GV_INCO1.value, " ", $record.GV_INCO2.value)</script></calculate><bind match="none"/></field>
-      <field h="21.769mm" name="TEMPLATE2_R10C1" x="0mm" y="42.228mm" w="32mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.092mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+      <field h="21.769mm" name="TEMPLATE2_R10C1" x="0mm" y="42.228mm" w="32mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.092mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Commentaires</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -454,7 +454,7 @@ endif</script></calculate><bind match="none"/></field>
       <subform layout="row" name="HeaderRow">
         <assist role="TH"/>
         <draw h="7.6mm" name="H1" w="11.3mm"><ui><textEdit/></ui><value><text>Sr No</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
-        <field h="7.6mm" name="H2" w="31.4mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H2" w="31.4mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Code Article</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -467,7 +467,7 @@ endif
 if (($record.V_BSART.value eq "ZPOL")) then
   if (lg eq "F") then $ = "Material No." else $ = "Code Article" endif
 endif</script></calculate><bind match="none"/></field>
-        <field h="7.6mm" name="H3" w="64.5mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H3" w="64.5mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Description</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -482,7 +482,7 @@ if (($record.V_BSART.value eq "ZPOL")) then
 endif</script></calculate><bind match="none"/></field>
         <draw h="7.6mm" name="H4" w="22.2mm"><ui><textEdit/></ui><value><text>Qty</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
         <draw h="7.6mm" name="H5" w="11mm"><ui><textEdit/></ui><value><text>UOM</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
-        <field h="7.6mm" name="H6" w="23.7mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H6" w="23.7mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Prix Unitaire (Excl.TVA)</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -495,7 +495,7 @@ endif
 if (($record.V_BSART.value eq "ZPOL")) then
   if (lg eq "F") then $ = "Unit Price (Excl.VAT)" else $ = "Prix Unitaire (Excl.TVA)" endif
 endif</script></calculate><bind match="none"/></field>
-        <field h="7.6mm" name="H7" w="25.9mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H7" w="25.9mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>XAF Total (Excl.TVA)</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -546,7 +546,7 @@ endif</script></calculate><bind match="none"/></field>
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="112mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.2mm" name="C2" w="42.5mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.2mm" name="C2" w="42.5mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Remise</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -568,7 +568,7 @@ endif</script></calculate><bind match="none"/></field>
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="112mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.2mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.2mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Frais de Transport</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -590,7 +590,7 @@ endif</script></calculate><bind match="none"/></field>
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="112mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.2mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.2mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Autres Charges</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -622,7 +622,7 @@ endif</script></calculate><bind match="none"/></field>
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="112mm"><ui><textEdit/></ui><value><text></text></value><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.35mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.35mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Sous Total</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -644,7 +644,7 @@ endif</script></calculate><bind match="none"/></field>
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="112mm"><ui><textEdit/></ui><value><text></text></value><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.35mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.35mm" name="C2" w="43mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>TVA</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -685,7 +685,7 @@ endif</script></calculate><bind match="none"/></field>
     <subform columnWidths="190mm" layout="table" name="TOTAL_VALUE_WORDS">
       <subform layout="row" name="Row1">
         <assist role="TR"/>
-        <field minH="4.2mm" name="WORDS" w="190mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" lineHeight="3.078mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field minH="4.2mm" name="WORDS" w="190mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" lineHeight="3.078mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><value><text>Montant Total en Lettre(XAF):   </text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -705,324 +705,41 @@ endif</script></calculate><bind match="none"/></field>
       </subform>
       <bind match="none"/>
     </subform>
-    <subform layout="tb" name="TERMS_OTHER_PO_1" w="190mm">
-      <subform columnWidths="190mm" layout="table" name="TERMS_OTHER_PO_1_1">
+    <subform layout="tb" name="TERMS_OTHER_PO" w="190mm">
+      <subform columnWidths="190mm" layout="table" name="TERMS_OTHER_PO_HEAD">
         <subform layout="row" name="Row1">
           <assist role="TR"/>
-          <draw h="11.722mm" name="C1" w="190mm"><ui><textEdit/></ui><value><text>Purchase Order Terms &amp; Conditions:</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="1.18mm" rightInset="0mm" topInset="4.422mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
+          <field h="11.722mm" name="TERMS_TITLE" w="190mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="1.18mm" rightInset="0mm" topInset="4.422mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.GV_TERMS_TITLE"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.GV_TERMS_TITLE" usage="importOnly"/></field>
           <bind match="none"/>
         </subform>
         <bind match="none"/>
       </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_2">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>1.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Vendor must send one non-negotiable original Master Bill of Lading directly to applicant bank, immediately after shipment is done.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_3">
-        <subform layout="row" name="Row1">
+      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_ROWS">
+        <subform layout="row" name="DATA">
           <assist role="TR"/>
           <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>2.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+          <field minH="4.2mm" name="SLNO" w="5.5mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><bind match="dataRef" ref="$.SLNO"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.SLNO" usage="importOnly"/></field>
           <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Bill of Lading/Air Way Bill Number, Commercial Invoice, Packing List, Manufacturer Certificate, CCVO (Combined Certificate for Value &amp; Origin), ECTN (Electronic Cargo Tracking Note) are mandatory documents as shipping advice to buyer and our Clearing/Logistic Department.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+          <field minH="4.2mm" name="TEXT" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><bind match="dataRef" ref="$.TEXT"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.TEXT" usage="importOnly"/></field>
           <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
+          <occur max="-1" min="0"/>
+          <bind match="dataRef" ref="$.DATA[*]"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.DATA" usage="importOnly"/>
         </subform>
-        <bind match="none"/>
+        <bind match="dataRef" ref="$record.GT_TERMS"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.GT_TERMS" usage="importOnly"/>
       </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_4">
+      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_END">
         <subform layout="row" name="Row1">
           <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>3.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>L/C (Letter of Credit) Number should appear on every individual shipping documents..</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border></draw>
+          <draw h="3.4mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
           <bind match="none"/>
         </subform>
         <bind match="none"/>
       </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_5">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>4.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>All the Bank charges within CONGO REPUBLIC are to Buyer's account &amp; all other bank charges are to supplier's account.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_6">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>5.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>The Purchase Order number must be reflected on all invoices to effect payment. All invoices must be sent to the Finance Department.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_7">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>6.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary documentation most accompany the goods or services. Otherwise, as a default, the items covered under this order shall stand guarantee/warranty of 18 months from the date of supply or 12 months from the date of installation / commissioning.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_8">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>7.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operating Manuals, Waste Disposal etc., needs to be current and must accompany this Purchase Order.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_9">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>8.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Logistics Manager&#10;Ste. Dangote Cement Congo SA,&#10;Quartier NDJINDJI, Vers CFAO CONGO,&#10;BP 1103, Pointe Noire,&#10;Republic of Congo&#10;Tel: +242 05 799 9383&#10;Email: DCCG-LOGISTICS@DANGOTE.COM&#10;       DCCG-PURCHASE@DANGOTE.COM</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_10">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>9.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Goods and/or Services would be accepted, only if it conforms to our quality and/or standard specifications.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_11">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>10.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>Invoice shall be raised based on the lowest between principal vendor's weighbridge quantity and Dangote's weighbridge quantity.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_1_12">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>11.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <draw minH="4.2mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text>No variation in this terms and conditions will be accepted.&#10;</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc">if (not (($record.V_BSART.value eq "ZPOI"))) then $.presence = "hidden" endif</script></event>
-      <bind match="none"/>
-    </subform>
-    <subform layout="tb" name="TERMS_OTHER_PO_2" w="190mm">
-      <subform columnWidths="190mm" layout="table" name="TERMS_OTHER_PO_2_1">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <field h="11.722mm" name="C1" w="190mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="1.18mm" rightInset="0mm" topInset="4.422mm"/><para hAlign="left" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Les autres termes et conditions applicables au bon de commande:" else $ = "Purchase Order Terms &amp; Conditions:" endif</script></calculate><bind match="none"/></field>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_2">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>1.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Prix exprimés sont basés sur un prix rendu au Congo." else $ = "Prices expressed are based on a delivered price in Congo." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_3">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>2.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)" else $ = "Unit Prices are exclusive of Value Added Tax (VAT)." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_4">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>3.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Le numéro de commande doit être inscrit sur toutes les factures afin d'effectuer le paiement." else $ = "The Purchase Order number must be reflected on all invoices to effect payment." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_5">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>4.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Le terme de paiement, est strictement de 30 jours après la livraison, sauf accord contraire conformément à l'accord contractuel signé." else $ = "Payment terms, is strictly 30 days after delivery, unless otherwise agreed as per signed contractual agreement." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_6">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>5.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Guarantie: Lorsqu' une garantie est applicable, la documentation nécessaire doit accompagner les biens ou les services. Sinon, par défaut, les éléments couverts par ce bon  seront garanties pour 18 mois à compter de la date d'installation / mise en service." else $ = "Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary documentation most accompany the goods or services. Otherwise, as a default, the items covered under this order shall stand guarantee/warranty of 18 months from the date of supply or 12 months from the date of installation / commissioning." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_7">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>6.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Tous les autres certificats réglementaires à l'exemple de la Fiche de données de Sécurité (FDS), les Manuels d'Utilisation, de traitement des dechets etc., doivent être actuels et doivent accompagner ce bon de commande." else $ = "Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operating Manuals, Waste Disposal etc., needs to be current and must accompany this Purchase Order." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_8">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>7.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Les marchandises et / ou services ne seront acceptés que s'ils sont conformes à nos standards de  qualités et / ou à nos spécifications standar ds." else $ = "Goods and/or Services would be accepted, only if it conforms to our quality and/or standard specifications." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_9">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>8.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "La facture doit être établie sur la base de la plus faible quantité entre celle du pont bascule du fournisseur principal et celle du pont bascule de Dangote." else $ = "Invoice shall be raised based on the lowest between principal vendor's weighbridge quantity and Dangote's weighbridge quantity." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_10">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>9.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Toutes les factures doivent être envoyées au Département des finances." else $ = "All invoices must be sent to the Finance Department." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_OTHER_PO_2_11">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>10.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = Concat("Aucune modification de ces termes et conditions ne sera acceptée.", "\u000a") else $ = Concat("No variation in this terms and conditions will be accepted.", "\u000a") endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc">if (not (($record.V_BSART.value ne "ZPOI"))) then $.presence = "hidden" endif</script></event>
+      <event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc">if ($record.GV_TERMS_TITLE.value eq "") then $.presence = "hidden" endif</script></event>
       <bind match="none"/>
     </subform>
     <subform columnWidths="190mm" layout="table" name="_ROW18">
@@ -1076,24 +793,24 @@ if (lg eq "F") then $ = Concat("Aucune modification de ces termes et conditions 
       <subform layout="row" name="HeaderRow">
         <assist role="TH"/>
         <draw h="7.6mm" name="H1" w="11.3mm"><ui><textEdit/></ui><value><text>Sr No</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
-        <field h="7.6mm" name="H2" w="31.4mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H2" w="31.4mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Code Article</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
 if (lg eq "F") then $ = "Code Article" else $ = "Material No." endif</script></calculate><bind match="none"/></field>
-        <field h="7.6mm" name="H3" w="57mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H3" w="57mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Description</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
 if (lg eq "F") then $ = "Description" else $ = "Item Description" endif</script></calculate><bind match="none"/></field>
         <draw h="7.6mm" name="H4" w="22mm"><ui><textEdit/></ui><value><text>Qty</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
         <draw h="7.6mm" name="H5" w="12.4mm"><ui><textEdit/></ui><value><text>UOM</text></value><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border></draw>
-        <field h="7.6mm" name="H6" w="28mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H6" w="28mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>Prix Unitaire (Excl.TVA)</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
 if (lg eq "F") then $ = "Prix Unitaire (Excl.TVA)" else $ = "Unit Price (Excl.VAT)" endif</script></calculate><bind match="none"/></field>
-        <field h="7.6mm" name="H7" w="27.9mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="7.6mm" name="H7" w="27.9mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0.3mm" rightInset="0.3mm" topInset="1.122mm"/><para hAlign="center" lineHeight="3.4mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><fill><color value="176,176,176"/></fill></border><value><text>XAF Total (Excl.TVA)</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -1136,7 +853,7 @@ if (lg eq "F") then $ = Concat($record.V_WAERS.value, " Total (Excl.TVA)") else 
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="115mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.2mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.2mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Prix Brut</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -1150,7 +867,7 @@ if (lg eq "F") then $ = "Prix Brut" else $ = "Gross Price" endif</script></calcu
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="115mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.2mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.2mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="1.022mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Remise</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -1184,7 +901,7 @@ if (lg eq "F") then $ = "Remise" else $ = "Net Discount" endif</script></calcula
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="115mm"><ui><textEdit/></ui><value><text></text></value><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.35mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.35mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>Sous Total</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -1198,7 +915,7 @@ if (lg eq "F") then $ = "Sous Total" else $ = "Sub Total" endif</script></calcul
       <subform layout="row" name="Row1">
         <assist role="TR"/>
         <draw minH="0mm" name="C1" w="115mm"><ui><textEdit/></ui><value><text></text></value><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-        <field h="4.35mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field h="4.35mm" name="C2" w="43.3mm"><ui><textEdit/></ui><font size="11pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="0mm" rightInset="0.3mm" topInset="0.47mm"/><para hAlign="right" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><value><text>TVA</text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -1231,7 +948,7 @@ if (lg eq "F") then $ = "TVA" else $ = "VAT" endif</script></calculate><bind mat
     <subform columnWidths="190mm" layout="table" name="_ROW16">
       <subform layout="row" name="Row1">
         <assist role="TR"/>
-        <field minH="4.2mm" name="WORDS" w="190mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" lineHeight="3.078mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
+        <field minH="4.2mm" name="WORDS" w="190mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" lineHeight="3.078mm" vAlign="top"/><border><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border><value><text>Montant Total en Lettre(XAF):   </text></value><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
 var lg = "E"
 if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
 $ = ""
@@ -1245,185 +962,41 @@ endif</script></calculate><bind match="none"/></field>
       </subform>
       <bind match="none"/>
     </subform>
-    <subform layout="tb" name="TERMS_SERVCE_PO_1" w="190mm">
-      <subform columnWidths="190mm" layout="table" name="TERMS_SERVCE_PO_1_1">
+    <subform layout="tb" name="TERMS_SERVCE_PO" w="190mm">
+      <subform columnWidths="190mm" layout="table" name="TERMS_SERVCE_PO_HEAD">
         <subform layout="row" name="Row1">
           <assist role="TR"/>
-          <field h="11.722mm" name="C1" w="190mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="1.18mm" rightInset="0mm" topInset="4.422mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Les autres termes et conditions applicables au bon de commande:" else $ = "Purchase Order Terms &amp; Conditions:" endif</script></calculate><bind match="none"/></field>
+          <field h="11.722mm" name="TERMS_TITLE" w="190mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial" weight="bold"/><margin bottomInset="0mm" leftInset="1.18mm" rightInset="0mm" topInset="4.422mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge thickness="0.75pt"/></border><bind match="dataRef" ref="$record.GV_TERMS_TITLE"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.GV_TERMS_TITLE" usage="importOnly"/></field>
           <bind match="none"/>
         </subform>
         <bind match="none"/>
       </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_2">
-        <subform layout="row" name="Row1">
+      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_ROWS">
+        <subform layout="row" name="DATA">
           <assist role="TR"/>
           <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>1.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+          <field minH="4.2mm" name="SLNO" w="5.5mm"><ui><textEdit/></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><bind match="dataRef" ref="$.SLNO"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.SLNO" usage="importOnly"/></field>
           <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (($record.V_BSART.value ne "ZPOS")) then
-  if (lg eq "F") then $ = "Les prix exprimés sont basés sur un prix de livraison au Cameroun." else $ = "Prices expressed are based on a delivered price in Cameroon." endif
-endif
-if (($record.V_BSART.value eq "ZPOS")) then
-  $ = $record.GV_TERM1_ZPOS.value
-endif</script></calculate><bind match="none"/></field>
+          <field minH="4.2mm" name="TEXT" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><bind match="dataRef" ref="$.TEXT"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.TEXT" usage="importOnly"/></field>
           <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
+          <occur max="-1" min="0"/>
+          <bind match="dataRef" ref="$.DATA[*]"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.DATA" usage="importOnly"/>
         </subform>
-        <bind match="none"/>
+        <bind match="dataRef" ref="$record.GT_TERMS"/><connect connection="ZMMCG_PO_SF_ADT" ref="$.GT_TERMS" usage="importOnly"/>
       </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_3">
+      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_END">
         <subform layout="row" name="Row1">
           <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>2.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Les Prix unitaires sont exclusivement sur la tax sur valeur ajoutée. (TVA)" else $ = "Unit Prices are exclusive of Value Added Tax (VAT)." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border></draw>
+          <draw h="3.4mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C4" w="181mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
+          <draw h="3.4mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
           <bind match="none"/>
         </subform>
         <bind match="none"/>
       </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_4">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>3.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Le numéro de commande doit être inscrit sur toutes les factures afin d'effectuer le paiement." else $ = "The Purchase Order number must be reflected on all invoices to effect payment." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_5">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>4.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Le terme de paiement, est strictement de 30 jours après la livraison, sauf accord contraire conformément à l'accord contractuel signé." else $ = "Payment terms, is strictly 30 days after delivery, unless otherwise agreed as per signed contractual agreement." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_6">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>5.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Guarantie: Lorsqu' une garantie est applicable, la documentation nécessaire doit accompagner les biens ou les services. Sinon, par défaut, les éléments couverts par ce bon  seront garanties pour 18 mois à compter de la date de l'offre ou de 12 mois à compter de la date d'installation / mise en service." else $ = "Guarantee/Warranty: where a guarantee/warranty, is applicable the necessary documentation most accompany the goods or services. Otherwise, as a default, the items covered under this order shall stand guarantee/warranty of 18 months from the date of supply or 12 months from the date of installation / commissioning." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_7">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>6.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Tous les autres certificats réglementaires à l'exemple de la Fiche de données de Sécurité (FDS), les Manuels d'Utilisation, de traitement des dechets etc., doivent être actuels et doivent accompagner ce bon de commande." else $ = "Any other regulatory certificates e.g. Material Safety Data Sheet (MSDS), Operating Manuals, Waste Disposal etc., needs to be current and must accompany this Purchase Order." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_8">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>7.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Les marchandises et / ou services ne seront acceptés que s'ils sont conformes à nos standards de  qualités et / ou à nos  spécifications standards." else $ = "Goods and/or Services would be accepted, only if it conforms to our quality and/or standard specifications." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_9">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>8.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "La facture doit être établie sur la base de la plus faible quantité entre celle du pont bascule du fournisseur principal et celle du pont bascule de Dangote." else $ = "Invoice shall be raised based on the lowest between principal vendor's weighbridge quantity and Dangote's weighbridge quantity." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_10">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>9.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = "Toutes les factures doivent être envoyées au Département des finances." else $ = "All invoices must be sent to the Finance Department." endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <subform columnWidths="2.5mm 5.5mm 0.5mm 181mm 0.5mm" layout="table" name="TERMS_SERVCE_PO_1_11">
-        <subform layout="row" name="Row1">
-          <assist role="TR"/>
-          <draw minH="0mm" name="C1" w="2.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/></border></draw>
-          <draw minH="4.2mm" name="C2" w="5.5mm"><ui><textEdit/></ui><value><text>10.</text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.7mm" rightInset="0mm" topInset="0.3mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <draw minH="0mm" name="C3" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <field minH="4.2mm" name="C4" w="181mm"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="9pt" typeface="Arial"/><margin bottomInset="0.51mm" leftInset="0.353mm" rightInset="0.8mm" topInset="0.3mm"/><para hAlign="left" lineHeight="3.39mm" textIndent="0.353mm" vAlign="top"/><border><edge presence="hidden"/><edge presence="hidden"/><edge thickness="0.75pt"/><edge presence="hidden"/></border><calculate><script contentType="application/x-formcalc">var s = $record.V_BSART.value
-var lg = "E"
-if (s eq "ZPOL" or s eq "ZPOS" or (s ne "ZPOI" and $record.GV_LANGU.value eq "F")) then lg = "F" endif
-$ = ""
-if (lg eq "F") then $ = Concat("Aucune modification de ces termes et conditions ne sera acceptée.", "\u000a") else $ = Concat("No variation in this terms and conditions will be accepted.", "\u000a") endif</script></calculate><bind match="none"/></field>
-          <draw minH="0mm" name="C5" w="0.5mm"><ui><textEdit/></ui><value><text></text></value><font size="9pt" typeface="Arial"/><margin bottomInset="0mm" leftInset="0.7mm" rightInset="0mm" topInset="1.122mm"/><para hAlign="left" vAlign="top"/><border><edge presence="hidden"/><edge thickness="0.75pt"/><edge thickness="0.75pt"/><edge presence="hidden"/></border></draw>
-          <bind match="none"/>
-        </subform>
-        <bind match="none"/>
-      </subform>
-      <event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc">if (not (($record.V_BSART.value ne "ZPOI"))) then $.presence = "hidden" endif</script></event>
+      <event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc">if ($record.GV_TERMS_TITLE.value eq "") then $.presence = "hidden" endif</script></event>
       <bind match="none"/>
     </subform>
     <subform columnWidths="190mm" layout="table" name="_ROW23">
@@ -1553,7 +1126,7 @@ if (lg eq "F") then $ = Concat("Aucune modification de ces termes et conditions 
 <GV_ISD/>
 <GV_LANGU/>
 <GV_LIFNR_OUT/>
-<GV_TERM1_ZPOS/>
+<GV_TERMS_TITLE/>
 <G_ERNAME/>
 <LS_ADRC_CITY1/>
 <LS_ADRC_CITY2/>
@@ -1616,6 +1189,12 @@ if (lg eq "F") then $ = Concat("Aucune modification de ces termes et conditions 
 <NETWR/>
 </DATA>
 </GT_GOODS>
+<GT_TERMS dd:minOccur="0">
+<DATA dd:maxOccur="-1">
+<SLNO/>
+<TEXT/>
+</DATA>
+</GT_TERMS>
 <GT_SERVICE dd:minOccur="0">
 <DATA dd:maxOccur="-1">
 <SLNO/>

@@ -80,10 +80,10 @@ export function conformance(ref, mine) {
     if (!near(sum, 39.3, 0.3)) bad.push(`totals block height wizard 39.3 generated ${sum.toFixed(2)} (${seq.join('/')})`);
     const w1 = el(ref, 'AMOUNT_ROW'); const w2 = el(mine, 'WORDS');
     if (!near(w1.h, hh(w2), 0.01) || w2.m.t !== 1.122 || w2.m.l !== 0.7) bad.push('words row (h 4.2, margin 1.122 / 0.7)');
-    const th = el(mine, 'C1', mine.indexOf('name="TERMS_SERVCE_PO_1_1"')); const rh = el(ref, 'TERMS_TITLE');
+    const th = el(mine, 'TERMS_TITLE', mine.indexOf('name="TERMS_SERVCE_PO"')); const rh = el(ref, 'TERMS_TITLE');
     if (!(near(th.h, rh.h, 0.01) && th.m.t === 4.422 && th.m.l === 1.18)) bad.push(`terms heading h ${th.h} ${JSON.stringify(th.m)} (wizard ${rh.h})`);
-    const at = mine.indexOf('name="TERMS_SERVCE_PO_1_2"');
-    const tn = el(mine, 'C2', at); const tt = el(mine, 'C4', at); const rn = el(ref, 'SLNO', ref.indexOf('name="TERMS"')); const rtx = el(ref, 'TEXT', ref.indexOf('name="TERMS"'));
+    const at = mine.indexOf('name="TERMS_SERVCE_PO_ROWS"');
+    const tn = el(mine, 'SLNO', at); const tt = el(mine, 'TEXT', at); const rn = el(ref, 'SLNO', ref.indexOf('name="TERMS"')); const rtx = el(ref, 'TEXT', ref.indexOf('name="TERMS"'));
     if (!(tn.m.t === rn.m.t && tn.m.l === rn.m.l && tt.m.t === rtx.m.t && tt.m.l === rtx.m.l && tt.m.r === rtx.m.r && /textIndent="0\.353mm"/.test(tt.chunk) && /lineHeight="3\.39mm"/.test(tt.chunk))) bad.push('terms cells (margins, hanging indent, line height 3.39)'); }
   return bad;
 }

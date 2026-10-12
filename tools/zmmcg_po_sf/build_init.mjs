@@ -54,6 +54,8 @@ add('      lv_satim       TYPE string,');
 add('      lv_lang        LIKE sy-langu VALUE \'F\',');
 add('      lt_zpos        TYPE ty_tline_tab,');
 add('      ls_zpos        TYPE tline,');
+add('      lv_fr          TYPE abap_bool,   "print language is French (terms)');
+add('      ls_term        TYPE ty_s_term,');
 add('      ls_goods       TYPE ty_s_goods,');
 add('      ls_service     TYPE ty_s_service.');
 add('');
@@ -76,6 +78,7 @@ add(legacy('%CODE28', { drop: [0, 1], note: '(PO_DETAIL window: delivery date te
 add(legacy('%CODE34', { note: '(TABLE_DATA main window: header text F01/EKKO into LT_LINES)' }), '');
 add('');
 add(...extraLines());
+add(...fs.readFileSync(path.join(HERE, 'terms_extra.abap'), 'utf8').split(/\r?\n/).slice(0, -1));
 
 // ---------------------------------------------------------------- goods PO (V_FLAG = X)
 add('IF v_flag = \'X\'.');

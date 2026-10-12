@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-10T06:51:32.180Z
+UPDATED: 2026-10-12T06:58:35.095Z
 WAITING_ON: operator
-NOTE: Layout re-aligned with your wizard form of ZMMCG_PO_SF and the legacy printout (only the form layout and one condition fix changed; interface and Context are the same) - in abapGit pull the branch again, activate, preview the ZPOS sample against the legacy PDF and confirm or report exactly what you see. The interface and Context steps of the earlier entries still need your SAP result.
+NOTE: Layout simplified after your Design View screenshots (labels visible in the Design View, one prepared terms table instead of three stacked variants) - this time the INTERFACE changed too (terms prepared in the Initialization): in abapGit pull the whole branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT, activate the interface first (report any error with its line), then the form, then preview the ZPOS sample against the legacy PDF.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -412,3 +412,23 @@ Thank you for the wizard-generated form of ZMMCG_PO_SF (`ZMMCG_PO_SF_F.XDP`). It
 3. Preview the same document as your legacy sample (service order ZPOS, 18 items, unapproved) and compare page 1 and page 2 with the legacy PDF and with the preview of your wizard form: title and PO number, plant address, both grids (the right one ends at 129 mm), item table, totals, words row, terms (term 4 near the page break), closing rows, watermark.
 4. Then the cases of the earlier entries (goods with more than 60 items, import ZPOI, local ZPOL, stock transfer ZPOT, header text, long item text).
 5. Confirm, or use "Change requested" with the order type, the place on the page, what the legacy shows and what the new form shows (a screenshot helps).
+
+## 2026-10-12T06:58:35.095Z — Why the Design View was confusing, and what changed
+Your three Design View screenshots were right to ask the question. Comparing them with the legacy printout and with ZMMET_PO_SF_ADT, the form had three real problems:
+1. **Computed labels were empty in the Design View.** Most labels depend on order type and language, so I had generated each as a script field. A script does not run in the Design View, so grid labels, the table headings and the terms looked blank. ZMMET_PO_SF_ADT has plain static labels (English only, 29 scripts); mine had 86 scripts.
+2. **Three sets of terms and conditions (import, goods, service), each with its own scripts, were stacked** and looked like one confusing block.
+3. Both variants of the supplier grid, both item tables and both totals blocks sit in the form at the same time; they are hidden at run time by the order type (the same construct as ZMMET_PO_SF_ADT), but in the Design View they are all visible.
+
+**Changed**
+- Every computed label now carries a **default text: the wording that is live for your ZPOS sample** (French, as on the legacy printout), so the Design View shows the labels. The script still replaces it at run time by order type and language. The stock-transfer grid (same place as the standard grid) carries no default text, so the two do not overprint in the Design View. Scripts: 86 -> 63.
+- **Terms and conditions are prepared in the Initialization**: one heading (`GV_TERMS_TITLE`) and one table (`GT_TERMS`, number and text) built from the legacy folders for goods import, goods other and service, in English or French by the legacy rule, term 1 of ZPOS from the standard text. The layout has one heading and one table (the wizard form's construct). The ~300 new Initialization lines are plain string assignments, generated from the export.
+- Item: Context +2 nodes (`GV_TERMS_TITLE`, `GT_TERMS`), `GV_TERM1_ZPOS` is no longer bound.
+
+**Checked:** layout verifier 23 checks, 0 failures (the legacy-text check now also reads the generated terms ABAP); `sfp_check` interface 0 failures (38 known warnings), Context 0 failures. **Not activated in SAP:** the new ABAP.
+
+**Open decision for you** (this is the real cause of the complexity): the legacy form prints **different wording by order type and language** (French for ZPOL / ZPOS, English for ZPOI, otherwise the logon language; the labels of the grids, table headings and totals differ by type). Your wizard form and ZMMET_PO_SF_ADT carry **one** wording. The current form carries all of them, and that is what needs scripts. If only the ZPOS (service) printout in French matters, tell me and the labels become plain static texts like your wizard form; the other types would then print the French wording until English variants are requested.
+
+## 2026-10-12T06:58:35.095Z — Action needed from you (SAP)
+1. In abapGit pull the whole branch onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT**. Activate the interface first: if SAP reports an error in the Initialization (the new terms block, near the end of the first third), **stop and report the message and line**.
+2. Activate the form, open the Layout and look at the Design View: are labels and the single terms block now readable? Report any warning or overflow badge.
+3. Preview the ZPOS sample (18 items, unapproved) against the legacy PDF; then answer the open decision above.

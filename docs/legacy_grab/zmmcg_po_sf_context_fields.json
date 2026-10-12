@@ -165,11 +165,11 @@
   "LV_AMT_WORDS": {
    "field": "LV_AMT_WORDS"
   },
+  "GV_TERMS_TITLE": {
+   "field": "GV_TERMS_TITLE"
+  },
   "GS_TOTALS_GROSS": {
    "field": "GS_TOTALS-GROSS"
-  },
-  "GV_TERM1_ZPOS": {
-   "field": "GV_TERM1_ZPOS"
   }
  },
  "tables": {
@@ -187,6 +187,10 @@
    "MEINS",
    "NETPR",
    "NETWR"
+  ],
+  "GT_TERMS": [
+   "SLNO",
+   "TEXT"
   ],
   "GT_SERVICE": [
    "SLNO",

@@ -129,8 +129,32 @@ function slot(nodes, opt = {}) {
   const needS = ctx.lg;
   if (needS) { useField('V_BSART'); useField('GV_LANGU'); }
   const script = (needS ? `${PRE_LG}\n` : '') + body.trimEnd();
-  return { kind: 'calc', script };
+  return { kind: 'calc', script, def: defaultText(live) };
 }
+
+// ---- default (design-time) text of a computed field: the variant that is live for the sample document (order type ZPOS, French,
+// XAF), so that the Design View shows the same wording as the legacy printout; the script replaces it at run time
+const SAMPLE = { V_BSART: 'ZPOS', V_FLAG: 'Y', V_WAERS: 'XAF', LV_KTEXT: 'XAF', 'SY-LANGU': 'E' };
+const sval = (o) => (/^'.*'$/.test(o) ? o.slice(1, -1) : (/^\d+$/.test(o) ? o : (SAMPLE[o.toUpperCase()] ?? '')));
+function sampleTrue(condArrays) {
+  return condArrays.every((items) => {
+    const live = liveItems(items); if (!live.length) return true;
+    const groups = [[]];
+    live.forEach((i, ix) => { if (ix && i.lop === 'OR') groups.push([]); groups[groups.length - 1].push(i); });
+    return groups.some((g) => g.every((i) => { const a = sval(i.op1); const b = sval(i.op2); return ({ '=': a.trim() === b.trim(), '<>': a.trim() !== b.trim(), '>': a > b, '<': a < b, '>=': a >= b, '<=': a <= b })[i.cop]; }));
+  });
+}
+function defaultText(live) {
+  const french = true; // sample order type ZPOS prints French
+  let text = '';
+  for (const { node, conds } of live) {
+    if (node.ttype === 'I' || !sampleTrue(conds)) continue;
+    const lines = french && node.text.F.length ? node.text.F : node.text.E;
+    text = paragraphs(lines).map((p) => cleanTags(p).replace(/&([A-Za-z_][A-Za-z0-9_-]*)(\([A-Za-z]+\))?&/g, (m, nm) => SAMPLE[nm.toUpperCase()] ?? '')).join('\n');
+  }
+  return opt0(text);
+}
+const opt0 = (t) => t;
 function includeRef(node) {
   const o = node.include;
   if (o.object === 'EKKO' && o.id === 'F01') return rec(useField('GV_HDRTXT'));
@@ -208,7 +232,8 @@ function cellXml(spec) {
     const col = spec.content.ref;
     w(`<field ${dim} name="${spec.name}" ${geo}>${UI(spec)}${common}${bindXml(`${spec.relative ? '$.' : '$record.'}${col}`)}</field>`);
   } else {
-    w(`<field ${dim} name="${spec.name}" ${geo}>${UI(spec)}${common}${calc(spec.content.script)}</field>`);
+    const dv = spec.content.def ? `<value><text>${X(spec.content.def).split('\n').join('&#10;')}</text></value>` : '';
+    w(`<field ${dim} name="${spec.name}" ${geo}>${UI(spec)}${common}${dv}${calc(spec.content.script)}</field>`);
   }
 }
 
@@ -301,7 +326,10 @@ function gridSection(sect, name, x, y, cond, opts = {}) {
     const rowH = rowHs[r - 1];
     for (let c = 1; c <= widths.length; c += 1) {
       const cd = cells.find((q) => q.col === c);
-      const content = slot(slots.get(`${r}:${c}`) ?? []);
+      let content = slot(slots.get(`${r}:${c}`) ?? []);
+      // a variant block that is not live for the sample document (stock-transfer grid) shows no default text: two blocks sit at the
+      // same place and their texts would overlap in the Design View
+      if (cond && !sampleTrue([cond]) && content.def) content = { ...content, def: '' };
       const isLabel = c === 1;
       const lastRow = rowH === LAST_ROW;
       const b = { ...(cd?.b ?? noB), fill: cd?.b.fill ?? null };
@@ -475,38 +503,48 @@ function buildItemTable(tblNode, kind) {
 const TOT = { goods: { DISCOUNT: 'DIS', FRGHT: 'FRG', OTHER: 'OTH', SUB_TOTAL: 'SUB', VAT: 'VAT', CA: 'CA', TOTAL: 'TOTAL' }, service: { '%ROW8': 'GROSS', '%ROW9': 'DIS', '%ROW12': 'SUB', '%ROW13': 'VAT', '%CA': 'CA', '%ROW14': 'TOTAL' } };
 const BIG = new Set(['SUB_TOTAL', 'VAT', 'CA', 'TOTAL', '%ROW12', '%ROW13', '%CA', '%ROW14']);
 
-function termsFolder(folder, tableSect, uniq) {
+// Terms and conditions: ONE heading field (GV_TERMS_TITLE) and ONE table (GT_TERMS), both prepared by the Initialization from the
+// legacy folders (terms_gen.mjs). Same constructs as the client's wizard form of this Smart Form (TC_HEAD + TERMS + end rows).
+function termsBlock(tableSect, uniq) {
   const lts = lineTypes(tableSect);
-  const rows = folder.children.filter((c) => c.kind === 'SECTION' && !(c.cond.length && isDead(c.cond)));
-  const ctx = {};
-  const cnd = fcCond(folder.cond.length ? [folder.cond] : [], ctx);
+  const head = lts.get('PO_HEADER')[0]; const tc = lts.get('PO_TERM_I'); const tl = lts.get('PO_TERM_LAST');
+  useField('GV_TERMS_TITLE'); useCol('GT_TERMS', 'SLNO'); useCol('GT_TERMS', 'TEXT');
   open(`<subform layout="tb" name="${uniq}" w="${mmn(TBL_W)}">`);
-  rows.forEach((r, ri) => {
-    const lt = r.out.lineType;
-    const cells = lts.get(lt);
-    const widths = cells.map((c) => toMM(c.w));
-    const colSects = r.children.filter((c) => c.kind === 'SECTION');
-    tableOpen(`${uniq}_${ri + 1}`, widths);
-    rowOpen('Row1', 'TR');
-    cells.forEach((cd, i) => {
-      const nodes = colSects[i] ? liveTexts(colSects[i]).map((tx) => ({ node: tx.node, conds: tx.conds })) : [];
-      const head = lt === 'PO_HEADER';
-      const content = nodes.length ? slot(nodes, { trim: head }) : { kind: 'empty' };
-      // wizard form: heading = one 11.722 mm field (bold, top inset 4.422, left 1.18); term rows grow with their text, number 5.5 mm cell
-      // (0.3 top), text cell hanging indent 0.353 + 0.353, line height 3.39; 0.3 + 3.39 + 0.51 = 4.2 mm per one-line row (printout)
-      if (head) { cellXml({ name: `C${i + 1}`, w: widths[i], h: 11.722, content, font: FONT.bold, margin: MARG.termHead, para: para('left'), b: cd.b, single: true }); return; }
-      const isNo = i === 1; const isTxt = i === 3;
-      cellXml({ name: `C${i + 1}`, w: widths[i], ...(content.kind === 'empty' ? { minH: 0 } : { minH: ROW_TXT }), content, font: FONT.reg, margin: isNo ? MARG.termNo : (isTxt ? MARG.termTxt : MARG.cell), para: isTxt ? para('left', '3.39mm', '0.353mm') : para('left'), b: cd.b, single: isNo });
-    });
-    w('<bind match="none"/>');
-    close('</subform>');
-    w('<bind match="none"/>');
-    close('</subform>');
+  // heading: one field, 11.722 mm, bold, top inset 4.422 mm, left 1.18 mm (wizard form)
+  tableOpen(`${uniq}_HEAD`, [toMM(head.w)]);
+  rowOpen('Row1', 'TR');
+  cellXml({ name: 'TERMS_TITLE', w: toMM(head.w), h: 11.722, content: { kind: 'bind', ref: 'GV_TERMS_TITLE' }, font: FONT.bold, margin: MARG.termHead, para: para('left'), b: head.b, single: true });
+  w('<bind match="none"/>');
+  close('</subform>');
+  w('<bind match="none"/>');
+  close('</subform>');
+  // numbered terms: number cell + text cell with hanging indent; rows grow with the text
+  const widths = tc.map((c) => toMM(c.w));
+  tableOpen(`${uniq}_ROWS`, widths);
+  rowOpen('DATA', 'TR');
+  tc.forEach((cd, i) => {
+    if (i === 1) cellXml({ name: 'SLNO', w: widths[i], minH: ROW_TXT, content: { kind: 'bind', ref: 'SLNO' }, relative: true, font: FONT.reg, margin: MARG.termNo, para: para('left'), b: cd.b, single: true });
+    else if (i === 3) cellXml({ name: 'TEXT', w: widths[i], minH: ROW_TXT, content: { kind: 'bind', ref: 'TEXT' }, relative: true, font: FONT.reg, margin: MARG.termTxt, para: para('left', '3.39mm', '0.353mm'), b: cd.b });
+    else cellXml({ name: `C${i + 1}`, w: widths[i], minH: 0, content: { kind: 'empty' }, font: FONT.reg, margin: MARG.grid, para: para('left'), b: cd.b });
   });
-  if (cnd) w(readyEvt(`if (not (${cnd})) then $.presence = "hidden" endif`));
+  w('<occur max="-1" min="0"/>');
+  w(bindXml('$.DATA[*]').replace(/ref="\$\.DATA\[\*\]" usage/, 'ref="$.DATA" usage'));
+  close('</subform>');
+  w(bindXml('$record.GT_TERMS'));
+  close('</subform>');
+  // end of the block: the blank line of the last term and the closing line (legacy line type PO_TERM_LAST)
+  tableOpen(`${uniq}_END`, tl.map((c) => toMM(c.w)));
+  rowOpen('Row1', 'TR');
+  tl.forEach((cd, i) => cellXml({ name: `C${i + 1}`, w: toMM(cd.w), h: ROW_BLANK, content: { kind: 'empty' }, font: FONT.reg, margin: MARG.grid, para: para('left'), b: cd.b }));
+  w('<bind match="none"/>');
+  close('</subform>');
+  w('<bind match="none"/>');
+  close('</subform>');
+  w(readyEvt('if ($record.GV_TERMS_TITLE.value eq "") then $.presence = "hidden" endif'));
   w('<bind match="none"/>');
   close('</subform>');
 }
+
 
 function buildSection(tblNode, kind) {
   const goods = kind === 'goods';
@@ -518,7 +556,7 @@ function buildSection(tblNode, kind) {
   let fi = 0;
   for (const r of footEv.children) {
     if (r.cond.length && isDead(r.cond)) continue;
-    if (r.kind === 'SECTION' && r.sect.type === 'F') { termsFolder(r, tblNode, `TERMS_${contName}_${++fi}`); continue; }
+    if (r.kind === 'SECTION' && r.sect.type === 'F') { if (!fi) termsBlock(tblNode, `TERMS_${contName}`); fi += 1; continue; } // all folders: one prepared table
     if (r.kind !== 'SECTION') continue;
     const nm = r.name;
     const totField = TOT[kind][nm];

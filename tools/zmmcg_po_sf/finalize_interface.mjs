@@ -44,6 +44,11 @@ const newTypes = [
   '         total  TYPE c LENGTH 40,',
   '       END OF ty_s_service.',
   'TYPES: ty_t_service TYPE STANDARD TABLE OF ty_s_service WITH DEFAULT KEY.',
+  'TYPES: BEGIN OF ty_s_term,',
+  '         slno TYPE c LENGTH 8,',
+  '         text TYPE string,',
+  '       END OF ty_s_term.',
+  'TYPES: ty_t_term TYPE STANDARD TABLE OF ty_s_term WITH DEFAULT KEY.',
   'TYPES: BEGIN OF ty_s_totals,',
   '         gross TYPE c LENGTH 40,',
   '         dis   TYPE c LENGTH 40,',
@@ -56,7 +61,7 @@ const newTypes = [
   '       END OF ty_s_totals.',
 ];
 const newGlobals = [
-  ['GT_GOODS', 'TY_T_GOODS'], ['GT_SERVICE', 'TY_T_SERVICE'], ['GS_TOTALS', 'TY_S_TOTALS'], ['GV_LANGU', 'SYLANGU'], ['GV_LIFNR_OUT', 'C LENGTH 20'], ['GV_HDRTXT', 'STRING'], ['GV_TERM1_ZPOS', 'STRING'],
+  ['GT_GOODS', 'TY_T_GOODS'], ['GT_SERVICE', 'TY_T_SERVICE'], ['GS_TOTALS', 'TY_S_TOTALS'], ['GV_LANGU', 'SYLANGU'], ['GV_LIFNR_OUT', 'C LENGTH 20'], ['GV_HDRTXT', 'STRING'], ['GV_TERM1_ZPOS', 'STRING'], ['GT_TERMS', 'TY_T_TERM'], ['GV_TERMS_TITLE', 'STRING'],
 ];
 
 let xml = fs.readFileSync(OUT, 'utf8');
