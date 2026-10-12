@@ -8,6 +8,8 @@ load there. It becomes a *validated* strategy only when our own form built with 
 the client's SAP (promotion standard in `README.md`). It supersedes the older hand-built patterns
 wherever it contradicts them; the conflicts are listed in section 13.
 
+> **Amended 2026-10-12 (S11):** section 3 says structure Context nodes do not reach the layout; the client's reference forms bind nested structure paths (`$.GS_HEADER.FIELD`) successfully (S11 section 7): either form is valid when the bind matches the Context. Labels-as-data, Context conditions, page numbers, trailers, runtime logo / QR and text-include nodes are in S11.
+>
 > **Amended 2026-10-10 (S10):** the numbers in sections 7 and 10 (top inset 0.5 mm, line height 3.387 mm, `minH` 4.177 mm, 28 pt title,
 > 8.1 / 1.23 mm indents) are those of `ZMMET_PO_SF` only. The wizard form of `ZMMCG_PO_SF` uses top inset 1.122 mm, no line height, fixed
 > single-line cells and a whole-body content area; the first baseline is cell top + top inset + 0.717 em. Constructs are reusable, numbers are

@@ -115,6 +115,9 @@ characters; string-template specials (`| { } \`) are escaped. State plainly that
 4. Never read conditions from window flags or by eye; read them from the export (section 6).
 Target script counts: class A ≤ 10, B ≤ 40, C: every script justified; compare with the sibling forms (`ref_form_probe.mjs`).
 
+### 5.3b Proven client techniques to prefer (S11)
+Before building a script: (1) wording that depends on language / type → **labels as data** (`GS_LABELS` from the label utility, `$.GS_LABELS.LB_X`), (2) block that depends on data → **Context condition** or an empty bound table, (3) page numbers / QR / zebra → `$layout` ready and `indexChange` patterns, (4) logos → BDS graphic at run time, (5) fixed standard texts → text-include Context node. Every technique carries its proof test (S11 section 11).
+
 ### 5.4 Design View readability (client deliverable)
 Labels visible (static text or default text), no overlapping variant texts, one block per concept, sensible names (`TERMS_TITLE`, not `TEXT123`), no empty subforms, no unexplained zero-height rows.
 
@@ -141,6 +144,12 @@ Parity first; these are proposals the client chooses after sign-off, each with i
 | XFA table layout, repeating header (`overflow leader`), growing rows | every item table | proven (ZMMET, ZMMCG wizard forms) |
 | FormCalc `calculate` / `ready` hide | variable text, conditional blocks | proven |
 | Data-prepared blocks (terms, titles, totals) | variants by type / language | candidate (ZMMCG terms, client preview pending) |
+| **Labels as data** (`GS_LABELS` + `zcl_adobeform_utility=>get_header_labels`) | every multi-language / multi-type form | **proven in the client's `ZSDAF_V3_SEA001`**; prerequisite: class and label table exist in the target system (ask) — S11 section 1 |
+| **Context conditions** (`SFPCONDITION` on nodes), `subformSet relation="choice"` TRUE / FALSE | data-dependent blocks without scripts | **proven in `ZEZC_SD_INVOICE_IN_EMAIL`**; Context-side creation of TRUE / FALSE groups to be confirmed — S11 section 2 |
+| Page X of Y (`xfa.layout.page(this)` / `pageCount()` on `ref="$layout"` ready) | long documents | **proven in `ZEZC_...`, `ZSDAF_V3_SEA001`**; legacy has none — S11 section 3 |
+| Runtime graphics (`cl_ssf_xsf_utilities=>get_bds_graphic_as_bmp` + `CL_FP_GRAPHIC_CONTENT` + `imageEdit`) | logos, signatures | **proven in `ZSD_IVORY_FORM`, `ZSDAI_V3_CN0001`** — S11 section 5 |
+| `CL_FP_TEXT_INCLUDE` Context node for standard texts | fixed standard texts | **proven in `ZSD_IVORY_FORM`** — S11 section 6 |
+| Zebra rows (`indexChange`), `colSpan`, `lr-tb` flows, rich text with embedded fields | readability / mixed text | **proven in the costing / invoice forms** — S11 sections 4, 8 |
 | `keep intact="contentArea"`, `overflow trailer="FooterRow"`, `break overflowLeader` | no split blocks, footers per page, leaders per page area | **proven in the client's forms** (`ZAF_PRE_ORD_COST_FORM`, `ZAF_INVOICE_CA`, `ZEZC_SD_INVOICE_IN_EMAIL`); changes pagination vs legacy — propose, never apply silently |
 | Page X of Y, running totals per page, carried-forward totals | long item lists | candidate; legacy has none |
 | Conditional page areas / master pages per order type | different letterheads | candidate; needs a real second letterhead |
