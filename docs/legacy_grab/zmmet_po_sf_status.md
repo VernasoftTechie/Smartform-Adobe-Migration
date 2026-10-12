@@ -1,9 +1,9 @@
 # Migration Status — ZMMET_PO_SF
 
-STATUS: waiting_manual
-UPDATED: 2026-10-10T06:08:58.000Z
-WAITING_ON: operator
-NOTE: Layout cross-checked against the legacy output PDF and corrected (no frames, title position, terms heading and lines). Pull the branch onto ZMMET_PO_SF_ADT again, activate, run the tests and send one line per test, plus a preview PDF of the same service PO as in the legacy PDF. Not closed without your test results.
+STATUS: in_progress
+UPDATED: 2026-10-12T13:14:58.909Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-4
 
@@ -344,3 +344,6 @@ I compared the layout, element by element, with the printout of the legacy Smart
 
 ## 2026-10-10T06:08:58.000Z — Action needed from you (SAP)
 Please pull the branch onto form ZMMET_PO_SF_ADT (the interface needs a pull only if you have not yet done the previous one), activate, and run the tests of the previous entry. Send one line per test (PASS or what is wrong); please include a preview PDF of the same service PO as in `ZETO Smartform Output.pdf` so I can compare the two PDFs directly. This migration stays open until you do.
+
+## 2026-10-12T13:14:58.908Z — Manual activity confirmed
+Client confirmed the manual step is done.
