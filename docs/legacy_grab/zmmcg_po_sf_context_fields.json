@@ -1,30 +1,30 @@
 {
  "flat": {
-  "LV_FLAG": {
-   "field": "LV_FLAG"
+  "LB_HDR_WATERMARK": {
+   "field": "GS_LABELS-LB_HDR_WATERMARK"
   },
   "V_BSART": {
    "field": "V_BSART"
   },
-  "GS_LABELS_LB_HDR_HEADING": {
+  "LB_HDR_HEADING": {
    "field": "GS_LABELS-LB_HDR_HEADING"
   },
   "V_EBELN": {
    "field": "V_EBELN"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R1C1": {
+  "LB_FOR_ZPOT_R1C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R1C1"
   },
   "LV_RESWK": {
    "field": "LV_RESWK"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R2C1": {
+  "LB_FOR_ZPOT_R2C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R2C1"
   },
   "LS_ADRC_NAME1": {
    "field": "LS_ADRC-NAME1"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R3C1": {
+  "LB_FOR_ZPOT_R3C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R3C1"
   },
   "LS_ADRC_NAME2": {
@@ -33,37 +33,37 @@
   "LS_ADRC_STREET": {
    "field": "LS_ADRC-STREET"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R5C1": {
+  "LB_FOR_ZPOT_R5C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R5C1"
   },
   "LS_ADRC_STR_SUPPL1": {
    "field": "LS_ADRC-STR_SUPPL1"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R6C1": {
+  "LB_FOR_ZPOT_R6C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R6C1"
   },
   "LS_ADRC_STR_SUPPL2": {
    "field": "LS_ADRC-STR_SUPPL2"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R7C1": {
+  "LB_FOR_ZPOT_R7C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R7C1"
   },
   "LS_ADRC_CITY1": {
    "field": "LS_ADRC-CITY1"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R8C1": {
+  "LB_FOR_ZPOT_R8C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R8C1"
   },
   "LS_ADRC_CITY2": {
    "field": "LS_ADRC-CITY2"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R9C1": {
+  "LB_FOR_ZPOT_R9C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R9C1"
   },
   "LV_LAND": {
    "field": "LV_LAND"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R10C1": {
+  "LB_FOR_ZPOT_R10C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R10C1"
   },
   "LS_ADRC_POST_CODE1": {
@@ -72,49 +72,49 @@
   "LS_ADRC_TEL_NUMBER": {
    "field": "LS_ADRC-TEL_NUMBER"
   },
-  "GS_LABELS_LB_FOR_ZPOT_R12C1": {
+  "LB_FOR_ZPOT_R12C1": {
    "field": "GS_LABELS-LB_FOR_ZPOT_R12C1"
   },
   "LS_ADRC_FAX_NUMBER": {
    "field": "LS_ADRC-FAX_NUMBER"
   },
-  "GS_LABELS_LB_TEMPLATE4_R1C1": {
+  "LB_TEMPLATE4_R1C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R1C1"
   },
   "GV_LIFNR_OUT": {
    "field": "GV_LIFNR_OUT"
   },
-  "GS_LABELS_LB_TEMPLATE4_R2C1": {
+  "LB_TEMPLATE4_R2C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R2C1"
   },
   "WA_VEND_NAME1": {
    "field": "WA_VEND-NAME1"
   },
-  "GS_LABELS_LB_TEMPLATE4_R3C1": {
+  "LB_TEMPLATE4_R3C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R3C1"
   },
   "WA_VEND_NAME2": {
    "field": "WA_VEND-NAME2"
   },
-  "GS_LABELS_LB_TEMPLATE4_R4C1": {
+  "LB_TEMPLATE4_R4C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R4C1"
   },
   "WA_VEND_STREET": {
    "field": "WA_VEND-STREET"
   },
-  "GS_LABELS_LB_TEMPLATE4_R5C1": {
+  "LB_TEMPLATE4_R5C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R5C1"
   },
   "WA_VEND_STR_SUPPL1": {
    "field": "WA_VEND-STR_SUPPL1"
   },
-  "GS_LABELS_LB_TEMPLATE4_R6C1": {
+  "LB_TEMPLATE4_R6C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R6C1"
   },
   "WA_VEND_STR_SUPPL2": {
    "field": "WA_VEND-STR_SUPPL2"
   },
-  "GS_LABELS_LB_TEMPLATE4_R7C1": {
+  "LB_TEMPLATE4_R7C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R7C1"
   },
   "WA_VEND_CITY1": {
@@ -123,43 +123,43 @@
   "WA_VEND_CITY2": {
    "field": "WA_VEND-CITY2"
   },
-  "GS_LABELS_LB_TEMPLATE4_R9C1": {
+  "LB_TEMPLATE4_R9C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R9C1"
   },
-  "GS_LABELS_LB_TEMPLATE4_R9C2": {
+  "LB_TEMPLATE4_R9C2": {
    "field": "GS_LABELS-LB_TEMPLATE4_R9C2"
   },
-  "GS_LABELS_LB_TEMPLATE4_R10C1": {
+  "LB_TEMPLATE4_R10C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R10C1"
   },
   "WA_VEND_POST_CODE1": {
    "field": "WA_VEND-POST_CODE1"
   },
-  "GS_LABELS_LB_TEMPLATE4_R11C1": {
+  "LB_TEMPLATE4_R11C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R11C1"
   },
-  "GS_LABELS_LB_TEMPLATE4_R11C2": {
+  "LB_TEMPLATE4_R11C2": {
    "field": "GS_LABELS-LB_TEMPLATE4_R11C2"
   },
-  "GS_LABELS_LB_TEMPLATE4_R12C1": {
+  "LB_TEMPLATE4_R12C1": {
    "field": "GS_LABELS-LB_TEMPLATE4_R12C1"
   },
-  "GS_LABELS_LB_TEMPLATE4_R12C2": {
+  "LB_TEMPLATE4_R12C2": {
    "field": "GS_LABELS-LB_TEMPLATE4_R12C2"
   },
   "V_EMAIL": {
    "field": "V_EMAIL"
   },
-  "GS_LABELS_LB_TEMPLATE4_LAST_CHANGED": {
+  "LB_TEMPLATE4_LAST_CHANGED": {
    "field": "GS_LABELS-LB_TEMPLATE4_LAST_CHANGED"
   },
-  "GS_LABELS_LB_TEMPLATE2_R1C1": {
+  "LB_TEMPLATE2_R1C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R1C1"
   },
   "PODATE": {
    "field": "PODATE"
   },
-  "GS_LABELS_LB_TEMPLATE2_R2C1": {
+  "LB_TEMPLATE2_R2C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R2C1"
   },
   "EINDT": {
@@ -168,19 +168,19 @@
   "V_DEPARTMNT": {
    "field": "V_DEPARTMNT"
   },
-  "GS_LABELS_LB_TEMPLATE2_R4C1": {
+  "LB_TEMPLATE2_R4C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R4C1"
   },
   "G_ERNAME": {
    "field": "G_ERNAME"
   },
-  "GS_LABELS_LB_TEMPLATE2_R5C1": {
+  "LB_TEMPLATE2_R5C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R5C1"
   },
   "V_BUYERTELE": {
    "field": "V_BUYERTELE"
   },
-  "GS_LABELS_LB_TEMPLATE2_R6C1": {
+  "LB_TEMPLATE2_R6C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R6C1"
   },
   "V_BUYERTELFX": {
@@ -189,64 +189,64 @@
   "V_BUYEREMAIL": {
    "field": "V_BUYEREMAIL"
   },
-  "GS_LABELS_LB_TEMPLATE2_R8C1": {
+  "LB_TEMPLATE2_R8C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R8C1"
   },
   "LV_VTEXT": {
    "field": "LV_VTEXT"
   },
-  "GS_LABELS_LB_TEMPLATE2_R9C2": {
+  "LB_TEMPLATE2_R9C2": {
    "field": "GS_LABELS-LB_TEMPLATE2_R9C2"
   },
-  "GS_LABELS_LB_TEMPLATE2_R10C1": {
+  "LB_TEMPLATE2_R10C1": {
    "field": "GS_LABELS-LB_TEMPLATE2_R10C1"
   },
   "V_POTEXT": {
    "field": "V_POTEXT"
   },
-  "GS_LABELS_LB_TEMPLATE2_R10C2": {
+  "LB_TEMPLATE2_R10C2": {
    "field": "GS_LABELS-LB_TEMPLATE2_R10C2"
   },
   "V_FLAG": {
    "field": "V_FLAG"
   },
-  "GS_LABELS_LB_GT_GOODS_H2": {
+  "LB_GT_GOODS_H2": {
    "field": "GS_LABELS-LB_GT_GOODS_H2"
   },
-  "GS_LABELS_LB_GT_GOODS_H3": {
+  "LB_GT_GOODS_H3": {
    "field": "GS_LABELS-LB_GT_GOODS_H3"
   },
-  "GS_LABELS_LB_GT_GOODS_H6": {
+  "LB_GT_GOODS_H6": {
    "field": "GS_LABELS-LB_GT_GOODS_H6"
   },
-  "GS_LABELS_LB_GT_GOODS_H7": {
+  "LB_GT_GOODS_H7": {
    "field": "GS_LABELS-LB_GT_GOODS_H7"
   },
-  "GS_LABELS_LB_DISCOUNT_C2": {
+  "LB_DISCOUNT_C2": {
    "field": "GS_LABELS-LB_DISCOUNT_C2"
   },
   "GS_TOTALS_DIS": {
    "field": "GS_TOTALS-DIS"
   },
-  "GS_LABELS_LB_FRGHT_C2": {
+  "LB_FRGHT_C2": {
    "field": "GS_LABELS-LB_FRGHT_C2"
   },
   "GS_TOTALS_FRG": {
    "field": "GS_TOTALS-FRG"
   },
-  "GS_LABELS_LB_OTHER_C2": {
+  "LB_OTHER_C2": {
    "field": "GS_LABELS-LB_OTHER_C2"
   },
   "GS_TOTALS_OTH": {
    "field": "GS_TOTALS-OTH"
   },
-  "GS_LABELS_LB_SUB_TOTAL_C2": {
+  "LB_SUB_TOTAL_C2": {
    "field": "GS_LABELS-LB_SUB_TOTAL_C2"
   },
   "GS_TOTALS_SUB": {
    "field": "GS_TOTALS-SUB"
   },
-  "GS_LABELS_LB_VAT_C2": {
+  "LB_VAT_C2": {
    "field": "GS_LABELS-LB_VAT_C2"
   },
   "GS_TOTALS_VAT": {
@@ -258,40 +258,40 @@
   "GS_TOTALS_TOTAL": {
    "field": "GS_TOTALS-TOTAL"
   },
-  "GS_LABELS_LB_TOTAL_VALUE_WORDS_WORDS": {
+  "LB_TOTAL_VALUE_WORDS_WORDS": {
    "field": "GS_LABELS-LB_TOTAL_VALUE_WORDS_WORDS"
   },
   "GV_TERMS_TITLE": {
    "field": "GV_TERMS_TITLE"
   },
-  "GS_LABELS_LB_GT_SERVICE_H2": {
+  "LB_GT_SERVICE_H2": {
    "field": "GS_LABELS-LB_GT_SERVICE_H2"
   },
-  "GS_LABELS_LB_GT_SERVICE_H3": {
+  "LB_GT_SERVICE_H3": {
    "field": "GS_LABELS-LB_GT_SERVICE_H3"
   },
-  "GS_LABELS_LB_GT_SERVICE_H6": {
+  "LB_GT_SERVICE_H6": {
    "field": "GS_LABELS-LB_GT_SERVICE_H6"
   },
-  "GS_LABELS_LB_GT_SERVICE_H7": {
+  "LB_GT_SERVICE_H7": {
    "field": "GS_LABELS-LB_GT_SERVICE_H7"
   },
-  "GS_LABELS_LB__ROW8_C2": {
+  "LB__ROW8_C2": {
    "field": "GS_LABELS-LB__ROW8_C2"
   },
   "GS_TOTALS_GROSS": {
    "field": "GS_TOTALS-GROSS"
   },
-  "GS_LABELS_LB__ROW9_C2": {
+  "LB__ROW9_C2": {
    "field": "GS_LABELS-LB__ROW9_C2"
   },
-  "GS_LABELS_LB__ROW12_C2": {
+  "LB__ROW12_C2": {
    "field": "GS_LABELS-LB__ROW12_C2"
   },
-  "GS_LABELS_LB__ROW13_C2": {
+  "LB__ROW13_C2": {
    "field": "GS_LABELS-LB__ROW13_C2"
   },
-  "GS_LABELS_LB__ROW16_WORDS": {
+  "LB__ROW16_WORDS": {
    "field": "GS_LABELS-LB__ROW16_WORDS"
   }
  },

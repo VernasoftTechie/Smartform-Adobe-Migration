@@ -32,6 +32,9 @@ for (const n of nodes) {
 }
 for (const n of nodes) if (n.cls === 'CL_FP_DATA') { const p = byId[href(n.body, 'PARENT')]; const gp = p && byId[href(p.body, 'PARENT')]; if (p && p.cls === 'CL_FP_LOOP_DATA' && gp) ctxLoops.get(get(gp.body, 'NAME'))?.add(get(n.body, 'NAME')); }
 check(![...ctxTop].some((n) => /-/.test(n)), `Context: ${ctxTop.size} flat scalar nodes (no hyphen names), ${ctxLoops.size} loops`, 'Context has hyphenated names');
+const ctxNames = nodes.map((n) => get(n.body, 'NAME')).filter(Boolean);
+const longCtx = ctxNames.filter((n) => n.length > 30);
+check(!longCtx.length, `Context: all ${ctxNames.length} node names are at most 30 characters (longest ${Math.max(...ctxNames.map((n) => n.length))}; SFP limit - abapGit import "SFPF deserialization error: Invalid request" otherwise)`, `Context node names over 30 characters: ${longCtx.join(', ')}`);
 check(nodes.filter((n) => n.cls === 'CL_FP_STRUCTURE').length === 0, 'Context has no CL_FP_STRUCTURE nodes (flat, as the wizard)', 'Context still contains CL_FP_STRUCTURE nodes');
 
 // ---- interface symbols for the Context fields

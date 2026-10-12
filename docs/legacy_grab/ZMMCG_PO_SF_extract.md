@@ -260,7 +260,7 @@ Node tree (conditions shown inline; text lines show paragraph format and content
 - **page** `%PAGE1` "New Page 1"
   - **window** `WATER_MARK` "New Window 1" - at left 1.52 CM, top 23.76 CM, 18.00 CM x 4.70 CM
     - **program lines** `%CODE32` "Water Mark Code" - 6 lines
-    - **node type CD** `%CONDITION132` "New Alternative 132"
+    - **alternative** `%CONDITION132` "New Alternative 132" - **TRUE branch if** LV_FLAG = 'Y' (FALSE branch otherwise)
       - **event: +**
         - **text** `APPROVED_WATERMARK` "APPROVED WATER MARK" - style `ZMM_PURCHASE_REQ`
           - `P6` Approved PO
@@ -917,7 +917,7 @@ Node tree (conditions shown inline; text lines show paragraph format and content
               - (also in: F)
             - **text** `%TEXT113` "New Text 113" - **only if** LV_COND = 'M' AND SY-LANGU = 'E'
             - **text** `%TEXT166` "New Text 113" - **only if** LV_COND = 'M' AND SY-LANGU = 'F'
-            - **node type CD** `%CONDITION26` "New Alternative 26" - **only if** V_BSART = 'ZPOI' AND 1 = 2 (contains the constant `1 = 2`: branch may be permanently disabled - confirm with the owner)
+            - **alternative** `%CONDITION26` "New Alternative 26" - **only if** V_BSART = 'ZPOI' AND 1 = 2 (contains the constant `1 = 2`: branch may be permanently disabled - confirm with the owner)
               - **event: +**
                 - **text** `%TEXT74` "New Text 74" - **only if** V_RSTATUS = 'X'
                   - `P4` <B1>Purchase Order Terms & Conditions:</>
@@ -965,7 +965,7 @@ Node tree (conditions shown inline; text lines show paragraph format and content
                   - `*` 
                   - (also in: F)
               - **event: -**
-            - **node type CD** `%CONDITION19` "New Alternative 26" - **only if** V_BSART <> 'YIMP' AND 1 = 2 (contains the constant `1 = 2`: branch may be permanently disabled - confirm with the owner)
+            - **alternative** `%CONDITION19` "New Alternative 26" - **only if** V_BSART <> 'YIMP' AND 1 = 2 (contains the constant `1 = 2`: branch may be permanently disabled - confirm with the owner)
               - **event: +**
                 - **text** `%TEXT122` "New Text 75" - **only if** V_RSTATUS = 'X'
                   - `P4` <B1>Purchase Order Terms & Conditions: </>

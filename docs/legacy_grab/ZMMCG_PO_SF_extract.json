@@ -1416,7 +1416,7 @@
                   },
                   {
                     "type": "CD",
-                    "label": "node type CD",
+                    "label": "alternative",
                     "children": [
                       {
                         "type": "EV",
@@ -1477,7 +1477,8 @@
                     ],
                     "objKind": "CONDITION",
                     "name": "%CONDITION132",
-                    "caption": "New Alternative 132"
+                    "caption": "New Alternative 132",
+                    "altCondition": "LV_FLAG = 'Y'"
                   }
                 ]
               }
@@ -8367,7 +8368,7 @@
                                   },
                                   {
                                     "type": "CD",
-                                    "label": "node type CD",
+                                    "label": "alternative",
                                     "children": [
                                       {
                                         "type": "EV",
@@ -8757,7 +8758,7 @@
                                   },
                                   {
                                     "type": "CD",
-                                    "label": "node type CD",
+                                    "label": "alternative",
                                     "children": [
                                       {
                                         "type": "EV",

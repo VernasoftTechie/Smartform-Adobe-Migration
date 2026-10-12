@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-12T11:23:17.991Z
+UPDATED: 2026-10-12T12:25:05.435Z
 WAITING_ON: operator
-NOTE: Labels are now data (GS_LABELS, as in your form ZSDAF_V3_SEA001) - interface, Context AND layout changed: in abapGit pull the WHOLE branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT, activate the interface first (report any error with its line), then the form; the Design View now shows every label; preview the ZPOS sample against the legacy PDF and answer the questions of the previous entry.
+NOTE: Import error "SFPF deserialization error: Invalid request" analysed and fixed (two Context node names were over the 30-character limit) - in abapGit pull the WHOLE branch again onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT; if it still fails send the complete abapGit log text.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -489,3 +489,24 @@ Done first, as you asked: every text of the layout that depends on order type or
 2. Activate the form; in the Design View check that all labels are visible and the block structure is readable; report warnings or overflow badges.
 3. Preview the ZPOS sample against the legacy PDF; then a goods order (ZPOC / ZPOR, English), an import (ZPOI), a local (ZPOL), a stock transfer (ZPOT), with a French and an English logon.
 4. Answer: does the label utility exist and should it be used? (and the other questions of the previous entry)
+
+## 2026-10-12T12:25:05.435Z — Import error "SFPF deserialization error: Invalid request": cause found and fixed
+Thank you for the screenshot (commit c6743ee, import of **ZMMCG_PO_SF_ADT** failed).
+
+**Most probable cause (not proven - I have no SAP log):** the labels-as-data commit added 54 Context nodes named `GS_LABELS_LB_*`; two of them were 35 and 36 characters long (`GS_LABELS_LB_TEMPLATE4_LAST_CHANGED`, `GS_LABELS_LB_TOTAL_VALUE_WORDS_WORDS`). SFP context node names are limited to 30 characters, and every earlier version had names of at most 18, which is why the earlier imports worked. My checks looked at structure and bindings but not at this length - that was my gap.
+
+**Fixed:** a label node is now named like its component (`LB_HDR_HEADING` ...), the longest Context node name is 26 characters; the generator now stops and the verifier fails if any name exceeds 30. The new check was proven by running it against the failing commit (it fails with exactly those two names).
+
+**Also changed in this version (strategy S12 applied, details in `docs/legacy_grab/zmmcg_po_sf_conversion_map.md`)**
+- The seven `ready` hide scripts now run on the server (`runAt="server"`), as all 17 of the same kind in your form ZEZC_SD_INVOICE_IN_EMAIL.
+- The watermark text (Approved PO / UnApproved PO) is now prepared data (label `LB_HDR_WATERMARK`, legacy alternative `LV_FLAG = 'Y'`), so the layout has **no calculate script left** - 7 scripts, all hides. 55 labels.
+- Conversion map: every one of the 145 legacy nodes (pages, windows, alternatives, graphics, program lines, tables, rows, folders) is mapped to a layout pattern with its status; a checker proves that no node is missing, that all layout objects named exist, that every live program-lines node is in the Initialization and no disabled one is.
+- The extract now prints the condition of an alternative (it was missing).
+
+**Checked (all eleven passes green)**: structure and bindings, interface, wizard-form conformance, printout simulation (236 of 236 texts), the layout conditions for 1152 combinations, the terms ABAP (48), ABAP standards, condition reader, reproducibility, Context graph, conversion map.
+
+## 2026-10-12T12:25:05.435Z — Action needed from you (SAP)
+1. Pull the whole branch (interface, Context and form changed) onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT**; activate the interface first (report any error in the Initialization with message and line), then the form.
+2. If the import fails again: send the **complete abapGit log text** (object, message, line); then the cause is somewhere else and I will look for it from that text.
+3. Design View: all labels visible; then preview the ZPOS sample against the legacy PDF and a goods order, an import, a local order and a stock transfer, with a French and an English logon.
+4. Answer when convenient (conversion map, last section): keep totals + terms together on one page or break like the legacy? letterhead as master page instead of a block in the flow? is the character format C4 in "Last Changed On:" bold? And the earlier questions (label utility class, runtime logo, page numbers, one wording for all languages).

@@ -2,7 +2,7 @@
   "nodes": [
     {
       "kind": "scalar",
-      "field": "LV_FLAG"
+      "field": "GS_LABELS-LB_HDR_WATERMARK"
     },
     {
       "kind": "scalar",

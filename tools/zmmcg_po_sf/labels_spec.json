@@ -1,5 +1,6 @@
 {
  "fields": [
+  "LB_HDR_WATERMARK",
   "LB_HDR_HEADING",
   "LB_FOR_ZPOT_R1C1",
   "LB_FOR_ZPOT_R2C1",

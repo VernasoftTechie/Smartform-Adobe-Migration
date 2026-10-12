@@ -1,8 +1,8 @@
-// The ten independent re-check passes of a generated Adobe form, run in one go. Nothing is committed or confirmed unless all ten pass.
+// The eleven independent re-check passes of a generated Adobe form, run in one go. Nothing is committed or confirmed unless all eleven pass.
 //   node recheck.mjs <repo> [baseline.xdp]
 // 1 structure   2 interface parity   3 wizard-form conformance + coverage   4 printout simulation (text, lines, boxes)
 // 5 layout conditions x 1152 environments   6 terms ABAP x 48 environments   7 ABAP standards   8 condition reader vs raw XML
-// 9 reproducibility (regenerating changes nothing)   10 context graph and bindings
+// 9 reproducibility (regenerating changes nothing)   10 context graph and bindings   11 S12 conversion map covers every legacy node
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -56,6 +56,7 @@ function a2() {
   const c = sh([`${BOLT}/sfp_check.mjs`, 'context', 'src/zmmcg_po_sf_adt.sfpf.xml', '--interface', 'src/zmmcg_po_sf_int.sfpi.xml']);
   pass(10, 'Context graph, bound fields exist in the interface', /0 fail/.test(c.stdout), last(c));
 }
+{ const c = sh([path.join(HERE, 'conv_map_check.mjs'), repo]); pass(11, 'S12 conversion map: every legacy node mapped, pattern + status per row, layout objects exist, program lines carried', /RESULT: OK/.test(c.stdout), last(c)); }
 const failed = results.filter((x) => !x[2]);
-console.log(failed.length ? `\nRESULT: ${failed.length} of 10 passes FAILED - do not commit or confirm` : '\nRESULT: all 10 passes OK');
+console.log(failed.length ? `\nRESULT: ${failed.length} of 11 passes FAILED - do not commit or confirm` : '\nRESULT: all 11 passes OK');
 process.exit(failed.length ? 1 : 0);

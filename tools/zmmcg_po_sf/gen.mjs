@@ -17,7 +17,8 @@ const mmn = (v) => `${Math.round(v * 1000) / 1000}mm`;
 // ------------------------------------------------------------------ used context fields
 const USED = new Map();   // flat -> { field: 'WA_VEND-NAME1' }
 const TABLES = new Map(); // table -> Set(columns)
-const flatOf = (n) => n.toUpperCase().replace(/-/g, '_');
+// SFP context node names are at most 30 characters: a label component GS_LABELS-LB_X becomes the node LB_X (the prefix GS_LABELS_ made two names 35 / 36 long: abapGit import "SFPF deserialization error: Invalid request")
+const flatOf = (n) => n.toUpperCase().replace(/^GS_LABELS-/, '').replace(/-/g, '_');
 function useField(name) {
   const up = name.toUpperCase();
   const flat = flatOf(up);
@@ -254,7 +255,7 @@ const bAll = { t: true, r: true, b: true, l: true, fill: null };
 const GREY = [176, 176, 176];
 
 const bindXml = (ref) => `<bind match="dataRef" ref="${ref}"/><connect connection="${CONN}" ref="$.${ref.replace(/^\$record\./, '').replace(/^\$\./, '')}" usage="importOnly"/>`;
-const readyEvt = (script) => `<event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc">${X(script)}</script></event>`;
+const readyEvt = (script) => `<event activity="ready" name="event__ready" ref="$form"><script contentType="application/x-formcalc" runAt="server">${X(script)}</script></event>`;
 const calc = (script) => `<calculate><script contentType="application/x-formcalc">${X(script)}</script></calculate><bind match="none"/>`;
 
 const UI = (spec) => (spec.single ? '<ui><textEdit/></ui>' : '<ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui>');
@@ -692,6 +693,14 @@ function commentsBlock() {
 
 // ---- page areas
 const LOGO_PNG = fs.readFileSync(path.join(repo, 'docs/global_data/logos/DANGOTE_LOGO_WHITE.wizard.png.b64'), 'utf8').trim();
+// watermark: the legacy alternative (TRUE: LV_FLAG = 'Y' -> Approved PO, FALSE -> UnApproved PO) is one prepared label (S12 P13 + P16)
+const WM = (() => {
+  SCOPE = 'HDR';
+  const sl = slot(liveTexts(win('WATER_MARK')));
+  if (sl.kind !== 'calc' || !sl.abap) throw new Error('watermark alternative not read as a computed text');
+  const id = registerLabel('WATERMARK', sl);
+  return { ref: useField(`GS_LABELS-${id}`), def: sl.def || 'UnApproved PO' };
+})();
 function pageArea(id, first, ca, wm) {
   open(`<pageArea id="${id}" name="${id}">`);
   w(`<contentArea h="${mmn(ca.h)}" name="CA${first ? 1 : 2}" w="${mmn(ca.w)}" x="${mmn(ca.x)}" y="${mmn(ca.y)}"/>`);
@@ -699,8 +708,7 @@ function pageArea(id, first, ca, wm) {
   // no window frame: the legacy printout draws no frame for the main window (or for DELVRY_ADD) although the export
   // flags it; the outer lines of the items / totals / terms block are the left and right edges of the rows
   // WATER_MARK
-  const useLV = useField('LV_FLAG');
-  w(`<field h="6mm" name="WATER_MARK" w="${mmn(toMM(wm.w))}" x="${mmn(toMM(wm.left))}" y="${mmn(toMM(wm.top) + 1.4)}"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="12pt" typeface="Courier New"><fill><color value="176,176,176"/></fill></font><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/><para hAlign="center" vAlign="top"/><value><text>UnApproved PO</text></value><calculate><script contentType="application/x-formcalc">${X(`if (${rec(useLV)} eq "Y") then $ = "Approved PO" else $ = "UnApproved PO" endif`)}</script></calculate><bind match="none"/></field>`);
+  w(`<field h="6mm" name="WATER_MARK" w="${mmn(toMM(wm.w))}" x="${mmn(toMM(wm.left))}" y="${mmn(toMM(wm.top) + 1.4)}"><ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui><font size="12pt" typeface="Courier New"><fill><color value="176,176,176"/></fill></font><margin bottomInset="0mm" leftInset="0mm" rightInset="0mm" topInset="0mm"/><para hAlign="center" vAlign="top"/><value><text>${X(WM.def)}</text></value>${bindXml(`$record.${WM.ref}`)}</field>`);
   if (first) {
     const lg = win('LOGO').win;
     if (LOGO_PNG) w(`<draw h="16.8mm" name="LOGO" w="29.6mm" x="${mmn(toMM(lg.left) + 0.1)}" y="${mmn(toMM(lg.top) + 0.1)}"><value><image aspect="fit" contentType="image/png">${LOGO_PNG}</image></value></draw>`);
@@ -776,4 +784,5 @@ ddLines.push('</data>', '</dd:dataDescription>', '</xfa:datasets>');
 xdp = xdp.replace(/<xfa:datasets[\s\S]*?<\/xfa:datasets>/, () => ddLines.join(NL));
 fs.writeFileSync(file, xdp, 'utf8');
 fs.writeFileSync(path.join(repo, 'docs/legacy_grab/zmmcg_po_sf_context_fields.json'), JSON.stringify({ flat: Object.fromEntries(USED), tables: Object.fromEntries([...TABLES].map(([k2, v]) => [k2, [...v]])) }, null, 1));
+{ const longNames = [...USED.keys()].filter((k) => k.length > 30); if (longNames.length) { console.error(`Context node names over 30 characters: ${longNames.join(', ')}`); process.exit(1); } }
 console.log(`layout written: ${out.length} lines; ${USED.size} flat fields, ${TABLES.size} tables`);

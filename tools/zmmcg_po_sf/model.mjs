@@ -20,6 +20,11 @@ function condItems(condEl) {
   }
   return out;
 }
+const INVERSE = { '=': '<>', '<>': '=', '>': '<=', '<': '>=', '>=': '<', '<=': '>' };
+function negate(items) {
+  if (items.length !== 1) throw new Error('alternative with a compound condition: the FALSE branch needs De Morgan - not implemented, extend model.mjs negate() and fc_sim.mjs');
+  return [{ ...items[0], lop: '', cop: INVERSE[items[0].cop] }];
+}
 const unq = (s) => (/^'.*'$/.test(s) ? s.slice(1, -1) : s);
 
 function borders(c) {
@@ -61,6 +66,7 @@ export function loadModel(xmlPath) {
         out.lineOrder =k(k1(o, 'DYNLINES'), 'item').map((i) => t(i, 'NAME'));
       }
       if (out.kind === 'WINDOW') out.wtype = t(o, 'WTYPE');
+      if (out.kind === 'EVENT') out.evtype = t(o, 'EVTYPE');
       if (out.kind === 'CODE') out.codeLines = k(k1(o, 'CODE'), 'item').map((i) => i.text);
     }
     if (oa && out.kind === 'WINDOW') {
@@ -70,6 +76,15 @@ export function loadModel(xmlPath) {
     }
     if (o) { const pc = k1(o, 'sf:PROC_CTRL'); const rc = pc && k1(pc, 'sf:NODE'); if (rc) for (const c of succ(rc)) out.children.push(build(c)); }
     for (const c of succ(n)) out.children.push(build(c));
+    // an alternative (node type CD) keeps its condition on the object: the TRUE branch (event +) needs it, the FALSE branch (event -) its negation
+    if (out.type === 'CD') {
+      const alt = condItems(holder);
+      for (const ev of out.children) {
+        if (ev.kind !== 'EVENT') continue;
+        if (!alt.length) { ev.altEmpty = true; continue; }
+        ev.cond = [...ev.cond, ...(ev.evtype === '-' ? negate(alt) : alt)];
+      }
+    }
     return out;
   }
   const page = k1(root, 'sf:PAGETREE') ?? (function find(e) { if (e.name === 'sf:PAGETREE') return e; for (const c of e.children) { const r = find(c); if (r) return r; } }(root));
@@ -95,6 +110,7 @@ export const liveItems = (items) => items.filter((i) => !(/^\d+$/.test(i.op1) &&
 export function walkLive(node, fn, acc = [], path = []) {
   const own = node.cond;
   const here = [...acc, ...(own.length ? [own] : [])];
+  if (node.altEmpty) throw new Error(`alternative without condition under ${path.map((p) => p.name).join('/')}: its branches cannot be separated`);
   if (own.length && isDead(own)) return; // permanently disabled branch
   fn(node, here, path);
   for (const c of node.children) walkLive(c, fn, here, [...path, node]);

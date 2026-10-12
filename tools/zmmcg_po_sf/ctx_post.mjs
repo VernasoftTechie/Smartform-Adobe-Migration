@@ -6,7 +6,7 @@ let s = fs.readFileSync(f, 'utf8');
 let n = 0;
 s = s.replace(/(<cls:CL_FP_DATA id="o\d+">\s*<CL_FP_NODE classVersion="1">\s*<ID>[0-9A-F]+<\/ID>\s*)<NAME>([^<]*)<\/NAME>(\s*)<GENERATED\/>/g, (m, pre, name, ws) => {
   n += 1;
-  return `${pre}<NAME>${name.replace(/-/g, '_')}</NAME>${ws}<GENERATED>X</GENERATED>`;
+  return `${pre}<NAME>${name.replace(/^GS_LABELS-/, '').replace(/-/g, '_')}</NAME>${ws}<GENERATED>X</GENERATED>`;
 });
 fs.writeFileSync(f, s, 'utf8');
 console.log(`renamed/flagged ${n} data nodes`);

@@ -83,7 +83,7 @@ function walk(e, hiders) {
   if (e.name === 'field') {
     const calc = e.children.find((c) => c.name === 'calculate');
     const bnd = e.children.find((c) => c.name === 'bind');
-    const lm = /^\$record\.GS_LABELS_(LB_[A-Z0-9_]+)$/.exec(bnd?.attrs.ref ?? '');
+    const lm = /^\$record\.(LB_[A-Z0-9_]+)$/.exec(bnd?.attrs.ref ?? '');
     if (lm) items.push({ kind: 'label', id: `gs_labels-${lm[1].toLowerCase()}`, hiders: h, name: e.attrs.name });
     if (calc) items.push({ kind: 'calc', script: calc.children.find((c) => c.name === 'script').text, hiders: h, name: e.attrs.name });
   } else if (e.name === 'draw') {

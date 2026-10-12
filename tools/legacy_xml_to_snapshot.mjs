@@ -44,7 +44,7 @@ const unitVal = (o, key) => {
 
 const NODE_LABEL = {
   RP: 'form root', PA: 'page', WI: 'window', RC: 'window content', SE: 'section', EV: 'event', TI: 'text',
-  GR: 'graphic', CO: 'program lines', AL: 'alternative', LO: 'loop', CM: 'command', ST: 'complex section',
+  GR: 'graphic', CO: 'program lines', AL: 'alternative', CD: 'alternative', LO: 'loop', CM: 'command', ST: 'complex section',
 };
 // The section kind is identified by its own internal-name prefix (what SMARTFORMS assigns), not by a guessed code letter.
 function sectionKind(name, sectType) {
@@ -59,7 +59,9 @@ function sectionKind(name, sectType) {
 
 function conditionText(condEl) {
   const c = condEl && kid(condEl, 'sf:CONDITION');
-  const items = kids(kid(c, 'COND'), 'item');
+  return conditionItemsText(kids(kid(c, 'COND'), 'item'));
+}
+function conditionItemsText(items) {
   if (!items.length) return '';
   const OPS = { EQ: '=', NE: '<>', GT: '>', LT: '<', GE: '>=', LE: '<=' };
   return items.map((i) => {
@@ -96,6 +98,11 @@ function buildNode(n, ctx) {
       .filter((b) => parseFloat(val(kid(kid(oa, 'BORDER'), b), 'THICKNESS') || '0') > 0)
       .map((b) => b.replace('ATTR', '').toLowerCase());
     if (borders.length) out.borders = borders;
+  }
+  // an alternative (node type CD) keeps its own condition on the object, not on the node: TRUE branch if it holds, FALSE branch otherwise
+  if (o?.name === 'sf:CONDITION') {
+    const alt = conditionItemsText(kids(kid(o, 'COND'), 'item'));
+    if (alt) { out.altCondition = alt; if (/1s*=s*2/.test(alt)) out.constantFalse = true; }
   }
   if (o?.name === 'sf:WINDOW') out.windowType = val(o, 'WTYPE');
   if (o?.name === 'sf:SECTION') {
@@ -198,6 +205,7 @@ function renderTree(node, depth, lines) {
   if (node.width) bits.push(`width ${node.width}`);
   if (node.columns && Object.keys(node.columns).length) bits.push(`line type(s) ${Object.entries(node.columns).map(([k, v]) => `${k}: ${v.join(' / ')}`).join('; ')}`);
   if (node.condition) bits.push(`**only if** ${node.condition}${node.constantFalse ? ' (contains the constant `1 = 2`: branch may be permanently disabled - confirm with the owner)' : ''}`);
+  if (node.altCondition) bits.push(`**TRUE branch if** ${node.altCondition} (FALSE branch otherwise)`);
   if (node.geometry) bits.push(`at left ${node.geometry.left}, top ${node.geometry.top}, ${node.geometry.width} x ${node.geometry.height}`);
   if (node.outStyle) bits.push(`style \`${node.outStyle}\``);
   if (node.borders) bits.push(`borders ${node.borders.join('+')}`);

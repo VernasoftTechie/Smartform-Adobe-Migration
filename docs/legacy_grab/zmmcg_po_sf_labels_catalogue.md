@@ -5,6 +5,7 @@ If the client's label utility (`ZCL_ADOBEFORM_UTILITY=>GET_HEADER_LABELS`) is ad
 
 | Label id | Layout place | Wording per legacy condition (E / F) |
 |---|---|---|
+| `LB_HDR_WATERMARK` | HDR / WATERMARK | **lv_flag = 'Y'**: E "Approved PO"<br>**lv_flag <> 'Y'**: E "UnApproved PO" |
 | `LB_HDR_HEADING` | HDR / HEADING | **v_bsart = 'ZPOR'**: E "RELEASE ORDER"; F "BON DE COMMANDE / RELEASE"<br>**v_bsart = 'ZPOC'**: E "CASH PURCHASE ORDER"; F "BON DE COMMANDE / CASH"<br>**v_bsart = 'ZPOL'**: E "BON DE COMMANDE / LOCAL"<br>**v_bsart = 'ZPOI'**: E "IMPORT PURCHASE ORDER"<br>**v_bsart = 'YCAP'**: E "Capex Purchase Order"; F "CAPEX PURCHASE ORDER"<br>**v_bsart = 'YRAW'**: E "PURCHASE ORDER"<br>**v_bsart = 'ZPOS'**: E "SERVICE PURCHASE ORDER"; F "BON DE COMMANDE / SERVICE"<br>**v_bsart = 'ZPOT' OR v_bsart = 'ZPIC'**: E "STOCK TRANSFER PO" |
 | `LB_FOR_ZPOT_R1C1` | FOR_ZPOT / FOR_ZPOT_R1C1 | E "SAP Supplier Number"; F "Reference Fournisseur" |
 | `LB_FOR_ZPOT_R2C1` | FOR_ZPOT / FOR_ZPOT_R2C1 | E "Supplier Name"; F "Nom du Fournisseur" |
