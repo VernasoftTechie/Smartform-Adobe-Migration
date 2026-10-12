@@ -44,14 +44,12 @@ pass(7, 'ABAP standards: DIL naming, no INSERT / INTO CORRESPONDING, 7.4+ constr
 }
 // 9: regenerating from the export changes nothing
 {
-  const files = ['src/zmmcg_po_sf_adt.sfpf.xdp', 'src/zmmcg_po_sf_int.sfpi.xml', 'docs/legacy_grab/ZMMCG_PO_SF_initialization.abap', 'tools/zmmcg_po_sf/terms_extra.abap', 'docs/legacy_grab/zmmcg_po_sf_context_fields.json'];
-  const h = () => files.map((f) => crypto.createHash('sha1').update(fs.readFileSync(path.join(repo, f), 'utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 8));
+  const files = ['src/zmmcg_po_sf_adt.sfpf.xdp', 'src/zmmcg_po_sf_adt.sfpf.xml', 'src/zmmcg_po_sf_int.sfpi.xml', 'docs/legacy_grab/ZMMCG_PO_SF_initialization.abap', 'tools/zmmcg_po_sf/terms_extra.abap', 'tools/zmmcg_po_sf/labels_extra.abap', 'docs/legacy_grab/zmmcg_po_sf_context_fields.json', 'docs/legacy_grab/zmmcg_po_sf_context_spec.json', 'docs/legacy_grab/zmmcg_po_sf_labels_catalogue.md'];
+  const h = () => files.map((f) => crypto.createHash('sha1').update(fs.readFileSync(path.join(repo, f), 'utf8').replace(/\r\n/g, '\n').replace(/<ID>[0-9A-F]+<\/ID>/g, '<ID/>')) /* SFP node ids are random */.digest('hex').slice(0, 8));
   const before = h();
-  const g1 = sh([path.join(HERE, 'terms_gen.mjs'), repo]);
-  const g2 = sh([path.join(HERE, 'finalize_interface.mjs'), repo], { SCRATCH_OUT: path.join(repo, '..') });
-  const g3 = sh([path.join(HERE, 'gen.mjs'), repo], { BASELINE: baseline });
+  const g = sh([path.join(HERE, 'build_all.mjs'), repo]);
   const after = h();
-  pass(9, 'reproducibility: terms_gen + finalize_interface + gen reproduce the committed files', g1.status === 0 && g2.status === 0 && g3.status === 0 && before.join() === after.join(), before.join() === after.join() ? 'identical' : `changed: ${files.filter((f, i) => before[i] !== after[i]).join(', ')}`);
+  pass(9, 'reproducibility: build_all (terms, layout, labels, interface, Context) reproduces the committed files', g.status === 0 && before.join() === after.join(), before.join() === after.join() ? 'identical' : `changed: ${files.filter((f, i) => before[i] !== after[i]).join(', ')}`);
 }
 a2();
 function a2() {

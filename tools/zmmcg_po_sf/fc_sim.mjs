@@ -6,6 +6,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parseXml } from '../xmlmini.mjs';
+import { runAbap } from './abap_mini.mjs';
+// labels as data: the computed texts come from the generated ABAP (the terms block sets lv_fr, the labels block follows it)
+const ABAP_SRC = ['terms_extra.abap', 'labels_extra.abap'].map((x) => fs.readFileSync(new URL(`./${x}`, import.meta.url), 'utf8')).join('\n');
 
 const repo = process.argv[2];
 const xdp = parseXml(fs.readFileSync(path.join(repo, 'src/zmmcg_po_sf_adt.sfpf.xdp'), 'utf8'));
@@ -79,6 +82,9 @@ function walk(e, hiders) {
   }
   if (e.name === 'field') {
     const calc = e.children.find((c) => c.name === 'calculate');
+    const bnd = e.children.find((c) => c.name === 'bind');
+    const lm = /^\$record\.GS_LABELS_(LB_[A-Z0-9_]+)$/.exec(bnd?.attrs.ref ?? '');
+    if (lm) items.push({ kind: 'label', id: `gs_labels-${lm[1].toLowerCase()}`, hiders: h, name: e.attrs.name });
     if (calc) items.push({ kind: 'calc', script: calc.children.find((c) => c.name === 'script').text, hiders: h, name: e.attrs.name });
   } else if (e.name === 'draw') {
     const t = e.children.find((c) => c.name === 'value')?.children.find((c) => c.name === 'text');
@@ -153,13 +159,14 @@ for (const bsart of TYPES) for (const flag of ['X', 'Y']) for (const langu of ['
   envs += 1;
   const base = { V_BSART: bsart, V_FLAG: flag, GV_LANGU: langu, V_WAERS: waers, V_POTEXT: potext, GV_INCO1: inco[0], GV_INCO2: inco[1], LV_FLAG: lvflag };
   const placeholder = (n) => `<${(TOKMAP[n.toUpperCase()] ?? n).toUpperCase().replace(/-/g, '_')}>`;
-  const lget = (n) => { const u = n.toUpperCase(); if (u === 'SY-LANGU') return langu; return u in base ? base[u] : `<${u.replace(/-/g, '_')}>`; };
+  const lget = (n) => { const u = n.toUpperCase(); if (u === 'SY-LANGU') return langu; return u in base ? base[u] : `<${u}>`; };
   const env = { val: (n) => (n in base ? base[n] : `<${n}>`) };
   // actual: every visible computed / static text of the layout
   const actual = new Set();
+  const abap = runAbap(ABAP_SRC, { v_bsart: bsart, v_flag: flag, gv_langu: langu, v_waers: waers, v_potext: potext, gv_inco1: inco[0], gv_inco2: inco[1], lv_flag: lvflag });
   for (const it of items) {
     if (it.hiders.some((h) => run(h, env).hidden)) continue;
-    const t = it.kind === 'calc' ? run(it.script, env).out : it.text;
+    const t = it.kind === 'calc' ? run(it.script, env).out : (it.kind === 'label' ? abap.vars[it.id] : it.text);
     if (t !== null && String(t).trim() !== '') actual.add(String(t).replace(/\r/g, '').trim());
   }
   // expected: every live text of the legacy export (terms are prepared by the Initialization and not in the layout)
@@ -174,7 +181,8 @@ for (const bsart of TYPES) for (const flag of ['X', 'Y']) for (const langu of ['
   const key = (s) => s.replace(/\s+/g, ' ').trim();
   const A = new Set([...actual].map(key)); const E2 = new Set([...exp].map(key));
   // only labels / headings (texts without a data token) are compared: tokens print through different, equivalent paths (prepared values)
-  const noTok = (s) => !/<[A-Z0-9_]+>/.test(s);
+  const ROW_BUILT = new Set(["<G_TXZ01>(<WA_ESLL-KTEXT1>)", "<WA_EKPO-TXZ01> (<MATDESC>)"]); // item descriptions are built per row by the Initialization (GT_GOODS / GT_SERVICE)
+  const noTok = (s) => !/^<[A-Z0-9_-]+>$/.test(s) && !ROW_BUILT.has(s); // a text that is only a bound data value is bound directly; every other text is compared
   for (const e of E2) if (noTok(e) && !A.has(e) && !seen.has(`m${bsart}${flag}${langu}${e}`)) { seen.add(`m${bsart}${flag}${langu}${e}`); bad.push(`MISSING ${bsart}/${flag}/${langu}/${waers}/pot=${potext}/inco=${inco.join('+')}: legacy prints "${e.slice(0, 60)}" - layout does not`); }
   for (const a of A) if (noTok(a) && !E2.has(a) && !seen.has(`x${bsart}${flag}${langu}${a}`)) { seen.add(`x${bsart}${flag}${langu}${a}`); bad.push(`EXTRA ${bsart}/${flag}/${langu}/${waers}/pot=${potext}/inco=${inco.join('+')}: layout prints "${a.slice(0, 60)}" - legacy does not`); }
 }

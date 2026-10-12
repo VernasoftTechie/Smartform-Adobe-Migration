@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
 STATUS: waiting_manual
-UPDATED: 2026-10-12T11:10:03.260Z
+UPDATED: 2026-10-12T11:23:17.991Z
 WAITING_ON: operator
-NOTE: Layout and interface re-verified (ten independent checks, all green) - in abapGit pull the WHOLE branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT (the interface changed: terms and item numbers are prepared in the Initialization), activate the interface first and report any error with its line, then the form; preview the ZPOS sample against the legacy PDF; please also answer the questions at the end of the latest entry.
+NOTE: Labels are now data (GS_LABELS, as in your form ZSDAF_V3_SEA001) - interface, Context AND layout changed: in abapGit pull the WHOLE branch onto ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT, activate the interface first (report any error with its line), then the form; the Design View now shows every label; preview the ZPOS sample against the legacy PDF and answer the questions of the previous entry.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -470,3 +470,22 @@ Each checker was tested once by breaking the code on purpose (it fails then).
 2. Activate the form, open the Layout (Design View) and report warnings or overflow badges.
 3. Preview the ZPOS sample (18 items, unapproved) against the legacy PDF; then an order with more than 60 items (3 pages), an import (ZPOI), a local (ZPOL) and a stock transfer (ZPOT).
 4. Answer the four questions above, and confirm or use "Change requested" (order type, place on the page, what the legacy shows, what the new form shows).
+
+## 2026-10-12T11:23:17.991Z — Labels as data applied (your reference form ZSDAF_V3_SEA001)
+Done first, as you asked: every text of the layout that depends on order type or language is now **data prepared by the Initialization**, not a script in the layout.
+
+**What changed**
+- New structure `GS_LABELS` (type `TY_S_LABELS`, 54 string components `LB_*`): title, supplier / detail grid labels (standard and stock-transfer), item table headings (goods and service), totals labels, amount-in-words line, telephone / fax / country / "Last Changed On" lines. Filled in the Initialization by a generated block (`COND string( WHEN <legacy condition> THEN <English / French text> ... )`, ABAP 7.4) from the legacy text nodes: same conditions, same wording, same language rule (French for ZPOL / ZPOS, English for ZPOI, otherwise the logon language).
+- The layout binds `$record.GS_LABELS_LB_*`; every label field carries the sample wording as default text, so the **Design View shows all labels**. FormCalc scripts in the layout: **63 → 9** (seven `ready` hides and the two watermark scripts, one per page area).
+- Context: 98 flat data nodes and 5 table loops (generated from what the layout binds). Initialization: 1781 lines (the new ~570 lines are the generated label block).
+- Catalogue of every label id with its wording per condition: `docs/legacy_grab/zmmcg_po_sf_labels_catalogue.md`.
+
+**Decision taken, please confirm**: I did **not** call `ZCL_ADOBEFORM_UTILITY=>GET_HEADER_LABELS`, because an interface that calls a class missing in this system does not activate and I cannot see your system. The wording is generated from the legacy form instead. If the class and its label table exist and you want the labels maintained there, tell me: the label id is the component name, the catalogue above is the content to load, and the generated block is replaced by the utility call (the layout does not change).
+
+**Checked (all ten passes green)**: the layout against the printout (236 of 236 texts, all lines and boxes), **the generated label ABAP interpreted for 1152 combinations and compared with the legacy export** (every label prints in the right language and under the right order type, nothing else), the terms ABAP (48 combinations), ABAP lint (every symbol the labels use exists in the interface), reproducibility (one command regenerates layout, interface and Context identically). The new ABAP has **not been activated**.
+
+## 2026-10-12T11:23:17.991Z — Action needed from you (SAP)
+1. Pull the whole branch (interface, Context and form changed) onto **ZMMCG_PO_SF_INT** and **ZMMCG_PO_SF_ADT**. Activate the interface first: report any error in the Initialization with its message and line (the label block uses `COND string( )` and string templates with `condense( )`).
+2. Activate the form; in the Design View check that all labels are visible and the block structure is readable; report warnings or overflow badges.
+3. Preview the ZPOS sample against the legacy PDF; then a goods order (ZPOC / ZPOR, English), an import (ZPOI), a local (ZPOL), a stock transfer (ZPOT), with a French and an English logon.
+4. Answer: does the label utility exist and should it be used? (and the other questions of the previous entry)

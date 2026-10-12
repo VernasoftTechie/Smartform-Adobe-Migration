@@ -58,7 +58,7 @@ function cellOf(e, box, opts = {}) {
   if (e.name === 'draw') txt = kid(kid(e, 'value') ?? { children: [] }, 'text')?.text ?? '';
   else {
     const b = kid(e, 'bind'); const ref = b?.attrs.ref ?? '';
-    if (b?.attrs.match === 'dataRef' && ref) { const nm = ref.replace(/^\$record\./, '').replace(/^\$\./, ''); txt = opts.row?.[nm] ?? S[nm] ?? ''; }
+    if (b?.attrs.match === 'dataRef' && ref) { const nm = ref.replace(/^\$record\./, '').replace(/^\$\./, ''); txt = opts.row?.[nm] ?? S[nm] ?? ''; if (txt === '' && /^GS_LABELS_/.test(nm)) txt = kid(kid(e, 'value') ?? { children: [] }, 'text')?.text ?? ''; /* label: the sample wording is its default text */ }
     else txt = kid(kid(e, 'value') ?? { children: [] }, 'text')?.text ?? '';
   }
   // computed fields whose default text is empty because it is a data value: the sample text and the number of lines by field name

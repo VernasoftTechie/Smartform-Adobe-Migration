@@ -9,6 +9,7 @@ const HERE = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z
 const files = [];
 files.push(['init_extra.abap', fs.readFileSync(path.join(HERE, 'init_extra.abap'), 'utf8')]);
 files.push(['terms_extra.abap', fs.readFileSync(path.join(HERE, 'terms_extra.abap'), 'utf8')]);
+files.push(['labels_extra.abap', fs.readFileSync(path.join(HERE, 'labels_extra.abap'), 'utf8')]);
 // our row builders are the add('...') literals of build_init.mjs that are not produced by legacy(...)
 const bi = fs.readFileSync(path.join(HERE, 'build_init.mjs'), 'utf8');
 const mine = [...bi.matchAll(/^add\('((?:[^'\\]|\\.)*)'\);?\s*$/gm)].map((m) => m[1].replace(/\\'/g, "'")).filter((l) => !l.startsWith('*') || l.startsWith('* BOLT'));

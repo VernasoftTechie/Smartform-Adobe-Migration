@@ -79,6 +79,7 @@ add(legacy('%CODE34', { note: '(TABLE_DATA main window: header text F01/EKKO int
 add('');
 add(...extraLines());
 add(...fs.readFileSync(path.join(HERE, 'terms_extra.abap'), 'utf8').split(/\r?\n/).slice(0, -1));
+add(...fs.readFileSync(path.join(HERE, 'labels_extra.abap'), 'utf8').split(/\r?\n/).slice(0, -1));
 
 // ---------------------------------------------------------------- goods PO (V_FLAG = X)
 add('IF v_flag = \'X\'.');

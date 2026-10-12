@@ -136,6 +136,7 @@
       <SFPGDATA><NAME>LV_PKTIM</NAME><TYPING>TYPE</TYPING><TYPENAME>RMPKB-PKTIM</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>LT_LINES</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_TLINE_TAB</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>LS_LINE</NAME><TYPING>TYPE</TYPING><TYPENAME>TLINE</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GS_LABELS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_S_LABELS</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GT_GOODS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_GOODS</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GT_SERVICE</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_T_SERVICE</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
       <SFPGDATA><NAME>GS_TOTALS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_S_TOTALS</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
@@ -201,6 +202,62 @@
       <FPCLINE>         ca    TYPE c LENGTH 40,</FPCLINE>
       <FPCLINE>         total TYPE c LENGTH 40,</FPCLINE>
       <FPCLINE>       END OF ty_s_totals.</FPCLINE>
+      <FPCLINE>TYPES: BEGIN OF ty_s_labels,</FPCLINE>
+      <FPCLINE>         lb_hdr_heading TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r1c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r2c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r3c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r5c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r6c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r7c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r8c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r9c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r10c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_for_zpot_r12c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r1c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r2c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r3c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r4c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r5c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r6c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r7c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r9c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r9c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r10c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r11c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r11c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r12c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_r12c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template4_last_changed TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r1c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r2c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r4c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r5c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r6c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r8c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r9c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r10c1 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_template2_r10c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_goods_h2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_goods_h3 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_goods_h6 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_goods_h7 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_discount_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_frght_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_other_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_sub_total_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_vat_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_total_value_words_words TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_service_h2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_service_h3 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_service_h6 TYPE string,</FPCLINE>
+      <FPCLINE>         lb_gt_service_h7 TYPE string,</FPCLINE>
+      <FPCLINE>         lb__row8_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb__row9_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb__row12_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb__row13_c2 TYPE string,</FPCLINE>
+      <FPCLINE>         lb__row16_words TYPE string,</FPCLINE>
+      <FPCLINE>       END OF ty_s_labels.</FPCLINE>
      </TYPES>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
@@ -344,6 +401,17 @@
       <FPPARAMETER>GT_TERMS</FPPARAMETER>
       <FPPARAMETER>GV_TERMS_TITLE</FPPARAMETER>
       <FPPARAMETER>V_FLAG</FPPARAMETER>
+      <FPPARAMETER>GS_LABELS</FPPARAMETER>
+      <FPPARAMETER>WA_T005T</FPPARAMETER>
+      <FPPARAMETER>GV_ISD</FPPARAMETER>
+      <FPPARAMETER>WA_VEND</FPPARAMETER>
+      <FPPARAMETER>GV_INCO1</FPPARAMETER>
+      <FPPARAMETER>GV_INCO2</FPPARAMETER>
+      <FPPARAMETER>V_POTEXT</FPPARAMETER>
+      <FPPARAMETER>V_WAERS</FPPARAMETER>
+      <FPPARAMETER>WORDS</FPPARAMETER>
+      <FPPARAMETER>LV_KTEXT</FPPARAMETER>
+      <FPPARAMETER>LV_AMT_WORDS</FPPARAMETER>
       <FPPARAMETER>WA_EKPO</FPPARAMETER>
       <FPPARAMETER>MATDESC1</FPPARAMETER>
       <FPPARAMETER>WA_RTEXT</FPPARAMETER>
@@ -351,7 +419,6 @@
       <FPPARAMETER>G_TEXT</FPPARAMETER>
       <FPPARAMETER>MATDESC</FPPARAMETER>
       <FPPARAMETER>LV_MENGE</FPPARAMETER>
-      <FPPARAMETER>V_WAERS</FPPARAMETER>
       <FPPARAMETER>V_KWERT</FPPARAMETER>
       <FPPARAMETER>V2_KWERT</FPPARAMETER>
       <FPPARAMETER>LV_OTH</FPPARAMETER>
@@ -360,18 +427,14 @@
       <FPPARAMETER>LV_NAVS1</FPPARAMETER>
       <FPPARAMETER>V_AMT</FPPARAMETER>
       <FPPARAMETER>AMT_WORDS</FPPARAMETER>
-      <FPPARAMETER>WORDS</FPPARAMETER>
       <FPPARAMETER>LV_DOLLARS</FPPARAMETER>
       <FPPARAMETER>LV_CENTS</FPPARAMETER>
-      <FPPARAMETER>LV_AMT_WORDS</FPPARAMETER>
       <FPPARAMETER>G_CURR_DATE</FPPARAMETER>
       <FPPARAMETER>IT_ESLL</FPPARAMETER>
       <FPPARAMETER>WA_ESLL</FPPARAMETER>
       <FPPARAMETER>G_PACKNO</FPPARAMETER>
       <FPPARAMETER>G_EBELP</FPPARAMETER>
       <FPPARAMETER>G_TXZ01</FPPARAMETER>
-      <FPPARAMETER>GV_INCO1</FPPARAMETER>
-      <FPPARAMETER>GV_INCO2</FPPARAMETER>
      </INPUT_PARAMETERS>
      <OUTPUT_PARAMETERS>
       <FPPARAMETER>V_SLNO</FPPARAMETER>
@@ -418,6 +481,9 @@
       <FPPARAMETER>LT_LINES</FPPARAMETER>
       <FPPARAMETER>GT_TERMS</FPPARAMETER>
       <FPPARAMETER>GV_TERMS_TITLE</FPPARAMETER>
+      <FPPARAMETER>GS_LABELS</FPPARAMETER>
+      <FPPARAMETER>WORDS</FPPARAMETER>
+      <FPPARAMETER>LV_AMT_WORDS</FPPARAMETER>
       <FPPARAMETER>WA_EKPO</FPPARAMETER>
       <FPPARAMETER>MATDESC1</FPPARAMETER>
       <FPPARAMETER>WA_RTEXT</FPPARAMETER>
@@ -427,8 +493,6 @@
       <FPPARAMETER>LV_MENGE</FPPARAMETER>
       <FPPARAMETER>V_AMT</FPPARAMETER>
       <FPPARAMETER>AMT_WORDS</FPPARAMETER>
-      <FPPARAMETER>WORDS</FPPARAMETER>
-      <FPPARAMETER>LV_AMT_WORDS</FPPARAMETER>
       <FPPARAMETER>G_CURR_DATE</FPPARAMETER>
       <FPPARAMETER>WA_ESLL</FPPARAMETER>
       <FPPARAMETER>G_PACKNO</FPPARAMETER>
@@ -944,6 +1008,575 @@
       <FPCLINE>               ELSE |No variation in this terms and conditions will be accepted.| ) ) TO gt_terms.</FPCLINE>
       <FPCLINE>  ENDIF.</FPCLINE>
       <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>* BOLT: labels and variable texts of the layout prepared here (GS_LABELS-LB_*). Generated by tools/zmmcg_po_sf/gen.mjs from the legacy text nodes,</FPCLINE>
+      <FPCLINE>* conditions and English / French variants; the layout only binds them (strategy S11 section 1). lv_fr = print language is French (set by the terms block above).</FPCLINE>
+      <FPCLINE>"HDR / HEADING</FPCLINE>
+      <FPCLINE>gs_labels-lb_hdr_heading = COND string(</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOT&apos; OR v_bsart = &apos;ZPIC&apos;</FPCLINE>
+      <FPCLINE>                             THEN |STOCK TRANSFER PO|</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOS&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |BON DE COMMANDE / SERVICE|</FPCLINE>
+      <FPCLINE>                                    ELSE |SERVICE PURCHASE ORDER| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;YRAW&apos;</FPCLINE>
+      <FPCLINE>                             THEN |PURCHASE ORDER|</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;YCAP&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |CAPEX PURCHASE ORDER|</FPCLINE>
+      <FPCLINE>                                    ELSE |Capex Purchase Order| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN |IMPORT PURCHASE ORDER|</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                             THEN |BON DE COMMANDE / LOCAL|</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOC&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |BON DE COMMANDE / CASH|</FPCLINE>
+      <FPCLINE>                                    ELSE |CASH PURCHASE ORDER| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOR&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |BON DE COMMANDE / RELEASE|</FPCLINE>
+      <FPCLINE>                                    ELSE |RELEASE ORDER| )</FPCLINE>
+      <FPCLINE>                             ELSE || ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R1C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r1c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Reference Fournisseur|</FPCLINE>
+      <FPCLINE>                               ELSE |SAP Supplier Number| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R2C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r2c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Nom du Fournisseur|</FPCLINE>
+      <FPCLINE>                               ELSE |Supplier Name| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R3C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r3c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Nom du Fournisseur|</FPCLINE>
+      <FPCLINE>                               ELSE |Supplier Name 2| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R5C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r5c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Rue 2|</FPCLINE>
+      <FPCLINE>                               ELSE |Street 2| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R6C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r6c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Rue 3|</FPCLINE>
+      <FPCLINE>                               ELSE |Street 3| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R7C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r7c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Suburb|</FPCLINE>
+      <FPCLINE>                               ELSE |City| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R8C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r8c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Ville|</FPCLINE>
+      <FPCLINE>                               ELSE |District| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R9C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r9c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Pays|</FPCLINE>
+      <FPCLINE>                               ELSE |Country| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R10C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r10c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                THEN |Code Postal|</FPCLINE>
+      <FPCLINE>                                ELSE |Postal/Zip Code| ).</FPCLINE>
+      <FPCLINE>"FOR_ZPOT / FOR_ZPOT_R12C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_for_zpot_r12c1 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                THEN |Numero Fax|</FPCLINE>
+      <FPCLINE>                                ELSE |Fax Number| ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R1C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r1c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Reference Fournisseur|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Reference Fournisseur|</FPCLINE>
+      <FPCLINE>                                       ELSE |SAP Supplier Number| )</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |SAP Suppiler Number|</FPCLINE>
+      <FPCLINE>                                       ELSE |SAP Supplier Number| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R2C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r2c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Nom du Fournisseur|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Supplier Name|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Nom du Fournisseur|</FPCLINE>
+      <FPCLINE>                                       ELSE |Supplier Name| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R3C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r3c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Nom du Fournisseur 2|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Supplier Name 2|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Nom du Fournisseur 2|</FPCLINE>
+      <FPCLINE>                                       ELSE |Supplier Name 2| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R4C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r4c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |No. &amp; Nom de la Rue|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |No. &amp; Street Name|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |No. &amp; Nom de la Rue|</FPCLINE>
+      <FPCLINE>                                       ELSE |No. &amp; Street Name| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R5C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r5c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Rue 2|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Street 2|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Rue 2|</FPCLINE>
+      <FPCLINE>                                       ELSE |Street 2| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R6C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r6c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Rue 3|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Street 3|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Rue 3|</FPCLINE>
+      <FPCLINE>                                       ELSE |Street 3| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R7C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r7c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Ville|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |City|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Ville|</FPCLINE>
+      <FPCLINE>                                       ELSE |City| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R9C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r9c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Pays|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Country|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Pays|</FPCLINE>
+      <FPCLINE>                                       ELSE |Country| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R9C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r9c2 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN gv_langu = &apos;F&apos;</FPCLINE>
+      <FPCLINE>                                THEN |{ wa_t005t-landx }|</FPCLINE>
+      <FPCLINE>                                WHEN gv_langu = &apos;E&apos;</FPCLINE>
+      <FPCLINE>                                THEN |{ wa_t005t-landx50 }|</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R10C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r10c1 = COND string(</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Code Postal|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Postal/Zip Code|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                        THEN |Code Postal|</FPCLINE>
+      <FPCLINE>                                        ELSE |Postal/Zip Code| )</FPCLINE>
+      <FPCLINE>                                 ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R11C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r11c1 = COND string(</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Numero Telephone|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Telephone Number|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                        THEN |Numero Telephone|</FPCLINE>
+      <FPCLINE>                                        ELSE |Telephone Number| )</FPCLINE>
+      <FPCLINE>                                 ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R11C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r11c2 = |+|</FPCLINE>
+      <FPCLINE>                               &amp;&amp; |{ gv_isd }|</FPCLINE>
+      <FPCLINE>                               &amp;&amp; |{ wa_vend-tel_number }|.</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R12C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r12c1 = COND string(</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Numero Fax|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Fax Number|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                        THEN |Numero Fax|</FPCLINE>
+      <FPCLINE>                                        ELSE |Fax Number| )</FPCLINE>
+      <FPCLINE>                                 ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / TEMPLATE4_R12C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_r12c2 = |+|</FPCLINE>
+      <FPCLINE>                               &amp;&amp; |{ gv_isd }|</FPCLINE>
+      <FPCLINE>                               &amp;&amp; |{ wa_vend-fax_number }|.</FPCLINE>
+      <FPCLINE>"TEMPLATE4 / LAST_CHANGED</FPCLINE>
+      <FPCLINE>gs_labels-lb_template4_last_changed = |Last Changed On:|</FPCLINE>
+      <FPCLINE>                                      &amp;&amp; |{ lv_var4 }|.</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R1C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r1c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Date de Bon de Cde.|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |PO Date|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Date de Bon de Cde.|</FPCLINE>
+      <FPCLINE>                                       ELSE |PO Date| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R2C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r2c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Date de Livraison|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Delivery Date|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Date de Livraison|</FPCLINE>
+      <FPCLINE>                                       ELSE |Delivery Date| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R4C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r4c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Nom de l’acheteur|</FPCLINE>
+      <FPCLINE>                                       ELSE |Nom de l&apos;acheteur| )</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Buyer Name|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Nom de l’acheteur|</FPCLINE>
+      <FPCLINE>                                       ELSE |Buyer Name| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R5C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r5c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Numero Telephone|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Telephone Number|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Numero Telephone|</FPCLINE>
+      <FPCLINE>                                       ELSE |Telephone Number| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R6C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r6c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Numero Fax|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Fax Number|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Numero Fax|</FPCLINE>
+      <FPCLINE>                                       ELSE |Fax Number| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R8C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r8c1 = COND string(</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Termes de Paiement|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN |Payment Terms|</FPCLINE>
+      <FPCLINE>                                WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                       THEN |Termes de Paiement|</FPCLINE>
+      <FPCLINE>                                       ELSE |Payment Terms| )</FPCLINE>
+      <FPCLINE>                                ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R9C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r9c2 = |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                              &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                              &amp;&amp; |{ gv_inco2 }|.</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R10C1</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r10c1 = COND string(</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Commentaires|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN |Additional Comments|</FPCLINE>
+      <FPCLINE>                                 WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                 THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                        THEN |Commentaires|</FPCLINE>
+      <FPCLINE>                                        ELSE |Additional Comments| )</FPCLINE>
+      <FPCLINE>                                 ELSE || ).</FPCLINE>
+      <FPCLINE>"TEMPLATE2 / TEMPLATE2_R10C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_template2_r10c2 = COND string(</FPCLINE>
+      <FPCLINE>                                 WHEN v_potext = &apos; &apos;</FPCLINE>
+      <FPCLINE>                                 THEN gv_hdrtxt</FPCLINE>
+      <FPCLINE>                                 ELSE || ).</FPCLINE>
+      <FPCLINE>"GT_GOODS / H2</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_goods_h2 = COND string(</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Material No.|</FPCLINE>
+      <FPCLINE>                                    ELSE |Code Article| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Code Article|</FPCLINE>
+      <FPCLINE>                                    ELSE |Material No.| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Code Article|</FPCLINE>
+      <FPCLINE>                                    ELSE |Material No.| )</FPCLINE>
+      <FPCLINE>                             ELSE || ).</FPCLINE>
+      <FPCLINE>"GT_GOODS / H3</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_goods_h3 = COND string(</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Item Description|</FPCLINE>
+      <FPCLINE>                                    ELSE |Description| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Code Article|</FPCLINE>
+      <FPCLINE>                                    ELSE |Item Description| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Description|</FPCLINE>
+      <FPCLINE>                                    ELSE |Item Description| )</FPCLINE>
+      <FPCLINE>                             ELSE || ).</FPCLINE>
+      <FPCLINE>"GT_GOODS / H6</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_goods_h6 = COND string(</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Unit Price (Excl.VAT)|</FPCLINE>
+      <FPCLINE>                                    ELSE |Prix Unitaire (Excl.TVA)| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Prix Unitaire (Excl.TVA)|</FPCLINE>
+      <FPCLINE>                                    ELSE |Unit Price (Excl.VAT)| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Prix Unitaire (Excl.TVA)|</FPCLINE>
+      <FPCLINE>                                    ELSE |Unit Price (Excl.VAT)| )</FPCLINE>
+      <FPCLINE>                             ELSE || ).</FPCLINE>
+      <FPCLINE>"GT_GOODS / H7</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_goods_h7 = COND string(</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                         &amp;&amp; | Total (Excl.VAT)|</FPCLINE>
+      <FPCLINE>                                    ELSE |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                         &amp;&amp; | Total (Excl.TVA)| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                         &amp;&amp; | Total (Excl.TVA)|</FPCLINE>
+      <FPCLINE>                                    ELSE |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                         &amp;&amp; | Total (Excl.VAT)| )</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                         &amp;&amp; | Total (Excl.TVA)|</FPCLINE>
+      <FPCLINE>                                    ELSE |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                         &amp;&amp; | Total (Excl.VAT)| )</FPCLINE>
+      <FPCLINE>                             ELSE || ).</FPCLINE>
+      <FPCLINE>"DISCOUNT / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_discount_c2 = COND string(</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                             THEN |Remise|</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN |Net Discount|</FPCLINE>
+      <FPCLINE>                             WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                             THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                    THEN |Remise|</FPCLINE>
+      <FPCLINE>                                    ELSE |Net Discount| )</FPCLINE>
+      <FPCLINE>                             ELSE || ).</FPCLINE>
+      <FPCLINE>"FRGHT / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_frght_c2 = COND string(</FPCLINE>
+      <FPCLINE>                          WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                          THEN |Frais de Transport|</FPCLINE>
+      <FPCLINE>                          WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                          THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                 THEN |Frais de Transport|</FPCLINE>
+      <FPCLINE>                                 ELSE |Freight Charges| )</FPCLINE>
+      <FPCLINE>                          WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                          THEN |Freight Charges|</FPCLINE>
+      <FPCLINE>                          ELSE || ).</FPCLINE>
+      <FPCLINE>"OTHER / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_other_c2 = COND string(</FPCLINE>
+      <FPCLINE>                          WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                          THEN |Autres Charges|</FPCLINE>
+      <FPCLINE>                          WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                          THEN |Other Charges|</FPCLINE>
+      <FPCLINE>                          WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                          THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                 THEN |Autres Charges|</FPCLINE>
+      <FPCLINE>                                 ELSE |Other Charges| )</FPCLINE>
+      <FPCLINE>                          ELSE || ).</FPCLINE>
+      <FPCLINE>"SUB_TOTAL / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_sub_total_c2 = COND string(</FPCLINE>
+      <FPCLINE>                              WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                              THEN |SuosTotal|</FPCLINE>
+      <FPCLINE>                              WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                              THEN |Sub Total|</FPCLINE>
+      <FPCLINE>                              WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                              THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                     THEN |Sous Total|</FPCLINE>
+      <FPCLINE>                                     ELSE |Sub Total| )</FPCLINE>
+      <FPCLINE>                              ELSE || ).</FPCLINE>
+      <FPCLINE>"VAT / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb_vat_c2 = COND string(</FPCLINE>
+      <FPCLINE>                        WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                        THEN |TVA|</FPCLINE>
+      <FPCLINE>                        WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                        THEN |VAT|</FPCLINE>
+      <FPCLINE>                        WHEN v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                        THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |TVA|</FPCLINE>
+      <FPCLINE>                               ELSE |VAT| )</FPCLINE>
+      <FPCLINE>                        ELSE || ).</FPCLINE>
+      <FPCLINE>"TOTAL_VALUE_WORDS / WORDS</FPCLINE>
+      <FPCLINE>gs_labels-lb_total_value_words_words = COND string(</FPCLINE>
+      <FPCLINE>                                         WHEN v_bsart = &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                         THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                                THEN |Total Order Value In Words(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                ELSE |Total Order Value In Words(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | basis| )</FPCLINE>
+      <FPCLINE>                                         WHEN v_bsart = &apos;ZIMP&apos; OR v_bsart = &apos;ZLOC&apos;</FPCLINE>
+      <FPCLINE>                                         THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                                THEN |Montant Total en Lettre(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                ELSE |Total Order Value In Words(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | basis| )</FPCLINE>
+      <FPCLINE>                                         WHEN v_bsart = &apos;ZPOL&apos;</FPCLINE>
+      <FPCLINE>                                         THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                                THEN |Montant Total en Lettre(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; cl_abap_char_utilities=&gt;newline</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |basis|</FPCLINE>
+      <FPCLINE>                                                ELSE |Montant Total en Lettre(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | basis| )</FPCLINE>
+      <FPCLINE>                                         WHEN v_bsart &lt;&gt; &apos;ZIMP&apos; AND v_bsart &lt;&gt; &apos;ZLOC&apos; AND v_bsart &lt;&gt; &apos;ZPOL&apos; AND v_bsart &lt;&gt; &apos;ZPOI&apos;</FPCLINE>
+      <FPCLINE>                                         THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                                THEN |Montant Total en Lettre(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                ELSE |Total order Value In Words(|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                                     &amp;&amp; | basis| )</FPCLINE>
+      <FPCLINE>                                         ELSE || ).</FPCLINE>
+      <FPCLINE>"GT_SERVICE / H2</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_service_h2 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Code Article|</FPCLINE>
+      <FPCLINE>                               ELSE |Material No.| ).</FPCLINE>
+      <FPCLINE>"GT_SERVICE / H3</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_service_h3 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Description|</FPCLINE>
+      <FPCLINE>                               ELSE |Item Description| ).</FPCLINE>
+      <FPCLINE>"GT_SERVICE / H6</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_service_h6 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |Prix Unitaire (Excl.TVA)|</FPCLINE>
+      <FPCLINE>                               ELSE |Unit Price (Excl.VAT)| ).</FPCLINE>
+      <FPCLINE>"GT_SERVICE / H7</FPCLINE>
+      <FPCLINE>gs_labels-lb_gt_service_h7 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                               THEN |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                    &amp;&amp; | Total (Excl.TVA)|</FPCLINE>
+      <FPCLINE>                               ELSE |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                    &amp;&amp; | Total (Excl.VAT)| ).</FPCLINE>
+      <FPCLINE>"_ROW8 / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb__row8_c2 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                          THEN |Prix Brut|</FPCLINE>
+      <FPCLINE>                          ELSE |Gross Price| ).</FPCLINE>
+      <FPCLINE>"_ROW9 / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb__row9_c2 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                          THEN |Remise|</FPCLINE>
+      <FPCLINE>                          ELSE |Net Discount| ).</FPCLINE>
+      <FPCLINE>"_ROW12 / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb__row12_c2 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                           THEN |Sous Total|</FPCLINE>
+      <FPCLINE>                           ELSE |Sub Total| ).</FPCLINE>
+      <FPCLINE>"_ROW13 / C2</FPCLINE>
+      <FPCLINE>gs_labels-lb__row13_c2 = COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                           THEN |TVA|</FPCLINE>
+      <FPCLINE>                           ELSE |VAT| ).</FPCLINE>
+      <FPCLINE>"_ROW16 / WORDS</FPCLINE>
+      <FPCLINE>gs_labels-lb__row16_words = COND string(</FPCLINE>
+      <FPCLINE>                              WHEN gv_inco1 &lt;&gt; &apos; &apos; OR gv_inco2 &lt;&gt; &apos; &apos;</FPCLINE>
+      <FPCLINE>                              THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                     THEN |Montant Total en Lettre(|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                     ELSE |Total Order Value In Words(|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | basis| )</FPCLINE>
+      <FPCLINE>                              WHEN gv_inco1 = &apos; &apos; AND gv_inco2 = &apos; &apos;</FPCLINE>
+      <FPCLINE>                              THEN COND string( WHEN lv_fr = abap_true</FPCLINE>
+      <FPCLINE>                                     THEN |Montant Total en Lettre(|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ v_waers }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_amt_words }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ gv_inco1 }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; | |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ gv_inco2 }|</FPCLINE>
+      <FPCLINE>                                     ELSE |Total order Value In Words(|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_ktext }|</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |): |</FPCLINE>
+      <FPCLINE>                                          &amp;&amp; |{ lv_amt_words }| )</FPCLINE>
+      <FPCLINE>                              ELSE || ).</FPCLINE>
       <FPCLINE>IF v_flag = &apos;X&apos;.</FPCLINE>
       <FPCLINE>*==================== goods purchase order (legacy table OTHER_PO over IT_EKPO, V_FLAG = X)</FPCLINE>
       <FPCLINE>  LOOP AT it_ekpo INTO wa_ekpo.</FPCLINE>

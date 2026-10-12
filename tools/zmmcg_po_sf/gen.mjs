@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadModel, walkLive, isDead, liveItems } from './model.mjs';
+import { abapCond, templateOf, chain } from './abap_emit.mjs';
 
 const repo = process.argv[2];
 const SCR = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
@@ -129,7 +130,36 @@ function slot(nodes, opt = {}) {
   const needS = ctx.lg;
   if (needS) { useField('V_BSART'); useField('GV_LANGU'); }
   const script = (needS ? `${PRE_LG}\n` : '') + body.trimEnd();
-  return { kind: 'calc', script, def: defaultText(live) };
+  return { kind: 'calc', script, def: defaultText(live), abap: abapSlot(live, opt) };
+}
+
+// ---- the same computed text as ABAP (labels as data, S11 section 1): COND string( WHEN <legacy condition> THEN <E / F text> ... )
+function abapSlot(live, opt) {
+  const tokens = new Set(); const info = [];
+  const exprs = live.map(({ node, conds }) => {
+    const cond = abapCond(conds);
+    let lines;
+    if (node.ttype === 'I') {
+      const inc = node.include; const v = inc.object === 'EKKO' && inc.id === 'F01' ? 'gv_hdrtxt' : 'gv_term1_zpos';
+      lines = [v]; info.push({ cond, E: `(${v})`, F: `(${v})` });
+    } else {
+      const e = templateOf(node.text.E, opt); const f = node.text.F.length ? templateOf(node.text.F, opt) : e;
+      e.tokens.forEach((t) => tokens.add(t)); f.tokens.forEach((t) => tokens.add(t));
+      info.push({ cond, E: e.text, F: f.text });
+      if (e.toks.join() === f.toks.join()) lines = chain(e.toks, 0);
+      else lines = ['COND string( WHEN lv_fr = abap_true', `  THEN ${chain(f.toks, 7).join('\n')}`, `  ELSE ${chain(e.toks, 7).join('\n')} )`].join('\n').split('\n');
+    }
+    return { cond, lines };
+  });
+  if (exprs.length === 1 && !exprs[0].cond) return { lines: exprs[0].lines, tokens: [...tokens], info };
+  // legacy: the last node whose condition holds wins (as the FormCalc script): WHEN order reversed
+  const out = ['COND string('];
+  [...exprs].reverse().forEach((x) => {
+    out.push(`  WHEN ${x.cond || 'abap_true = abap_true'}`);
+    x.lines.forEach((l, i) => out.push(i === 0 ? `  THEN ${l}` : `       ${l}`));
+  });
+  out.push('  ELSE || )');
+  return { lines: out, tokens: [...tokens], info };
 }
 
 // ---- default (design-time) text of a computed field: the variant that is live for the sample document (order type ZPOS, French,
@@ -165,6 +195,17 @@ function includeRef(node) {
 // ------------------------------------------------------------------ XML writer
 const out = [];
 let ind = 0;
+// labels as data: every computed text is prepared by the Initialization into GS_LABELS-LB_<SCOPE>_<NAME>; the layout binds it
+const LABELS = []; let SCOPE = 'HDR';
+const LABEL_IDS = new Map();
+function registerLabel(name, content) {
+  const short = name.toUpperCase().startsWith(`${SCOPE.toUpperCase()}_`) ? name.slice(SCOPE.length + 1) : name;
+  let id = `LB_${SCOPE}_${short}`.toUpperCase().replace(/[^A-Z0-9_]/g, '_');
+  if (id.length > 30) id = id.slice(0, 30);
+  if (LABEL_IDS.has(id)) { const n = LABEL_IDS.get(id) + 1; LABEL_IDS.set(id, n); id = `${id.slice(0, 27)}_${n}`; } else LABEL_IDS.set(id, 1);
+  LABELS.push({ id, scope: SCOPE, name, abap: content.abap, def: content.def });
+  return id;
+}
 const w = (s) => out.push(`${'  '.repeat(ind)}${s}`);
 const open = (s) => { w(s); ind += 1; };
 const close = (s) => { ind -= 1; w(s); };
@@ -219,7 +260,9 @@ const calc = (script) => `<calculate><script contentType="application/x-formcalc
 const UI = (spec) => (spec.single ? '<ui><textEdit/></ui>' : '<ui><textEdit multiLine="1"><border presence="hidden"/><margin/></textEdit></ui>');
 const textual = (c) => c.kind === 'calc' || c.kind === 'bind' || (c.kind === 'static' && c.text.trim() !== '');
 // one visual cell. spec: { name, w (mm number) | x/y/h for position, content (slot), font, margin, para, b (border obj), minH, h }
-function cellXml(spec) {
+function cellXml(spec0) {
+  let spec = spec0;
+  if (spec.content.kind === 'calc' && spec.content.abap) { const id = registerLabel(spec.name, spec.content); spec = { ...spec, content: { kind: 'bind', ref: useField(`GS_LABELS-${id}`), def: spec.content.def } }; }
   const { kind } = spec.content;
   const attrs = [];
   const dim = `${spec.minH != null ? `minH="${mmn(spec.minH)}"` : ''}${spec.h != null ? `h="${mmn(spec.h)}"` : ''}`;
@@ -230,7 +273,8 @@ function cellXml(spec) {
     w(`<draw ${dim} name="${spec.name}" ${geo}><ui><textEdit/></ui><value><text>${txt}</text></value>${common}</draw>`);
   } else if (kind === 'bind') {
     const col = spec.content.ref;
-    w(`<field ${dim} name="${spec.name}" ${geo}>${UI(spec)}${common}${bindXml(`${spec.relative ? '$.' : '$record.'}${col}`)}</field>`);
+    const dvb = spec.content.def ? `<value><text>${X(spec.content.def).split('\n').join('&#10;')}</text></value>` : '';
+    w(`<field ${dim} name="${spec.name}" ${geo}>${UI(spec)}${common}${dvb}${bindXml(`${spec.relative ? '$.' : '$record.'}${col}`)}</field>`);
   } else {
     const dv = spec.content.def ? `<value><text>${X(spec.content.def).split('\n').join('&#10;')}</text></value>` : '';
     w(`<field ${dim} name="${spec.name}" ${geo}>${UI(spec)}${common}${dv}${calc(spec.content.script)}</field>`);
@@ -308,6 +352,7 @@ function posSub(name, x, y, wd, h, body, extra = '') {
 
 // ---- grid window (SUPPLIER_ADD / PO_DETAIL): template sections as position grids
 function gridSection(sect, name, x, y, cond, opts = {}) {
+  SCOPE = name;
   const slots = templateSlots(sect);
   const widths = colWidthsOf(sect).map(toMM);
   const lts = [...lineTypes(sect).entries()];
@@ -414,7 +459,7 @@ function header() {
 }
 
 // ---- tables ------------------------------------------------------------------------------
-function tableOpen(name, widthsMm) { open(`<subform columnWidths="${widthsMm.map(mmn).join(' ')}" layout="table" name="${name}">`); }
+function tableOpen(name, widthsMm) { SCOPE = name; open(`<subform columnWidths="${widthsMm.map(mmn).join(' ')}" layout="table" name="${name}">`); }
 function rowOpen(name, kind, extra = '') { open(`<subform layout="row" name="${name}">`); w(`<assist role="${kind}"/>`); if (extra) w(extra); }
 
 // one-row table made of a legacy section row (R) with cells from its line type
@@ -680,6 +725,40 @@ buildSection(servT, 'service');
 w('<bind match="none"/>');
 close('</subform>');
 
+
+// ---- keep only the Context fields the layout really references (computed texts moved to GS_LABELS)
+{
+  const text = out.join('\n');
+  const ref = new Set([...text.matchAll(/\$record\.([A-Z0-9_]+)/g)].map((m) => m[1]));
+  for (const k2 of [...USED.keys()]) if (!ref.has(k2)) USED.delete(k2);
+}
+
+// ---- labels as data: the generated Initialization block, the structure type, the catalogue (label id, use, wording per condition)
+{
+  const lines = ['* BOLT: labels and variable texts of the layout prepared here (GS_LABELS-LB_*). Generated by tools/zmmcg_po_sf/gen.mjs from the legacy text nodes,',
+    '* conditions and English / French variants; the layout only binds them (strategy S11 section 1). lv_fr = print language is French (set by the terms block above).'];
+  for (const l of LABELS) {
+    const comp = `gs_labels-${l.id.toLowerCase()}`;
+    lines.push(`"${l.scope} / ${l.name}`);
+    l.abap.lines.forEach((x, i) => lines.push(i === 0 ? `${comp} = ${x}` : `${' '.repeat(comp.length + 3)}${x}`));
+    lines[lines.length - 1] += '.';
+  }
+  lines.push('');
+  fs.writeFileSync(path.join(SCR, 'labels_extra.abap'), lines.join('\n').split('\n').map((x) => x.replace(/\s+$/, '')).join('\n'), 'utf8');
+  fs.writeFileSync(path.join(SCR, 'labels_spec.json'), JSON.stringify({ fields: LABELS.map((l) => l.id) }, null, 1));
+  const md = ['# ZMMCG_PO_SF - label catalogue (GS_LABELS)', '', 'Generated by `tools/zmmcg_po_sf/gen.mjs`. Every computed text of the layout is a component of `GS_LABELS` (type `TY_S_LABELS`), filled in the Initialization from the legacy text nodes.',
+    'If the client\'s label utility (`ZCL_ADOBEFORM_UTILITY=>GET_HEADER_LABELS`) is adopted, the component name (lower case) is the label id and the wording below is the content to maintain per language.', '',
+    '| Label id | Layout place | Wording per legacy condition (E / F) |', '|---|---|---|'];
+  for (const l of LABELS) {
+    const alts = l.abap.info.map((v) => `${v.cond ? `**${v.cond}**: ` : ''}E "${v.E.replace(/\n/g, ' / ')}"${v.F !== v.E ? `; F "${v.F.replace(/\n/g, ' / ')}"` : ''}`).join('<br>');
+    md.push(`| \`${l.id}\` | ${l.scope} / ${l.name} | ${alts.replace(/\|/g, '\\|')} |`);
+  }
+  fs.writeFileSync(path.join(repo, 'docs/legacy_grab/zmmcg_po_sf_labels_catalogue.md'), md.join('\n') + '\n', 'utf8');
+  // Context spec (what the layout binds) for sfp_context.mjs
+  const nodes = [...USED.values()].map((u) => ({ kind: 'scalar', field: u.field }));
+  for (const [tb, cols] of TABLES) nodes.push({ kind: 'loop', table: tb, workArea: tb, fields: [...cols] });
+  fs.writeFileSync(path.join(repo, 'docs/legacy_grab/zmmcg_po_sf_context_spec.json'), JSON.stringify({ nodes }, null, 2));
+}
 
 // ---- patch the client's baseline: only pageSet + body (everything outside <template> kept; dataDescription generated)
 const file = path.join(repo, 'src/zmmcg_po_sf_adt.sfpf.xdp');

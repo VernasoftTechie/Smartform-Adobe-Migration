@@ -10,7 +10,7 @@
     },
     {
       "kind": "scalar",
-      "field": "GV_LANGU"
+      "field": "GS_LABELS-LB_HDR_HEADING"
     },
     {
       "kind": "scalar",
@@ -18,11 +18,23 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R1C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LV_RESWK"
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R2C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LS_ADRC-NAME1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R3C1"
     },
     {
       "kind": "scalar",
@@ -34,7 +46,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R5C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LS_ADRC-STR_SUPPL1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R6C1"
     },
     {
       "kind": "scalar",
@@ -42,7 +62,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R7C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LS_ADRC-CITY1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R8C1"
     },
     {
       "kind": "scalar",
@@ -50,7 +78,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R9C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LV_LAND"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R10C1"
     },
     {
       "kind": "scalar",
@@ -62,7 +98,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FOR_ZPOT_R12C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LS_ADRC-FAX_NUMBER"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R1C1"
     },
     {
       "kind": "scalar",
@@ -70,7 +114,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R2C1"
+    },
+    {
+      "kind": "scalar",
       "field": "WA_VEND-NAME1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R3C1"
     },
     {
       "kind": "scalar",
@@ -78,7 +130,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R4C1"
+    },
+    {
+      "kind": "scalar",
       "field": "WA_VEND-STREET"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R5C1"
     },
     {
       "kind": "scalar",
@@ -86,7 +146,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R6C1"
+    },
+    {
+      "kind": "scalar",
       "field": "WA_VEND-STR_SUPPL2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R7C1"
     },
     {
       "kind": "scalar",
@@ -98,11 +166,15 @@
     },
     {
       "kind": "scalar",
-      "field": "WA_T005T-LANDX50"
+      "field": "GS_LABELS-LB_TEMPLATE4_R9C1"
     },
     {
       "kind": "scalar",
-      "field": "WA_T005T-LANDX"
+      "field": "GS_LABELS-LB_TEMPLATE4_R9C2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R10C1"
     },
     {
       "kind": "scalar",
@@ -110,15 +182,19 @@
     },
     {
       "kind": "scalar",
-      "field": "GV_ISD"
+      "field": "GS_LABELS-LB_TEMPLATE4_R11C1"
     },
     {
       "kind": "scalar",
-      "field": "WA_VEND-TEL_NUMBER"
+      "field": "GS_LABELS-LB_TEMPLATE4_R11C2"
     },
     {
       "kind": "scalar",
-      "field": "WA_VEND-FAX_NUMBER"
+      "field": "GS_LABELS-LB_TEMPLATE4_R12C1"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE4_R12C2"
     },
     {
       "kind": "scalar",
@@ -126,11 +202,19 @@
     },
     {
       "kind": "scalar",
-      "field": "LV_VAR4"
+      "field": "GS_LABELS-LB_TEMPLATE4_LAST_CHANGED"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE2_R1C1"
     },
     {
       "kind": "scalar",
       "field": "PODATE"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE2_R2C1"
     },
     {
       "kind": "scalar",
@@ -142,11 +226,23 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE2_R4C1"
+    },
+    {
+      "kind": "scalar",
       "field": "G_ERNAME"
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE2_R5C1"
+    },
+    {
+      "kind": "scalar",
       "field": "V_BUYERTELE"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE2_R6C1"
     },
     {
       "kind": "scalar",
@@ -158,15 +254,19 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_TEMPLATE2_R8C1"
+    },
+    {
+      "kind": "scalar",
       "field": "LV_VTEXT"
     },
     {
       "kind": "scalar",
-      "field": "GV_INCO1"
+      "field": "GS_LABELS-LB_TEMPLATE2_R9C2"
     },
     {
       "kind": "scalar",
-      "field": "GV_INCO2"
+      "field": "GS_LABELS-LB_TEMPLATE2_R10C1"
     },
     {
       "kind": "scalar",
@@ -174,7 +274,7 @@
     },
     {
       "kind": "scalar",
-      "field": "GV_HDRTXT"
+      "field": "GS_LABELS-LB_TEMPLATE2_R10C2"
     },
     {
       "kind": "scalar",
@@ -182,7 +282,23 @@
     },
     {
       "kind": "scalar",
-      "field": "V_WAERS"
+      "field": "GS_LABELS-LB_GT_GOODS_H2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_GOODS_H3"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_GOODS_H6"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_GOODS_H7"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_DISCOUNT_C2"
     },
     {
       "kind": "scalar",
@@ -190,7 +306,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_FRGHT_C2"
+    },
+    {
+      "kind": "scalar",
       "field": "GS_TOTALS-FRG"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_OTHER_C2"
     },
     {
       "kind": "scalar",
@@ -198,7 +322,15 @@
     },
     {
       "kind": "scalar",
+      "field": "GS_LABELS-LB_SUB_TOTAL_C2"
+    },
+    {
+      "kind": "scalar",
       "field": "GS_TOTALS-SUB"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_VAT_C2"
     },
     {
       "kind": "scalar",
@@ -214,11 +346,31 @@
     },
     {
       "kind": "scalar",
-      "field": "LV_KTEXT"
+      "field": "GS_LABELS-LB_TOTAL_VALUE_WORDS_WORDS"
     },
     {
       "kind": "scalar",
-      "field": "LV_AMT_WORDS"
+      "field": "GV_TERMS_TITLE"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_SERVICE_H2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_SERVICE_H3"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_SERVICE_H6"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB_GT_SERVICE_H7"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB__ROW8_C2"
     },
     {
       "kind": "scalar",
@@ -226,7 +378,19 @@
     },
     {
       "kind": "scalar",
-      "field": "GV_TERMS_TITLE"
+      "field": "GS_LABELS-LB__ROW9_C2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB__ROW12_C2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB__ROW13_C2"
+    },
+    {
+      "kind": "scalar",
+      "field": "GS_LABELS-LB__ROW16_WORDS"
     },
     {
       "kind": "loop",
@@ -260,6 +424,15 @@
     },
     {
       "kind": "loop",
+      "table": "GT_TERMS",
+      "workArea": "GT_TERMS",
+      "fields": [
+        "SLNO",
+        "TEXT"
+      ]
+    },
+    {
+      "kind": "loop",
       "table": "GT_SERVICE",
       "workArea": "GT_SERVICE",
       "fields": [
@@ -270,15 +443,6 @@
         "MEINS",
         "UNITPR",
         "TOTAL"
-      ]
-    },
-    {
-      "kind": "loop",
-      "table": "GT_TERMS",
-      "workArea": "GT_TERMS",
-      "fields": [
-        "SLNO",
-        "TEXT"
       ]
     }
   ]

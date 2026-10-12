@@ -115,7 +115,11 @@ check(!outside.length, 'positioned children lie inside their parent subform', `p
 const M = loadModel(path.join(repo, 'vernasofttechie-zmmcg_po_sf/zmmcg_po_sf.xml'));
 // the terms texts are prepared by the Initialization (terms_gen.mjs): join the chunked ABAP string templates and add them
 const termsAbap = fs.readFileSync(new URL('./terms_extra.abap', import.meta.url), 'utf8').replace(/\|\s*\n\s*&&\s*\|/g, '').replace(/\\([|{}\\])/g, '$1');
-const hay = `${tpl}\n${termsAbap}`.replace(/&#10;/g, '\n').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\\"/g, '"').replace(/\\u000a/g, '\n');
+// labels as data: the computed texts are prepared by the generated labels ABAP (gen.mjs)
+const labelsRaw = fs.readFileSync(new URL('./labels_extra.abap', import.meta.url), 'utf8');
+const labelsAbap = labelsRaw.replace(/\|\s*\n\s*&&\s*\|/g, '').replace(/\\([|{}\\])/g, '$1');
+const abapTokens = new Set([...labelsRaw.matchAll(/\{ (?:condense\( )?([a-z0-9_-]+)/g)].map((m) => m[1].toUpperCase()));
+const hay = `${tpl}\n${termsAbap}\n${labelsAbap}`.replace(/&#10;/g, '\n').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\\"/g, '"').replace(/\\u000a/g, '\n');
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
 const nh = norm(hay);
 const cleanTags = (s) => s.replace(/<\(>/g, '').replace(/<\)>/g, '').replace(/<\/>/g, '').replace(/<[A-Z]\d>/g, '');
@@ -138,7 +142,7 @@ const REPLACED = new Set(['LV_MENGE', 'LV_UNITPRICE1', 'LV_TOTAL1', 'WA_EKPO-MAT
 const printed = new Set();
 walkLive(M, (n) => { if (n.kind === 'TEXT' && n.ttype !== 'I') for (const lang of ['E', 'F']) for (const { line } of n.text[lang]) for (const m of cleanTags(line).matchAll(/&([A-Za-z_][A-Za-z0-9_-]*)(\([A-Za-z]+\))?&/g)) printed.add(m[1].toUpperCase()); });
 const flatNames = new Set([...ctxTop].map((x) => x.toUpperCase()));
-const unbound = [...printed].filter((p) => !REPLACED.has(p) && !flatNames.has(p.replace(/-/g, '_')) && !(p === 'LV_LIFNR' && flatNames.has('GV_LIFNR_OUT')));
+const unbound = [...printed].filter((p) => !REPLACED.has(p) && !flatNames.has(p.replace(/-/g, '_')) && !abapTokens.has(p) && !(p === 'LV_LIFNR' && flatNames.has('GV_LIFNR_OUT')));
 check(!unbound.length, `every legacy printed field is bound or deliberately replaced (${printed.size} symbols; ${[...printed].filter((p) => REPLACED.has(p)).length} replaced by the prepared GT_*/GS_* values)`, `printed fields without binding: ${unbound.join(', ')}`);
 
 // ---- conformance with the client's wizard-generated form of this Smart Form (reproduces the legacy printout), see conformance.mjs
