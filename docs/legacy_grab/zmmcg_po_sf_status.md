@@ -1,9 +1,9 @@
 # Migration Status — ZMMCG_PO_SF
 
-STATUS: in_progress
-UPDATED: 2026-10-12T13:14:41.846Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-10-13T10:25:16.335Z
+WAITING_ON: operator
+NOTE: Your confirmation says the manual step is done, but not the result - please report the outcome (import / activation OK? preview against the legacy PDF matches?) so the ticket can be closed.
 STOP: none
 CLAIMED_BY: Window-3
 
@@ -513,3 +513,9 @@ Thank you for the screenshot (commit c6743ee, import of **ZMMCG_PO_SF_ADT** fail
 
 ## 2026-10-12T13:14:41.846Z — Manual activity confirmed
 Client confirmed the manual step is done.
+
+## 2026-10-13T10:25:16.335Z — Result needed before this ticket can be closed
+Thank you for confirming that the manual step is done. That confirms the pull and activation step only; I cannot close the ticket on it, because I have no result yet. Please add, in one line each:
+1. **Import / activation**: did the whole-branch pull import ZMMCG_PO_SF_INT and ZMMCG_PO_SF_ADT without an error, and did both activate? (If not: the complete abapGit log text.)
+2. **Preview**: does the output match the legacy PDF for your test documents? Please name the order types and languages you tried (at least one goods order with V_FLAG X and one service order with V_FLAG Y in table ZMM_DATA_FLAG), and list any difference with the document number, the position on the page and what the legacy shows.
+3. **Sign-off**: if everything matches, say so explicitly ("accepted") and I will close the ticket.
