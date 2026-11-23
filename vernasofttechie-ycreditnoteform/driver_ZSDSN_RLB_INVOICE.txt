@@ -1,0 +1,1128 @@
+***********************************************************************
+* Program Title: Invoice and Packing list Print                       *
+* Created by   : <Chintan>(User ID : <ABAP08>)     Date : 08/06/2015  *
+* Description  : Print driver program for Invoice and packing list    *
+* Module name  : Sales & Distribution(SD)                             *
+* Type         : Report/Smartform                                     *
+* Functional   : Tosin Oladipo                                        *
+* Special note :                                                      *
+*---------------------------------------------------------------------*
+* Related Objects: Transaction Code <VF03>                            *
+*---------------------------------------------------------------------*
+*                       Modification History                          *
+*---------------------------------------------------------------------*
+* Date     | USER ID       | CR#   | Transport  | Mod.Key             *
+*----------|---------------|-------|------------|---------------------*
+*06.06.2014| ABAP08        |       |DCDK915410  | Intital Version     *
+*----------|---------------|-------|------------|---------------------*
+*03.06.2015| ABAP08        |       |DCDK920611  | Mod01               *
+*----------|---------------|-------|------------|---------------------*
+*07.12.2015| ABAP02        |1600445|DCDK922790  | Mod02               *
+*----------|---------------|-------|------------|---------------------*
+*19.01.2105| ABAP02        |1600445|DCDK923305  | Mod03               *
+*---------------------------------------------------------------------*
+*Mod01:Addition of ZVAT Condition value for KONV table
+* Also created include for Data declarations
+* declared constants in reuired Form
+*---------------------------------------------------------------------*
+*Mod02: Delivered Sales Pricing Procedure - Invoice Print Modification*
+*---------------------------------------------------------------------*
+*Mod03: Changes for Total Value calculation for Company Code 1130.
+*       Total from KONV-KWERT, Price/Unit from KONV-KBETR
+*---------------------------------------------------------------------*
+*Mod04:
+*---------------------------------------------------------------------*
+REPORT  zsdsn_rlb_invoice.
+
+TABLES : nast.
+
+INITIALIZATION.
+**Begin of changes <Mod01>
+  INCLUDE zsdsn_rlb_invoice_data.
+**End of changes <Mod01>
+
+  CLASS cl_abap_format DEFINITION LOAD.
+
+*----------------------------------------------------------------------*
+*       CLASS demo DEFINITION
+*----------------------------------------------------------------------*
+* Class used for Converting (.) to (,) and vice versa
+*----------------------------------------------------------------------*
+CLASS demo DEFINITION.
+  PUBLIC SECTION.
+    CLASS-METHODS main.
+  PRIVATE SECTION.
+    CLASS-DATA: BEGIN OF format,
+                  value LIKE cl_abap_format=>e_xml_text,
+                  name  TYPE abap_attrdescr-name,
+                END OF format,
+                formats LIKE SORTED TABLE OF format
+                        WITH UNIQUE KEY value.
+    CLASS-METHODS get_formats.
+ENDCLASS.                    "demo DEFINITION
+*&---------------------------------------------------------------------*
+*&      FORM  ENTRY
+*&---------------------------------------------------------------------*
+* Form is called for processing data for Invoice and Packing list
+*----------------------------------------------------------------------*
+FORM entry  USING return_code TYPE sy-subrc us_screen TYPE c. "#EC CALLED
+
+  IF nast-objky IS NOT INITIAL.
+
+    PERFORM clear_data.
+    PERFORM get_data.
+    PERFORM print_data.
+
+    IF sy-subrc = 0.
+      CLEAR return_code.
+    ENDIF.
+
+  ENDIF.
+ENDFORM.                    "ENTRY
+**Begin of changes <Mod01>
+*&---------------------------------------------------------------------*
+*&      FORM  GET_DATA
+*&---------------------------------------------------------------------*
+*       TEXT
+*START-OF-SELECTION.
+**End of changes <Mod01>
+*----------------------------------------------------------------------*
+* Fetching data from tables
+*----------------------------------------------------------------------*
+FORM get_data .
+
+  DATA : lt_vbrp_temp LIKE it_vbrp,
+         ls_vbrp_temp LIKE LINE OF lt_vbrp_temp,
+         wa_vbrp      TYPE zsdsn_vbrp_s,                    "DCDK919090
+         lt_setleaf   TYPE TABLE OF setleaf,
+         ls_setleaf   TYPE setleaf,
+* Begin of changes <Mod02>
+         lv_vatval    TYPE kwert, " Vat Value for Company Code 1130
+         lv_pretax    TYPE kwert, " Pre Compute Tax
+         lv_vatval2   TYPE text25,
+         lv_pretax2   TYPE text25,
+* End of changes <Mod02>
+* Begin of changes <Mod03>
+         lv_unit_zcem TYPE text25,
+         lv_ppunit    TYPE kwert,
+         lv_ppunit2   TYPE text25,
+         lv_tabix     TYPE syst-tabix.
+* End of changes   <Mod03>
+**Begin of changes <Mod01>
+  CONSTANTS : lv_zvt1  TYPE kschl VALUE 'ZVT1',
+              lv_zmin  TYPE kschl VALUE 'ZMIN',
+              lv_zvat  TYPE kschl VALUE 'ZVAT',
+              lv_zpct  TYPE kschl VALUE 'ZPCT',
+              lv_bukrs TYPE bukrs VALUE '1130',
+              lv_zcem  TYPE kschl VALUE 'ZCEM',
+**End of changes <Mod01>
+* Begin of changes <Mod02>
+              lc_zvt2  TYPE kschl VALUE 'ZVT2',
+              lc_zpft  TYPE kschl VALUE 'ZPFT',
+              lc_comma TYPE c     VALUE ',',
+* End of changes   <Mod02>
+* Begin of changes <Mod03>
+              lc_zpr0  TYPE kschl VALUE 'ZPR0',
+              lc_zkfc  TYPE kschl VALUE 'ZKFC',
+              lc_zpre  TYPE kschl VALUE 'ZPRE',
+              lc_zkfr  TYPE kschl VALUE 'ZKFR',
+              lc_zsrg  TYPE kschl VALUE 'ZSRG',
+              lc_zdis  TYPE kschl VALUE 'ZDIS'.
+* End of changes   <Mod03>
+  FIELD-SYMBOLS : <fs_vbrp> LIKE LINE OF lt_vbrp_temp.
+
+  v1_vbeln  = nast-objky.
+
+* -------------FETCHING THE HEADET DATA FROM VBRK TABLE-----------------
+
+  SELECT SINGLE vbeln fkdat fkart vkorg knumv waerk bukrs FROM vbrk INTO (v1_vbeln, v1_fkdat,v1_fkart , v1_vkorg , v1_knumv ,v1_waerk,gv_bukrs) WHERE vbeln = v1_vbeln.
+
+* -------------FETCHING THE ITEM DATA FROM VBRP TABLE-----------------.
+
+  SELECT vbeln
+         posnr
+         fkimg
+         meins
+         netwr
+         aubel
+         matnr
+         arktx
+         vstel
+         erdat
+         kzwi3
+         kzwi4
+         kzwi5
+         augru_auft
+          FROM vbrp
+          INTO TABLE it_vbrp
+          WHERE vbeln = v1_vbeln.
+
+* Start Insert for DCDK919090
+  READ TABLE it_vbrp INTO wa_vbrp INDEX 1.              "#EC CI_NOORDER
+  IF sy-subrc = 0.
+    lv_vstel = wa_vbrp-vstel.
+    CLEAR wa_vbrp.
+  ENDIF.
+  DESCRIBE TABLE it_vbrp LINES lv_lines.
+* End Insert foir DCDK919090
+
+*** Start of changes by ABAP08 on 27.04.2015 DCDK920116
+** Fetching Condition types value from Set ZSDCM_CON_TYPE
+** for which we will get values from KONV table based on KSCHL maintained
+
+  SELECT *
+       FROM setleaf
+       INTO TABLE lt_setleaf
+       WHERE setclass = '0000'
+       AND setname = 'ZSDCM_CON_TYPE'.
+
+  SELECT knumv,
+         kposn,
+         kschl,
+         kbetr,
+         kwert
+          FROM v_konv     " konv changed to v_konv by Zubin on 15.02.2020 as part of ABAP Remediation
+          INTO TABLE @lt_konv_v
+          WHERE knumv = @v1_knumv.
+* Begin of Changes <Mod03>
+  IF sy-subrc = 0.
+    SORT lt_konv_v BY kposn.
+  ENDIF.
+* End of Changes  <Mod03>
+
+** Changes doned in order to avoid multiple select single on KONV table.
+** Done optimization by fetching data in Internal table and then processing based on Condition type.
+  CLEAR: lv_percen,                                                             " Added by karthikeyan s for fetching vat% from Anurag metha - 08.07.2013
+         lv_minv,
+         lv_minp.
+  LOOP AT lt_konv_v INTO ls_konv_v WHERE knumv = v1_knumv.
+    READ TABLE lt_setleaf INTO ls_setleaf WITH KEY valfrom = ls_konv_v-kschl.
+    IF sy-subrc = 0.
+      CASE ls_setleaf-valfrom.
+*--------------FETCHING THE VAT % FROM KONV TABLE____________*
+        WHEN lv_zvt1.                        "#EC CI_FLDEXT_OK[2215424]
+          lv_percen = ls_konv_v-kbetr.
+          IF lv_percen IS NOT INITIAL.
+            lv_percen = ( lv_percen / 10 ).
+          ENDIF.
+**Begin of changes <Mod01>
+** Addition of vat values(ZVAT) if value is not present for ZVAT1
+        WHEN lv_zvat.                        "#EC CI_FLDEXT_OK[2215424]
+*          IF lv_percen IS INITIAL.
+*            lv_percen = ls_konv_v-kbetr.
+*            IF lv_percen IS NOT INITIAL.
+*              lv_percen = ( lv_percen / 10 ).
+*            ENDIF.
+*          ENDIF.
+**End of changes <Mod01>
+* Begin of Changes <Mod02>
+          lv_vatval = lv_vatval + ( ls_konv_v-kwert ).
+** Added by Zubin on 25.08.2020
+          lv_percen = ls_konv_v-kbetr.
+          IF lv_percen IS NOT INITIAL.
+            lv_percen = ( lv_percen / 10 ).
+          ENDIF.
+* End of Changes   <Mod04>
+        WHEN 'ZVT7'."lv_zvat.    DCDK936115    07.03.2018
+          IF lv_percen IS INITIAL.
+            lv_percen = ls_konv_v-kbetr.
+            IF lv_percen IS NOT INITIAL.
+              lv_percen = ( lv_percen / 10 ).
+            ENDIF.
+          ENDIF.
+**End of changes <Mod01>
+* Begin of Changes <Mod02>
+          "         lv_vatval = lv_vatval + ( ls_konv_v-kwert ).
+***********  Fetching the mines tax from konv table ******************
+        WHEN lv_zmin.                        "#EC CI_FLDEXT_OK[2215424]
+          lv_minp = ls_konv_v-kbetr.
+          lv_minv2 = ls_konv_v-kwert.
+
+          IF lv_minp IS NOT INITIAL.
+            lv_minp = ( lv_minp / 10 ).
+          ENDIF.
+*************  Fetching the Precompute tax (ZPCT) from konv table ******************
+        WHEN lv_zpct.                        "#EC CI_FLDEXT_OK[2215424]
+          gv_zpctr = ls_konv_v-kbetr.
+          IF gv_zpctr IS NOT INITIAL.
+            gv_zpctr = gv_zpctr / 10.
+          ENDIF.
+          gv_zpctp_t = ls_konv_v-kwert.
+          CLEAR lv_kbetr1.
+          lv_kbetr1 = gv_zpctp_t.
+**   FM for converting ZPCT value in SAP Format as for XAF and XOF currency
+**   Values are not stored properly in KONV table
+          CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'    "#EC CI_USAGE_OK[2340247]
+            EXPORTING
+              currency        = v1_waerk
+              amount_internal = lv_kbetr1
+            IMPORTING
+              amount_display  = lv_kbetr1
+            EXCEPTIONS
+              internal_error  = 1
+              OTHERS          = 2.
+          IF sy-subrc <> 0.
+**Begin of changes <Mod01>
+*            WRITE : 'Error While Converting Amount in SAP Format'(003).
+            WRITE : TEXT-003.
+**End of changes <Mod01>
+          ENDIF.
+          gv_zpctp_t = lv_kbetr1 .
+          CLEAR lv_kbetr1.
+* Begin of Changes <Mod02>
+          lv_pretax = lv_pretax + ( ls_konv_v-kwert ). " Precomputed Tax
+        WHEN lc_zvt2.                        "#EC CI_FLDEXT_OK[2215424]
+          lv_vatval = lv_vatval + ( ls_konv_v-kwert ). " VAT
+        WHEN lc_zpft.                        "#EC CI_FLDEXT_OK[2215424]
+          lv_pretax = lv_pretax + ( ls_konv_v-kwert ). " Precomputed Tax
+        WHEN lc_zdis.                        "#EC CI_FLDEXT_OK[2215424]
+          gv_zdis = ls_konv_v-kwert.
+          CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'    "#EC CI_USAGE_OK[2340247]
+            EXPORTING
+              currency        = v1_waerk
+              amount_internal = gv_zdis
+            IMPORTING
+              amount_display  = gv_zdis
+            EXCEPTIONS
+              internal_error  = 1
+              OTHERS          = 2.
+          IF sy-subrc <> 0.
+**Begin of changes <Mod01>
+*            WRITE : 'Error While Converting Amount in SAP Format'(003).
+            WRITE : TEXT-003.
+**End of changes <Mod01>
+          ENDIF.
+          gv_zdis1 = gv_zdis.
+          CLEAR gv_zdis.
+        WHEN lc_zsrg.                        "#EC CI_FLDEXT_OK[2215424]
+          gv_zsrg = ls_konv_v-kwert.
+          CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'    "#EC CI_USAGE_OK[2340247]
+            EXPORTING
+              currency        = v1_waerk
+              amount_internal = gv_zsrg
+            IMPORTING
+              amount_display  = gv_zsrg
+            EXCEPTIONS
+              internal_error  = 1
+              OTHERS          = 2.
+          IF sy-subrc <> 0.
+**Begin of changes <Mod01>
+*            WRITE : 'Error While Converting Amount in SAP Format'(003).
+            WRITE : TEXT-003.
+**End of changes <Mod01>
+          ENDIF.
+          gv_zsrg1 = gv_zsrg .
+          CLEAR gv_zsrg.
+        WHEN OTHERS.
+* End of Changes <Mod02>
+      ENDCASE.
+    ENDIF.
+*    Begin of changes DCDK940430
+    IF ls_konv_v-kschl = 'ZREH'.
+      lv_tot = lv_tot + ( ls_konv_v-kwert * 100 ).
+    ENDIF.
+    IF ls_konv_v-kschl = 'ZRHT'.
+      lv_unit1 = lv_unit1 + ( ls_konv_v-kbetr * 100 ).
+    ENDIF.
+*    End of changes DCDK940430
+    CLEAR : ls_konv_v,
+            ls_setleaf.
+  ENDLOOP.
+
+*  *    Begin of changes DCDK940430
+  IF lv_tot IS NOT INITIAL OR lv_unit1 IS NOT INITIAL.
+*-Begin of HANA Adaptation
+*---Old
+*    SELECT SINGLE vtext FROM t685t INTO lv_reh_desc
+*                        WHERE spras = sy-langu
+*                          AND kschl = 'ZREH'.
+*---New
+    SELECT vtext FROM t685t UP TO 1 ROWS INTO lv_reh_desc
+                WHERE spras = sy-langu
+                  AND kschl = 'ZREH'
+                ORDER BY PRIMARY KEY.
+    ENDSELECT.
+*-End of HANA Adaptation
+  ENDIF.
+
+  WRITE lv_tot TO lv_reh_tot.
+  SPLIT lv_reh_tot AT '.' INTO lv_reh_tot lv_temp.
+  TRANSLATE lv_reh_tot USING ', '.
+  WRITE lv_unit1 TO lv_reh_unit.
+  TRANSLATE lv_reh_unit USING ', '.
+*    *    End of changes DCDK940430
+************* End of chnages by ABAP08 DCDK920116
+* Begin of Changes <Mod02>
+  IF gv_bukrs = lv_bukrs AND v1_waerk IS NOT INITIAL.
+* Currency Conversion
+    WRITE lv_vatval TO lv_vatval2 CURRENCY v1_waerk.
+    REPLACE ALL OCCURRENCES OF lc_comma IN lv_vatval2 WITH space.
+    CONDENSE lv_vatval2.
+    lv_vatval = lv_vatval2.
+* Currency Conversion
+    WRITE lv_pretax TO lv_pretax2 CURRENCY v1_waerk.
+    REPLACE ALL OCCURRENCES OF lc_comma IN lv_pretax2 WITH space.
+    CONDENSE lv_pretax2.
+    lv_pretax = lv_pretax2.
+  ENDIF.
+* End of Changes <Mod02>
+  CLEAR lv_kbetr1.
+  lv_kbetr1 = lv_minv2.
+
+  CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'    "#EC CI_USAGE_OK[2340247]
+    EXPORTING
+      currency        = v1_waerk
+      amount_internal = lv_kbetr1
+    IMPORTING
+      amount_display  = lv_kbetr1
+    EXCEPTIONS
+      internal_error  = 1
+      OTHERS          = 2.
+  IF sy-subrc <> 0.
+    WRITE : 'Error While Converting Amount in SAP Format'(003).
+  ENDIF.
+
+  lv_minv = lv_kbetr1 .
+  CLEAR lv_kbetr1.
+
+***************** Start of changes by ABAP08 27.04.2015 DCDK920116
+***  As the below select query was inside Loop.
+**   For optimization purpose changes done for below logic
+
+*-Begin of HANA Adaptation
+*---Old
+*  SELECT SINGLE vbeln werks vgbel aubel FROM vbrp INTO (v2_vbeln,v2_werks,v2_vgbel,v2_aubel)
+*                                                                   WHERE vbeln = v1_vbeln.
+*---New
+  SELECT vbeln werks vgbel aubel FROM vbrp UP TO 1 ROWS
+                                 INTO (v2_vbeln,v2_werks,v2_vgbel,v2_aubel)
+                                WHERE vbeln = v1_vbeln
+                                ORDER BY PRIMARY KEY.
+  ENDSELECT.
+*-End of HANA Adaptation
+
+  SELECT SINGLE vbeln erdat kunnr vgbel xblnr bstnk FROM vbak
+    INTO (v_vbeln ,v_erdat, v_kunnr, p_vbeln, v_xblnr, v_bstnk) WHERE vbeln = v2_aubel  .
+* Start Insert for DCDK919090
+  IF p_vbeln IS INITIAL.
+    p_vbeln = v2_aubel.
+  ENDIF.
+  IF v_xblnr IS INITIAL.
+    v_payref = v_bstnk.
+  ELSE.
+    v_payref = v_xblnr .
+  ENDIF.
+* ENd Insert for DCDK919090
+
+**************************  End of changes by ABAP08 27.04.2015 DCDK920116
+
+*--------------FETCHING THE FREIGHT CHARGES FROM KONV TABLE____________*
+** Commnented by Zubin on 15.02.2020 as part of ABAP Remediation
+*****  SELECT knumv kposn krech kbetr FROM konv INTO TABLE lt_konv  WHERE knumv = v1_knumv
+*****                                              AND krech = 'D'.
+** Added by Zubin on 15.02.2020 as part of ABAP Remediation
+  SELECT knumv, kposn, krech, kbetr FROM v_konv INTO TABLE @lt_konv  WHERE knumv = @v1_knumv
+                                              AND krech = 'D'.
+
+
+*-Begin of HANA Adaptation
+*---Old
+  "None
+*---New
+  SORT it_vbrp BY vbeln posnr.
+*-End of HANA Adaptation
+
+  CLEAR v2_fkimg.
+  LOOP AT  it_vbrp ASSIGNING <fs_vbrp>.
+    ls_vbrp_temp-vbeln = <fs_vbrp>-vbeln.
+
+    READ TABLE lt_konv INTO ls_konv WITH KEY kposn = <fs_vbrp>-posnr knumv = v1_knumv.
+    IF sy-subrc = 0.
+      lv_kbetr1 = ls_konv-kbetr.
+
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'    "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = v1_waerk
+          amount_internal = lv_kbetr1
+        IMPORTING
+          amount_display  = lv_kbetr1
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        WRITE : 'Error While Converting Amount in SAP Format'(003).
+      ENDIF.
+
+      lv_kbetr = lv_kbetr1.
+    ENDIF.
+
+    AT NEW vbeln.
+      CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
+        EXPORTING
+          input  = <fs_vbrp>-posnr
+        IMPORTING
+          output = ls_vbrp_temp-posnr.
+
+      MOVE : <fs_vbrp>-matnr TO ls_vbrp_temp-matnr,
+             <fs_vbrp>-arktx TO ls_vbrp_temp-arktx,
+             <fs_vbrp>-meins TO ls_vbrp_temp-meins,
+             <fs_vbrp>-aubel TO ls_vbrp_temp-aubel,
+             <fs_vbrp>-erdat TO ls_vbrp_temp-erdat,
+             <fs_vbrp>-augru_auft TO ls_vbrp_temp-augru_auft.
+
+      lv_netwr = <fs_vbrp>-netwr.
+      CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+        EXPORTING
+          currency        = v1_waerk
+          amount_internal = lv_netwr "<fs_vbrp>-netwr
+        IMPORTING
+          amount_display  = lv_netwr "<fs_vbrp>-netwr
+        EXCEPTIONS
+          internal_error  = 1
+          OTHERS          = 2.
+      IF sy-subrc <> 0.
+        WRITE : 'Error While Converting Amount in SAP Format'(003).
+      ENDIF.
+
+      ls_vbrp_temp-netwr = lv_netwr.
+    ENDAT.
+    MOVE: ls_vbrp_temp-augru_auft TO v_augru.
+
+    CASE <fs_vbrp>-meins.
+      WHEN 'EA'.
+        lv_unit = 'EA'.
+      WHEN 'TO'.
+        lv_unit = 'TO'.
+      WHEN 'NO'.
+        lv_unit = 'NO'.
+      WHEN OTHERS.
+        lv_unit = <fs_vbrp>-meins.
+    ENDCASE.
+* Begin of Changes <Mod03>
+    IF gv_bukrs = lv_bukrs. " Company Code 1130
+      CLEAR : <fs_vbrp>-kzwi5,v2_price.
+      READ TABLE lt_konv_v TRANSPORTING NO FIELDS
+        WITH KEY kposn = <fs_vbrp>-posnr BINARY SEARCH.
+      IF sy-subrc = 0.
+        CLEAR lv_tabix.
+        lv_tabix = sy-tabix.
+* Parallel Cursor Used
+* Loop for calculating Total and Price/Unit from KONV
+        LOOP AT lt_konv_v INTO ls_konv_v FROM lv_tabix .
+          READ TABLE lt_setleaf TRANSPORTING NO FIELDS
+            WITH KEY valfrom = ls_konv_v-kschl.
+          IF sy-subrc = 0.
+            IF ls_konv_v-kposn = <fs_vbrp>-posnr.
+              CASE ls_konv_v-kschl.
+                WHEN lc_zpr0 OR lc_zkfc OR lc_zpre OR lc_zkfr.
+                  <fs_vbrp>-kzwi5 = <fs_vbrp>-kzwi5 + ls_konv_v-kwert. " Total
+                  "    v2_price        = v2_price + ls_konv_v-kbetr.        " Price per Unit
+                WHEN OTHERS.
+              ENDCASE.
+            ELSE.
+              CLEAR ls_konv_v.
+              EXIT.
+            ENDIF.
+          ENDIF.
+          CLEAR ls_konv_v.
+        ENDLOOP.
+      ENDIF.
+* Currency Conversion - Price/Unit
+
+      v2_price = <fs_vbrp>-netwr / <fs_vbrp>-fkimg.
+      WRITE v2_price TO lv_ppunit2 CURRENCY v1_waerk.
+      REPLACE ALL OCCURRENCES OF lc_comma IN lv_ppunit2 WITH space.
+      CONDENSE lv_ppunit2.
+      v2_price = lv_ppunit2.
+    ENDIF.
+* End of Changes   <Mod03>
+    lv2_kzwi5 = <fs_vbrp>-kzwi5.
+    CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+      EXPORTING
+        currency        = v1_waerk
+        amount_internal = lv2_kzwi5
+      IMPORTING
+        amount_display  = lv2_kzwi5
+      EXCEPTIONS
+        internal_error  = 1
+        OTHERS          = 2.
+    IF sy-subrc <> 0.
+      WRITE : 'Error While Converting Amount in SAP Format'(003).
+    ENDIF.
+
+    v2_kzwi5 = v2_kzwi5 + lv2_kzwi5.
+    lv2_kzwi4 = <fs_vbrp>-kzwi4.
+    CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+      EXPORTING
+        currency        = v1_waerk
+        amount_internal = lv2_kzwi4
+      IMPORTING
+        amount_display  = lv2_kzwi4
+      EXCEPTIONS
+        internal_error  = 1
+        OTHERS          = 2.
+    IF sy-subrc <> 0.
+      WRITE : 'Error While Converting Amount in SAP Format'(003).
+    ENDIF.
+
+    v2_kzwi4 = v2_kzwi4 + lv2_kzwi4.
+* Begin of Changes <Mod02>
+    IF gv_bukrs EQ lv_bukrs.  " Company Code - 1130
+      lv_vat =  lv_vatval.
+    ELSE.
+      lv_vat = <fs_vbrp>-kzwi3.
+    ENDIF.
+* End of Changes <Mod02>
+    CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+      EXPORTING
+        currency        = v1_waerk
+        amount_internal = lv_vat
+      IMPORTING
+        amount_display  = lv_vat
+      EXCEPTIONS
+        internal_error  = 1
+        OTHERS          = 2.
+    IF sy-subrc <> 0.
+      WRITE : 'Error While Converting Amount in SAP Format'(003).
+    ENDIF.
+
+* Begin of Changes <Mod02>
+    IF gv_bukrs EQ lv_bukrs.  " Company Code - 1130
+      v_vat = lv_vatval.
+      gv_zpctp_t = lv_pretax.
+    ELSE.
+      v_vat = v_vat + lv_vat.
+    ENDIF.
+* End of Changes <Mod02>
+    ADD <fs_vbrp>-fkimg TO v2_fkimg  .
+    ADD <fs_vbrp>-fkimg TO ls_vbrp_temp-fkimg.
+    ADD <fs_vbrp>-kzwi4 TO ls_vbrp_temp-kzwi4.
+
+    AT END OF vbeln.
+      IF gv_bukrs = lv_bukrs."'1130'.
+* Begin of Changes <Mod03>
+*        v_total1 = v_total1 + v2_kzwi5 + v_vat + v2_kzwi4 + lv_minv + gv_zpctp_t .
+* Freight value need not to be considered while calculating total
+        v_total1 = v_total1 + v2_kzwi5 + v_vat + lv_minv + gv_zpctp_t + gv_zdis1 + gv_zsrg1 + lv_tot.
+* End of Changes <Mod03>
+      ELSE.
+        v_total1 = v_total1 + v2_kzwi5 + v_vat + v2_kzwi4 + lv_minv + lv_tot.
+      ENDIF.
+
+      IF NOT v2_kzwi5 IS INITIAL.
+        IF v1_vkorg = '1000' AND v_erdat GT '20140227'.
+          v2_kzwi5 = v2_kzwi5 - v_subcharge1.
+          v2_price = v2_price + ( v2_kzwi5 / v2_fkimg ).
+        ELSE.
+* Begin of Changes <Mod03>
+*****************Changes by Uwem**************************************
+          IF gv_bukrs EQ '1140'.
+            CLEAR: ls_konv_v, v_total1.
+            READ TABLE lt_konv_v INTO ls_konv_v WITH KEY kschl = 'ZPRD'.
+            IF ls_konv_v IS INITIAL.
+              READ TABLE lt_konv_v INTO ls_konv_v WITH KEY kschl = 'ZPR0'.
+              IF sy-subrc NE 0.
+                READ TABLE lt_konv_v INTO ls_konv_v WITH KEY kschl = 'ZPRE'.
+              ENDIF.
+            ENDIF.
+            lv2_kzwi5 = ls_konv_v-kbetr.
+            CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+              EXPORTING
+                currency        = v1_waerk
+                amount_internal = lv2_kzwi5
+              IMPORTING
+                amount_display  = lv2_kzwi5
+              EXCEPTIONS
+                internal_error  = 1
+                OTHERS          = 2.
+            IF sy-subrc <> 0.
+              WRITE : 'Error While Converting Amount in SAP Format'(003).
+            ENDIF.
+
+            "v2_kzwi5 = v2_kzwi5 + lv2_kzwi5.
+            v2_price = lv2_kzwi5.
+
+            lv2_kzwi5 = ls_konv_v-kwert.
+            CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+              EXPORTING
+                currency        = v1_waerk
+                amount_internal = lv2_kzwi5
+              IMPORTING
+                amount_display  = lv2_kzwi5
+              EXCEPTIONS
+                internal_error  = 1
+                OTHERS          = 2.
+            IF sy-subrc <> 0.
+              WRITE : 'Error While Converting Amount in SAP Format'(003).
+            ENDIF.
+
+            v2_kzwi5 = lv2_kzwi5.
+*********************for ZCEM values as added by Aham***********************
+            READ TABLE lt_konv_v INTO ls_konv_v WITH KEY kschl = 'ZCET'.
+            IF sy-subrc = 0. "IF ls_konv_v is NOT INITIAL.
+              lv_zcent_u = ls_konv_v-kbetr.
+            ENDIF.
+
+*************  Fetching ZCEM from konv table ******************
+            IF lv_zcent_u IS NOT INITIAL.
+              READ TABLE lt_konv_v INTO ls_konv_v WITH KEY kschl = 'ZCEM'.
+              IF sy-subrc = 0."IF ls_konv_v is NOT INITIAL.
+                "IF lv_zcent_u IS NOT INITIAL.
+                lv_zcemp = ls_konv_v-kbetr * 100.
+                lv_zcemu = ls_konv_v-kwert.
+
+                WRITE lv_zcemp TO lv_zunit.
+                REPLACE ALL OCCURRENCES OF lc_comma IN lv_zunit WITH space.
+                CONDENSE lv_zunit.
+
+                CALL FUNCTION 'CURRENCY_AMOUNT_SAP_TO_DISPLAY'      "#EC CI_USAGE_OK[2340247]
+                  EXPORTING
+                    currency        = v1_waerk
+                    amount_internal = lv_zcemu
+                  IMPORTING
+                    amount_display  = lv_zcemu
+                  EXCEPTIONS
+                    internal_error  = 1
+                    OTHERS          = 2.
+                IF sy-subrc <> 0.
+                  WRITE : 'Error While Converting Amount in SAP Format'(003).
+                ENDIF.
+              ENDIF.
+            ENDIF.
+******************************Aham changes ends here******************************************
+
+            v_total1 = v_total1 + v2_kzwi5 + v_vat + v2_kzwi4 + lv_minv + lv_zcemu + lv_tot.  "lv_zcemu added to total
+            "v2_kzwi5 = ls_konv_v-KWERT.
+
+*****************End 0f Chnages from Uwem*****************************
+          ELSEIF gv_bukrs NE lv_bukrs.  " Not Company Code 1130
+            v2_price = v2_price + ( v2_kzwi5 / v2_fkimg ).
+          ENDIF.
+* End of Changes  <Mod03>
+        ENDIF.
+      ENDIF.
+
+      MOVE : v2_kzwi5 TO ls_vbrp_temp-kzwi5.
+      APPEND ls_vbrp_temp TO lt_vbrp_temp.
+      CLEAR:lv_unit1,lv_tot.
+    ENDAT.
+  ENDLOOP.
+
+  lv_kzwi5 = v2_kzwi5.
+  lv_kzwi4 = v2_kzwi4.
+
+  IF lt_vbrp_temp[] IS NOT INITIAL.
+    CLEAR : it_vbrp[].
+    it_vbrp[] = lt_vbrp_temp[].
+  ENDIF.
+
+*  SELECT SINGLE vbeln kunnr trans_name driver truck_no FROM likp "Commented By Veeresh
+  SELECT SINGLE vbeln kunnr trans_name driver truck_no waybill FROM likp "Added By Veeresh On 20/04/2021
+                                          INTO (gv_vbeln,gv_kunnr,gv_trans_name,gv_driver,gv_truck_no,gv_waybill)
+                                          WHERE vbeln = v2_vgbel.
+  CONDENSE gv_trans_name.
+  SELECT SINGLE name1 ort01 land1 stras pstlz FROM kna1 INTO
+                                      (c_name1, c_ort01,c_land1,c_stras,c_pstlz) WHERE kunnr = v_kunnr.
+
+  SELECT SINGLE landx50 FROM t005t INTO landx50 WHERE spras = 'EN'
+                                                  AND land1 = c_land1.
+
+  SELECT SINGLE regio FROM kna1 INTO v3_regio WHERE kunnr = gv_kunnr.
+
+  SELECT SINGLE werks name1 kunnr land1 FROM t001w INTO (v_werks,v2_name1, lv_kunnr,lv_land1) """on 21.08.2014 chintan land1
+                                                           WHERE werks = v2_werks.
+
+  IF sy-subrc EQ 0.
+    SELECT SINGLE name1  FROM kna1 INTO v2_name1 WHERE kunnr = lv_kunnr.
+  ENDIF.
+
+*  SELECT SINGLE trans_name truck_no driver  FROM likp INTO is_transport "Commented By Veeresh
+*  SELECT SINGLE trans_name truck_no driver state location FROM likp INTO is_transport "Added By Veeresh On 27/04/2021
+  SELECT SINGLE * FROM likp INTO CORRESPONDING FIELDS OF is_transport "Added By Veeresh On 27/04/2021
+                                                        WHERE vbeln = gv_vbeln.
+*****  BOC By Veeresh On 27/04/2021
+  IF sy-subrc NE 0.
+    CLEAR is_transport.
+  ELSE.
+    v4_bezei = |{ is_transport-region },{ is_transport-location } |.
+    CONDENSE v4_bezei.
+  ENDIF.
+*  SELECT SINGLE spras bland bezei FROM t005u INTO (v4_spras, v4_bland, v4_bezei) "Commented By Veeresh
+  SELECT SINGLE spras bland FROM t005u INTO (v4_spras, v4_bland) "Added By Veeresh
+*****  EOC By Veeresh On 27/04/2021
+                                                   WHERE  bland = v3_regio
+                                                   AND  land1 = c_land1
+                                                   AND spras = sy-langu."'EN'. on 03.06.14
+****Only 3 fiels are there in tvaut table
+  SELECT  * FROM tvaut INTO  TABLE lt_tvaut  WHERE spras = 'EN'
+                                              AND augru =  v_augru.
+
+  READ TABLE lt_tvaut INTO ls_tvaut WITH KEY augru = v_augru.
+  MOVE ls_tvaut-bezei TO v2_bezei.
+
+  CALL FUNCTION 'YAMNTTOWORDS'
+    EXPORTING
+      iv_dec_fig     = v2_fkimg
+      iv_parent_uom  = lv_unit
+    IMPORTING
+      ev_dec_to_wrds = v_words.
+
+** Added by Zubin on 30.09.2020
+  CONDENSE v_words.
+  DATA lv_words_tmp(255) TYPE c.
+  lv_words_tmp = v_words.
+
+** Replaced by Zubin on 28.03.2022 - P1 remediation
+  CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+    EXPORTING
+      input_string  = lv_words_tmp
+      separators    = ' '
+    IMPORTING
+      output_string = lv_words_tmp.
+
+  v_words = lv_words_tmp.
+
+ENDFORM.                    " GET_DATA
+*&---------------------------------------------------------------------*
+*&      FORM  CLEAR_DATA
+*&---------------------------------------------------------------------*
+* Clearing required variables
+*----------------------------------------------------------------------*
+FORM clear_data .
+  CLEAR: v_vbeln,
+        v_kunnr ,
+        v_vbeln,
+        v1_fkdat,
+        v1_fkart ,
+        v1_vbeln ,
+        c_name1 ,
+        c_ort01,
+        c_land1,
+        c_stras ,
+        c_pstlz ,
+        landx50,
+        v4_bezei ,
+        v_total1 ,
+        v_total ,
+        v_vat ,
+        v_spell1,
+        v_words,
+        v2_price,
+        v2_name1,
+        v2_vgbel,
+        v_total1,
+        v2_kzwi5,
+        v_vat,
+        v2_kzwi4,
+        lv_kbetr,
+        v1_waerk,
+        gv_bukrs,
+        gv_zpctr,
+        gv_zpctp.
+
+
+  REFRESH: it_vbrp.
+
+ENDFORM.                    " CLEAR_DATA
+
+*&---------------------------------------------------------------------*
+*&      FORM  PRINT_DATA
+*&---------------------------------------------------------------------*
+* Calling Smartform and displaying data
+*----------------------------------------------------------------------*
+FORM print_data .
+
+  v_total2 = v_total1.
+  demo=>main( ).
+
+  v_totalf = v_total1.
+  v_total = v_total1 + v_vat.
+
+***changed on 19.06.14 for credit note
+  v_total11 = v_total2.
+
+  IF v1_waerk = 'XOF' OR v1_waerk = 'XAF'.
+
+    CALL FUNCTION 'SPELL_AMOUNT'
+      EXPORTING
+        language  = sy-langu
+        currency  = v1_waerk "'INR'"
+        amount    = v_total11
+        filler    = ' '
+      IMPORTING
+        in_words  = v_spell1
+      EXCEPTIONS
+        not_found = 1
+        too_large = 2
+        OTHERS    = 3.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+  ELSE.
+
+    CALL FUNCTION 'SPELL_AMOUNT'
+      EXPORTING
+        language  = sy-langu
+        currency  = v1_waerk "'INR'"
+        amount    = v_totalf "v_total11
+        filler    = ' '
+      IMPORTING
+        in_words  = v_spell1
+      EXCEPTIONS
+        not_found = 1
+        too_large = 2
+        OTHERS    = 3.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+  ENDIF.
+
+  IF sy-langu = 'F'.
+    REPLACE ALL OCCURRENCES OF  'DOUCE' IN  v_spell1-word WITH 'DOUZE'.
+    REPLACE ALL OCCURRENCES OF 'DOUSE' IN v_spell1-word WITH 'DOUZE'..
+  ENDIF.
+
+  DATA: lv_fname TYPE rs38l_fnam.
+
+  CLEAR v_flag.
+*-Begin of HANA Adaptation
+*---Old
+*  SELECT SINGLE flag
+*        INTO v_flag
+*        FROM zsd_data
+*        WHERE object = v1_fkart.
+*---New
+  SELECT flag FROM zsd_data UP TO 1 ROWS
+        INTO v_flag
+        WHERE object = v1_fkart
+        ORDER BY PRIMARY KEY.
+  ENDSELECT.
+*-End of HANA Adaptation
+
+  IF v_flag = lv_value."X
+
+    IF sy-langu = 'F'.
+
+
+      gv_output_params-langu = 'E'.
+      CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+        EXPORTING
+          formname           = 'ZSDSN_BIL_INVOICE_SF_FR' "'YLB_BIL_INVOICE'
+        IMPORTING
+          fm_name            = lv_fname
+        EXCEPTIONS
+          no_form            = 1
+          no_function_module = 2
+          OTHERS             = 3.
+
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+      ENDIF.
+
+
+    ELSE.
+
+
+      CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+        EXPORTING
+          formname           = 'ZSDSN_BIL_INVOICE_SF' "'YLB_BIL_INVOICE'
+        IMPORTING
+          fm_name            = lv_fname
+        EXCEPTIONS
+          no_form            = 1
+          no_function_module = 2
+          OTHERS             = 3.
+
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+      ENDIF.
+
+
+    ENDIF.
+
+    CONDENSE : gv_truck_no,	gv_trans_name.
+
+    CALL FUNCTION lv_fname
+      EXPORTING
+        control_parameters = gv_output_params
+        v_kunnr            = v_kunnr
+        v_vbeln            = v_vbeln
+        v1_fkdat           = v1_fkdat
+        v1_fkart           = v1_fkart
+        v1_vbeln           = v1_vbeln
+        v1_waerk           = v1_waerk
+        c_name1            = c_name1
+        c_ort01            = c_ort01
+        c_land1            = c_land1
+        c_stras            = c_stras
+        c_pstlz            = c_pstlz
+        v4_bezei           = v4_bezei
+        v_total1           = v_total1
+        v_total            = v_total
+        v_vat              = v_vat
+        v_spell1           = v_spell1
+        v_words            = v_words
+        v2_price           = v2_price
+        v2_price1          = lv_kbetr                         "V2_PRICE1
+        v2_name1           = v2_name1
+        v2_vgbel           = v2_vgbel
+        gv_vbeln           = gv_vbeln
+        is_transport       = is_transport
+        iv_unit            = lv_unit
+        iv_parent_so       = p_vbeln
+        lv_percen          = lv_percen
+        v_subcharge1       = v_subcharge1
+        v_subcharge2       = v_subcharge2
+        v_erdat            = v_erdat
+        lv_minp            = lv_minp
+        lv_minv1           = lv_minv1
+        lv_kzwi51          = lv_kzwi51
+        v_vat1             = v_vat1
+        lv_kzwi41          = lv_kzwi41
+        v_total2           = v_total2
+        lv_land1           = lv_land1
+* Start Insert for DCDK919090
+        lv_vstel           = lv_vstel
+        v_payref           = v_payref
+        lv_lines           = lv_lines
+        gv_bukrs           = gv_bukrs
+        gv_zpctr           = gv_zpctr
+        gv_zpctp           = gv_zpctp
+        gv_trans_name      = gv_trans_name
+        gv_driver          = gv_driver
+        gv_truck_no        = gv_truck_no
+        lv_zcemp           = lv_zunit
+        lv_zcemu           = lv_ztotal
+        gv_zsrg            = gv_zsrg1
+        gv_zdis            = gv_zdis1
+*       lv_wrd             = lv_wrd
+* End Insert for DCDK919090
+*  *    Begin of changes DCDK940430
+        gv_reh_desc        = lv_reh_desc
+        gv_reh_unit        = lv_reh_unit
+        gv_reh_tot         = lv_reh_tot
+        gv_waybill         = gv_waybill "Added By Veeresh On 20/04/2021
+*        *    End of changes DCDK940430
+      TABLES
+        it_vbrp            = it_vbrp
+      EXCEPTIONS
+        formatting_error   = 1
+        internal_error     = 2
+        send_error         = 3
+        user_canceled      = 4
+        OTHERS             = 5.
+
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+  ENDIF.
+
+  IF v_flag = lv_value1."Y
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname           = 'ZSDSN_CRNOTE_SF' "'YCREDITNOTEFORM'
+      IMPORTING
+        fm_name            = lv_fname
+      EXCEPTIONS
+        no_form            = 1
+        no_function_module = 2
+        OTHERS             = 3.
+    IF sy-subrc <> 0.
+* IMPLEMENT SUITABLE ERROR HANDLING HERE
+      WRITE : TEXT-004.
+    ENDIF.
+
+    CALL FUNCTION lv_fname
+      EXPORTING
+        c_name1  = c_name1
+        c_ort01  = c_ort01
+        landx50  = landx50
+        c_stras  = c_stras
+        c_pstlz  = c_pstlz
+        v_flag   = v_flag
+        v1_fkart = v1_fkart
+        v1_vbeln = v1_vbeln
+        v2_bezei = v2_bezei
+        v1_waerk = v1_waerk
+        lv_land1 = lv_land1
+      TABLES
+        it_vbrp  = it_vbrp.
+  ENDIF.
+
+ENDFORM.                    " PRINT_DATA
+**********************************perform formatting.
+CLASS demo IMPLEMENTATION.
+  METHOD main.
+    DATA: number  TYPE decfloat34,
+          result1 TYPE c LENGTH 20,
+          result2 TYPE c LENGTH 20,
+          result3 TYPE c LENGTH 20,
+          off     TYPE i,
+          exc     TYPE REF TO cx_sy_unknown_currency.
+    get_formats( ).
+
+    v2_pricef = v2_price.
+
+    LOOP AT demo=>formats INTO demo=>format.
+      WRITE lv_kzwi5 TO lv_kzwi51
+        STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE v_vat TO v_vat1
+        STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE lv_kzwi4 TO lv_kzwi41
+        STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE v_total1 TO v_total2
+        STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE lv_minv TO lv_minv1
+      STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE v2_pricef TO v2_price2
+        STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE gv_zpctp_t TO gv_zpctp    ##uom_in_mes
+        STYLE demo=>format-value LEFT-JUSTIFIED.
+
+      WRITE lv_zcemu TO lv_ztotal
+         STYLE demo=>format-value LEFT-JUSTIFIED.
+
+
+    ENDLOOP.
+
+
+    TRANSLATE lv_kzwi51 USING ', '.
+    TRANSLATE v_vat1 USING ', '.
+    TRANSLATE lv_kzwi41 USING ', '.
+    TRANSLATE v_total2 USING ', '.
+    TRANSLATE lv_minv1 USING ', '.
+    TRANSLATE v2_price2 USING ', '.
+    TRANSLATE gv_zpctp USING ', '.
+    TRANSLATE lv_ztotal USING ', '.
+*    TRANSLATE lv_zunit USING ', '.
+
+  ENDMETHOD.                    "main
+  METHOD get_formats.
+    DATA: cldescr TYPE REF TO cl_abap_classdescr,
+          formats TYPE abap_attrdescr_tab,
+          format  LIKE LINE OF formats.
+    FIELD-SYMBOLS <format> LIKE cl_abap_format=>o_scientific.
+    cldescr ?= cl_abap_classdescr=>describe_by_name( 'CL_ABAP_FORMAT' ).
+    formats = cldescr->attributes.
+
+    DELETE formats WHERE name NE 'O_SIMPLE' .
+    LOOP AT formats INTO format.
+      ASSIGN cl_abap_format=>(format-name) TO <format>.
+      demo=>format-value = <format>.
+      demo=>format-name = format-name.
+      INSERT demo=>format INTO TABLE demo=>formats.
+    ENDLOOP.
+  ENDMETHOD.                    "get_formats
+ENDCLASS.                    "demo IMPLEMENTATION

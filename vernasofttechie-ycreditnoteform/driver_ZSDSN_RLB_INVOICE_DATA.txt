@@ -1,0 +1,193 @@
+*&---------------------------------------------------------------------*
+*&  Include           ZSDSN_RLB_INVOICE_DATA
+*&---------------------------------------------------------------------*
+***********************************************************************
+* Program Title: Invoice and Packing list Print                       *
+* Created by   : <Chintan>(User ID : <ABAP08>)     Date : 08/06/2015  *
+* Description  : Print driver program for Invoice and packing list    *
+* Module name  : Sales & Distribution(SD)                             *
+* Type         : Report/Smartform                                     *
+* Functional   : Tosin Oladipo                                        *
+* Special note :                                                      *
+*---------------------------------------------------------------------*
+* Related Objects: Transaction Code <VF03>                     *
+*---------------------------------------------------------------------*
+*                       Modification History                          *
+*---------------------------------------------------------------------*
+* Date     | USER ID       | CR#   | Transport  | Mod.Key             *
+*----------|---------------|-------|------------|---------------------*
+*06.06.2014| ABAP08        |       |DCDK915410  | Intital Version     *
+*----------|---------------|-------|------------|---------------------*
+*03.06.2015| ABAP08        |       |DCDK920611  | Mod01               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod02               *
+*----------|---------------|-------|------------|---------------------*
+*          |               |       |            | Mod03               *
+*---------------------------------------------------------------------*
+*Mod01:Addition of ZVAT Condition value for KONV table
+* Also created include for Data declarations
+* declared constants in reuired Form
+*---------------------------------------------------------------------*
+*Mod02:
+*---------------------------------------------------------------------*
+*Mod03:
+*---------------------------------------------------------------------*
+*Mod04:
+*---------------------------------------------------------------------*
+
+* DATA DECLRATIONS FOR SALES DOCUMENT: HEADER DATA
+  DATA:v_vbeln TYPE vbak-vbeln,             " SALES DOCUMENT
+       v_kunnr TYPE vbak-kunnr,               "SOLD-TO PARTY
+       p_vbeln TYPE vbak-vbeln,               "PARENT SO
+       v_erdat TYPE vbak-erdat,               "Date on Which Record Was Created
+* Start Insert for DCDK919090
+       v_xblnr  TYPE vbak-xblnr,
+       v_bstnk  TYPE vbak-bstnk,
+       v_payref TYPE string,
+       lv_lines TYPE i,
+       lv_vstel TYPE vbrp-vstel,
+* End Insert for DCDK919090
+* ----DATA DECLRATIONS FOR  BILLING DOCUMENT: HEADER DATA---
+
+       v1_vbeln TYPE vbrk-vbeln,             " BILLING DOCUMENT
+       v1_fkdat TYPE vbrk-fkdat,             " BILLING DATE FOR BILLING INDEX AND PRINTOUT
+       v1_fkart TYPE vbrk-fkart,             " BILLING TYPE
+       v1_knumv TYPE vbrk-knumv,             " DOC.CONDITION
+       v1_waerk TYPE vbrk-waerk,             " Doc Currency      " ADDED BY Prasad.
+       v1_vkorg TYPE vbrk-vkorg,             " Sales Org.
+       gv_bukrs TYPE vbrk-bukrs,             " Company Code
+
+* ----DATA DECLRATIONS FOR ADDRESS DETAILES
+
+       c_name1 TYPE name1_gp,                 "NAME
+       c_ort01 TYPE ort01_gp,                 "CITY
+       c_land1 TYPE land1_gp,                 "COUNTRY KEY
+       c_stras TYPE stras_gp,                 "HOUSE NO AND STREET
+       c_pstlz TYPE kna1-pstlz,               "POSTAL CODE
+
+* ---DESCRIPTION FOR DESTINATION
+
+      v4_spras TYPE spras,                    "LANUAGE
+      v4_bland TYPE regio,                      "REGION
+      v4_bezei TYPE bezei20,                  "DESCRIPTION
+      gv_vbeln TYPE likp-vbeln,
+      gv_kunnr TYPE likp-kunnr,
+      gv_trans_name TYPE likp-trans_name,
+      gv_driver TYPE likp-driver,
+      gv_truck_no TYPE likp-truck_no,
+      gv_waybill TYPE likp-waybill, "Added By Veeresh On 20/04/2021
+      is_transport TYPE ysdtrasdetails,
+
+*------Declaration for Redevance Habitat Tax
+      lv_reh_desc TYPE vtext,
+      lv_reh_unit(25),
+      lv_reh_tot(25),
+      lv_unit1 TYPE konv-kbetr,
+      lv_tot TYPE konv-kwert,
+      lv_temp.
+
+*---- INTERNAL TABLE AND WORK AREA DECLRATION FOR THE BILLING ITEM
+
+  TYPES:BEGIN OF ty_konv,
+     knumv TYPE konv-knumv,
+     kposn TYPE konv-kposn,
+     krech TYPE konv-krech,
+     kbetr TYPE konv-kbetr,
+     END OF ty_konv.
+
+  DATA:ls_konv TYPE ty_konv,
+       lt_konv TYPE TABLE OF ty_konv,
+       lt_tvaut TYPE TABLE OF tvaut,
+       ls_tvaut LIKE LINE OF lt_tvaut,
+     v2_vbeln TYPE vbrp-vbeln,
+     v_werks TYPE werks_d,
+     v2_fkimg TYPE vbrp-fkimg,
+     v2_kzwi5 TYPE vbrp-kzwi5,
+     lv2_kzwi5 TYPE wmto_s-amount,
+     v2_kzwi4 TYPE vbrp-kzwi4,
+     lv2_kzwi4 TYPE wmto_s-amount,"c length 20,
+     v2_price TYPE konv-kbetr,"p DECIMALS 0,"wrbtr,
+     v2_pricef TYPE p DECIMALS 0,"wrbtr,
+     v2_price2 TYPE c LENGTH 25," wrbtr,
+     gv_zpctp TYPE c LENGTH 25," wrbtr,
+     v2_price1 TYPE c LENGTH 25," wrbtr,
+     v2_werks TYPE vbrp-werks,
+     v3_regio TYPE kna1-regio,
+     v2_name1 TYPE name1,
+     v2_aubel TYPE vbrp-aubel,
+     v2_vgbel TYPE vbrp-vgbel,
+     v_total1 TYPE p DECIMALS 0,"dmbtr,"kzwi5,""i,"
+     v_total2 TYPE c LENGTH 25,"dmbtr,"kzwi5,""i,"
+     v_total11 TYPE string,                                 "kzwi5,
+     v_total  TYPE kzwi5,
+     v_totalf TYPE kzwi5,
+     v_vat TYPE p DECIMALS 0,                               "kzwi3,
+     lv_vat TYPE wmto_s-amount,"c length 20,                               "kzwi3,
+     v_spell1 TYPE spell,
+      v_words TYPE string,
+     lv_kunnr TYPE kunnr,
+     lv_land1 TYPE t001w-land1,"""on 21.08.2014 chintan
+     v_flag  TYPE char1 VALUE ' ',
+     v_augru TYPE augru,
+     v2_bezei TYPE bezei40,
+     lv_netwr TYPE wmto_s-amount,"""""""""""""""""""""""""""""""""14.06.14
+     lv_unit TYPE meins,
+     landx50 TYPE landx50,
+     lv_kbetr TYPE konv-kbetr,
+     lv_kbetr1 TYPE wmto_s-amount,
+     ls_spell TYPE spell,
+     lv_percen TYPE konv-kbetr,                " Percentage calcuation.
+     lv_minp TYPE konv-kbetr,                " Percentage calcuation.
+     lv_minv TYPE p DECIMALS 0,"konv-kwert.                " Value calcuation.
+     lv_minv2 TYPE p DECIMALS 2,"konv-kwert
+     lv_minv1 TYPE c LENGTH 25,"konv-kwert.                " Value calcuation.
+     lv_zcent_u TYPE konv-kbetr,
+     lv_zcemp TYPE konv-kbetr,"P DECIMALS 2,
+     lv_zcemu TYPE p DECIMALS 0. "konv-KWERT."wmto_s-amount.    "ZCEM
+
+  DATA: v_subcharge TYPE vbrk-netwr,
+        v_subcharge1 TYPE vbrk-netwr,
+        v_subcharge2 TYPE vbrk-netwr,
+        lv_kzwi51 TYPE c LENGTH 25,
+        lv_kzwi5 TYPE p DECIMALS 0,
+        lv_kzwi4 TYPE p DECIMALS 0,
+        lv_kzwi41 TYPE c LENGTH 25,
+        v_vat1 TYPE c LENGTH 25,
+        lv_zunit TYPE c LENGTH 25,
+        lv_ztotal TYPE c LENGTH 25,
+        lv_value TYPE c LENGTH 1 VALUE 'X',
+        lv_value1 TYPE c LENGTH 1 VALUE 'Y'.
+
+  TYPES:BEGIN OF ty_konv_v,
+         knumv TYPE konv-knumv,
+         kposn TYPE konv-kposn,
+         kschl TYPE konv-kschl,
+         kbetr TYPE konv-kbetr,
+         kwert TYPE konv-kwert,
+       END OF ty_konv_v.
+
+  DATA : lt_konv_v TYPE TABLE OF ty_konv_v,
+         ls_konv_v TYPE ty_konv_v,
+         gv_zpctr TYPE konv-kbetr,
+         gv_zdis TYPE wmto_s-amount,"konv-kwert,
+         gv_zsrg TYPE wmto_s-amount,"konv-kwert,
+
+         gv_zdis1 TYPE p DECIMALS 0,
+         gv_zsrg1 TYPE p DECIMALS 0,
+**Begin of changes <Mod01>
+*         gv_zpctp_t TYPE konv-kwert.
+         gv_zpctp_t TYPE p DECIMALS 2.
+**End of changes <Mod01>
+
+  DATA : it_vbrp TYPE TABLE OF zsdsn_vbrp_s,
+         ls_vbrp TYPE zsdsn_vbrp_s.
+
+  DATA :gv_output_params TYPE ssfctrlop."Added BY Veeresh on 13.10.2020
+
+**Begin of changes <Mod01>
+*  CONSTANTS : lv_zvt1 TYPE kschl VALUE 'ZVT1',
+*              lv_zmin TYPE kschl VALUE 'ZMIN',
+*              lv_zvat TYPE kschl VALUE 'ZVAT',
+*              lv_zpct TYPE kschl VALUE 'ZPCT',
+*              c_bukrs TYPE bukrs VALUE '1130'.
+**End of changes <Mod01>

@@ -1,0 +1,773 @@
+*&---------------------------------------------------------------------*
+*& Report ZINVOICE
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZINVOICE.
+
+*  METHOD invoiceset_create_entity.
+
+    TYPES:BEGIN OF ty_konv,
+            knumv TYPE konv-knumv,
+            kposn TYPE konv-kposn,
+            krech TYPE konv-krech,
+            kbetr TYPE konv-kbetr,
+          END OF ty_konv.
+*added by Babu Zachariah DCDK918054
+    TYPES : BEGIN OF ts_setleaf,
+              setname TYPE setnamenew,
+              valfrom TYPE setvalmin,
+            END OF ts_setleaf.
+
+    DATA: ls_entity LIKE er_entity.
+    DATA : lv_msg TYPE string.
+    DATA fkdat TYPE vbrk-fkdat.
+
+    DATA : output_options TYPE ssfcompop.
+    DATA : lv_otf          TYPE xstring,
+           lv_BIN_FILESIZE TYPE so_obj_len.
+    DATA : lt_lines    TYPE STANDARD TABLE OF tline,
+           lt_pdf_data TYPE TABLE OF solix.
+
+    DATA   lr_document     TYPE REF TO cl_document_bcs.
+
+    DATA : lr_send_request TYPE REF TO cl_bcs,
+           send_request    TYPE REF TO cl_send_request_bcs,
+           document        TYPE REF TO cl_document_bcs,
+           lr_recipient    TYPE REF TO if_recipient_bcs,
+           recipient_cc    TYPE REF TO if_recipient_bcs.
+    DATA : wa_receivers  TYPE uiys_iusr.
+    DATA : wa_receiverscc  TYPE uiys_iusr.
+    DATA : lt_binary_content TYPE solix_tab.
+    DATA : l_devtype TYPE rspoptype.
+
+* DATA DECLRATIONS FOR SALES DOCUMENT: HEADER DATA
+    DATA:v_vbeln      TYPE vbak-vbeln,             " SALES DOCUMENT
+         v_kunnr      TYPE vbak-kunnr,               "SOLD-TO PARTY
+         p_vbeln      TYPE vbak-vbeln,               "PARENT SO
+         v_erdat      TYPE vbak-erdat,               "Date on Which Record Was Created
+
+* ----DATA DECLRATIONS FOR  BILLING DOCUMENT: HEADER DATA---
+
+         v1_vbeln     TYPE vbrk-vbeln,             "  BILLING DOCUMENT
+         v1_fkdat     TYPE vbrk-fkdat,           "BILLING DATE FOR BILLING INDEX AND PRINTOUT
+         v1_fkart     TYPE vbrk-fkart,               " BILLING TYPE
+         v1_knumv     TYPE vbrk-knumv,                "DOC.CONDITION
+         v1_waerk     TYPE vbrk-waerk,             " Doc Currency      " ADDED BY Prasad.
+         v1_vkorg     TYPE vbrk-vkorg,             " Sales Org.
+
+* ----DATA DECLRATIONS FOR ADDRESS DETAILES
+
+         c_name1      TYPE name1_gp,                 "NAME
+         c_ort01      TYPE ort01_gp,                 "CITY
+         c_land1      TYPE land1_gp,                 "COUNTRY KEY
+         c_stras      TYPE stras_gp,                 "HOUSE NO AND STREET
+         c_pstlz      TYPE kna1-pstlz,               "POSTAL CODE
+
+* ---DESCRIPTION FOR DESTINATION
+
+         v4_spras     TYPE spras,                    "LANUAGE
+         v4_bland     TYPE regio,                      "REGION
+         v4_bezei     TYPE bezei20,                  "DESCRIPTION
+
+         is_likp      TYPE likp,
+         is_transport TYPE ysdtrasdetails,
+
+*---- INTERNAL TABLE AND WORK AREA DECLRATION FOR THE BILLING ITEM
+
+         lt_vbrp      TYPE TABLE OF vbrp.
+
+    DATA:ls_konv   TYPE ty_konv,
+         lt_konv   TYPE TABLE OF ty_konv,
+
+         lt_tvaut  TYPE TABLE OF tvaut,
+         ls_tvaut  LIKE LINE OF lt_tvaut,
+
+         v2_vbeln  TYPE vbrp-vbeln,
+         v_werks   TYPE werks_d,
+         v2_fkimg  TYPE vbrp-fkimg,
+         v2_kzwi5  TYPE vbrp-kzwi5,
+         v2_kzwi4  TYPE vbrp-kzwi4,
+         v2_price  TYPE wrbtr,
+         v2_werks  TYPE vbrp-werks,
+         v3_regio  TYPE kna1-regio,
+         v2_name1  TYPE name1,
+         v2_aubel  TYPE vbrp-aubel,
+         v2_vgbel  TYPE vbrp-vgbel,
+         v_total1  TYPE kzwi5,
+         v_total   TYPE kzwi5,
+         v_vat     TYPE kzwi3,
+         v_spell1  TYPE spell,
+         v_words   TYPE string,
+         lv_kunnr  TYPE kunnr,
+         v_flag    TYPE char1 VALUE ' ',
+         v_augru   TYPE augru,
+         v2_bezei  TYPE bezei40,
+         lv_unit   TYPE meins,
+         landx50   TYPE landx50,
+         lv_kbetr  TYPE konv-kbetr,
+         ls_spell  TYPE spell,
+         lv_percen TYPE konv-kbetr.                " Percentage calcuation.
+
+    DATA:
+
+      v_subcharge1 TYPE vbrk-netwr,
+      v_subcharge2 TYPE vbrk-netwr,
+      v_discount1  TYPE konv-kwert,
+      v_discount2  TYPE konv-kwert,
+
+      v_zvt2       TYPE konv-kwert,
+      v_zvat       TYPE  konv-kwert.
+
+    DATA : lt_setleaf    TYPE STANDARD TABLE OF ts_setleaf,
+           ls_setleaf    TYPE ts_setleaf,
+           gv_amt_word   TYPE string,
+           lv_land1      TYPE land1,
+           ls_ycurrdenom TYPE ycurrdenom.
+*end of addition by Babu Zachairah DCDK918054
+
+    DATA : control_parameters TYPE ssfctrlop,
+           job_output_info    TYPE ssfcrescl,
+           w_cnt              TYPE i,
+           w_cnt2             TYPE i.
+
+    DATA : lt_vbrp_temp LIKE lt_vbrp,
+           ls_vbrp_temp LIKE LINE OF lt_vbrp_temp.
+
+    DATA: lv_fname TYPE rs38l_fnam.
+
+    DATA : lv_string_text TYPE string.
+    DATA : lt_text TYPE bcsy_text.
+
+**** Taking the front end data into  ls_entity.
+    io_data_provider->read_entry_data(
+        IMPORTING
+          es_data = ls_entity ).
+
+
+*       For Adding Leading Zeros
+    ls_entity-vbeln = |{ ls_entity-vbeln ALPHA = IN }|.
+    ls_entity-kunnr = |{ ls_entity-kunnr ALPHA = IN }|.
+    fkdat = ls_entity-fkdat.
+
+    SELECT SINGLE * FROM vbrk INTO @DATA(ls_vbrk)
+                              WHERE vbeln = @ls_entity-vbeln
+                               AND  bukrs = @ls_entity-bukrs
+                               AND kunrg  = @ls_entity-kunnr
+                               AND land1 = @ls_entity-land1
+                                 AND fkdat = @fkdat.
+
+    IF ls_vbrk IS INITIAL.
+      lv_msg = TEXT-001.
+      RAISE EXCEPTION TYPE /iwbep/cx_mgw_busi_exception
+        EXPORTING
+          textid            = /iwbep/cx_mgw_busi_exception=>business_error_unlimited
+          message_unlimited = lv_msg.
+
+      er_entity = ls_entity.
+      er_entity-message = TEXT-001.
+    ELSE.
+      DATA(lv_vbeln) = ls_entity-vbeln.
+      er_entity = ls_entity.
+      er_entity-message = TEXT-002.
+    ENDIF.
+
+*&---------------------------------------------------------------------*
+*&      FORM  ENTRY
+*&---------------------------------------------------------------------*
+*       TEXT
+*----------------------------------------------------------------------*
+*      -->RETURN_CODE  TEXT
+*      -->US_SCREEN    TEXT
+*----------------------------------------------------------------------*
+
+*START-OF-SELECTION.
+*** Added by Zubin on 02.06.20 (To bypass spool generation during replication through Haneya)
+    IF sy-cprog CP TEXT-012.
+      EXIT.
+    ENDIF.
+
+    IF lv_vbeln IS NOT INITIAL.
+
+      CLEAR: v_vbeln,
+         v_kunnr ,
+         v_vbeln,
+         v1_fkdat,
+         v1_fkart ,
+         v1_vbeln ,
+         c_name1 ,
+         c_ort01,
+         c_land1,
+         c_stras ,
+         c_pstlz ,
+         landx50,
+         v4_bezei ,
+         v_total1 ,
+         v_total ,
+         v_vat ,
+         v_spell1,
+         v_words,
+         v2_price,
+         v2_name1,
+         v2_vgbel,
+         is_likp,
+         v_total1,
+         v2_kzwi5,
+         v_vat,
+         v2_kzwi4,
+         lv_kbetr,
+         v1_waerk.
+
+
+      REFRESH: lt_vbrp.
+
+***************************************************************************************
+      v1_vbeln  = lv_vbeln.
+
+* -------------FETCHING THE HEADET DATA FROM VBRK TABLE-----------------
+
+      SELECT SINGLE vbeln fkdat fkart vkorg knumv waerk FROM vbrk
+               INTO (v1_vbeln, v1_fkdat,v1_fkart , v1_vkorg , v1_knumv ,v1_waerk)
+               WHERE vbeln = v1_vbeln.
+
+* -------------FETCHING THE ITEM DATA FROM VBRP TABLE-----------------.
+
+      FIELD-SYMBOLS : <fs_vbrp> LIKE LINE OF lt_vbrp_temp.
+
+      SELECT *  FROM vbrp INTO CORRESPONDING FIELDS OF TABLE lt_vbrp
+                                        WHERE vbeln = v1_vbeln.
+
+*--------------FETCHING THE VAT % FROM KONV TABLE____________*
+      CLEAR lv_percen.
+
+*---New
+      SELECT kbetr UP TO 1 ROWS FROM v_konv INTO @lv_percen WHERE knumv = @v1_knumv
+                                                      AND  kschl = 'ZVT1'.
+      ENDSELECT.
+*-End of HANA Adaptation
+
+      IF lv_percen IS NOT INITIAL.
+        lv_percen = ( lv_percen / 10 ).
+      ENDIF.
+
+*--------------FETCHING THE FREIGHT CHARGES FROM KONV TABLE____________*
+
+      SELECT knumv, kposn, krech, kbetr FROM v_konv INTO TABLE @lt_konv  WHERE knumv = @v1_knumv
+                                                  AND krech = 'D'.
+      SORT lt_vbrp BY vbeln posnr.
+*-End of HANA Adaptation
+
+      CLEAR v2_fkimg.
+
+      LOOP AT lt_vbrp ASSIGNING <fs_vbrp>.
+
+        READ TABLE lt_konv INTO ls_konv WITH KEY kposn = <fs_vbrp>-posnr.
+
+*********************************************
+*aham commented out the line below 17.02.2017
+**************************************************
+
+        AT NEW vbeln.
+          CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
+            EXPORTING
+              input  = <fs_vbrp>-posnr
+            IMPORTING
+              output = ls_vbrp_temp-posnr.
+
+          MOVE : <fs_vbrp>-matnr TO ls_vbrp_temp-matnr,
+                 <fs_vbrp>-arktx TO ls_vbrp_temp-arktx,
+                 <fs_vbrp>-meins TO ls_vbrp_temp-meins,
+                 <fs_vbrp>-netwr TO ls_vbrp_temp-netwr,
+                 <fs_vbrp>-aubel TO ls_vbrp_temp-aubel,
+                 <fs_vbrp>-erdat TO ls_vbrp_temp-erdat,
+                 <fs_vbrp>-augru_auft TO ls_vbrp_temp-augru_auft.
+
+        ENDAT.
+        MOVE: ls_vbrp_temp-augru_auft TO v_augru.
+
+        CASE <fs_vbrp>-meins.
+          WHEN 'EA'.
+            lv_unit = 'EA'.
+
+          WHEN 'TO'.
+            lv_unit = 'TO'.
+          WHEN 'NO'.
+            lv_unit = 'NO'.
+          WHEN OTHERS.
+            lv_unit = <fs_vbrp>-meins.
+        ENDCASE.
+
+
+
+        ADD <fs_vbrp>-fkimg TO v2_fkimg  .
+        ADD <fs_vbrp>-kzwi5 TO v2_kzwi5 .
+        ADD <fs_vbrp>-kzwi4 TO v2_kzwi4 .
+        ADD <fs_vbrp>-kzwi3 TO v_vat .
+        ADD <fs_vbrp>-fkimg TO ls_vbrp_temp-fkimg.
+        ADD <fs_vbrp>-kzwi4 TO ls_vbrp_temp-kzwi4.
+*  break developer.
+*
+
+        IF NOT v2_kzwi4 IS INITIAL.
+*************************
+
+          lv_kbetr = lv_kbetr + ( v2_kzwi4 / v2_fkimg ).
+        ENDIF.
+
+        SELECT vbeln werks vgbel aubel FROM vbrp UP TO 1 ROWS
+                                       INTO (v2_vbeln,v2_werks,v2_vgbel,v2_aubel)
+                                      WHERE vbeln = v1_vbeln
+                                      ORDER BY PRIMARY KEY.
+        ENDSELECT.
+*-End of HANA Adaptation
+
+        SELECT SINGLE vbeln erdat kunnr ihrez FROM vbak
+          INTO (v_vbeln ,v_erdat, v_kunnr, p_vbeln) WHERE vbeln = v2_aubel  .
+
+        IF v1_vkorg EQ '1000'.
+
+
+          SELECT kwert UP TO 1 ROWS FROM v_konv INTO @v_subcharge1 WHERE knumv = @v1_knumv
+                                                    AND  kschl = 'ZSRG'.
+          ENDSELECT.
+*-End of HANA Adaptation
+
+          v_subcharge2 = ( v_subcharge1 / v2_fkimg ) * -1.
+
+          SELECT kwert UP TO 1 ROWS FROM v_konv INTO @v_discount1 WHERE knumv = @v1_knumv
+                                                    AND  kschl = 'ZDIS'.
+          ENDSELECT.
+*-End of HANA Adaptation
+
+          v_discount2 =  ( v_discount1 / v2_fkimg ) * -1.
+
+        ENDIF.
+
+        SELECT kwert UP TO 1 ROWS FROM v_konv INTO @v_zvt2 WHERE knumv = @v1_knumv
+                                              AND  kschl = 'ZVT2'.
+        ENDSELECT.
+*-End of HANA Adaptation
+
+        v_zvt2 = v_zvt2 * -1.
+
+        v_vat = v_vat + v_zvt2.
+
+        AT END OF vbeln.
+          v_total1 = v_total1 + v2_kzwi5 + v_vat + v2_kzwi4 .
+
+
+          IF NOT v2_kzwi5 IS INITIAL.
+            IF v1_vkorg = '1000' AND v_erdat GT '20140227'.
+              v2_kzwi5 = v2_kzwi5 - v_subcharge1 - v_discount1.
+              v2_price = v2_price + ( v2_kzwi5 / v2_fkimg ). "#EC CI_FLDEXT_OK[2610650]
+            ELSE.
+              v2_price = v2_price + ( v2_kzwi5 / v2_fkimg ). "#EC CI_FLDEXT_OK[2610650]
+            ENDIF.
+          ENDIF.
+
+
+          MOVE : v2_kzwi5 TO ls_vbrp_temp-kzwi5.
+
+          ls_vbrp_temp-vbeln = <fs_vbrp>-vbeln.
+          APPEND ls_vbrp_temp TO lt_vbrp_temp.
+        ENDAT.
+      ENDLOOP.
+
+      IF lt_vbrp_temp[] IS NOT INITIAL.
+        CLEAR : lt_vbrp[].
+        lt_vbrp[] = lt_vbrp_temp[].
+      ENDIF.
+
+      SELECT SINGLE * FROM likp INTO is_likp WHERE vbeln = v2_vgbel.
+
+      SELECT SINGLE name1 ort01 land1 stras pstlz FROM kna1 INTO
+                                          (c_name1, c_ort01,c_land1,c_stras,c_pstlz) WHERE kunnr = v_kunnr.
+
+      SELECT SINGLE landx50 FROM t005t INTO landx50 WHERE spras = 'EN'
+                                                      AND land1 = c_land1.
+      SELECT SINGLE regio FROM kna1 INTO v3_regio WHERE kunnr = is_likp-kunnr.
+
+      SELECT SINGLE werks name1 kunnr FROM t001w INTO (v_werks,v2_name1, lv_kunnr)
+                                                               WHERE werks = v2_werks.
+
+      IF sy-subrc EQ 0.
+        SELECT SINGLE name1  FROM kna1 INTO v2_name1 WHERE kunnr = lv_kunnr.
+      ENDIF.
+
+      SELECT SINGLE trans_name truck_no driver FROM likp INTO is_transport
+                                                            WHERE vbeln = is_likp-vbeln.
+
+      SELECT SINGLE spras bland bezei FROM t005u INTO (v4_spras, v4_bland, v4_bezei)
+                                                       WHERE  bland = v3_regio
+                                                       AND  land1 = c_land1
+                                                       AND spras = 'EN'.
+
+      SELECT  * FROM tvaut INTO  TABLE lt_tvaut  WHERE spras = 'EN'
+                                                  AND augru =  v_augru.
+
+      READ TABLE lt_tvaut INTO ls_tvaut WITH KEY augru = v_augru.
+      MOVE ls_tvaut-bezei TO v2_bezei.
+
+
+      CALL FUNCTION 'YAMNTTOWORDS'
+        EXPORTING
+          iv_dec_fig     = v2_fkimg
+          iv_parent_uom  = lv_unit
+        IMPORTING
+          ev_dec_to_wrds = v_words.
+
+
+      v_total = v_total1 + v_vat.
+      CALL FUNCTION 'SPELL_AMOUNT'
+        EXPORTING
+          amount    = v_total1
+          currency  = 'INR'
+          filler    = ' '
+          language  = sy-langu
+        IMPORTING
+          in_words  = v_spell1
+        EXCEPTIONS
+          not_found = 1
+          too_large = 2
+          OTHERS    = 3.
+      IF sy-subrc <> 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+      ENDIF.
+
+      IF v1_fkart = 'ZF2'.
+        v_flag = 'X'.
+      ELSEIF v1_fkart = 'ZF8'.
+        v_flag = 'X'.
+      ENDIF.
+
+      CLEAR ls_ycurrdenom.
+      SELECT setname valfrom FROM setleaf INTO TABLE lt_setleaf
+              WHERE setclass = '0000' AND
+                    setname = 'ZSD_COUNTRY_VALID'.
+      IF sy-subrc = 0.
+        SELECT SINGLE land1 FROM t001w INTO lv_land1 WHERE werks = v_werks.
+        IF sy-subrc = 0.
+          READ TABLE lt_setleaf INTO ls_setleaf WITH KEY valfrom = lv_land1."c_land1.
+        ENDIF.
+        IF sy-subrc = 0.
+          CLEAR : v_erdat.
+          SELECT SINGLE * FROM ycurrdenom INTO ls_ycurrdenom WHERE curr = v1_waerk.
+          CONCATENATE 'AMOUNT IN WORDS :'(a01) v_spell1-word ls_ycurrdenom-word1 'and'
+          v_spell1-decword ls_ycurrdenom-word2 'ONLY' INTO gv_amt_word SEPARATED BY space.
+        ELSE.
+          gv_amt_word = v_spell1-word.
+
+        ENDIF.
+      ENDIF.
+
+*end of addition by Babu Zachriah DCDK918418
+
+      control_parameters-preview = 'X'.
+      control_parameters-getotf = 'X'.
+      control_parameters-no_dialog = 'X'.
+
+      output_options-tddest = 'LP01'.
+      output_options-tdnoprev = 'X'.
+      output_options-tdnoprint  = 'X'.
+
+
+      CALL FUNCTION 'SSF_GET_DEVICE_TYPE'
+        EXPORTING
+          i_language             = 'E'
+        IMPORTING
+          e_devtype              = l_devtype
+        EXCEPTIONS
+          no_language            = 1
+          language_not_installed = 2
+          no_devtype_found       = 3
+          system_error           = 4
+          OTHERS                 = 5.
+      IF sy-subrc <> 0.
+* Implement suitable error handling here
+      ENDIF.
+
+      output_options-tdprinter = l_devtype.
+
+
+      IF v_flag = 'X'.
+        CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+          EXPORTING
+            formname           = 'YLB_BIL_INVOICE'
+          IMPORTING
+            fm_name            = lv_fname
+          EXCEPTIONS
+            no_form            = 1
+            no_function_module = 2
+            OTHERS             = 3.
+
+        IF sy-subrc <> 0.
+          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        ENDIF.
+
+        CALL FUNCTION lv_fname "'/1BCDWB/SF00000004'
+          EXPORTING
+            control_parameters = control_parameters
+            output_options     = output_options
+            v_kunnr            = v_kunnr
+            v_vbeln            = v_vbeln
+            v1_fkdat           = v1_fkdat
+            v1_fkart           = v1_fkart
+            v1_vbeln           = v1_vbeln
+            v1_waerk           = v1_waerk
+            c_name1            = c_name1
+            c_ort01            = c_ort01
+            c_land1            = c_land1
+            c_stras            = c_stras
+            c_pstlz            = c_pstlz
+            v4_bezei           = v4_bezei
+            v_total1           = v_total1
+            v_total            = v_total
+            v_vat              = v_vat
+            v_spell1           = v_spell1
+            v_words            = v_words
+            v2_price           = v2_price
+            v2_price1          = lv_kbetr
+            v2_name1           = v2_name1
+            v2_vgbel           = v2_vgbel
+            is_likp            = is_likp
+            is_transport       = is_transport
+            iv_unit            = lv_unit
+            iv_parent_so       = p_vbeln
+            lv_percen          = lv_percen
+            v_subcharge1       = v_subcharge1
+            v_subcharge2       = v_subcharge2
+            v_erdat            = v_erdat
+            gv_amt_word        = gv_amt_word
+            v_discount1        = v_discount1
+            v_discount2        = v_discount2
+          IMPORTING
+            job_output_info    = job_output_info
+          TABLES
+            it_vbrp            = lt_vbrp
+          EXCEPTIONS
+            formatting_error   = 1
+            internal_error     = 2
+            send_error         = 3
+            user_canceled      = 4
+            OTHERS             = 5.
+        IF sy-subrc <> 0.
+* Implement suitable error handling here
+        ENDIF.
+
+
+        CALL FUNCTION 'CONVERT_OTF'
+          EXPORTING
+            format                = 'PDF'
+          IMPORTING
+            bin_filesize          = lv_BIN_FILESIZE
+            bin_file              = lv_otf
+          TABLES
+            otf                   = job_output_info-otfdata
+            lines                 = lt_lines
+          EXCEPTIONS
+            err_max_linewidth     = 1
+            err_format            = 2
+            err_conv_not_possible = 3
+            err_bad_otf           = 4
+            OTHERS                = 5.
+        IF sy-subrc <> 0.
+* Implement suitable error handling here
+        ENDIF.
+
+        CALL FUNCTION 'SCMS_XSTRING_TO_BINARY'
+          EXPORTING
+            buffer     = lv_otf
+          TABLES
+            binary_tab = lt_binary_content.
+
+      ENDIF.
+
+
+      IF v1_fkart = 'ZL2'.
+        v_flag = 'Y'.
+      ELSEIF v1_fkart = 'ZG2'.
+        v_flag = 'Y'.
+      ENDIF.
+      IF v_flag = 'Y'.
+        CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+          EXPORTING
+            formname           = 'YCREDITNOTEFORM'
+          IMPORTING
+            fm_name            = lv_fname
+          EXCEPTIONS
+            no_form            = 1
+            no_function_module = 2
+            OTHERS             = 3.
+        IF sy-subrc <> 0.
+* IMPLEMENT SUITABLE ERROR HANDLING HERE
+        ENDIF.
+
+
+        CALL FUNCTION lv_fname "'/1BCDWB/SF00000026'
+          EXPORTING
+            control_parameters = control_parameters
+            output_options     = output_options
+            c_name1            = c_name1
+            c_ort01            = c_ort01
+            landx50            = landx50
+            c_stras            = c_stras
+            c_pstlz            = c_pstlz
+            v_flag             = v_flag
+            v1_fkart           = v1_fkart
+            v1_vbeln           = v1_vbeln
+            v2_bezei           = v2_bezei
+            v1_waerk           = v1_waerk
+          IMPORTING
+            job_output_info    = job_output_info
+          TABLES
+            it_vbrp            = lt_vbrp
+          EXCEPTIONS
+            formatting_error   = 1
+            internal_error     = 2
+            send_error         = 3
+            user_canceled      = 4
+            OTHERS             = 5.
+        IF sy-subrc <> 0.
+* Implement suitable error handling here
+        ENDIF.
+        CALL FUNCTION 'CONVERT_OTF'
+          EXPORTING
+            format                = 'PDF'
+          IMPORTING
+            bin_filesize          = lv_BIN_FILESIZE
+            bin_file              = lv_otf
+          TABLES
+            otf                   = job_output_info-otfdata
+            lines                 = lt_lines
+          EXCEPTIONS
+            err_max_linewidth     = 1
+            err_format            = 2
+            err_conv_not_possible = 3
+            err_bad_otf           = 4
+            OTHERS                = 5.
+        IF sy-subrc <> 0.
+* Implement suitable error handling here
+        ENDIF.
+
+        CALL FUNCTION 'SCMS_XSTRING_TO_BINARY'
+          EXPORTING
+            buffer     = lv_otf
+          TABLES
+            binary_tab = lt_binary_content.
+        .
+      ENDIF.
+
+
+      IF lt_binary_content IS NOT INITIAL.
+
+        SELECT vbeln ,kunag FROM vbrk INTO TABLE @DATA(lt_vbrk)
+                                      WHERE vbeln = @lv_vbeln.
+        IF lt_vbrk IS NOT INITIAL.
+          SELECT kunnr , adrnr FROM kna1 INTO TABLE @DATA(it_kna1)
+                                       FOR ALL ENTRIES IN @lt_vbrk
+                                       WHERE kunnr = @lt_vbrk-kunag.
+          IF it_kna1 IS NOT INITIAL.
+            SELECT addrnumber ,
+                   persnumber,
+                   date_from,
+                   consnumber,
+                   smtp_addr FROM adr6 INTO TABLE @DATA(it_adr6)
+                                               FOR ALL ENTRIES IN @it_kna1
+                                               WHERE addrnumber = @it_kna1-adrnr.
+          ENDIF.
+        ENDIF.
+
+        READ TABLE it_adr6 INTO DATA(ls_adr6) INDEX 1.
+        IF sy-subrc = 0.
+          wa_receivers-email = ls_adr6-smtp_addr.
+        ENDIF.
+
+*        create the send request
+        lr_send_request = cl_bcs=>create_persistent( ).
+
+        "First line
+        CONCATENATE TEXT-004 cl_abap_char_utilities=>newline INTO lv_string_text.
+        APPEND lv_string_text TO lt_text.
+        CLEAR lv_string_text.
+        "Second line
+        lv_string_text = | Please find attached the invoice { lv_vbeln } that you requested via the DMS portal { cl_abap_char_utilities=>newline } |.
+
+        APPEND lv_string_text TO lt_text.
+        CLEAR lv_string_text.
+
+
+        CONCATENATE  TEXT-003
+                      cl_abap_char_utilities=>newline INTO lv_string_text.
+        APPEND lv_string_text TO lt_text.
+        CLEAR lv_string_text.
+
+        "Third line
+        APPEND TEXT-005 TO lt_text.
+        "Fourth line
+        APPEND TEXT-006 TO lt_text.
+
+        DATA it_email_content TYPE soli_tab." OPTIONAL
+
+        lr_document = cl_document_bcs=>create_document(
+                                         i_type    = 'RAW'
+                                         i_text    = lt_text
+                                         i_subject =  |TEST Invoice { lv_vbeln } | ) .
+
+        lr_document->add_attachment( i_attachment_type    = 'PDF'
+                                      i_attachment_size = lv_bin_filesize
+                                     i_attachment_subject = 'Invoice'
+                                      i_att_content_hex    =  lt_binary_content
+       ).
+
+
+* *     add document to send request
+        lr_send_request->set_document( lr_document ).
+
+
+*    wa_receivers-email = 'KALYAN.KUMAR@DANGOTE.COM'.
+        DATA(lv_recep) = wa_receivers-email.
+*     create recipient and add to send request
+        lr_recipient = cl_cam_address_bcs=>create_internet_address( lv_recep ).
+
+        lr_send_request->add_recipient( i_recipient = lr_recipient
+                                       i_express = 'X'    ).
+
+
+        CALL METHOD lr_send_request->set_send_immediately
+          EXPORTING
+            i_send_immediately = 'X'.
+
+
+        DATA lv_sent_to_all TYPE os_boolean.
+        CALL METHOD lr_send_request->send(
+          EXPORTING
+            i_with_error_screen = 'X'
+          RECEIVING
+            result              = lv_sent_to_all ).
+
+        IF lv_sent_to_all IS NOT INITIAL.
+          COMMIT WORK.
+
+          IF sy-subrc = 0.
+            DATA lo_message_container TYPE REF TO /iwbep/if_message_container.
+            lo_message_container = me->mo_context->get_message_container( ).
+            "Step 2- Fill the message container
+            lo_message_container->add_message_text_only(
+              EXPORTING
+                iv_msg_type               = 'S'
+                iv_msg_text               = 'Mail Sent Successfully'
+                iv_add_to_response_header = abap_true
+            ).
+*
+          ENDIF.
+
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+*      include zsdi_inv_export.
+
+
+*  ENDMETHOD.
