@@ -1,9 +1,9 @@
 # Migration Status — YCREDITNOTEFORM
 
 STATUS: waiting_manual
-UPDATED: 2026-11-23T16:55:43.172Z
+UPDATED: 2026-11-23T16:58:17.942Z
 WAITING_ON: operator
-NOTE: Version 1, step 1 of 2: create YCREDITNOTEFORM_INT / _ADT in SFP, pull this branch, activate the interface, push both back - details in the latest entry.
+NOTE: Two steps for you: (1) pull this branch in abapGit and activate YCREDITNOTEFORM_INT, (2) create the empty form YCREDITNOTEFORM_ADT, activate, push. Context and layout are done by us.
 STOP: none
 CLAIMED_BY: Window-5
 
@@ -102,3 +102,13 @@ Thank you - proceeding with the defaults: version 1 prints exactly what YCREDITN
 4. Choose **I've done this - confirm** here.
 
 **Next (step 2)**: Context and layout exactly as the legacy form (logo, header, address, CREDIT / DEBIT NOTE box, number and date, item table with TOTAL lines, amount in words, signature lines), then you preview a credit note and a debit note - with a short list of post-implementation checks.
+
+## 2026-11-23T16:58:17.942Z — Simpler: only two steps for you (replaces the list above)
+The interface is ready for you; the Context and the layout are built by us. You only need to:
+
+1. **Pull the interface** - abapGit: pull this branch (vernasofttechie-ycreditnoteform), package **ZAB_ADOBE**. It creates **YCREDITNOTEFORM_INT** with its parameters, global fields and code. **Activate YCREDITNOTEFORM_INT.** If SAP reports an error, send the exact message and line (Report a problem).
+2. **Create the form** - SFP: create the form **YCREDITNOTEFORM_ADT** on the interface YCREDITNOTEFORM_INT, package ZAB_ADOBE, leave it empty, **activate**. Then abapGit: **Stage, Commit and Push** it to this branch.
+
+Then choose **I've done this - confirm**. We build the Context and the complete layout into your form and send it back for one pull and a preview.
+
+(Only if the pull in step 1 does not create the interface: create YCREDITNOTEFORM_INT empty in SFP and pull again.)
