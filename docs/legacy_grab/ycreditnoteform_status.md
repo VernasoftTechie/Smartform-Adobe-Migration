@@ -1,9 +1,9 @@
 # Migration Status — YCREDITNOTEFORM
 
 STATUS: waiting_manual
-UPDATED: 2026-11-23T16:14:12.786Z
+UPDATED: 2026-11-23T16:19:30.551Z
 WAITING_ON: operator
-NOTE: Picked up by Window-5. Before building, please send the evidence and answers listed in the latest entry (wizard form, printouts, 5 decisions).
+NOTE: Waiting for your answers: please reply to the numbered list in the latest entry (files E1-E3, questions Q1-Q11) in one message.
 STOP: none
 CLAIMED_BY: Window-5
 
@@ -37,3 +37,28 @@ Window-5 has started on YCREDITNOTEFORM. Thank you for the complete upload (lega
 5. **Box around the title**: the CREDIT NOTE / DEBIT NOTE text has a frame in the form definition. Is it printed inside a box on paper? (The printouts will answer this too.)
 
 **What happens next**: with the evidence and answers I build the interface first and ask you to pull it (one step at a time). Nothing is changed in your system before that, and the driver programs are never touched.
+
+## 2026-11-23T16:19:30.551Z — Complete list of questions (please answer in one reply)
+This list replaces the requests of my previous entry and adds the remaining points, so you can answer everything at once. Nothing is built before your answers.
+
+**How to reply:** open this migration in Bolt, type the answers in the box (just the numbers, e.g. "Q1 yes, Q2 keep ..."), attach the files and choose **I've done this - confirm**.
+
+**Files to attach**
+- **E1** The wizard form of this Smart Form: SFP > *Create Adobe Form by Migration* on YCREDITNOTEFORM (any name, local package), then its form XML and layout (XDP).
+- **E2** One printed **credit note (ZG2)** and one printed **debit note (ZL2)** as PDF, made with the current Smart Form, with their document numbers. One with several items if you have it.
+- **E3** If a note ever runs onto a second page: that printout as well.
+
+**Questions**
+- **Q1 Still in use?** ZSDSN_RLB_INVOICE now prints credit notes with **ZSDSN_CRNOTE_SF**, and no NACE output type points to YCREDITNOTEFORM. Which program and output type print YCREDITNOTEFORM today (YRLB_INVOICE, ZINVOICE, ZJ_INVOICE1, ZSDI_INV_EXPORT)? If it is no longer printed, should ZSDSN_CRNOTE_SF be migrated instead?
+- **Q2 Amount per item:** every item line prints the whole document amount (net + tax) and TOTAL adds it again per item, so two items double the total. Keep as today, or print each item's own amount?
+- **Q3 TOTAL line:** a TOTAL line follows every item (running total). Keep, or one TOTAL after the last item?
+- **Q4 Date:** the date printed is the day of printing, not the billing date. Keep?
+- **Q5 Title box:** is CREDIT NOTE / DEBIT NOTE printed inside a box?
+- **Q6 Number format:** amounts as 1,234,567.89 (as today, I assume) - correct?
+- **Q7 Language:** English only (the French texts in the form are identical to the English ones) - correct? The amount in words follows the user's logon language today; keep?
+- **Q8 Plant name:** for credit notes of plants whose country is in set ZSD_COUNTRY_VALID the plant name is left out (legacy rule). Still wanted?
+- **Q9 Logo:** the form uses graphic DANGOTE LOGO (SE78). Still the right logo?
+- **Q10 Object names and package:** the new objects will be **YCREDITNOTEFORM_INT** (interface) and **YCREDITNOTEFORM_ADT** (form). Which package and transport should they go into?
+- **Q11 Test documents:** one credit note and one debit note number we may use to preview the new form (can be the ones of E2).
+
+The driver programs are only read, never changed. Which program will later call the new Adobe form is a separate decision for you; it is not part of this migration.
