@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SFPI" serializer_version="v1.0.0">
+ <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml">
+  <asx:values>
+   <VERSION>1</VERSION>
+   <TYPE/>
+   <INTERFACE href="#o1"/>
+   <INTERFACET>
+    <FPINTERFACET>
+     <NAME/>
+     <STATE/>
+     <LANGUAGE>E</LANGUAGE>
+     <ID/>
+     <TEXT>YCREDITNOTEFORM</TEXT>
+    </FPINTERFACET>
+   </INTERFACET>
+  </asx:values>
+  <asx:heap xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:abap="http://www.sap.com/abapxml/types/built-in" xmlns:cls="http://www.sap.com/abapxml/classes/global" xmlns:dic="http://www.sap.com/abapxml/types/dictionary">
+   <cls:CL_FP_INTERFACE_DATA id="o1">
+    <CL_FP_INTERFACE_DATA classVersion="1">
+     <CODING href="#o5"/>
+     <PARAMETERS href="#o4"/>
+     <GLOBAL_DEFINITIONS href="#o3"/>
+     <REFERENCE_FIELDS href="#o2"/>
+     <XSD_DEFINITIONS/>
+    </CL_FP_INTERFACE_DATA>
+   </cls:CL_FP_INTERFACE_DATA>
+   <cls:CL_FP_REFERENCE_FIELDS id="o2">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_REFERENCE_FIELDS classVersion="1">
+     <REFERENCE_FIELDS/>
+    </CL_FP_REFERENCE_FIELDS>
+   </cls:CL_FP_REFERENCE_FIELDS>
+   <cls:CL_FP_GLOBAL_DEFINITIONS id="o3">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_GLOBAL_DEFINITIONS classVersion="1">
+     <GLOBAL_DATA>
+      <SFPGDATA><NAME>V_DATE</NAME><TYPING>TYPE</TYPING><TYPENAME>CHAR10</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>WA_VBRP</NAME><TYPING>TYPE</TYPING><TYPENAME>VBRP</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>V_SLNO</NAME><TYPING>TYPE</TYPING><TYPENAME>I</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>WAERK</NAME><TYPING>TYPE</TYPING><TYPENAME>VBRK-WAERK</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>NETWR</NAME><TYPING>TYPE</TYPING><TYPENAME>NETWR_FP</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>V_NETWR</NAME><TYPING>TYPE</TYPING><TYPENAME>NETWR_FP</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>TOT_NETWR</NAME><TYPING>TYPE</TYPING><TYPENAME>NETWR_FP</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LS_SPELL</NAME><TYPING>TYPE</TYPING><TYPENAME>SPELL</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_TOTWORDS</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_TITLE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_CURR_DES</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_PLANT_DES</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>WA_VBRK</NAME><TYPING>TYPE</TYPING><TYPENAME>VBRK</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_TINNO</NAME><TYPING>TYPE</TYPING><TYPENAME>STCD5</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GT_ITEMS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_ITEM_TAB</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_SHOW_TABLE</NAME><TYPING>TYPE</TYPING><TYPENAME>CHAR1</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_DOC_TITLE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_ADVICE_TEXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_DOC_NO_LINE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_DATE_LINE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_TIN_LINE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_WORDS_LINE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+     </GLOBAL_DATA>
+     <TYPES>
+      <FPCLINE>" BOLT: one entry per item of IT_VBRP = the item line (%ROW2) and its TOTAL line (%ROW3)</FPCLINE>
+      <FPCLINE>TYPES: BEGIN OF ty_item,</FPCLINE>
+      <FPCLINE>         slno    TYPE string,</FPCLINE>
+      <FPCLINE>         details TYPE string,</FPCLINE>
+      <FPCLINE>         amount  TYPE string,</FPCLINE>
+      <FPCLINE>         total   TYPE string,</FPCLINE>
+      <FPCLINE>       END OF ty_item,</FPCLINE>
+      <FPCLINE>       ty_item_tab TYPE STANDARD TABLE OF ty_item WITH EMPTY KEY.</FPCLINE>
+     </TYPES>
+     <TYPES/>
+     <FIELDSYMBOLS/>
+    </CL_FP_GLOBAL_DEFINITIONS>
+   </cls:CL_FP_GLOBAL_DEFINITIONS>
+   <cls:CL_FP_PARAMETERS id="o4">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_PARAMETERS classVersion="1">
+     <IMPORT_PARAMETERS>
+      <SFPIOPAR><NAME>C_NAME1</NAME><TYPING>TYPE</TYPING><TYPENAME>NAME1_GP</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>C_ORT01</NAME><TYPING>TYPE</TYPING><TYPENAME>ORT01_GP</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>C_LAND1</NAME><TYPING>TYPE</TYPING><TYPENAME>LAND1_GP</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>C_PSTLZ</NAME><TYPING>TYPE</TYPING><TYPENAME>PSTLZ</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>C_STRAS</NAME><TYPING>TYPE</TYPING><TYPENAME>STRAS_GP</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>V_FLAG</NAME><TYPING>TYPE</TYPING><TYPENAME>CHAR1</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>V1_FKART</NAME><TYPING>TYPE</TYPING><TYPENAME>FKART</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>V1_VBELN</NAME><TYPING>TYPE</TYPING><TYPENAME>VBELN_VF</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>V2_BEZEI</NAME><TYPING>TYPE</TYPING><TYPENAME>BEZEI40</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LANDX50</NAME><TYPING>TYPE</TYPING><TYPENAME>LANDX50</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>V1_WAERK</NAME><TYPING>TYPE</TYPING><TYPENAME>VBRK-WAERK</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </IMPORT_PARAMETERS>
+     <EXPORT_PARAMETERS/>
+     <TABLE_PARAMETERS>
+      <SFPIOPAR><NAME>IT_VBRP</NAME><TYPING>LIKE</TYPING><TYPENAME>VBRP</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </TABLE_PARAMETERS>
+     <EXCEPTIONS/>
+    </CL_FP_PARAMETERS>
+   </cls:CL_FP_PARAMETERS>
+   <cls:CL_FP_CODING id="o5">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_CODING classVersion="1">
+     <INPUT_PARAMETERS>
+      <FPPARAMETER>IT_VBRP</FPPARAMETER>
+      <FPPARAMETER>LV_TINNO</FPPARAMETER>
+      <FPPARAMETER>V1_VBELN</FPPARAMETER>
+      <FPPARAMETER>V1_FKART</FPPARAMETER>
+      <FPPARAMETER>V1_WAERK</FPPARAMETER>
+      <FPPARAMETER>V_DATE</FPPARAMETER>
+      <FPPARAMETER>V2_BEZEI</FPPARAMETER>
+      <FPPARAMETER>V_FLAG</FPPARAMETER>
+     </INPUT_PARAMETERS>
+     <OUTPUT_PARAMETERS>
+      <FPPARAMETER>WA_VBRK</FPPARAMETER>
+      <FPPARAMETER>LV_TINNO</FPPARAMETER>
+      <FPPARAMETER>LV_TITLE</FPPARAMETER>
+      <FPPARAMETER>LV_CURR_DES</FPPARAMETER>
+      <FPPARAMETER>LV_PLANT_DES</FPPARAMETER>
+      <FPPARAMETER>V_DATE</FPPARAMETER>
+      <FPPARAMETER>WA_VBRP</FPPARAMETER>
+      <FPPARAMETER>V_SLNO</FPPARAMETER>
+      <FPPARAMETER>V_NETWR</FPPARAMETER>
+      <FPPARAMETER>TOT_NETWR</FPPARAMETER>
+      <FPPARAMETER>LS_SPELL</FPPARAMETER>
+      <FPPARAMETER>LV_TOTWORDS</FPPARAMETER>
+      <FPPARAMETER>GT_ITEMS</FPPARAMETER>
+      <FPPARAMETER>GV_SHOW_TABLE</FPPARAMETER>
+      <FPPARAMETER>GV_DOC_TITLE</FPPARAMETER>
+      <FPPARAMETER>GV_ADVICE_TEXT</FPPARAMETER>
+      <FPPARAMETER>GV_DOC_NO_LINE</FPPARAMETER>
+      <FPPARAMETER>GV_DATE_LINE</FPPARAMETER>
+      <FPPARAMETER>GV_TIN_LINE</FPPARAMETER>
+      <FPPARAMETER>GV_WORDS_LINE</FPPARAMETER>
+     </OUTPUT_PARAMETERS>
+     <INITIALIZATION>
+      <FPCLINE>" Added Logic to sum header amount and tax amount</FPCLINE>
+      <FPCLINE>" under TR DCDK944922</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>READ TABLE it_vbrp INTO DATA(ls_vbrp) INDEX 1.</FPCLINE>
+      <FPCLINE>IF sy-subrc = 0.</FPCLINE>
+      <FPCLINE>  SELECT SINGLE * FROM vbrk INTO wa_vbrk</FPCLINE>
+      <FPCLINE>                  WHERE vbeln = ls_vbrp-vbeln.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CONSTANTS : lc_timetype TYPE zab_de_dcp_param1 VALUE &apos;ZSD_TINNO&apos;,</FPCLINE>
+      <FPCLINE>            ic_param2	  TYPE zab_de_dcp_param2 VALUE &apos;STCD5&apos;.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  CALL METHOD zab_dcp_parameters=&gt;get_parameter</FPCLINE>
+      <FPCLINE>    EXPORTING</FPCLINE>
+      <FPCLINE>      iv_param1     = lc_timetype</FPCLINE>
+      <FPCLINE>      iv_param2     = ic_param2</FPCLINE>
+      <FPCLINE>      iv_valid_from = sy-datum</FPCLINE>
+      <FPCLINE>    IMPORTING</FPCLINE>
+      <FPCLINE>      et_dcp_param  = DATA(lt_timetype).</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  IF lt_timetype IS NOT INITIAL.</FPCLINE>
+      <FPCLINE>    lv_tinno = VALUE #( lt_timetype[ 1 ]-value1 OPTIONAL ).</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>*Added by Babu Zachariah DCDK918054</FPCLINE>
+      <FPCLINE>* Title and Plant Descrition was hardcoded.</FPCLINE>
+      <FPCLINE>* Removed hard code&apos;s and the values are picking from Table</FPCLINE>
+      <FPCLINE>* level. And also removed currency type hardcode  and picking</FPCLINE>
+      <FPCLINE>* from table level</FPCLINE>
+      <FPCLINE>TYPES : BEGIN OF ts_set,</FPCLINE>
+      <FPCLINE>        SETNAME TYPE SETNAMENEW,</FPCLINE>
+      <FPCLINE>        VALFROM TYPE SETVALMIN,</FPCLINE>
+      <FPCLINE>        END OF ts_set.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>DATA : lv_bukrs TYPE bukrs,</FPCLINE>
+      <FPCLINE>       lv_adrnr TYPE ADRNR,</FPCLINE>
+      <FPCLINE>       lv_waers TYPE waers,</FPCLINE>
+      <FPCLINE>       lv_comp_name TYPE ad_name1,</FPCLINE>
+      <FPCLINE>       lv_werks TYPE werks_d,</FPCLINE>
+      <FPCLINE>       lv_name1 TYPE name1,</FPCLINE>
+      <FPCLINE>       lv_land1 TYPE land1,</FPCLINE>
+      <FPCLINE>       lt_set TYPE STANDARD TABLE OF ts_set,</FPCLINE>
+      <FPCLINE>       ls_set TYPE ts_set.</FPCLINE>
+      <FPCLINE>*setleaf to pick the plant level country code</FPCLINE>
+      <FPCLINE>SELECT SETNAME VALFROM FROM SETLEAF INTO TABLE lt_set</FPCLINE>
+      <FPCLINE>       WHERE SETCLASS = &apos;0000&apos; and</FPCLINE>
+      <FPCLINE>             SETNAME = &apos;ZSD_COUNTRY_VALID&apos;.</FPCLINE>
+      <FPCLINE>if v1_vbeln is NOT INITIAL.</FPCLINE>
+      <FPCLINE>  SELECT SINGLE bukrs FROM vbrk INTO lv_bukrs</FPCLINE>
+      <FPCLINE>         WHERE vbeln = v1_vbeln.</FPCLINE>
+      <FPCLINE>endif.</FPCLINE>
+      <FPCLINE>CLEAR : lv_title,lv_comp_name,lv_adrnr,lv_plant_des.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>if sy-subrc = 0.</FPCLINE>
+      <FPCLINE> SELECT SINGLE waers adrnr FROM t001 INTO (lv_waers,lv_adrnr)</FPCLINE>
+      <FPCLINE>        WHERE bukrs = lv_bukrs.</FPCLINE>
+      <FPCLINE>endif.</FPCLINE>
+      <FPCLINE>if sy-subrc = 0.</FPCLINE>
+      <FPCLINE>  SELECT SINGLE name1 FROM adrc INTO lv_comp_name</FPCLINE>
+      <FPCLINE>        WHERE ADDRNUMBER = lv_adrnr.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>if sy-subrc = 0.</FPCLINE>
+      <FPCLINE>  if lv_comp_name is NOT INITIAL.</FPCLINE>
+      <FPCLINE>  CALL FUNCTION &apos;AIPC_CONVERT_TO_UPPERCASE&apos;</FPCLINE>
+      <FPCLINE>    EXPORTING</FPCLINE>
+      <FPCLINE>      i_input        =  lv_comp_name</FPCLINE>
+      <FPCLINE>     I_LANGU        = SY-LANGU</FPCLINE>
+      <FPCLINE>   IMPORTING</FPCLINE>
+      <FPCLINE>     E_OUTPUT       =  lv_title .</FPCLINE>
+      <FPCLINE>endif.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>if V1_VBELN is NOT INITIAL.</FPCLINE>
+      <FPCLINE>  SELECT SINGLE werks FROM vbrp INTO lv_werks</FPCLINE>
+      <FPCLINE>        WHERE vbeln = V1_VBELN.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>if lv_werks is NOT INITIAL.</FPCLINE>
+      <FPCLINE>  SELECT SINGLE name1 land1 FROM t001w INTO (lv_name1, lv_land1)</FPCLINE>
+      <FPCLINE>         WHERE werks = lv_werks.</FPCLINE>
+      <FPCLINE>endif.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>if lv_name1 is NOT INITIAL.</FPCLINE>
+      <FPCLINE>*based on the country code plant description is avoiding</FPCLINE>
+      <FPCLINE>  READ TABLE lt_set INTO ls_set with KEY valfrom = lv_land1.</FPCLINE>
+      <FPCLINE>  if sy-subrc = 0 and V1_FKART = &apos;ZG2&apos;.</FPCLINE>
+      <FPCLINE>    CLEAR lv_name1.</FPCLINE>
+      <FPCLINE>  endif.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE/>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE/>
+      <FPCLINE>       if lv_name1 is NOT INITIAL.</FPCLINE>
+      <FPCLINE>  CALL FUNCTION &apos;AIPC_CONVERT_TO_UPPERCASE&apos;</FPCLINE>
+      <FPCLINE>    EXPORTING</FPCLINE>
+      <FPCLINE>      i_input        =  lv_name1</FPCLINE>
+      <FPCLINE>     I_LANGU        = SY-LANGU</FPCLINE>
+      <FPCLINE>   IMPORTING</FPCLINE>
+      <FPCLINE>     E_OUTPUT       =  lv_plant_des.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>endif.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CLEAR : lv_curr_des.</FPCLINE>
+      <FPCLINE>    if lv_waers is NOT INITIAL.</FPCLINE>
+      <FPCLINE>CONCATENATE &apos;TOTAL(&apos; V1_WAERK &apos;)&apos; INTO lv_curr_des."lv_waers</FPCLINE>
+      <FPCLINE>endif.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CONCATENATE SY-DATUM+6(2) SY-DATUM+4(2) SY-DATUM(4) INTO V_DATE SEPARATED BY &apos;/&apos;.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-5): main window table %TABLE1 of YCREDITNOTEFORM ======================</FPCLINE>
+      <FPCLINE>" The program lines of the item line (%CODE2, %CODE3) and of the TOTAL line (%CODE5) ran once</FPCLINE>
+      <FPCLINE>" per item in the Smart Form. An Adobe table cannot run code, so they run here, verbatim, in a</FPCLINE>
+      <FPCLINE>" LOOP over IT_VBRP, and GT_ITEMS keeps what the two lines printed (item + running TOTAL).</FPCLINE>
+      <FPCLINE>" %TABLE1 prints only when V_FLAG = Y (every caller passes Y for ZG2 / ZL2): its code runs only then.</FPCLINE>
+      <FPCLINE>DATA lv_bolt_amount TYPE c LENGTH 30.</FPCLINE>
+      <FPCLINE>DATA lv_bolt_total  TYPE c LENGTH 30.</FPCLINE>
+      <FPCLINE>gv_show_table = COND #( WHEN v_flag = &apos;Y&apos; THEN abap_true ELSE abap_false ).</FPCLINE>
+      <FPCLINE>IF gv_show_table = abap_true.</FPCLINE>
+      <FPCLINE>LOOP AT it_vbrp INTO wa_vbrp.</FPCLINE>
+      <FPCLINE>* --- %CODE2 New Program Lines 2 (verbatim)</FPCLINE>
+      <FPCLINE>  V_SLNO = V_SLNO + 1.</FPCLINE>
+      <FPCLINE>* --- %CODE3 New Program Lines 3 (verbatim)</FPCLINE>
+      <FPCLINE>*BREAK-POINT.</FPCLINE>
+      <FPCLINE>  " Added Logic to sum header amount and tax amount</FPCLINE>
+      <FPCLINE>  " under TR DCDK944922</FPCLINE>
+      <FPCLINE>  v_netwr = wa_vbrk-netwr + wa_vbrk-mwsbk.</FPCLINE>
+      <FPCLINE>*v_netwr = v_amount.</FPCLINE>
+      <FPCLINE>*MOVE:v_amount to v_netwr.</FPCLINE>
+      <FPCLINE>*replace all occurrences of &apos;,&apos;  in v_netwr WITH space.</FPCLINE>
+      <FPCLINE>*condense v_netwr no-gaps.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE/>
+      <FPCLINE>*SPLIT WA_VBRP-NETWR AT &apos;.&apos; INTO V_NETWR V_DEC.</FPCLINE>
+      <FPCLINE>* --- %CODE5 New Program Lines 5 (verbatim)</FPCLINE>
+      <FPCLINE>  tot_NETWR = TOT_NETWR + v_NETWR.</FPCLINE>
+      <FPCLINE>*tot_netwr = v_total.</FPCLINE>
+      <FPCLINE>*replace all occurrences of &apos;,&apos;  in tot_netwr WITH space.</FPCLINE>
+      <FPCLINE>*condense tot_netwr no-gaps.</FPCLINE>
+      <FPCLINE>  " BOLT: texts of %ROW2 / %ROW3 as printed (WRITE = the output conversion of the Smart Form fields)</FPCLINE>
+      <FPCLINE>  WRITE v_netwr TO lv_bolt_amount.</FPCLINE>
+      <FPCLINE>  WRITE tot_netwr TO lv_bolt_total.</FPCLINE>
+      <FPCLINE>  APPEND VALUE #( slno    = |  { v_slno }|</FPCLINE>
+      <FPCLINE>                  details = |{ v2_bezei } in respect of sales order no { wa_vbrp-aubel ALPHA = OUT } date | &amp;&amp;</FPCLINE>
+      <FPCLINE>                            |{ wa_vbrp-erdat DATE = USER } as per attached.|</FPCLINE>
+      <FPCLINE>                  amount  = | { condense( lv_bolt_amount ) }|</FPCLINE>
+      <FPCLINE>                  total   = | { condense( lv_bolt_total ) }| ) TO gt_items.</FPCLINE>
+      <FPCLINE>ENDLOOP.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>* --- %CODE4 New Program Lines 4 (verbatim) - table footer event, after the last item</FPCLINE>
+      <FPCLINE>"BREAK-POINT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CALL FUNCTION &apos;SPELL_AMOUNT&apos;</FPCLINE>
+      <FPCLINE>     EXPORTING</FPCLINE>
+      <FPCLINE>       AMOUNT          = tot_netwr</FPCLINE>
+      <FPCLINE>       CURRENCY        = v1_waerk</FPCLINE>
+      <FPCLINE>*       FILLER          = &apos; &apos;</FPCLINE>
+      <FPCLINE>       LANGUAGE        = SY-LANGU</FPCLINE>
+      <FPCLINE>     IMPORTING</FPCLINE>
+      <FPCLINE>       IN_WORDS        = ls_spell "LV_TOTWORDS</FPCLINE>
+      <FPCLINE>     EXCEPTIONS</FPCLINE>
+      <FPCLINE>       NOT_FOUND       = 1</FPCLINE>
+      <FPCLINE>       TOO_LARGE       = 2</FPCLINE>
+      <FPCLINE>       OTHERS          = 3</FPCLINE>
+      <FPCLINE>              .</FPCLINE>
+      <FPCLINE>    IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>data : ls_ycurrdenom type ycurrdenom.</FPCLINE>
+      <FPCLINE>clear ls_ycurrdenom.</FPCLINE>
+      <FPCLINE>"BREAK-POINT.</FPCLINE>
+      <FPCLINE>select single * from ycurrdenom into ls_ycurrdenom where CURR = v1_waerk.</FPCLINE>
+      <FPCLINE>concatenate ls_spell-word ls_ycurrdenom-word1 &apos;and&apos; ls_spell-decword ls_ycurrdenom-word2 &apos;ONLY&apos; into LV_TOTWORDS separated by space</FPCLINE>
+      <FPCLINE>.</FPCLINE>
+      <FPCLINE>*V_WORDS = V_WORDS + tot_netwr.</FPCLINE>
+      <FPCLINE>*words = v_words.</FPCLINE>
+      <FPCLINE>*CALL FUNCTION &apos;HR_IN_CHG_INR_WRDS&apos;</FPCLINE>
+      <FPCLINE>*  EXPORTING</FPCLINE>
+      <FPCLINE>*    AMT_IN_NUM               = words</FPCLINE>
+      <FPCLINE>* IMPORTING</FPCLINE>
+      <FPCLINE>*   AMT_IN_WORDS             = v_spell</FPCLINE>
+      <FPCLINE>* EXCEPTIONS</FPCLINE>
+      <FPCLINE>*   DATA_TYPE_MISMATCH       = 1</FPCLINE>
+      <FPCLINE>*   OTHERS                   = 2</FPCLINE>
+      <FPCLINE>*          .</FPCLINE>
+      <FPCLINE>*IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>** Implement suitable error handling here</FPCLINE>
+      <FPCLINE>*ENDIF.</FPCLINE>
+      <FPCLINE>*</FPCLINE>
+      <FPCLINE>*  REPLACE ALL OCCURRENCES OF &apos;Rupees&apos; IN V_spell WITH SPACE.</FPCLINE>
+      <FPCLINE>*  CONDENSE V_spell.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE/>
+      <FPCLINE>*CALL FUNCTION &apos;SPELL_AMOUNT&apos;</FPCLINE>
+      <FPCLINE>* EXPORTING</FPCLINE>
+      <FPCLINE>*   AMOUNT          = V_WORDS</FPCLINE>
+      <FPCLINE>*   CURRENCY        = &apos;INR&apos;</FPCLINE>
+      <FPCLINE>*   FILLER          = &apos; &apos;</FPCLINE>
+      <FPCLINE>*   LANGUAGE        = SY-LANGU</FPCLINE>
+      <FPCLINE>* IMPORTING</FPCLINE>
+      <FPCLINE>*   IN_WORDS        = V_SPELL</FPCLINE>
+      <FPCLINE>* EXCEPTIONS</FPCLINE>
+      <FPCLINE>*   NOT_FOUND       = 1</FPCLINE>
+      <FPCLINE>*   TOO_LARGE       = 2</FPCLINE>
+      <FPCLINE>*   OTHERS          = 3</FPCLINE>
+      <FPCLINE>*          .</FPCLINE>
+      <FPCLINE>*IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>** Implement suitable error handling here</FPCLINE>
+      <FPCLINE>*ENDIF.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-5): texts of the windows, prepared once (conditions as in the Smart Form) =====</FPCLINE>
+      <FPCLINE>" CREDETNOTE window: %TEXT15 (ZG2) / %TEXT11 (ZL2)</FPCLINE>
+      <FPCLINE>gv_doc_title = SWITCH #( v1_fkart WHEN &apos;ZG2&apos; THEN `CREDIT NOTE`</FPCLINE>
+      <FPCLINE>                                  WHEN &apos;ZL2&apos; THEN `DEBIT NOTE` ).</FPCLINE>
+      <FPCLINE>" TEXTWINDOW: %TEXT19 (ZL2) / %TEXT20 (ZG2)</FPCLINE>
+      <FPCLINE>gv_advice_text = SWITCH #( v1_fkart WHEN &apos;ZL2&apos; THEN `Be advised that your account has been debited as shown below:`</FPCLINE>
+      <FPCLINE>                                    WHEN &apos;ZG2&apos; THEN `Be advised that your account has been credited as shown below:` ).</FPCLINE>
+      <FPCLINE>" DATEWINDOW: %TEXT2 (ZG2) / %TEXT21 (ZL2)</FPCLINE>
+      <FPCLINE>gv_doc_no_line = SWITCH #( v1_fkart WHEN &apos;ZG2&apos; THEN |CN NO:{ v1_vbeln ALPHA = OUT }|</FPCLINE>
+      <FPCLINE>                                    WHEN &apos;ZL2&apos; THEN |DN NO:{ v1_vbeln ALPHA = OUT }| ).</FPCLINE>
+      <FPCLINE>gv_date_line = COND #( WHEN v1_fkart = &apos;ZG2&apos; OR v1_fkart = &apos;ZL2&apos; THEN |DATE :{ v_date }| ).</FPCLINE>
+      <FPCLINE>" HEADERWINDOW %TEXT1 line 5 and the footer event line %TEXT10</FPCLINE>
+      <FPCLINE>gv_tin_line   = |TIN { lv_tinno }|.</FPCLINE>
+      <FPCLINE>gv_words_line = COND #( WHEN gv_show_table = abap_true THEN |AMOUNT IN WORDS:{ lv_totwords }.| ).</FPCLINE>
+     </INITIALIZATION>
+     <FORMS/>
+    </CL_FP_CODING>
+   </cls:CL_FP_CODING>
+  </asx:heap>
+ </asx:abap>
+</abapGit>
