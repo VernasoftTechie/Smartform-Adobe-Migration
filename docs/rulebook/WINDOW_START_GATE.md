@@ -16,7 +16,7 @@ these basic instructions."* `queue.mjs claim` refuses a claim without the acknow
 
 ## 2. Commitments you make by claiming (each is checked later)
 
-- [ ] I will ask the client, in my first status entry, for the intake evidence (rulebook section 2) and I will not invent geometry, wording or conditions.
+- [ ] I will ask the client, in my first status entry, for the intake evidence (rulebook section 2), each question with its legacy default, and I will not invent geometry, wording or conditions. If the client cannot answer, I deliver version 1 exactly as the legacy design and list post-implementation steps (rulebook section 2a).
 - [ ] Numbers come from the same form's wizard form and printouts, never from a sibling form or from font metrics.
 - [ ] I will generate the layout and the interface additions from the export with a script that a rerun reproduces exactly.
 - [ ] Business logic and variable text are prepared in the Initialization; the layout stays simple, default visible, readable in the Design View.

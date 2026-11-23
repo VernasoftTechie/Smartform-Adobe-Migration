@@ -20,7 +20,7 @@ same form, legacy printout) > this rulebook > the strategies > any generic desig
 ## 1. The operating rules in ten lines (read these even if you read nothing else)
 
 1. **Never claim "done".** Only the client's SAP result in the status file closes a ticket. Structure checks are necessary, never sufficient.
-2. **Ask for the evidence first** (section 2): the wizard form of the same Smart Form, a legacy printout per order type, the SmartStyles. Without
+2. **Ask for the evidence first** (section 2), each question with its legacy default; if the client cannot answer, deliver version 1 exactly as the legacy design (section 2a). The evidence: the wizard form of the same Smart Form, a legacy printout per order type, the SmartStyles. Without
    them you build on assumptions and the client rejects the build.
 3. **Numbers come from the form's own evidence** (wizard form of the SAME form, printout), never from a sibling form, never from font metrics, never by eye.
 4. **One generator from the export**, nothing typed by hand; a rerun reproduces the committed files byte for byte (check 9).
@@ -46,6 +46,24 @@ same form, legacy printout) > this rulebook > the strategies > any generic desig
 | 7 | Decisions: one wording or every type / language? parts the legacy switched off (`1 = 2`)? | one-wording forms are plain static text; all variants need prepared data / scripts (S10 section 11) | ask, never assume |
 
 For every reference form the user collects (medium / high complexity, other purposes) register it in `docs/reference_forms/` (section 3).
+
+### 2a. When the client cannot answer: deliver version 1 exactly as the legacy design (user decision 2026-11-23)
+
+The intake must never stall a migration. Every question in the first status entry carries its **default = what the legacy form does
+today**, so the client can answer with one word ("proceed"). When the client replies that they have no answer, cannot supply the
+evidence, or simply wants to proceed:
+
+1. **Accept the defaults** and build **version 1** from the loaded legacy design (export, SmartStyle, legacy grab): same texts,
+   conditions, behaviour (including legacy quirks such as amounts or dates the client might later change), same logo, same language set.
+2. **Geometry without a wizard form / printout** comes from the export (window positions, template / line-type sizes, style fonts) with
+   the section 5.1 rules; every such number is marked **unproven** in the hand-off. Nothing is invented: what the export cannot tell
+   stays as the legacy definition says.
+3. The ten re-check passes still run (passes that need missing evidence - wizard conformance, printout simulation - are reported as
+   *not run: evidence not supplied*, never as passed).
+4. The hand-off lists the open points as **post-implementation steps** for the client: preview against a real printed document, confirm
+   each flagged behaviour, send the wizard form / printouts if a difference shows; changes then follow as version 2 (S09 rework).
+5. The status-file gate is unchanged: the client's reply in the status file (even "proceed with defaults") releases the work, never a
+   chat message.
 
 ---
 
