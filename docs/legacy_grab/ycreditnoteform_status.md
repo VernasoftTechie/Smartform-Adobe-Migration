@@ -1,9 +1,9 @@
 # Migration Status — YCREDITNOTEFORM
 
-STATUS: waiting_manual
-UPDATED: 2026-11-23T16:48:19.118Z
-WAITING_ON: operator
-NOTE: Answer the questions of the previous entry, or simply reply "proceed with defaults" - I then deliver version 1 exactly as your current Smart Form.
+STATUS: in_progress
+UPDATED: 2026-11-23T16:49:24.741Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-5
 
@@ -82,3 +82,6 @@ You do not need to know every answer. If you reply **proceed with defaults** (on
 | Q11 Test documents | any credit note and debit note you choose |
 
 After version 1 you get a short list of **post-implementation checks** (preview against a printed note, the points above). Anything you want different then comes as version 2. You can still answer any question individually - your answer replaces its default.
+
+## 2026-11-23T16:49:24.741Z — Manual activity confirmed
+Client confirmed the manual step is done: proceed with defaults
