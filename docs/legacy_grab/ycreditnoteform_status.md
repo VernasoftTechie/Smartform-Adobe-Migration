@@ -1,9 +1,9 @@
 # Migration Status — YCREDITNOTEFORM
 
 STATUS: waiting_manual
-UPDATED: 2026-11-23T16:19:30.551Z
+UPDATED: 2026-11-23T16:48:19.118Z
 WAITING_ON: operator
-NOTE: Waiting for your answers: please reply to the numbered list in the latest entry (files E1-E3, questions Q1-Q11) in one message.
+NOTE: Answer the questions of the previous entry, or simply reply "proceed with defaults" - I then deliver version 1 exactly as your current Smart Form.
 STOP: none
 CLAIMED_BY: Window-5
 
@@ -62,3 +62,23 @@ This list replaces the requests of my previous entry and adds the remaining poin
 - **Q11 Test documents:** one credit note and one debit note number we may use to preview the new form (can be the ones of E2).
 
 The driver programs are only read, never changed. Which program will later call the new Adobe form is a separate decision for you; it is not part of this migration.
+
+## 2026-11-23T16:48:19.118Z — No answers yet? Reply "proceed with defaults"
+You do not need to know every answer. If you reply **proceed with defaults** (on this migration page in Bolt: type it in the box and choose **I've done this - confirm**), I build **version 1 exactly as your current Smart Form prints today**, using these defaults:
+
+| | Default (= the legacy form today) |
+|---|---|
+| E1 / E2 / E3 files | not needed for version 1 - positions and fonts come from the form definition and its style YCREDITSTYLE; you compare the preview with a printed note afterwards |
+| Q1 Still in use | migrate YCREDITNOTEFORM as loaded |
+| Q2 Amount per item | as today: the document amount (net + tax) on every item line |
+| Q3 TOTAL line | as today: after every item |
+| Q4 Date | as today: date of printing |
+| Q5 Title box | as the form defines it: CREDIT NOTE / DEBIT NOTE inside a box |
+| Q6 Number format | as today: the user's number format |
+| Q7 Language | English; amount in words in the logon language |
+| Q8 Plant name | rule kept |
+| Q9 Logo | DANGOTE LOGO |
+| Q10 Names and package | YCREDITNOTEFORM_INT / YCREDITNOTEFORM_ADT, package ZAB_ADOBE (tell me if you use another) |
+| Q11 Test documents | any credit note and debit note you choose |
+
+After version 1 you get a short list of **post-implementation checks** (preview against a printed note, the points above). Anything you want different then comes as version 2. You can still answer any question individually - your answer replaces its default.
