@@ -1,0 +1,809 @@
+*----------------------------------------------------------------------*
+* Title         : YFI_BANKTRANSFER (Bank Advice) Tcode:ZBANKADVICE
+*----------------------------------------------------------------------*
+* Project Rel.  :
+* Object Type   : Smartforms
+* Author        : Sagar(User ID : Sagar)
+*----------------------------------------------------------------------*
+* Program description:
+* <Detailed description of the object>
+*----------------------------------------------------------------------*
+* Change-History: Change history
+* Date      | Transport no. | UserName | Description
+* 29.01.2013 DCDK911394      ABAP02     WNG_FI_1401181_Bank Transfer modified - 29.01.2013
+* 13.02.2014 DCDK911824      ABAP02     WNG_1401181_FI_ZBANKADVICE hardcoded in name - 13.02.2014
+* 10.03.2014 DCDK912425      ABAP02     WNG_1401181_FI_ZBANKADVICE Aligned the text - 10.03.2014
+*-----------------------------------------------------------------------
+
+REPORT  yfi_banktransfer.
+
+TYPE-POOLS : slis.
+
+DATA : lt_bsis TYPE TABLE OF bsis,
+       ls_bsis LIKE LINE OF lt_bsis,
+
+       lt_bsis_cr TYPE TABLE OF bsis,
+       ls_bsis_cr LIKE LINE OF lt_bsis_cr,
+
+       lt_bnka TYPE TABLE OF bnka,
+       ls_bnka LIKE LINE OF lt_bnka,
+
+       lt_bsik TYPE TABLE OF bsik,
+       ls_bsik LIKE LINE OF lt_bsik,
+
+       lt_bsak TYPE TABLE OF bsak,
+       ls_bsak LIKE LINE OF lt_bsak,
+
+       lt_lfa1 TYPE TABLE OF lfa1,
+       ls_lfa1 LIKE LINE OF lt_lfa1,
+
+       lt_t012k TYPE TABLE OF t012k,
+       ls_t012k LIKE LINE OF lt_t012k,
+
+       lt_t012 TYPE TABLE OF t012,
+       ls_t012 LIKE LINE OF lt_t012,
+
+       BEGIN OF ls_p_hkont,
+       hkont TYPE hkont,
+       END OF ls_p_hkont,
+
+       lt_p_hkont LIKE TABLE OF ls_p_hkont,
+
+       lt_t012t TYPE TABLE OF t012t,
+       ls_t012t LIKE LINE OF lt_t012t,
+
+       lt_lfbk TYPE TABLE OF lfbk,
+       ls_lfbk LIKE LINE OF lt_lfbk,
+
+       lt_faglflexa TYPE TABLE OF faglflexa,
+       ls_faglflexa LIKE LINE OF lt_faglflexa,
+
+
+       lt_xfer_details TYPE TABLE OF yfi_banktransfer_sf,
+       ls_xfer_details LIKE LINE OF lt_xfer_details,
+
+
+       lv_dmbtr TYPE yfi_banktransfer_sf-wrbtr,"string, " Changed by Abap2 - DCDK911394
+
+       lv_dmbtr1 TYPE pc207-betrg,
+       lv_waers TYPE waers,
+
+       ls_amnt_words TYPE string ,"spell,
+       ls_bnka_sf TYPE bnka,
+
+       lv_amt_words(180) type c,
+
+       lv_bank_name TYPE text50, "name1, changed by abap2.
+       lv_bank_accnt TYPE bankn,
+
+       ls_outputdone TYPE ssfcrescl,
+
+       lt_yfi_bankadvice TYPE TABLE OF yfi_bankadvice,
+       ls_yfi_bankadvice TYPE yfi_bankadvice,
+
+*       lv_refdocno TYPE char12,
+*       lv_bukrs TYPE bukrs,
+*       lv_belnr TYPE char12,
+*       lv_gjahr TYPE gjahr,
+       lv_adrnr TYPE t001-adrnr,
+       lv_name1 TYPE adrc-name1,
+       lv_watermark TYPE c,
+       lv_flag TYPE c,
+       lv_prctr type cepc-prctr,
+       lv_ktext type cepct-ktext.
+*       lv_ltext type skat-txt50.
+
+SELECT-OPTIONS : s_bukrs FOR ls_bsis-bukrs NO-EXTENSION NO INTERVALS OBLIGATORY,
+                 s_gjahr FOR ls_bsis-gjahr NO-EXTENSION NO INTERVALS OBLIGATORY,
+                 s_budat FOR ls_bsis-budat ,
+                 s_hkont FOR ls_bsis-hkont NO-EXTENSION NO INTERVALS OBLIGATORY,
+                 s_bankl FOR ls_bnka-bankl .
+
+READ TABLE s_hkont INDEX 1.
+IF sy-subrc EQ 0.
+  IF ( s_hkont-low < '0000160000' OR s_hkont-low > '0000199999' ) OR ( s_hkont-low+9(1) <> '1' ).
+    MESSAGE 'Plesae enter Payment G/L''s Only ' TYPE 'S' DISPLAY LIKE 'E'.
+    EXIT.
+  ENDIF.
+ENDIF.
+
+
+PERFORM fetch_data.
+
+PERFORM compile_data.
+
+PERFORM select_data_for_print.
+
+PERFORM display_form.
+*------------------ Added by abap02-DCDK911394--------------*
+IF sy-subrc = 0.
+  IF ls_outputdone-outputdone = 'X'.
+
+    SELECT * FROM yfi_bankadvice
+        INTO TABLE lt_yfi_bankadvice.    "#EC CI_NOWHERE
+
+    LOOP AT lt_xfer_details INTO ls_xfer_details.
+
+      READ TABLE lt_yfi_bankadvice INTO ls_yfi_bankadvice
+***  BOC By Veeresh On 26/07/2022
+**        WITH KEY belnr = ls_xfer_details-ref
+        WITH KEY bukrs = ls_xfer_details-bukrs
+                 belnr = ls_xfer_details-belnr
+                 gjahr = ls_xfer_details-gjahr
+***  EOC By Veeresh On 26/07/2022
+                 flag  = 'X'.
+      IF sy-subrc NE 0.
+***  BOC By Veeresh On 26/07/2022
+*        ls_yfi_bankadvice-belnr = ls_xfer_details-ref.
+        ls_yfi_bankadvice-mandt = sy-mandt.
+        ls_yfi_bankadvice-bukrs = ls_xfer_details-bukrs.
+        ls_yfi_bankadvice-belnr = ls_xfer_details-belnr.
+        ls_yfi_bankadvice-gjahr = ls_xfer_details-gjahr.
+        ls_yfi_bankadvice-erdat = sy-datum.
+        ls_yfi_bankadvice-ernam = sy-uname.
+        ls_yfi_bankadvice-erzet = sy-uzeit.
+***  BOC By Veeresh On 26/07/2022
+        ls_yfi_bankadvice-flag = 'X'.
+        MODIFY yfi_bankadvice FROM ls_yfi_bankadvice.
+        CLEAR :ls_yfi_bankadvice.
+      ENDIF.
+      CLEAR:ls_xfer_details.
+    ENDLOOP.
+  ENDIF.
+ENDIF.
+*------------------ end of changes----------------------------*
+
+*&---------------------------------------------------------------------*
+*&      Form  FETCH_DATA
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*----------------------------------------------------------------------*
+FORM fetch_data .
+SELECT SINGLE adrnr from t001 INTO lv_adrnr WHERE bukrs in s_bukrs.
+  if sy-subrc = 0.
+    SELECT SINGLE name1 FROM adrc INTO lv_name1 WHERE ADDRNUMBER = lv_adrnr.
+      CALL FUNCTION 'TERM_TRANSLATE_TO_UPPER_CASE'
+        EXPORTING
+         LANGU                     = SY-LANGU
+          text                      = lv_name1
+       IMPORTING
+         TEXT_UC                   = lv_name1
+*       EXCEPTIONS
+*         NO_LOCALE_AVAILABLE       = 1
+*         OTHERS                    = 2
+                .
+      IF sy-subrc <> 0.
+* Implement suitable error handling here
+      ENDIF.
+
+  endif.
+  SELECT * FROM bsis INTO TABLE lt_bsis                                       "#EC CI_DB_OPERATION_OK[2602107]
+                          WHERE bukrs IN s_bukrs
+                          AND   gjahr IN s_gjahr
+                          AND   budat IN s_budat
+                          AND   hkont IN s_hkont
+                          AND   xstov <> 'X'
+                          AND   ( blart = 'ZT' OR blart =  'BT' OR blart =  'CC').
+*'KZ',
+
+  SELECT * FROM bnka INTO TABLE lt_bnka
+                          WHERE bankl IN s_bankl.
+
+*------------------ Added by abap02-DCDK911394--------------*
+  clear: lv_prctr, lv_ktext.
+  s_hkont-high = s_hkont-low.
+  SELECT SINGLE prctr
+        FROM FAGL_T8A30
+        INTO lv_prctr
+        WHERE ( KONTO_VON <= s_hkont-low
+          and KONTO_BIS >= s_hkont-high )
+          and bukrs in s_bukrs. "#EC WARNOK
+  IF sy-subrc = 0.
+    SELECT SINGLE ktext
+      FROM cepct
+      INTO lv_ktext
+      WHERE prctr = lv_prctr
+        and spras = 'EN'. "#EC WARNOK
+      CONCATENATE '-' '' lv_ktext INTO lv_ktext SEPARATED BY space.
+  ENDIF.
+*------------------ end of changes----------------------------*
+
+  IF lt_bsis[] IS NOT INITIAL.
+
+    SELECT * FROM bsik INTO TABLE lt_bsik                                       "#EC CI_DB_OPERATION_OK[2602107]
+                            FOR ALL ENTRIES IN lt_bsis
+                            WHERE bukrs = lt_bsis-bukrs
+                            AND   belnr = lt_bsis-belnr
+                            AND   gjahr = lt_bsis-gjahr.
+
+
+    SELECT * FROM bsak INTO TABLE lt_bsak                      "#EC CI_DB_OPERATION_OK[2602107]
+                                FOR ALL ENTRIES IN lt_bsis
+                                WHERE bukrs = lt_bsis-bukrs
+                                AND   belnr = lt_bsis-belnr
+                                AND   gjahr = lt_bsis-gjahr.
+
+
+    SELECT * FROM faglflexa INTO TABLE lt_faglflexa
+                            FOR ALL ENTRIES IN lt_bsis
+                            WHERE ryear = lt_bsis-gjahr
+                            AND   docnr = lt_bsis-belnr
+                            AND   rldnr = '0L'
+                            AND   rbukrs = lt_bsis-bukrs
+                            AND   drcrk = 'S'.
+
+
+
+    LOOP AT lt_bsis INTO ls_bsis.
+
+      CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+        EXPORTING
+          input  = ls_bsis-hkont
+        IMPORTING
+          output = ls_p_hkont-hkont.
+
+      ls_p_hkont+9(1) = '0'.
+
+      APPEND ls_p_hkont TO lt_p_hkont.
+      CLEAR : ls_p_hkont, ls_bsis.
+
+    ENDLOOP.
+
+    LOOP AT lt_faglflexa INTO ls_faglflexa.
+
+      CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+        EXPORTING
+          input  = ls_faglflexa-racct
+        IMPORTING
+          output = ls_p_hkont-hkont.
+
+      ls_p_hkont+9(1) = '0'.
+
+      APPEND ls_p_hkont TO lt_p_hkont.
+      CLEAR : ls_p_hkont, ls_faglflexa.
+
+    ENDLOOP.
+
+
+    SELECT * FROM t012k INTO TABLE lt_t012k
+                        FOR ALL ENTRIES IN lt_p_hkont
+                        WHERE hkont = lt_p_hkont-hkont.
+
+
+  ENDIF.
+
+  IF lt_t012k[] IS NOT INITIAL.
+    SELECT * FROM t012t INTO TABLE lt_t012t
+                        FOR ALL ENTRIES IN lt_t012k
+                        WHERE spras = 'E'
+                              AND bukrs = lt_t012k-bukrs
+                              AND hbkid = lt_t012k-hbkid
+                              AND hktid = lt_t012k-hktid.
+
+    SELECT * FROM t012 INTO TABLE lt_t012
+                        FOR ALL ENTRIES IN lt_t012k
+                        WHERE hbkid = lt_t012k-hbkid.
+  ENDIF.
+
+  IF lt_bsik[] IS NOT INITIAL.
+    SELECT * FROM lfa1 INTO TABLE lt_lfa1
+                       FOR ALL ENTRIES IN lt_bsik
+                       WHERE lifnr = lt_bsik-lifnr.
+  ENDIF.
+
+  IF lt_bsak[] IS NOT INITIAL.
+    SELECT * FROM lfa1 APPENDING TABLE lt_lfa1
+                       FOR ALL ENTRIES IN lt_bsak
+                       WHERE lifnr = lt_bsak-lifnr.
+  ENDIF.
+
+  IF lt_lfa1[] IS NOT INITIAL.
+    SELECT * FROM lfbk INTO TABLE lt_lfbk
+                       FOR ALL ENTRIES IN lt_lfa1
+                       WHERE lifnr = lt_lfa1-lifnr.
+  ENDIF.
+
+  IF lt_lfbk[] IS NOT INITIAL.
+    SELECT * FROM bnka APPENDING TABLE lt_bnka
+                       FOR ALL ENTRIES IN lt_lfbk[]
+                       WHERE bankl = lt_lfbk-bankl.
+  ENDIF.
+
+
+
+ENDFORM.                    " FETCH_DATA
+*&---------------------------------------------------------------------*
+*&      Form  COMPILE_DATA
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*----------------------------------------------------------------------*
+FORM compile_data .
+
+  DATA : lv_p_hkont TYPE hkont.
+
+  CLEAR lv_p_hkont.
+
+  DATA : ls_bsis_dr LIKE ls_bsis.
+
+
+
+  READ TABLE lt_bsis INTO ls_bsis_dr WITH KEY shkzg = 'H'.
+  IF sy-subrc EQ 0.
+
+    CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+      EXPORTING
+        input  = ls_bsis_dr-hkont
+      IMPORTING
+        output = lv_p_hkont.
+
+    lv_p_hkont+9(1) = '0'.
+
+    READ TABLE lt_t012k INTO ls_t012k WITH KEY hkont = lv_p_hkont.
+    IF sy-subrc EQ 0.
+      MOVE : ls_t012k-bankn TO lv_bank_accnt.
+
+      READ TABLE lt_t012t INTO ls_t012t WITH KEY bukrs = ls_t012k-bukrs
+                                                  hbkid = ls_t012k-hbkid
+                                                  hktid = ls_t012k-hktid.
+      IF  sy-subrc EQ 0 .
+        MOVE : ls_t012t-text1 TO lv_bank_name.
+        CLEAR ls_t012t.
+      ENDIF.
+
+
+
+      READ TABLE lt_t012 INTO ls_t012 WITH KEY bukrs = ls_bsis_dr-bukrs
+                                               hbkid = ls_t012k-hbkid.
+      IF sy-subrc EQ 0.
+
+        READ TABLE lt_bnka INTO ls_bnka_sf WITH KEY bankl = ls_t012-bankl.
+
+        CLEAR : ls_t012.
+
+
+      ENDIF.
+      CLEAR ls_t012k.
+    ENDIF.
+
+
+  ENDIF.
+
+  LOOP AT lt_bsis INTO ls_bsis ."WHERE shkzg = 'S'.
+
+    MOVE : ls_bsis-waers TO ls_xfer_details-waers,
+           ls_bsis-blart TO ls_xfer_details-blart.   " added by abap02 DCDK911824.
+
+    CONCATENATE ls_bsis-belnr ls_bsis-gjahr+2(2) INTO ls_xfer_details-ref.
+
+*** BOC By Veeresh On 26/07/2022
+    ls_xfer_details-bukrs = ls_bsis-bukrs.
+    ls_xfer_details-belnr = ls_bsis-belnr.
+    ls_xfer_details-gjahr = ls_bsis-gjahr.
+*** EOC By Veeresh On 26/07/2022
+
+    CASE ls_bsis-blart.
+
+      WHEN 'KZ' OR 'ZT' OR 'CC'.
+
+        READ TABLE lt_bsak INTO ls_bsak WITH KEY bukrs = ls_bsis-bukrs
+                                                 gjahr = ls_bsis-gjahr
+                                                 belnr = ls_bsis-belnr.
+        IF sy-subrc EQ 0.
+
+          READ TABLE lt_lfa1 INTO ls_lfa1 WITH KEY lifnr = ls_bsak-lifnr.
+          IF sy-subrc EQ 0.
+            MOVE : ls_lfa1-name1 TO ls_xfer_details-name1.
+*            CLEAR ls_lfa1.
+          ENDIF.
+          CLEAR ls_bsak.
+        ELSE.
+
+
+          READ TABLE lt_bsik INTO ls_bsik WITH KEY bukrs = ls_bsis-bukrs
+                                                   gjahr = ls_bsis-gjahr
+                                                   belnr = ls_bsis-belnr.
+          IF sy-subrc EQ 0.
+
+            READ TABLE lt_lfa1 INTO ls_lfa1 WITH KEY lifnr = ls_bsik-lifnr.
+            IF sy-subrc EQ 0.
+              MOVE : ls_lfa1-name1 TO ls_xfer_details-name1.
+*              CLEAR ls_lfa1.
+            ENDIF.
+            CLEAR ls_bsik.
+
+          ENDIF.
+
+
+
+        ENDIF.
+
+        READ TABLE lt_lfbk INTO ls_lfbk WITH KEY lifnr = ls_lfa1-lifnr.
+        IF sy-subrc EQ 0.
+          MOVE : ls_lfbk-bankl TO ls_xfer_details-bankl,
+                 ls_lfbk-bankn TO ls_xfer_details-bankn.
+          CLEAR ls_lfbk.
+        ENDIF.
+        CLEAR ls_lfa1.
+
+        READ TABLE lt_bnka INTO ls_bnka WITH KEY bankl = ls_xfer_details-bankl.
+        IF sy-subrc EQ 0.
+          MOVE : ls_bnka-banka TO ls_xfer_details-banka,
+                 ls_bnka-brnch TO ls_xfer_details-brnch.
+
+        ENDIF.
+
+        MOVE :ls_bsis-wrbtr TO ls_xfer_details-wrbtr.
+
+        ADD ls_xfer_details-wrbtr TO lv_dmbtr.
+
+        APPEND ls_xfer_details TO lt_xfer_details.
+        CLEAR ls_xfer_details.
+
+      WHEN 'BT' .
+
+
+        LOOP AT lt_faglflexa INTO ls_faglflexa WHERE rbukrs = ls_bsis-bukrs
+                                               AND   gjahr = ls_bsis-gjahr
+                                               AND   belnr = ls_bsis-belnr.
+*        READ TABLE lt_faglflexa INTO ls_faglflexa WITH KEY rbukrs = ls_bsis-bukrs
+*                                                           gjahr = ls_bsis-gjahr
+*                                                           belnr = ls_bsis-belnr.
+*        IF sy-subrc EQ 0.
+
+
+          lv_p_hkont = ls_faglflexa-racct.
+          lv_p_hkont+9(1) = '0'.
+          READ TABLE lt_t012k INTO ls_t012k WITH KEY hkont = lv_p_hkont.
+          IF sy-subrc EQ 0.
+            MOVE : ls_t012k-bankn TO ls_xfer_details-bankn.
+
+
+
+            READ TABLE lt_t012 INTO ls_t012 WITH KEY bukrs = ls_faglflexa-rbukrs
+                                                     hbkid = ls_t012k-hbkid.
+            IF sy-subrc EQ 0.
+
+
+              READ TABLE lt_t012t INTO ls_t012t WITH KEY bukrs = ls_t012k-bukrs
+                                                         hbkid = ls_t012k-hbkid
+                                                         hktid = ls_t012k-hktid.
+              IF  sy-subrc EQ 0 .
+                MOVE : ls_t012t-text1 TO ls_xfer_details-name1.
+                CLEAR ls_t012t.
+              ENDIF.
+
+
+              READ TABLE lt_bnka INTO ls_bnka WITH KEY bankl = ls_t012-bankl.
+              IF sy-subrc EQ 0.
+                MOVE : ls_bnka-banka TO ls_xfer_details-banka,
+                       ls_bnka-bankl TO ls_xfer_details-bankl,
+                       ls_bnka-ort01 TO ls_xfer_details-brnch.
+                CLEAR : ls_bnka.
+              ENDIF.
+
+
+              CLEAR : ls_t012.
+
+              MOVE : ls_faglflexa-tsl TO ls_xfer_details-wrbtr.
+              ADD ls_faglflexa-tsl TO lv_dmbtr.
+*              APPEND ls_xfer_details TO lt_xfer_details.
+
+*              CLEAR : ls_xfer_details, ls_bsis.
+
+
+            ENDIF.
+            CLEAR ls_t012k.
+*          else.
+*
+*              SELECT SINGLE txt50 from skat INTO lv_ltext WHERE saknr = ls_faglflexa-racct
+*                                                            AND ktopl = '1000'
+*                                                            and spras = 'EN'.
+*
+*              MOVE : lv_ltext TO ls_xfer_details-name1,
+*                     lv_ltext TO ls_xfer_details-banka.
+*
+*              MOVE : ls_faglflexa-tsl TO ls_xfer_details-wrbtr.
+*              ADD ls_faglflexa-tsl TO lv_dmbtr.
+
+          ENDIF.
+
+
+*          MOVE : ls_bsis-waers TO lv_waers.
+
+          APPEND ls_xfer_details TO lt_xfer_details.
+*          clear : lv_ltext.
+
+
+
+        ENDLOOP.
+*        ENDIF.
+
+    ENDCASE.
+
+*    MOVE : ls_bsis-waers TO lv_waers.
+*
+*    APPEND ls_xfer_details TO lt_xfer_details.
+    CLEAR : ls_xfer_details,ls_bsis.
+
+  ENDLOOP.
+
+
+ENDFORM.                    " COMPILE_DATA
+*&---------------------------------------------------------------------*
+*&      Form  DISPLAY_FORM
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*----------------------------------------------------------------------*
+FORM display_form .
+
+
+
+  IF lt_xfer_details[] IS INITIAL.
+
+    MESSAGE 'No entries selected for printing' TYPE 'S' DISPLAY LIKE 'E'.
+    EXIT.
+
+  ELSE.
+
+    DATA lv_fmname TYPE rs38l_fnam.
+    CLEAR lv_fmname.
+
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname           = 'YFI_BANKTRANSFER'
+*       VARIANT            = ' '
+*       DIRECT_CALL        = ' '
+      IMPORTING
+        fm_name            = lv_fmname
+      EXCEPTIONS
+        no_form            = 1
+        no_function_module = 2
+        OTHERS             = 3.
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
+
+*    CONDENSE lv_dmbtr.
+
+    CALL FUNCTION lv_fmname
+      EXPORTING
+*   ARCHIVE_INDEX              =
+*   ARCHIVE_INDEX_TAB          =
+*   ARCHIVE_PARAMETERS         =
+*   CONTROL_PARAMETERS         =
+*   MAIL_APPL_OBJ              =
+*   MAIL_RECIPIENT             =
+*   MAIL_SENDER                =
+*   OUTPUT_OPTIONS             =
+*   USER_SETTINGS              = 'X'
+        is_bnka                    = ls_bnka_sf
+*      is_bsis                    =
+        iv_bank_name               = lv_bank_name
+        iv_bank_accnt              = lv_bank_accnt
+        iv_amnt_words              = ls_amnt_words   "-word
+        iv_transaction_amnt        = lv_dmbtr
+         iv_curr                   = lv_waers
+         lv_watermark              = lv_watermark
+         lv_ktext                  = lv_ktext
+         lv_name1                  = lv_name1
+ IMPORTING
+*   DOCUMENT_OUTPUT_INFO       =
+   job_output_info            = ls_outputdone
+*   JOB_OUTPUT_OPTIONS         =
+      TABLES
+        it_xfer_details            = lt_xfer_details
+* EXCEPTIONS
+*   FORMATTING_ERROR           = 1
+*   INTERNAL_ERROR             = 2
+*   SEND_ERROR                 = 3
+*   USER_CANCELED              = 4
+*   OTHERS                     = 5
+              .
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
+
+  ENDIF.
+ENDFORM.                    " DISPLAY_FORM
+*&---------------------------------------------------------------------*
+*&      Form  SELECT_DATA_FOR_PRINT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*----------------------------------------------------------------------*
+FORM select_data_for_print .
+
+  DATA : lt_fcat TYPE slis_t_fieldcat_alv,
+         ls_fcat LIKE LINE OF lt_fcat.
+
+  ls_fcat-fieldname = 'SEL'.
+  ls_fcat-col_pos = 1.
+  ls_fcat-outputlen = 2.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+  ls_fcat-seltext_m = 'Sel'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'WAERS'.
+  ls_fcat-col_pos = 2.
+  ls_fcat-outputlen = 8.
+  ls_fcat-seltext_m = 'Currency'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'NAME1'.
+  ls_fcat-col_pos = 3.
+  ls_fcat-outputlen = 35.
+  ls_fcat-seltext_m = 'Description'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'BANKA'.
+  ls_fcat-col_pos = 4.
+  ls_fcat-outputlen = 60.
+  ls_fcat-seltext_m = 'Bank'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'BRNCH'.
+  ls_fcat-col_pos = 5.
+  ls_fcat-outputlen = 40.
+  ls_fcat-seltext_m = 'Branch'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'BANKL'.
+  ls_fcat-col_pos = 6.
+  ls_fcat-outputlen = 15.
+  ls_fcat-seltext_m = 'Bank Key'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'BANKN'.
+  ls_fcat-col_pos = 7.
+  ls_fcat-outputlen = 18.
+  ls_fcat-seltext_m = 'Accnt Number'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+  ls_fcat-fieldname = 'WRBTR'.
+  ls_fcat-col_pos = 8.
+  ls_fcat-outputlen = 15.
+  ls_fcat-seltext_m = 'Amount'.
+  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+*  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+  APPEND ls_fcat TO lt_fcat.
+
+*  ls_fcat-fieldname = 'WAERS'.
+*  ls_fcat-col_pos = 8.
+*  ls_fcat-outputlen = 8.
+*  ls_fcat-seltext_m = 'Currency'.
+*  ls_fcat-tabname = 'LT_XFER_DETAILS'.
+**  ls_fcat-fieldname = 'LT_XFER_DETAILS'.
+*  APPEND ls_fcat TO lt_fcat.
+
+  CALL FUNCTION 'REUSE_ALV_POPUP_TO_SELECT'
+    EXPORTING
+     i_title                       = 'Select entries to print'
+     i_selection                   = 'X'
+*     I_ALLOW_NO_SELECTION          =
+     i_zebra                       = 'X'
+*     I_SCREEN_START_COLUMN         = 0
+*     I_SCREEN_START_LINE           = 0
+*     i_screen_end_column           = 150
+*     I_SCREEN_END_LINE             = 0
+     i_checkbox_fieldname          = 'SEL'
+*     I_LINEMARK_FIELDNAME          =
+*     I_SCROLL_TO_SEL_LINE          = 'X'
+      i_tabname                     = 'LT_XFER_DETAILS'
+     i_structure_name              = 'YFI_TBANKTRANSFER_SF'
+     it_fieldcat                   = lt_fcat[]
+*     IT_EXCLUDING                  =
+*     I_CALLBACK_PROGRAM            =
+*     I_CALLBACK_USER_COMMAND       =
+*     IS_PRIVATE                    =
+*   IMPORTING
+*     ES_SELFIELD                   =
+*     E_EXIT                        =
+    TABLES
+      t_outtab                      = lt_xfer_details
+   EXCEPTIONS
+     program_error                 = 1
+     OTHERS                        = 2
+            .
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+  DELETE lt_xfer_details WHERE sel <> 'X'.
+
+
+
+  CLEAR : ls_xfer_details, lv_dmbtr.
+
+  DATA : ls_ycurrdenom TYPE ycurrdenom.
+  CLEAR ls_ycurrdenom.
+  DATA ls_spell TYPE spell.
+  CLEAR ls_spell.
+  DATA : lv_dmbtr1 TYPE pc207-betrg.
+  CLEAR lv_dmbtr1.
+
+*       lv_dmbtr1 = lv_dmbtr.
+
+  LOOP AT  lt_xfer_details INTO ls_xfer_details.
+    ADD ls_xfer_details-wrbtr TO lv_dmbtr.
+
+    MOVE : lv_dmbtr TO lv_dmbtr1,
+           ls_xfer_details-waers TO lv_waers.
+    DELETE lt_xfer_details WHERE waers <> lv_waers.
+    IF sy-subrc = 0.
+      MESSAGE 'Please do not select multiple currency' TYPE 'S' DISPLAY LIKE 'E'.
+      LEAVE TO SCREEN 0.
+    ENDIF.
+    CALL FUNCTION 'SPELL_AMOUNT'
+      EXPORTING
+        amount    = lv_dmbtr1
+        currency  = lv_waers  "'NGN'
+*       FILLER    = ' '
+        language  = sy-langu
+      IMPORTING
+        in_words  = ls_spell "ls_amnt_words
+      EXCEPTIONS
+        not_found = 1
+        too_large = 2
+        OTHERS    = 3.
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
+
+    SELECT SINGLE * FROM ycurrdenom INTO ls_ycurrdenom WHERE curr = lv_waers.
+    CONCATENATE ls_spell-word ls_ycurrdenom-word1 'and' ls_spell-decword ls_ycurrdenom-word2 'ONLY' INTO ls_amnt_words SEPARATED BY space.
+    clear lv_amt_words.
+    lv_amt_words = ls_amnt_words.
+
+    CALL FUNCTION 'ZABF_ISP_CONVERT_FRSTCHAR_TOUP'    " 'ISP_CONVERT_FIRSTCHARS_TOUPPER'    "#EC CI_USAGE_OK[2469385]
+    EXPORTING
+      INPUT_STRING        = lv_amt_words
+     SEPARATORS          = ' -.,;:'
+   IMPORTING
+     OUTPUT_STRING       = lv_amt_words
+            .
+   ls_amnt_words = lv_amt_words.
+*    CLEAR : ls_xfer_details.
+*  endif.
+
+*------------------ Added by abap02-DCDK911394--------------*
+*  clear lv_watermark.
+    SELECT SINGLE flag FROM yfi_bankadvice INTO lv_flag
+*** BOC By Veeresh On 26/07/2022
+*      WHERE belnr = ls_xfer_details-ref
+      WHERE bukrs = ls_xfer_details-bukrs AND
+            belnr = ls_xfer_details-belnr AND
+            gjahr = ls_xfer_details-gjahr
+*** EOC By Veeresh On 26/07/2022
+        AND  flag  = 'X'.     "#EC WARNOK
+    IF sy-subrc = 0.
+      lv_watermark = 'X'.
+    ENDIF.
+    CLEAR : ls_xfer_details.
+*------------------ end of changes---------------------------*
+  ENDLOOP.
+
+ENDFORM.                    " SELECT_DATA_FOR_PRINT
