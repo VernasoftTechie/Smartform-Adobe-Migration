@@ -1,7 +1,7 @@
 # Migration Status — YFI_CHEQUEVOUCHER
 
 STATUS: waiting_manual
-UPDATED: 2026-11-25T18:42:28.875Z
+UPDATED: 2026-11-25T18:47:09.947Z
 WAITING_ON: operator
 NOTE: Two steps for you: (1) pull this branch in abapGit and activate YFI_CHEQUEVOUCHER_INT, (2) create the empty form YFI_CHEQUEVOUCHER_ADT, activate, push. Context and layout are done by us.
 STOP: none
@@ -42,4 +42,8 @@ If you have already pulled, simply pull again and activate. Your two steps in th
 
 ## 2026-11-25T18:42:28.875Z — Interface corrected before your pull - your two steps are unchanged
 One detail corrected in the interface before your pull: its own table types are now declared one per TYPES statement - the form exactly as SAP's form interface reads them (another form showed 'type unknown' on activation otherwise). Nothing else changed.
+If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
+
+## 2026-11-25T18:47:09.947Z — Interface corrected before your pull - your two steps are unchanged
+The interface was corrected once more before your pull: the file now contains exactly one types section (it had a second, empty one - SAP would have reported a type as unknown on activation; this happened on another form). Nothing else changed.
 If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
