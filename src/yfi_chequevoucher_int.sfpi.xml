@@ -90,7 +90,6 @@
       <FPCLINE>       END OF ty_bsak_row.</FPCLINE>
       <FPCLINE>TYPES: ty_bsak_tab TYPE STANDARD TABLE OF ty_bsak_row WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
-     <TYPES/>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
    </cls:CL_FP_GLOBAL_DEFINITIONS>
