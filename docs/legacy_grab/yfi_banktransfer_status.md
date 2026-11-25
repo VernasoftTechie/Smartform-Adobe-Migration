@@ -1,9 +1,9 @@
 # Migration Status — YFI_BANKTRANSFER
 
-STATUS: in_progress
-UPDATED: 2026-11-25T18:39:21.201Z
-WAITING_ON: engineer
-NOTE: 
+STATUS: waiting_manual
+UPDATED: 2026-11-25T18:42:36.888Z
+WAITING_ON: operator
+NOTE: Fixed: pull this branch again and activate YFI_BANKTRANSFER_INT; then create the empty form YFI_BANKTRANSFER_ADT, activate, push.
 STOP: none
 CLAIMED_BY: Window-7
 
@@ -42,3 +42,14 @@ If you have already pulled, simply pull again and activate. Your two steps in th
 Client confirmed the manual step is done: Please address this issue..
 
 Attached: Issue.png (pushed to `vernasofttechie-yfi_banktransfer/concerns/1795631954371/`)
+
+## 2026-11-25T18:42:36.888Z — Fixed: "Type TY_XFER_TAB is unknown" - please pull again and activate
+Thank you for the screenshot - and good news first: the pull created YFI_BANKTRANSFER_INT in your system, so the approach works.
+
+**Cause**: the interface declares its own table type for the beneficiary lines. I had written the structure and the table type as one combined TYPES statement; SAP's form interface reads each type from its own TYPES statement only, so it did not find TY_XFER_TAB. Now each type has its own statement, exactly as in the interfaces that already activate in your system (ZMMCG_PO_SF_INT, ZMMET_PO_SF_INT). Nothing else changed.
+
+**Please do**
+1. **abapGit**: pull this branch again (it overwrites the inactive YFI_BANKTRANSFER_INT) and **activate YFI_BANKTRANSFER_INT**. If SAP shows another message, send it the same way (screenshot or text) - I fix it right away.
+2. **SFP**: create the empty form **YFI_BANKTRANSFER_ADT** on YFI_BANKTRANSFER_INT (package ZAB_ADOBE), **activate**, then abapGit **Stage, Commit and Push** it to this branch.
+
+Then choose **I've done this - confirm**, and we build the Context and the layout.
