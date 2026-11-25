@@ -242,7 +242,8 @@
       <FPCLINE>  APPEND INITIAL LINE TO gt_bsak_rows ASSIGNING FIELD-SYMBOL(&lt;lfs_bsak&gt;).</FPCLINE>
       <FPCLINE>  &lt;lfs_bsak&gt;-sgtxt1 = iv_sgtxt1.</FPCLINE>
       <FPCLINE>  &lt;lfs_bsak&gt;-sgtxt  = is_bsak-sgtxt.</FPCLINE>
-      <FPCLINE>  WRITE is_bsak-wrbtr TO lv_bolt_out CURRENCY is_bsak-waers.</FPCLINE>
+      <FPCLINE>  " WRBTR: the form declares no reference field for it (REFFIELDS: only LS_FLEXA-TSL) - plain WRITE</FPCLINE>
+      <FPCLINE>  WRITE is_bsak-wrbtr TO lv_bolt_out.</FPCLINE>
       <FPCLINE>  &lt;lfs_bsak&gt;-wrbtr = condense( lv_bolt_out ).</FPCLINE>
       <FPCLINE>ENDLOOP.</FPCLINE>
       <FPCLINE>" GV_TOTAL is never filled by the legacy form (prints 0.00) - kept as it is (version 1 = legacy).</FPCLINE>
