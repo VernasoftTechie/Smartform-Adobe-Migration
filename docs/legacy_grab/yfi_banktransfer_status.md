@@ -1,9 +1,9 @@
 # Migration Status — YFI_BANKTRANSFER
 
-STATUS: waiting_manual
-UPDATED: 2026-11-25T18:25:00.736Z
-WAITING_ON: operator
-NOTE: Two steps for you: (1) pull this branch in abapGit and activate YFI_BANKTRANSFER_INT, (2) create the empty form YFI_BANKTRANSFER_ADT, activate, push. Context and layout are done by us.
+STATUS: in_progress
+UPDATED: 2026-11-25T18:39:21.201Z
+WAITING_ON: engineer
+NOTE: 
 STOP: none
 CLAIMED_BY: Window-7
 
@@ -37,3 +37,8 @@ Then choose **I've done this - confirm**. We build the Context and the complete 
 ## 2026-11-25T18:25:00.736Z — Interface corrected before your pull - your two steps are unchanged
 One detail corrected in the interface: the beneficiary amounts are now formatted with the currency the Smart Form uses for them (the posting currency of IS_BSIS), exactly as printed today.
 If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
+
+## 2026-11-25T18:39:21.201Z — Manual activity confirmed
+Client confirmed the manual step is done: Please address this issue..
+
+Attached: Issue.png (pushed to `vernasofttechie-yfi_banktransfer/concerns/1795631954371/`)
