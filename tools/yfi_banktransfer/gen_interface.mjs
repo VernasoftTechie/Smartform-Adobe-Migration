@@ -46,7 +46,7 @@ const TYPES = [
 ];
 const STRINGS = ['GV_DATE_TXT', 'GV_BODY_TXT', 'GV_CURR_TXT', 'GV_WATERMARK_TXT', 'GV_NAME1_TXT'];
 const GLOBALS = [['GT_XFER_ROWS', 'TY_XFER_TAB'], ...STRINGS.map((n) => [n, 'STRING'])];
-const ADD_IN = ['IT_XFER_DETAILS', 'IV_BANK_NAME', 'IV_BANK_ACCNT', 'IV_AMNT_WORDS', 'IV_TRANSACTION_AMNT', 'IV_CURR', 'LV_WATERMARK', 'LV_NAME1'];
+const ADD_IN = ['IT_XFER_DETAILS', 'IS_BSIS', 'IV_BANK_NAME', 'IV_BANK_ACCNT', 'IV_AMNT_WORDS', 'IV_TRANSACTION_AMNT', 'IV_CURR', 'LV_WATERMARK', 'LV_NAME1'];
 const ADD_OUT = ['LS_XFER_DETAILS', 'LV_SERIAL', ...GLOBALS.map(([n]) => n)];
 
 const INIT = [
@@ -68,7 +68,9 @@ const INIT = [
   ...out('<lfs_row>-brnch', 'ls_xfer_details-brnch', '  '),
   ...out('<lfs_row>-bankl', 'ls_xfer_details-bankl', '  '),
   ...out('<lfs_row>-bankn', 'ls_xfer_details-bankn', '  '),
-  ...out('<lfs_row>-wrbtr', 'ls_xfer_details-wrbtr', '  '),
+  '  " WRBTR: reference field declared in the form (REFFIELDS): IS_BSIS-WAERS',
+  '  WRITE ls_xfer_details-wrbtr TO lv_bolt_out CURRENCY is_bsis-waers.',
+  '  <lfs_row>-wrbtr = condense( lv_bolt_out ).',
   'ENDLOOP.',
   '',
   '" ===== BOLT (Window-7): the other printed texts, as the Smart Form printed them ================',

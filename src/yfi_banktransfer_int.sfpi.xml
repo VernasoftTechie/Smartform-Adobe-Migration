@@ -100,6 +100,7 @@
     <CL_FP_CODING classVersion="1">
      <INPUT_PARAMETERS>
       <FPPARAMETER>IT_XFER_DETAILS</FPPARAMETER>
+      <FPPARAMETER>IS_BSIS</FPPARAMETER>
       <FPPARAMETER>IV_BANK_NAME</FPPARAMETER>
       <FPPARAMETER>IV_BANK_ACCNT</FPPARAMETER>
       <FPPARAMETER>IV_AMNT_WORDS</FPPARAMETER>
@@ -181,7 +182,8 @@
       <FPCLINE>  &lt;lfs_row&gt;-bankl = condense( lv_bolt_out ).</FPCLINE>
       <FPCLINE>  WRITE ls_xfer_details-bankn TO lv_bolt_out.</FPCLINE>
       <FPCLINE>  &lt;lfs_row&gt;-bankn = condense( lv_bolt_out ).</FPCLINE>
-      <FPCLINE>  WRITE ls_xfer_details-wrbtr TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  " WRBTR: reference field declared in the form (REFFIELDS): IS_BSIS-WAERS</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-wrbtr TO lv_bolt_out CURRENCY is_bsis-waers.</FPCLINE>
       <FPCLINE>  &lt;lfs_row&gt;-wrbtr = condense( lv_bolt_out ).</FPCLINE>
       <FPCLINE>ENDLOOP.</FPCLINE>
       <FPCLINE/>
