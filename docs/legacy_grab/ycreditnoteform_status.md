@@ -1,7 +1,7 @@
 # Migration Status — YCREDITNOTEFORM
 
 STATUS: waiting_manual
-UPDATED: 2026-11-23T16:58:17.942Z
+UPDATED: 2026-11-25T18:42:20.648Z
 WAITING_ON: operator
 NOTE: Two steps for you: (1) pull this branch in abapGit and activate YCREDITNOTEFORM_INT, (2) create the empty form YCREDITNOTEFORM_ADT, activate, push. Context and layout are done by us.
 STOP: none
@@ -112,3 +112,7 @@ The interface is ready for you; the Context and the layout are built by us. You 
 Then choose **I've done this - confirm**. We build the Context and the complete layout into your form and send it back for one pull and a preview.
 
 (Only if the pull in step 1 does not create the interface: create YCREDITNOTEFORM_INT empty in SFP and pull again.)
+
+## 2026-11-25T18:42:20.648Z — Interface corrected before your pull - your two steps are unchanged
+One detail corrected in the interface before your pull: its own table types are now declared one per TYPES statement - the form exactly as SAP's form interface reads them (another form showed 'type unknown' on activation otherwise). Nothing else changed.
+If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
