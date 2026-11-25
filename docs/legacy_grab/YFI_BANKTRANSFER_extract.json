@@ -1,0 +1,1771 @@
+{
+  "source": {
+    "file": "yfi_banktransfer.xml",
+    "bytes": 121736,
+    "sha256": "DE25E87088A5576CE55801A86851B56D5FC1A8BA832EC1378792A45DEBC925F5"
+  },
+  "header": {
+    "FORMNAME": "YFI_BANKTRANSFER",
+    "CAPTION": "Bank Transfer Advice",
+    "MASTERLANG": "E",
+    "LANGVECTOR": "*",
+    "DEVCLASS": "ZFI",
+    "VERSION": "00001",
+    "FIRSTUSER": "SAGAR",
+    "FIRSTDATE": "2012-02-10",
+    "FIRSTTIME": "11:59:24",
+    "LASTUSER": "C.KKUMAR",
+    "LASTDATE": "2024-08-16",
+    "LASTTIME": "08:23:10"
+  },
+  "pageFormat": "DINA4",
+  "formStyle": "YFI_BANKTRANSFER1",
+  "interface": [
+    {
+      "io": "E",
+      "name": "DOCUMENT_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESPD",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESCL",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCRESOP",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX",
+      "typing": "TYPE",
+      "type": "TOA_DARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX_TAB",
+      "typing": "TYPE",
+      "type": "TSFDARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_PARAMETERS",
+      "typing": "TYPE",
+      "type": "ARC_PARAMS",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CONTROL_PARAMETERS",
+      "typing": "TYPE",
+      "type": "SSFCTRLOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_APPL_OBJ",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_RECIPIENT",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_SENDER",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCOMPOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "USER_SETTINGS",
+      "typing": "TYPE",
+      "type": "TDBOOL",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": "'X'"
+    },
+    {
+      "io": "I",
+      "name": "IS_BNKA",
+      "typing": "TYPE",
+      "type": "BNKA",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IS_BSIS",
+      "typing": "TYPE",
+      "type": "BSIS",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_BANK_NAME",
+      "typing": "TYPE",
+      "type": "TEXT50",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_BANK_ACCNT",
+      "typing": "TYPE",
+      "type": "BANKN",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_AMNT_WORDS",
+      "typing": "TYPE",
+      "type": "STRING",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_TRANSACTION_AMNT",
+      "typing": "TYPE",
+      "type": "YFI_BANKTRANSFER_SF-WRBTR",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_CURR",
+      "typing": "TYPE",
+      "type": "WAERS",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LV_WATERMARK",
+      "typing": "TYPE",
+      "type": "C",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LV_NAME1",
+      "typing": "TYPE",
+      "type": "ADRC-NAME1",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "FORMATTING_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "INTERNAL_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "SEND_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "USER_CANCELED",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "IT_XFER_DETAILS",
+      "typing": "TYPE",
+      "type": "YFI_TBANKTRANSFER_SF",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    }
+  ],
+  "globalTypes": [],
+  "globalData": [
+    {
+      "name": "LS_XFER_DETAILS",
+      "typing": "TYPE",
+      "type": "YFI_BANKTRANSFER_SF"
+    },
+    {
+      "name": "LV_SERIAL",
+      "typing": "TYPE",
+      "type": "I"
+    },
+    {
+      "name": "MONTH",
+      "typing": "TYPE",
+      "type": "T247-LTX"
+    },
+    {
+      "name": "DATE",
+      "typing": "TYPE",
+      "type": "STRING"
+    },
+    {
+      "name": "LV_DATE1",
+      "typing": "TYPE",
+      "type": "STRING"
+    },
+    {
+      "name": "LV_DATE2",
+      "typing": "TYPE",
+      "type": "STRING"
+    }
+  ],
+  "globalParams": [],
+  "globalCoding": [],
+  "tree": {
+    "type": "RP",
+    "label": "form root",
+    "children": [
+      {
+        "type": "PA",
+        "label": "page",
+        "children": [
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT17",
+                    "caption": "New Text 17",
+                    "condition": "LV_WATERMARK = 'X'",
+                    "outStyle": "YFI_BANKTRANSFER",
+                    "style": "YFI_BANKTRANSFER",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P8",
+                          "line": "Re-Printed"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P8",
+                          "line": "Re-Printed"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "WATERMARK",
+            "caption": "watermark",
+            "geometry": {
+              "left": "0.90 CM",
+              "top": "12.05 CM",
+              "width": "19.60 CM",
+              "height": "3.70 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "CO",
+                    "label": "program lines",
+                    "children": [],
+                    "objKind": "CODE",
+                    "name": "%CODE1",
+                    "caption": "New Program Lines 1",
+                    "params": [
+                      {
+                        "name": "SY-DATUM",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "DATE",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "MONTH",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "LV_DATE1",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "LV_DATE2",
+                        "dir": "output"
+                      }
+                    ],
+                    "code": [
+                      "clear: date, lv_date1, lv_date2.",
+                      "",
+                      "** Changed by Zubin on 22.04.2022 - P1 remediation",
+                      "CALL FUNCTION       \"#EC CI_USAGE_OK[2469385]",
+                      "'ZABF_ISP_GET_MONTH_NAME'",
+                      "*****'ISP_GET_MONTH_NAME'",
+                      "  EXPORTING",
+                      "   DATE               = sy-datum",
+                      "    LANGUAGE           = SY-LANGU",
+                      "*   MONTH_NUMBER       = MON_NO",
+                      " IMPORTING",
+                      "*   LANGU_BACK         =",
+                      "   LONGTEXT           =  MONTH",
+                      "*   SHORTTEXT          = MONTH",
+                      " EXCEPTIONS",
+                      "   CALENDAR_ID        = 1",
+                      "   DATE_ERROR         = 2",
+                      "   NOT_FOUND          = 3",
+                      "   WRONG_INPUT        = 4",
+                      "   OTHERS             = 5",
+                      "          .",
+                      "IF SY-SUBRC <> 0.",
+                      "* Implement suitable error handling here",
+                      "ENDIF.",
+                      "",
+                      "*CONCATENATE   month '' sy-datum+6(2)',' sy-datum+0(4)",
+                      "*   into date.",
+                      "",
+                      "CONCATENATE   month '' sy-datum+6(2)",
+                      "   into date SEPARATED BY space .",
+                      "CONCATENATE date ','",
+                      "   INTO lv_date1.",
+                      "CONCATENATE lv_date1 '' sy-datum+0(4)",
+                      "   INTO lv_date2 SEPARATED BY space."
+                    ]
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "BANK_ADDRESS",
+                    "caption": "Paying Bank Address",
+                    "style": "YFI_BANKTRANSFER1",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&lv_date2(C)&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>The Managing Director</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-banka&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&iS_BNKA-brnch&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-stras&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-ort01&</><C2> </>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-provz&</>"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&lv_date2(C)&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>To,</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>The Managing Director</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-banka&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&iS_BNKA-brnch&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-stras&</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-ort01&</><C2> </>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>&is_bnka-provz&</>"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "BANK_ADDRESS",
+            "caption": "Paying Bank Address",
+            "geometry": {
+              "left": "0.63 CM",
+              "top": "3.62 CM",
+              "width": "8.48 CM",
+              "height": "4.28 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "LETTER_SALUATION",
+                    "caption": "Letter Salutation",
+                    "condition": "1 = 2",
+                    "constantFalse": true,
+                    "outStyle": "YFI_BANKTRANSFER",
+                    "style": "YFI_BANKTRANSFER",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P5",
+                          "line": "<C3>Attention: Branch Manager</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "<C2>Dear Sir</>"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P5",
+                          "line": "<C3>Kind Attention: Branch Manager</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "<C2>Subject: Funds Transfer</>"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT21",
+                    "caption": "New Text 21",
+                    "style": "YFI_BANKTRANSFER1",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P5",
+                          "line": "<C4>Attention:</> <C3>Branch Manager</>"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "*",
+                          "line": "<C2>Dear Sir</>"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "LETTER_SALUTATION",
+            "caption": "Letter Salutation",
+            "geometry": {
+              "left": "0.73 CM",
+              "top": "8.15 CM",
+              "width": "8.50 CM",
+              "height": "1.47 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "LETTER_BODY",
+                    "caption": "Letter Body",
+                    "style": "YFI_BANKTRANSFER1",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P5",
+                          "line": "<C2><C3>Fund Transfer</></>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "Kindly use this letter as an authority to debit our &iv_bank_name&"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "&IV_BANK_ACCNT& with the sum of &iv_curr& &iV_TRANSACTION_AMNT(C)& ("
+                        },
+                        {
+                          "fmt": "",
+                          "line": "&iV_AMNT_WORDS&) and transfer to the beneficiary(ies) detailed below :"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P5",
+                          "line": "<C2>Dear Sir,</>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": ""
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "Kindly use this letter as an authority to debit our &iv_bank_name&"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "&IV_BANK_ACCNT& with the sum of &iv_curr& &iV_TRANSACTION_AMNT(C)& ("
+                        },
+                        {
+                          "fmt": "",
+                          "line": "&iV_AMNT_WORDS&) and transfer to the beneficiary(ies) detailed below :"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "LETER_BODY",
+            "caption": "Letter Body",
+            "geometry": {
+              "left": "0.70 CM",
+              "top": "9.92 CM",
+              "width": "19.15 CM",
+              "height": "2.32 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT1",
+                                    "caption": "New Text 1",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "S.NO"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "S.NO"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL3",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT15",
+                                    "caption": "New Text 15",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "REF"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "REF"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL1",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT2",
+                                    "caption": "New Text 2",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Beneficiary(ies)"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Beneficiary(ies)"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL8",
+                                "caption": "New Column 8",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT3",
+                                    "caption": "New Text 3",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Bank"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Bank"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL15",
+                                "caption": "New Column 15",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT4",
+                                    "caption": "New Text 4",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Branch"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Branch"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL4",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT5",
+                                    "caption": "New Text 5",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Sort Code"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Sort Code"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL5",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT6",
+                                    "caption": "New Text 6",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Account No."
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Account No."
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL6",
+                                "caption": "New Column 6",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT7",
+                                    "caption": "New Text 7",
+                                    "outStyle": "YFI_BANKTRANSFER",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        },
+                                        {
+                                          "fmt": "P3",
+                                          "line": "[&iv_curr&]"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P3",
+                                          "line": "Amount"
+                                        },
+                                        {
+                                          "fmt": "P3",
+                                          "line": "[&iv_curr&]"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL7",
+                                "caption": "New Column 7",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW1",
+                            "caption": "New Line 1",
+                            "outStyle": "YFI_BANKTRANSFER",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT1",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT14",
+                                    "caption": "New Text 14",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&Lv_serial(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL10",
+                                "caption": "New Column 10",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT16",
+                                    "caption": "New Text 16",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&ls_xfer_details-ref&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL2",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT8",
+                                    "caption": "New Text 8",
+                                    "condition": "LS_XFER_DETAILS-BLART = 'BT'",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "DANGOTE CEMENT PLC"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "DANGOTE CEMENT PLC"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT20",
+                                    "caption": "New Text 8",
+                                    "condition": "LS_XFER_DETAILS-BLART <> 'BT'",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&LS_XFER_DETAILS-name1&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL9",
+                                "caption": "New Column 9",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT9",
+                                    "caption": "New Text 9",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&Ls_xfer_details-BANKA&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL16",
+                                "caption": "New Column 16",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT10",
+                                    "caption": "New Text 10",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&LS_XFER_DETAILS-brnch&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL11",
+                                "caption": "New Column 11",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT11",
+                                    "caption": "New Text 11",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&LS_XFER_DETAILS-bankl&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL12",
+                                "caption": "New Column 12",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT12",
+                                    "caption": "New Text 12",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&LS_XFER_DETAILS-bankn&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL13",
+                                "caption": "New Column 13",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT13",
+                                    "caption": "New Text 13",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P4",
+                                          "line": "&LS_XFER_DETAILS-wrbtr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL14",
+                                "caption": "New Column 14",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW2",
+                            "caption": "New Line 2",
+                            "outStyle": "YFI_BANKTRANSFER",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT2",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT18",
+                                    "caption": "New Text 18",
+                                    "outStyle": "YFI_BANKTRANSFER",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": "Please treat as VERY URGENT."
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": "Yours  faithfully"
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": "&lv_name1(C)&"
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": "AUTHORISED SIGNATORY"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": "Please treat as VERY URGENT."
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": "Yours  faithfully,"
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": "DANGOTE CEMENT PLC"
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P7",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": "AUTHORISED SIGNATORY"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL17",
+                                "caption": "New Column 17",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT19",
+                                    "caption": "New Text 18",
+                                    "outStyle": "YFI_BANKTRANSFER",
+                                    "style": "YFI_BANKTRANSFER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P9",
+                                          "line": "AUTHORISED SIGNATORY"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P2",
+                                          "line": ""
+                                        },
+                                        {
+                                          "fmt": "P9",
+                                          "line": "AUTHORISED SIGNATORY"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL18",
+                                "caption": "New Column 18",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW3",
+                            "caption": "New Line 3",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT3",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE1",
+                    "caption": "New Table 1",
+                    "sectKind": "table",
+                    "tabName": "IT_XFER_DETAILS",
+                    "workArea": "LS_XFER_DETAILS",
+                    "width": "18.97 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "1.27 CM",
+                        "2.76 CM",
+                        "3.26 CM",
+                        "2.18 CM",
+                        "2.50 CM",
+                        "2.25 CM",
+                        "2.26 CM",
+                        "2.49 CM"
+                      ],
+                      "%LTYPE2": [
+                        "9.22 CM",
+                        "9.75 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "MAIN",
+            "caption": "Main Window",
+            "geometry": {
+              "left": "0.77 CM",
+              "top": "12.58 CM",
+              "width": "19.95 CM",
+              "height": "16.45 CM"
+            },
+            "windowType": "M"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": []
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "SIGNATUREWINDOW",
+            "caption": "signature window",
+            "condition": "1 = 2",
+            "constantFalse": true,
+            "geometry": {
+              "left": "0.40 CM",
+              "top": "29.40 CM",
+              "width": "20.03 CM",
+              "height": "0.06 CM"
+            },
+            "windowType": "T"
+          }
+        ],
+        "objKind": "PAGE",
+        "name": "%PAGE1",
+        "caption": "New Page"
+      }
+    ]
+  },
+  "styles": [
+    "YFI_BANKTRANSFER",
+    "YFI_BANKTRANSFER1"
+  ],
+  "languages": [
+    "E",
+    "F"
+  ],
+  "fields": {
+    "IV_BANK_ACCNT": 2,
+    "LS_XFER_DETAILS-bankl": 1,
+    "LS_XFER_DETAILS-bankn": 1,
+    "LS_XFER_DETAILS-brnch": 1,
+    "LS_XFER_DETAILS-name1": 1,
+    "LS_XFER_DETAILS-wrbtr": 1,
+    "Ls_xfer_details-BANKA": 1,
+    "Lv_serial(C)": 1,
+    "iS_BNKA-brnch": 2,
+    "iV_AMNT_WORDS": 2,
+    "iV_TRANSACTION_AMNT(C)": 2,
+    "is_bnka-banka": 2,
+    "is_bnka-ort01": 2,
+    "is_bnka-provz": 2,
+    "is_bnka-stras": 2,
+    "iv_bank_name": 2,
+    "iv_curr": 4,
+    "ls_xfer_details-ref": 1,
+    "lv_date2(C)": 2,
+    "lv_name1(C)": 1
+  },
+  "paragraphFormats": [
+    "*",
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P7",
+    "P8",
+    "P9"
+  ],
+  "characterFormats": [
+    "C2",
+    "C3",
+    "C4"
+  ],
+  "graphics": [],
+  "codeNodes": [
+    {
+      "name": "%CODE1",
+      "caption": "New Program Lines 1",
+      "params": [
+        {
+          "name": "SY-DATUM",
+          "dir": "input"
+        },
+        {
+          "name": "DATE",
+          "dir": "output"
+        },
+        {
+          "name": "MONTH",
+          "dir": "output"
+        },
+        {
+          "name": "LV_DATE1",
+          "dir": "output"
+        },
+        {
+          "name": "LV_DATE2",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "clear: date, lv_date1, lv_date2.",
+        "",
+        "** Changed by Zubin on 22.04.2022 - P1 remediation",
+        "CALL FUNCTION       \"#EC CI_USAGE_OK[2469385]",
+        "'ZABF_ISP_GET_MONTH_NAME'",
+        "*****'ISP_GET_MONTH_NAME'",
+        "  EXPORTING",
+        "   DATE               = sy-datum",
+        "    LANGUAGE           = SY-LANGU",
+        "*   MONTH_NUMBER       = MON_NO",
+        " IMPORTING",
+        "*   LANGU_BACK         =",
+        "   LONGTEXT           =  MONTH",
+        "*   SHORTTEXT          = MONTH",
+        " EXCEPTIONS",
+        "   CALENDAR_ID        = 1",
+        "   DATE_ERROR         = 2",
+        "   NOT_FOUND          = 3",
+        "   WRONG_INPUT        = 4",
+        "   OTHERS             = 5",
+        "          .",
+        "IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "ENDIF.",
+        "",
+        "*CONCATENATE   month '' sy-datum+6(2)',' sy-datum+0(4)",
+        "*   into date.",
+        "",
+        "CONCATENATE   month '' sy-datum+6(2)",
+        "   into date SEPARATED BY space .",
+        "CONCATENATE date ','",
+        "   INTO lv_date1.",
+        "CONCATENATE lv_date1 '' sy-datum+0(4)",
+        "   INTO lv_date2 SEPARATED BY space."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 8,
+        "calls": []
+      }
+    }
+  ],
+  "globalEvidence": {
+    "selects": [],
+    "tables": [],
+    "fms": [],
+    "performs": [],
+    "memory": [],
+    "breakpoints": 0,
+    "commented": 0,
+    "calls": []
+  },
+  "conditions": [
+    "LV_WATERMARK = 'X'",
+    "1 = 2",
+    "LS_XFER_DETAILS-BLART = 'BT'",
+    "LS_XFER_DETAILS-BLART <> 'BT'"
+  ],
+  "pages": [
+    {
+      "name": "%PAGE1",
+      "caption": "New Page"
+    }
+  ],
+  "styleInInventory": {
+    "YFI_BANKTRANSFER": false,
+    "YFI_BANKTRANSFER1": false
+  },
+  "graphicInInventory": {}
+}

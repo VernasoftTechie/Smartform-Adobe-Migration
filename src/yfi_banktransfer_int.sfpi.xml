@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SFPI" serializer_version="v1.0.0">
+ <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml">
+  <asx:values>
+   <VERSION>1</VERSION>
+   <TYPE/>
+   <INTERFACE href="#o1"/>
+   <INTERFACET>
+    <FPINTERFACET>
+     <NAME/>
+     <STATE/>
+     <LANGUAGE>E</LANGUAGE>
+     <ID/>
+     <TEXT>YFI_BANKTRANSFER</TEXT>
+    </FPINTERFACET>
+   </INTERFACET>
+  </asx:values>
+  <asx:heap xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:abap="http://www.sap.com/abapxml/types/built-in" xmlns:cls="http://www.sap.com/abapxml/classes/global" xmlns:dic="http://www.sap.com/abapxml/types/dictionary">
+   <cls:CL_FP_INTERFACE_DATA id="o1">
+    <CL_FP_INTERFACE_DATA classVersion="1">
+     <CODING href="#o5"/>
+     <PARAMETERS href="#o4"/>
+     <GLOBAL_DEFINITIONS href="#o3"/>
+     <REFERENCE_FIELDS href="#o2"/>
+     <XSD_DEFINITIONS/>
+    </CL_FP_INTERFACE_DATA>
+   </cls:CL_FP_INTERFACE_DATA>
+   <cls:CL_FP_REFERENCE_FIELDS id="o2">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_REFERENCE_FIELDS classVersion="1">
+     <REFERENCE_FIELDS/>
+    </CL_FP_REFERENCE_FIELDS>
+   </cls:CL_FP_REFERENCE_FIELDS>
+   <cls:CL_FP_GLOBAL_DEFINITIONS id="o3">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_GLOBAL_DEFINITIONS classVersion="1">
+     <GLOBAL_DATA>
+      <SFPGDATA><NAME>LS_XFER_DETAILS</NAME><TYPING>TYPE</TYPING><TYPENAME>YFI_BANKTRANSFER_SF</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_SERIAL</NAME><TYPING>TYPE</TYPING><TYPENAME>I</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>MONTH</NAME><TYPING>TYPE</TYPING><TYPENAME>T247-LTX</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>DATE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_DATE1</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_DATE2</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GT_XFER_ROWS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_XFER_TAB</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_DATE_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_BODY_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_CURR_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_WATERMARK_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_NAME1_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+     </GLOBAL_DATA>
+     <TYPES>
+      <FPCLINE>" BOLT: display rows of %TABLE1 (IT_XFER_DETAILS), as printed</FPCLINE>
+      <FPCLINE>TYPES: BEGIN OF ty_xfer_row,</FPCLINE>
+      <FPCLINE>         slno        TYPE string,</FPCLINE>
+      <FPCLINE>         ref         TYPE string,</FPCLINE>
+      <FPCLINE>         beneficiary TYPE string,</FPCLINE>
+      <FPCLINE>         banka       TYPE string,</FPCLINE>
+      <FPCLINE>         brnch       TYPE string,</FPCLINE>
+      <FPCLINE>         bankl       TYPE string,</FPCLINE>
+      <FPCLINE>         bankn       TYPE string,</FPCLINE>
+      <FPCLINE>         wrbtr       TYPE string,</FPCLINE>
+      <FPCLINE>       END OF ty_xfer_row,</FPCLINE>
+      <FPCLINE>       ty_xfer_tab TYPE STANDARD TABLE OF ty_xfer_row WITH EMPTY KEY.</FPCLINE>
+     </TYPES>
+     <TYPES/>
+     <FIELDSYMBOLS/>
+    </CL_FP_GLOBAL_DEFINITIONS>
+   </cls:CL_FP_GLOBAL_DEFINITIONS>
+   <cls:CL_FP_PARAMETERS id="o4">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_PARAMETERS classVersion="1">
+     <IMPORT_PARAMETERS>
+      <SFPIOPAR><NAME>IS_BNKA</NAME><TYPING>TYPE</TYPING><TYPENAME>BNKA</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IS_BSIS</NAME><TYPING>TYPE</TYPING><TYPENAME>BSIS</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_BANK_NAME</NAME><TYPING>TYPE</TYPING><TYPENAME>TEXT50</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_BANK_ACCNT</NAME><TYPING>TYPE</TYPING><TYPENAME>BANKN</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_AMNT_WORDS</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_TRANSACTION_AMNT</NAME><TYPING>TYPE</TYPING><TYPENAME>YFI_BANKTRANSFER_SF-WRBTR</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_CURR</NAME><TYPING>TYPE</TYPING><TYPENAME>WAERS</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LV_WATERMARK</NAME><TYPING>TYPE</TYPING><TYPENAME>C</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LV_NAME1</NAME><TYPING>TYPE</TYPING><TYPENAME>ADRC-NAME1</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </IMPORT_PARAMETERS>
+     <EXPORT_PARAMETERS/>
+     <TABLE_PARAMETERS>
+      <SFPIOPAR><NAME>IT_XFER_DETAILS</NAME><TYPING>TYPE</TYPING><TYPENAME>YFI_TBANKTRANSFER_SF</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </TABLE_PARAMETERS>
+     <EXCEPTIONS/>
+    </CL_FP_PARAMETERS>
+   </cls:CL_FP_PARAMETERS>
+   <cls:CL_FP_CODING id="o5">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_CODING classVersion="1">
+     <INPUT_PARAMETERS>
+      <FPPARAMETER>IT_XFER_DETAILS</FPPARAMETER>
+      <FPPARAMETER>IV_BANK_NAME</FPPARAMETER>
+      <FPPARAMETER>IV_BANK_ACCNT</FPPARAMETER>
+      <FPPARAMETER>IV_AMNT_WORDS</FPPARAMETER>
+      <FPPARAMETER>IV_TRANSACTION_AMNT</FPPARAMETER>
+      <FPPARAMETER>IV_CURR</FPPARAMETER>
+      <FPPARAMETER>LV_WATERMARK</FPPARAMETER>
+      <FPPARAMETER>LV_NAME1</FPPARAMETER>
+     </INPUT_PARAMETERS>
+     <OUTPUT_PARAMETERS>
+      <FPPARAMETER>DATE</FPPARAMETER>
+      <FPPARAMETER>MONTH</FPPARAMETER>
+      <FPPARAMETER>LV_DATE1</FPPARAMETER>
+      <FPPARAMETER>LV_DATE2</FPPARAMETER>
+      <FPPARAMETER>LS_XFER_DETAILS</FPPARAMETER>
+      <FPPARAMETER>LV_SERIAL</FPPARAMETER>
+      <FPPARAMETER>GT_XFER_ROWS</FPPARAMETER>
+      <FPPARAMETER>GV_DATE_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_BODY_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_CURR_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_WATERMARK_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_NAME1_TXT</FPPARAMETER>
+     </OUTPUT_PARAMETERS>
+     <INITIALIZATION>
+      <FPCLINE>clear: date, lv_date1, lv_date2.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>** Changed by Zubin on 22.04.2022 - P1 remediation</FPCLINE>
+      <FPCLINE>CALL FUNCTION       "#EC CI_USAGE_OK[2469385]</FPCLINE>
+      <FPCLINE>&apos;ZABF_ISP_GET_MONTH_NAME&apos;</FPCLINE>
+      <FPCLINE>*****&apos;ISP_GET_MONTH_NAME&apos;</FPCLINE>
+      <FPCLINE>  EXPORTING</FPCLINE>
+      <FPCLINE>   DATE               = sy-datum</FPCLINE>
+      <FPCLINE>    LANGUAGE           = SY-LANGU</FPCLINE>
+      <FPCLINE>*   MONTH_NUMBER       = MON_NO</FPCLINE>
+      <FPCLINE> IMPORTING</FPCLINE>
+      <FPCLINE>*   LANGU_BACK         =</FPCLINE>
+      <FPCLINE>   LONGTEXT           =  MONTH</FPCLINE>
+      <FPCLINE>*   SHORTTEXT          = MONTH</FPCLINE>
+      <FPCLINE> EXCEPTIONS</FPCLINE>
+      <FPCLINE>   CALENDAR_ID        = 1</FPCLINE>
+      <FPCLINE>   DATE_ERROR         = 2</FPCLINE>
+      <FPCLINE>   NOT_FOUND          = 3</FPCLINE>
+      <FPCLINE>   WRONG_INPUT        = 4</FPCLINE>
+      <FPCLINE>   OTHERS             = 5</FPCLINE>
+      <FPCLINE>          .</FPCLINE>
+      <FPCLINE>IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>*CONCATENATE   month &apos;&apos; sy-datum+6(2)&apos;,&apos; sy-datum+0(4)</FPCLINE>
+      <FPCLINE>*   into date.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CONCATENATE   month &apos;&apos; sy-datum+6(2)</FPCLINE>
+      <FPCLINE>   into date SEPARATED BY space .</FPCLINE>
+      <FPCLINE>CONCATENATE date &apos;,&apos;</FPCLINE>
+      <FPCLINE>   INTO lv_date1.</FPCLINE>
+      <FPCLINE>CONCATENATE lv_date1 &apos;&apos; sy-datum+0(4)</FPCLINE>
+      <FPCLINE>   INTO lv_date2 SEPARATED BY space.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-7): main window, table %TABLE1 over IT_XFER_DETAILS ======================</FPCLINE>
+      <FPCLINE>" The Smart Form numbered the rows with a table counter (calculation CNT -&gt; LV_SERIAL); an Adobe</FPCLINE>
+      <FPCLINE>" table has no counter, so the rows are numbered here. Beneficiary: %TEXT8 (BLART = BT) /</FPCLINE>
+      <FPCLINE>" %TEXT20 (BLART &lt;&gt; BT).</FPCLINE>
+      <FPCLINE>DATA lv_bolt_out TYPE c LENGTH 255.</FPCLINE>
+      <FPCLINE>CLEAR lv_serial.</FPCLINE>
+      <FPCLINE>LOOP AT it_xfer_details INTO ls_xfer_details.</FPCLINE>
+      <FPCLINE>  lv_serial = lv_serial + 1.</FPCLINE>
+      <FPCLINE>  APPEND INITIAL LINE TO gt_xfer_rows ASSIGNING FIELD-SYMBOL(&lt;lfs_row&gt;).</FPCLINE>
+      <FPCLINE>  WRITE lv_serial TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-slno = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-ref TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-ref = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-beneficiary = COND #( WHEN ls_xfer_details-blart = &apos;BT&apos; THEN `DANGOTE CEMENT PLC`</FPCLINE>
+      <FPCLINE>                                  ELSE ls_xfer_details-name1 ).</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-banka TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-banka = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-brnch TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-brnch = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-bankl TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-bankl = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-bankn TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-bankn = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE ls_xfer_details-wrbtr TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_row&gt;-wrbtr = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ENDLOOP.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-7): the other printed texts, as the Smart Form printed them ================</FPCLINE>
+      <FPCLINE>" BANK_ADDRESS: &amp;lv_date2(C)&amp; (date text of %CODE1, condensed)</FPCLINE>
+      <FPCLINE>gv_date_txt = condense( lv_date2 ).</FPCLINE>
+      <FPCLINE>" LETER_BODY: the sentence with its three continuation lines joined by a blank, amount (C) condensed</FPCLINE>
+      <FPCLINE>WRITE iv_transaction_amnt TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_body_txt = |Kindly use this letter as an authority to debit our { iv_bank_name } { iv_bank_accnt } | &amp;&amp;</FPCLINE>
+      <FPCLINE>              |with the sum of { iv_curr } { condense( lv_bolt_out ) } ( { iv_amnt_words }) | &amp;&amp;</FPCLINE>
+      <FPCLINE>              |and transfer to the beneficiary(ies) detailed below :|.</FPCLINE>
+      <FPCLINE>" %TABLE1 heading of the amount column: [&amp;iv_curr&amp;]</FPCLINE>
+      <FPCLINE>gv_curr_txt = |[{ iv_curr }]|.</FPCLINE>
+      <FPCLINE>" WATERMARK window %TEXT17 (LV_WATERMARK = X: reprint)</FPCLINE>
+      <FPCLINE>gv_watermark_txt = COND #( WHEN lv_watermark = &apos;X&apos; THEN `Re-Printed` ).</FPCLINE>
+      <FPCLINE>" table footer %TEXT18: &amp;lv_name1(C)&amp;</FPCLINE>
+      <FPCLINE>gv_name1_txt = condense( lv_name1 ).</FPCLINE>
+     </INITIALIZATION>
+     <FORMS/>
+    </CL_FP_CODING>
+   </cls:CL_FP_CODING>
+  </asx:heap>
+ </asx:abap>
+</abapGit>
