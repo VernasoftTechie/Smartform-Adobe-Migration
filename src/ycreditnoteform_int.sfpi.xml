@@ -71,7 +71,6 @@
       <FPCLINE>       END OF ty_item.</FPCLINE>
       <FPCLINE>TYPES: ty_item_tab TYPE STANDARD TABLE OF ty_item WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
-     <TYPES/>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
    </cls:CL_FP_GLOBAL_DEFINITIONS>
