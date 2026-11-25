@@ -1,0 +1,2778 @@
+{
+  "source": {
+    "file": "yfi_chequevoucher.xml",
+    "bytes": 261284,
+    "sha256": "02CBBA16DC6D5D91084DE086D3445A3321119565BB043DA6EFBE0F3A14C32752"
+  },
+  "header": {
+    "FORMNAME": "YFI_CHEQUEVOUCHER",
+    "CAPTION": "Cheque Voucher Form",
+    "MASTERLANG": "E",
+    "LANGVECTOR": "*",
+    "DEVCLASS": "ZFI",
+    "VERSION": "00001",
+    "FIRSTUSER": "SAGAR",
+    "FIRSTDATE": "2012-02-13",
+    "FIRSTTIME": "15:17:23",
+    "LASTUSER": "PVEERESH",
+    "LASTDATE": "2021-06-29",
+    "LASTTIME": "05:59:46"
+  },
+  "pageFormat": "DINA4",
+  "formStyle": "SYSTEM",
+  "interface": [
+    {
+      "io": "E",
+      "name": "DOCUMENT_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESPD",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESCL",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCRESOP",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX",
+      "typing": "TYPE",
+      "type": "TOA_DARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX_TAB",
+      "typing": "TYPE",
+      "type": "TSFDARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_PARAMETERS",
+      "typing": "TYPE",
+      "type": "ARC_PARAMS",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CONTROL_PARAMETERS",
+      "typing": "TYPE",
+      "type": "SSFCTRLOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_APPL_OBJ",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_RECIPIENT",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_SENDER",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCOMPOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "USER_SETTINGS",
+      "typing": "TYPE",
+      "type": "TDBOOL",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": "'X'"
+    },
+    {
+      "io": "I",
+      "name": "IS_PAYR",
+      "typing": "TYPE",
+      "type": "PAYR",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IS_LFA1",
+      "typing": "TYPE",
+      "type": "LFA1",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IS_T012K",
+      "typing": "TYPE",
+      "type": "T012K",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IS_T012T",
+      "typing": "TYPE",
+      "type": "T012T",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_XBLNR",
+      "typing": "TYPE",
+      "type": "CHAR120",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_KOSTL",
+      "typing": "TYPE",
+      "type": "KOSTL",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_SGTXT1",
+      "typing": "TYPE",
+      "type": "SGTXT",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_XBLNR1",
+      "typing": "TYPE",
+      "type": "XBLNR1",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_XZAHL",
+      "typing": "TYPE",
+      "type": "XZAHL",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_XZAHL1",
+      "typing": "TYPE",
+      "type": "XZAHL",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_SPELL",
+      "typing": "TYPE",
+      "type": "SPELL",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_BELNR",
+      "typing": "TYPE",
+      "type": "BELNR_D",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_INV_DOC",
+      "typing": "TYPE",
+      "type": "CHAR120",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_SGTXT",
+      "typing": "TYPE",
+      "type": "SGTXT",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_REPRINT",
+      "typing": "TYPE",
+      "type": "FLAG",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_INT_NUMBER",
+      "typing": "TYPE",
+      "type": "CHAR10",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_NAME",
+      "typing": "TYPE",
+      "type": "CHAR40",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_CEPC",
+      "typing": "TYPE",
+      "type": "CEPC",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LV_NAME1",
+      "typing": "TYPE",
+      "type": "ADRC-NAME1",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "FORMATTING_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "INTERNAL_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "SEND_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "USER_CANCELED",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "IT_BSAK",
+      "typing": "TYPE",
+      "type": "TT_BSAK",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "IT_FLEXA",
+      "typing": "TYPE",
+      "type": "FAGLFLEXA_T_TYPE",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    }
+  ],
+  "globalTypes": [],
+  "globalData": [
+    {
+      "name": "IS_BSAK",
+      "typing": "TYPE",
+      "type": "BSAK"
+    },
+    {
+      "name": "GV_TOTAL",
+      "typing": "TYPE",
+      "type": "WRBTR"
+    },
+    {
+      "name": "LS_FLEXA",
+      "typing": "TYPE",
+      "type": "FAGLFLEXA"
+    },
+    {
+      "name": "LV_CREDIT",
+      "typing": "TYPE",
+      "type": "DMBTR"
+    },
+    {
+      "name": "LV_AMNT",
+      "typing": "TYPE",
+      "type": "DMBTR"
+    },
+    {
+      "name": "LV_DEBIT",
+      "typing": "TYPE",
+      "type": "DMBTR"
+    }
+  ],
+  "globalParams": [],
+  "globalCoding": [],
+  "tree": {
+    "type": "RP",
+    "label": "form root",
+    "children": [
+      {
+        "type": "PA",
+        "label": "page",
+        "children": [
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT30",
+                        "caption": "New Text 30",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Payment received:"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Payment received:"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT29",
+                        "caption": "New Text 29",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Date:"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Date:"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT28",
+                        "caption": "New Text 28",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Staff No."
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Staff No."
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT27",
+                        "caption": "New Text 27",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Ident:"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Ident:"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT26",
+                        "caption": "New Text 26",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Name in print:&IS_LFA1-NAME1&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Name in print:&IS_LFA1-NAME1&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT25",
+                        "caption": "New Text 25",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Signature"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE5",
+                    "caption": "New Template 5",
+                    "sectKind": "template",
+                    "width": "21.00 CM",
+                    "columns": {
+                      "%C1": [
+                        "11.50 CM",
+                        "3.50 CM",
+                        "3.00 CM",
+                        "3.00 CM"
+                      ],
+                      "%C2": [
+                        "13.50 CM",
+                        "7.50 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW5",
+            "caption": "New Window 5",
+            "geometry": {
+              "left": "",
+              "top": "17.67 CM",
+              "width": "21.00 CM",
+              "height": "2.00 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT43",
+                                    "caption": "New Text 43",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Date"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Date"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL8",
+                                "caption": "New Column 8",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT55",
+                                    "caption": "New Text 55",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Accnt No"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Accnt No"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL9",
+                                "caption": "New Column 9",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT54",
+                                    "caption": "New Text 54",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Description"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Description"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL10",
+                                "caption": "New Column 10",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT56",
+                                    "caption": "New Text 56",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Cost   Center"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Cost   Center"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL11",
+                                "caption": "New Column 11",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT57",
+                                    "caption": "New Text 57",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Profit   Center"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Profit   Center"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL12",
+                                "caption": "New Column 12",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT58",
+                                    "caption": "New Text 58",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Debit"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Debit"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL13",
+                                "caption": "New Column 13",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT59",
+                                    "caption": "New Text 59",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Credit"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Credit"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL14",
+                                "caption": "New Column 14",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW4",
+                            "caption": "New Line 4",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT4",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "CO",
+                                    "label": "program lines",
+                                    "children": [],
+                                    "objKind": "CODE",
+                                    "name": "%CODE1",
+                                    "caption": "New Program Lines 1",
+                                    "params": [
+                                      {
+                                        "name": "LS_FLEXA",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "LV_DEBIT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "LV_CREDIT",
+                                        "dir": "output"
+                                      }
+                                    ],
+                                    "code": [
+                                      "IF ls_flexa-tsl < '0.00'.",
+                                      "multiply ls_flexa-tsl by -1.",
+                                      "add ls_flexa-tsl to lv_credit.",
+                                      "else.",
+                                      "  add ls_flexa-tsl to lv_debit.",
+                                      "ENDIF."
+                                    ]
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT60",
+                                    "caption": "New Text 60",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-budat&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL15",
+                                "caption": "New Column 15",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT19",
+                                    "caption": "New Text 19",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-logsys&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL16",
+                                "caption": "New Column 16",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT31",
+                                    "caption": "New Text 31",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-rfarea&&ls_flexa-SCNTR&&ls_flexa-PPRCTR&&ls_flexa-SFAREA&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL17",
+                                "caption": "New Column 17",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT62",
+                                    "caption": "New Text 62",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-RCNTR&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL18",
+                                "caption": "New Column 18",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT61",
+                                    "caption": "New Text 61",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-prctr&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL19",
+                                "caption": "New Column 19",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT63",
+                                    "caption": "New Text 63",
+                                    "condition": "LS_FLEXA-DRCRK = 'S'",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-tsl&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL20",
+                                "caption": "New Column 20",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT64",
+                                    "caption": "New Text 64",
+                                    "condition": "LS_FLEXA-DRCRK = 'H'",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&ls_flexa-tsl&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL21",
+                                "caption": "New Column 21",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW5",
+                            "caption": "New Line 5",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT5",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [],
+                                "objKind": "SECTION",
+                                "name": "%CELL22",
+                                "caption": "New Column 22",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [],
+                                "objKind": "SECTION",
+                                "name": "%CELL23",
+                                "caption": "New Column 23",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [],
+                                "objKind": "SECTION",
+                                "name": "%CELL24",
+                                "caption": "New Column 24",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [],
+                                "objKind": "SECTION",
+                                "name": "%CELL25",
+                                "caption": "New Column 25",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [],
+                                "objKind": "SECTION",
+                                "name": "%CELL26",
+                                "caption": "New Column 26",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT32",
+                                    "caption": "New Text 32",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&lv_debit&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL27",
+                                "caption": "New Column 27",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT33",
+                                    "caption": "New Text 33",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&lv_credit&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL28",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW6",
+                            "caption": "New Line 6",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT6",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE2",
+                    "caption": "New Table 2",
+                    "outStyle": "YFI_CHEQUEVOUCHER",
+                    "sectKind": "table",
+                    "tabName": "IT_FLEXA",
+                    "workArea": "LS_FLEXA",
+                    "width": "21.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "2.29 CM",
+                        "2.08 CM",
+                        "5.15 CM",
+                        "1.89 CM",
+                        "2.32 CM",
+                        "3.55 CM",
+                        "3.72 CM"
+                      ],
+                      "%LTYPE2": [
+                        "2.29 CM",
+                        "2.08 CM",
+                        "5.15 CM",
+                        "1.89 CM",
+                        "2.32 CM",
+                        "3.55 CM",
+                        "3.72 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW6",
+            "caption": "New Window 6",
+            "geometry": {
+              "left": "",
+              "top": "19.97 CM",
+              "width": "21.00 CM",
+              "height": "9.70 CM"
+            },
+            "windowType": "M"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "CO",
+                        "label": "program lines",
+                        "children": [],
+                        "objKind": "CODE",
+                        "name": "%CODE2",
+                        "caption": "New Program Lines 2",
+                        "params": [
+                          {
+                            "name": "IS_PAYR",
+                            "dir": "input"
+                          },
+                          {
+                            "name": "LV_AMNT",
+                            "dir": "output"
+                          }
+                        ],
+                        "code": [
+                          "IF IS_PAYR-RWBTR < 0.",
+                          "LV_AMNT = IS_PAYR-RWBTR * -1.",
+                          "else.",
+                          "  LV_AMNT = IS_PAYR-RWBTR.",
+                          "ENDIF."
+                        ]
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT17",
+                        "caption": "New Text 17",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Payment prepared by :,,           Date &IS_PAYR-ZALDT&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Payment prepared by :,,           Date &IS_PAYR-ZALDT&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT15",
+                        "caption": "New Text 15",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT14",
+                        "caption": "New Text 14",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque No.&IS_PAYR-CHECT&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque No.&IS_PAYR-CHECT&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT18",
+                        "caption": "New Text 18",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Amount:&lv_amnt& Bank:&IS_T012T-TEXT1&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Amount:&lv_amnt& Bank:&IS_T012T-TEXT1&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT20",
+                        "caption": "New Text 20",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Bank Acc.No.&IS_T012K-BANKN&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Bank Acc.No.&IS_T012K-BANKN&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT21",
+                        "caption": "New Text 21",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Words (in &is_payr-waers& ) : &IV_SPELL-WORD&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Words (in &is_payr-waers& ) : &IV_SPELL-WORD&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT24",
+                        "caption": "New Text 24",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque signed by"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque signed by"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT22",
+                        "caption": "New Text 22",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "A:"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "A:"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT23",
+                        "caption": "New Text 23",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "B:"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "B:"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE4",
+                    "caption": "New Template 4",
+                    "sectKind": "template",
+                    "width": "21.00 CM",
+                    "columns": {
+                      "%C1": [
+                        "14.00 CM",
+                        "2.00 CM",
+                        "5.00 CM"
+                      ],
+                      "%C3": [
+                        "16.00 CM",
+                        "5.00 CM"
+                      ],
+                      "%C2": [
+                        "21.00 CM"
+                      ],
+                      "%C4": [
+                        "21.00 CM"
+                      ],
+                      "%C5": [
+                        "8.00 CM",
+                        "7.00 CM",
+                        "6.00 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW4",
+            "caption": "New Window 4",
+            "geometry": {
+              "left": "",
+              "top": "13.87 CM",
+              "width": "21.00 CM",
+              "height": "3.57 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT11",
+                        "caption": "New Text 11",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Date:,,,,Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Date:,,,,Signature"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT9",
+                        "caption": "New Text 9",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Supplier No.&IS_PAYR-LIFNR&"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Your Invoice No.&IV_XBLNR&"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Invoice Document No :&iv_inv_doc&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Supplier No.&IS_PAYR-LIFNR&"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Your Invoice No.&IV_XBLNR&"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Invoice Document No :&iv_inv_doc&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT7",
+                        "caption": "New Text 7",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Name : &IS_LFA1-NAME1&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Name : &IS_LFA1-NAME1&"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE3",
+                    "caption": "New Template 3",
+                    "sectKind": "template",
+                    "width": "11.87 CM",
+                    "columns": {
+                      "%C1": [
+                        "11.87 CM"
+                      ],
+                      "%C2": [
+                        "11.87 CM"
+                      ],
+                      "%C3": [
+                        "11.87 CM"
+                      ],
+                      "%C4": [
+                        "11.87 CM"
+                      ],
+                      "%C5": [
+                        "11.87 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW3",
+            "caption": "New Window 3",
+            "geometry": {
+              "left": "",
+              "top": "3.23 CM",
+              "width": "11.87 CM",
+              "height": "6.14 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT53",
+                        "caption": "New Text 53",
+                        "condition": "IV_REPRINT = 'X'",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": ",,,,,,(Reprint)"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque Voucher No : &iv_int_number&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": ",,,,,,(Reprint)"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque Voucher No : &iv_int_number&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "GR",
+                        "label": "graphic",
+                        "children": [],
+                        "objKind": "GRAPHIC",
+                        "name": "%GRAPHIC1",
+                        "caption": "New Graphic 1",
+                        "graphic": {
+                          "object": "GRAPHICS",
+                          "name": "DANGOTELOGO",
+                          "id": "BMAP",
+                          "btype": "BCOL",
+                          "resolution": "0200"
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT2",
+                        "caption": "New Text 2",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P2",
+                              "line": "&lv_name1(C)&"
+                            },
+                            {
+                              "fmt": "P6",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P6",
+                              "line": "(&ls_cepc-name1&)"
+                            },
+                            {
+                              "fmt": "P3",
+                              "line": "&ls_cepc-stras& &ls_cepc-ort01&"
+                            },
+                            {
+                              "fmt": "P3",
+                              "line": "&ls_cepc-ort02&&ls_cepc-pfach&&ls_cepc-pstlz&"
+                            },
+                            {
+                              "fmt": "P3",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P3",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT3",
+                        "caption": "New Text 3",
+                        "condition": "IV_REPRINT = ''",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque Voucher No : &iv_int_number&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Cheque Voucher No : &iv_int_number&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT4",
+                        "caption": "New Text 4",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Payment Document No:&IS_PAYR-VBLNR&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Payment Document No:&IS_PAYR-VBLNR&"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT5",
+                        "caption": "New Text 5",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "*",
+                              "line": ""
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT6",
+                        "caption": "New Text 6",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Date:&IS_PAYR-ZALDT&"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Date:&IS_PAYR-ZALDT&"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE1",
+                    "caption": "New Template 1",
+                    "sectKind": "template",
+                    "width": "21.00 CM",
+                    "columns": {
+                      "%C1": [
+                        "2.61 CM",
+                        "11.43 CM",
+                        "6.96 CM"
+                      ],
+                      "%C2": [
+                        "6.60 CM",
+                        "9.58 CM",
+                        "4.82 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW1",
+            "caption": "New Window 1",
+            "geometry": {
+              "left": "",
+              "top": "",
+              "width": "21.00 CM",
+              "height": "3.00 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT12",
+                        "caption": "New Text 12",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher prepared by : &IV_NAME&"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher prepared by : &IV_NAME&"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT13",
+                        "caption": "New Text 13",
+                        "condition": "IS_T012K-BUKRS <> 1220",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher controlled and accepted by  audit"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher controlled and accepted by  audit"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "COMP_1220",
+                        "caption": "Company code 1220",
+                        "condition": "IS_T012K-BUKRS = 1220",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "SIGNATORY A"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher controlled and accepted by  audit"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT1",
+                        "caption": "New Text 1",
+                        "condition": "IS_T012K-BUKRS <> 1220",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher authorized by Head Of Department"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher authorized by Head Of Department"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "COMP_1220_2",
+                        "caption": "Company code 1220",
+                        "condition": "IS_T012K-BUKRS = 1220",
+                        "outStyle": "YFI_CHEQUEVOUCHER",
+                        "style": "YFI_CHEQUEVOUCHER",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "SIGNATORY B"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Voucher authorized by Head Of Department"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": ""
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Date:             Signature"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE2",
+                    "caption": "New Template 2",
+                    "sectKind": "template",
+                    "width": "9.00 CM",
+                    "columns": {
+                      "%C2": [
+                        "9.00 CM"
+                      ],
+                      "%C3": [
+                        "9.00 CM"
+                      ],
+                      "%C4": [
+                        "9.00 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%WINDOW2",
+            "caption": "New Window 2",
+            "geometry": {
+              "left": "12.00 CM",
+              "top": "3.23 CM",
+              "width": "9.00 CM",
+              "height": "6.11 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT48",
+                                    "caption": "New Text 48",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Payment made in respect of:"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Payment made in respect of:"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL1",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT49",
+                                    "caption": "New Text 49",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&is_payr-waers&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL2",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW1",
+                            "caption": "New Line 1",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT1",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT50",
+                                    "caption": "New Text 50",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&iv_SGTXT1&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT8",
+                                    "caption": "New Text 8",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&IS_BSAK-SGTXT&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL3",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT51",
+                                    "caption": "New Text 51",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&IS_BSAK-WRBTR&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL4",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW2",
+                            "caption": "New Line 2",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT2",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [],
+                                "objKind": "SECTION",
+                                "name": "%CELL6",
+                                "caption": "New Column 6",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT10",
+                                    "caption": "New Text 10",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Total"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "Total"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL5",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT16",
+                                    "caption": "New Text 16",
+                                    "outStyle": "YFI_CHEQUEVOUCHER",
+                                    "style": "YFI_CHEQUEVOUCHER",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P1",
+                                          "line": "&GV_TOTAL&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL7",
+                                "caption": "New Column 7",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW3",
+                            "caption": "New Line 3",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT3",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE1",
+                    "caption": "New Table 1",
+                    "sectKind": "table",
+                    "tabName": "IT_BSAK",
+                    "workArea": "IS_BSAK",
+                    "width": "21.00 CM",
+                    "columns": {
+                      "%LTYPE1": [
+                        "10.00 CM",
+                        "11.00 CM"
+                      ],
+                      "%LTYPE2": [
+                        "10.00 CM",
+                        "11.00 CM"
+                      ],
+                      "%LTYPE3": [
+                        "5.00 CM",
+                        "5.00 CM",
+                        "11.00 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "MAIN",
+            "caption": "Main Window",
+            "geometry": {
+              "left": "",
+              "top": "9.60 CM",
+              "width": "21.00 CM",
+              "height": "4.20 CM"
+            },
+            "windowType": "T"
+          }
+        ],
+        "objKind": "PAGE",
+        "name": "%PAGE1",
+        "caption": "New Page"
+      }
+    ]
+  },
+  "styles": [
+    "YFI_CHEQUEVOUCHER"
+  ],
+  "languages": [
+    "E",
+    "F"
+  ],
+  "fields": {
+    "GV_TOTAL": 1,
+    "IS_BSAK-SGTXT": 1,
+    "IS_BSAK-WRBTR": 1,
+    "IS_LFA1-NAME1": 4,
+    "IS_PAYR-CHECT": 2,
+    "IS_PAYR-LIFNR": 2,
+    "IS_PAYR-VBLNR": 2,
+    "IS_PAYR-ZALDT": 4,
+    "IS_T012K-BANKN": 2,
+    "IS_T012T-TEXT1": 2,
+    "IV_NAME": 2,
+    "IV_SPELL-WORD": 2,
+    "IV_XBLNR": 2,
+    "is_payr-waers": 3,
+    "iv_SGTXT1": 1,
+    "iv_int_number": 4,
+    "iv_inv_doc": 2,
+    "ls_cepc-name1": 1,
+    "ls_cepc-ort01": 1,
+    "ls_cepc-ort02": 1,
+    "ls_cepc-pfach": 1,
+    "ls_cepc-pstlz": 1,
+    "ls_cepc-stras": 1,
+    "ls_flexa-PPRCTR": 1,
+    "ls_flexa-RCNTR": 1,
+    "ls_flexa-SCNTR": 1,
+    "ls_flexa-SFAREA": 1,
+    "ls_flexa-budat": 1,
+    "ls_flexa-logsys": 1,
+    "ls_flexa-prctr": 1,
+    "ls_flexa-rfarea": 1,
+    "ls_flexa-tsl": 2,
+    "lv_amnt": 2,
+    "lv_credit": 1,
+    "lv_debit": 1,
+    "lv_name1(C)": 1
+  },
+  "paragraphFormats": [
+    "*",
+    "P1",
+    "P2",
+    "P3",
+    "P6"
+  ],
+  "characterFormats": [],
+  "graphics": [
+    {
+      "object": "GRAPHICS",
+      "name": "DANGOTELOGO",
+      "id": "BMAP",
+      "btype": "BCOL",
+      "resolution": "0200"
+    }
+  ],
+  "codeNodes": [
+    {
+      "name": "%CODE1",
+      "caption": "New Program Lines 1",
+      "params": [
+        {
+          "name": "LS_FLEXA",
+          "dir": "output"
+        },
+        {
+          "name": "LV_DEBIT",
+          "dir": "output"
+        },
+        {
+          "name": "LV_CREDIT",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "IF ls_flexa-tsl < '0.00'.",
+        "multiply ls_flexa-tsl by -1.",
+        "add ls_flexa-tsl to lv_credit.",
+        "else.",
+        "  add ls_flexa-tsl to lv_debit.",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 0,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE2",
+      "caption": "New Program Lines 2",
+      "params": [
+        {
+          "name": "IS_PAYR",
+          "dir": "input"
+        },
+        {
+          "name": "LV_AMNT",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "IF IS_PAYR-RWBTR < 0.",
+        "LV_AMNT = IS_PAYR-RWBTR * -1.",
+        "else.",
+        "  LV_AMNT = IS_PAYR-RWBTR.",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 0,
+        "calls": []
+      }
+    }
+  ],
+  "globalEvidence": {
+    "selects": [],
+    "tables": [],
+    "fms": [],
+    "performs": [],
+    "memory": [],
+    "breakpoints": 0,
+    "commented": 0,
+    "calls": []
+  },
+  "conditions": [
+    "LS_FLEXA-DRCRK = 'S'",
+    "LS_FLEXA-DRCRK = 'H'",
+    "IV_REPRINT = 'X'",
+    "IV_REPRINT = ''",
+    "IS_T012K-BUKRS <> 1220",
+    "IS_T012K-BUKRS = 1220"
+  ],
+  "pages": [
+    {
+      "name": "%PAGE1",
+      "caption": "New Page"
+    }
+  ],
+  "styleInInventory": {
+    "YFI_CHEQUEVOUCHER": false
+  },
+  "graphicInInventory": {
+    "DANGOTELOGO": true
+  }
+}
