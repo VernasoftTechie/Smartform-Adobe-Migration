@@ -90,7 +90,6 @@
      </GLOBAL_DATA>
      <TYPES>
       <FPCLINE>TYPES: LT_MSEG_1 TYPE ZEXTRA_FIELD.</FPCLINE>
-      <FPCLINE>" BOLT: display rows of %TABLE1 (LT_MSEG), as printed</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_item_row,</FPCLINE>
       <FPCLINE>         zeile  TYPE string,</FPCLINE>
       <FPCLINE>         matnr  TYPE string,</FPCLINE>
@@ -100,8 +99,8 @@
       <FPCLINE>         lgpla  TYPE string,</FPCLINE>
       <FPCLINE>         urate  TYPE string,</FPCLINE>
       <FPCLINE>         amount TYPE string,</FPCLINE>
-      <FPCLINE>       END OF ty_item_row,</FPCLINE>
-      <FPCLINE>       ty_item_tab TYPE STANDARD TABLE OF ty_item_row WITH EMPTY KEY.</FPCLINE>
+      <FPCLINE>       END OF ty_item_row.</FPCLINE>
+      <FPCLINE>TYPES: ty_item_tab TYPE STANDARD TABLE OF ty_item_row WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>

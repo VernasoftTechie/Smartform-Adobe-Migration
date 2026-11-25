@@ -46,7 +46,6 @@ const out = (target, src, pad = '') => [`${pad}WRITE ${src} TO lv_bolt_out.`, `$
 const XOF = "wa_mseg-waers = 'XOF' OR wa_mseg-waers = 'XAF'";
 
 const TYPES = [
-  '" BOLT: display rows of %TABLE1 (LT_MSEG), as printed',
   'TYPES: BEGIN OF ty_item_row,',
   '         zeile  TYPE string,',
   '         matnr  TYPE string,',
@@ -56,8 +55,8 @@ const TYPES = [
   '         lgpla  TYPE string,',
   '         urate  TYPE string,',
   '         amount TYPE string,',
-  '       END OF ty_item_row,',
-  '       ty_item_tab TYPE STANDARD TABLE OF ty_item_row WITH EMPTY KEY.',
+  '       END OF ty_item_row.',
+  'TYPES: ty_item_tab TYPE STANDARD TABLE OF ty_item_row WITH DEFAULT KEY.',
 ];
 const STRINGS = ['GV_HDR_L1', 'GV_HDR_L2', 'GV_HDR_L3', 'GV_HDR_L4', 'GV_GRN_NO', 'GV_GRN_DATE', 'GV_SUPPLIER', 'GV_WAYBILL',
   'GV_INVOICE', 'GV_TRANSPORTER', 'GV_VEHICLE', 'GV_LPR', 'GV_LPO', 'GV_DEPT', 'GV_SECTION', 'GV_AWB_NO', 'GV_AWB_DATE',
