@@ -1,0 +1,616 @@
+*&---------------------------------------------------------------------*
+*& REPORT  YFI_CHEQUEVOUCHER
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
+
+
+REPORT  yfi_chequevoucher.
+
+
+DATA : lt_payr    TYPE TABLE OF payr,
+       ls_payr    LIKE LINE OF lt_payr,
+
+       lt_lfa1    TYPE TABLE OF lfa1,
+       ls_lfa1    LIKE LINE OF lt_lfa1,
+
+       lt_bsak    TYPE TABLE OF bsak,
+       ls_bsak    LIKE LINE OF lt_bsak,
+
+       lt_bsik    TYPE TABLE OF bsik,
+       ls_bsik    LIKE LINE OF lt_bsik,
+
+       lt_bsak1   TYPE TABLE OF bsak,
+       ls_bsak1   LIKE LINE OF lt_bsak1,
+
+       lt_t012k   TYPE TABLE OF t012k,
+       ls_t012k   LIKE LINE OF lt_t012k,
+       lt_cepc    TYPE TABLE OF cepc,
+       ls_cepc    LIKE LINE OF lt_cepc,
+
+       lt_t012t   TYPE TABLE OF t012t,
+       ls_t012t   LIKE LINE OF lt_t012t,
+       lt_ekko    TYPE TABLE OF ekko,
+       ls_ekko    LIKE LINE OF lt_ekko,
+*       lt_t001w TYPE TABLE OF t001w,
+*       ls_t001w LIKE LINE OF lt_t001w,
+*       lt_adrc TYPE TABLE OF adrc,
+*       ls_adrc LIKE LINE OF lt_adrc,
+       lv_xblnr   TYPE char120,
+       lv_belnr   TYPE belnr_d,
+       lv_sgtxt   TYPE sgtxt,
+       lv_xzahl   TYPE xzahl,
+
+       lv_xblnr1  TYPE xblnr1,
+       lv_kostl   TYPE kostl,
+       lv_xzahl1  TYPE xzahl,
+
+       lv_rwbtr   TYPE rwbtr,
+       lv_spell   TYPE spell,
+
+       iv_inv_doc TYPE char120,
+       lv_adrnr   TYPE t001-adrnr,        "Address Number
+       lv_name1   TYPE adrc-name1.       " Company Name
+
+DATA : lt_flexa TYPE TABLE OF faglflexa,
+       ls_flexa LIKE LINE OF lt_flexa.
+
+DATA : lv_message TYPE char40,
+       lv_no_data TYPE flag.
+
+DATA : lv_sgtxt1 TYPE bsak-sgtxt.
+
+DATA : ls_yfichqvoucher TYPE yfichqvoucher,
+       lv_reprint       TYPE flag,
+       lv_int_number    TYPE char10.
+
+SELECT-OPTIONS : s_bukrs FOR ls_payr-zbukr OBLIGATORY NO INTERVALS NO-EXTENSION,
+                 s_gjahr FOR ls_payr-gjahr OBLIGATORY NO INTERVALS NO-EXTENSION,
+                 s_vblnr FOR ls_payr-vblnr OBLIGATORY NO INTERVALS NO-EXTENSION.
+DATA  lv_uname TYPE char40..
+
+
+
+
+
+PERFORM:clear_data,
+        fetch_data,
+        print_form.
+*&---------------------------------------------------------------------*
+*&      FORM  FETCH_DATA
+*&---------------------------------------------------------------------*
+*       TEXT
+*----------------------------------------------------------------------*
+*  -->  P1        TEXT
+*  <--  P2        TEXT
+*----------------------------------------------------------------------*
+FORM fetch_data .
+
+
+
+  CLEAR : lv_message, lv_no_data.
+
+  SELECT        adrnr UP TO 1 ROWS
+                      FROM t001 INTO lv_adrnr WHERE bukrs IN s_bukrs
+    ORDER BY bukrs.
+  ENDSELECT.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+  IF sy-subrc = 0.
+    SELECT        name1 UP TO 1 ROWS
+                        FROM adrc INTO lv_name1 WHERE addrnumber = lv_adrnr
+      ORDER BY addrnumber
+               date_from
+               nation.
+    ENDSELECT.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+    CALL FUNCTION 'TERM_TRANSLATE_TO_UPPER_CASE'               " Conver Lower case to Upper Case
+      EXPORTING
+        langu   = sy-langu
+        text    = lv_name1
+      IMPORTING
+        text_uc = lv_name1
+*    EXCEPTIONS
+*       NO_LOCALE_AVAILABLE       = 1
+*       OTHERS  = 2
+      .
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
+
+  ENDIF.
+  SELECT        * UP TO 1 ROWS
+                  FROM payr INTO ls_payr
+                     WHERE zbukr IN s_bukrs
+                     AND   gjahr IN s_gjahr
+                     AND   vblnr IN s_vblnr
+    ORDER BY PRIMARY KEY.
+*    ORDER BY ZBUKR
+*             VBLNR
+*             GJAHR.
+  ENDSELECT.
+* Order By IndexB
+* HANA FIX by GekkoBrain Codefixer (GB)
+*                     AND xragl = ''.
+
+
+
+
+  IF sy-subrc EQ 0.
+
+    SELECT SINGLE vblnr FROM yfichqvoucher INTO lv_int_number
+                     WHERE zbukr  = ls_payr-zbukr
+                     AND hbkid = ls_payr-hbkid
+                     AND hktid = ls_payr-hktid
+                     AND rzawe = ls_payr-rzawe
+                     AND chect = ls_payr-chect.
+
+    IF sy-subrc EQ 0.
+
+      lv_reprint = 'X'.
+
+    ELSE.
+
+      CALL FUNCTION 'NUMBER_GET_NEXT'
+        EXPORTING
+          nr_range_nr             = '01'
+          object                  = 'YFICHQVCH'
+          quantity                = '1'
+        IMPORTING
+          number                  = lv_int_number
+        EXCEPTIONS
+          interval_not_found      = 1
+          number_range_not_intern = 2
+          object_not_found        = 3
+          quantity_is_0           = 4
+          quantity_is_not_1       = 5
+          interval_overflow       = 6
+          buffer_overflow         = 7
+          OTHERS                  = 8.
+      IF sy-subrc <> 0.
+* Implement suitable error handling here
+      ENDIF.
+
+      MOVE-CORRESPONDING ls_payr TO ls_yfichqvoucher.
+      ls_yfichqvoucher-vblnr = lv_int_number.
+
+      MODIFY yfichqvoucher FROM ls_yfichqvoucher.
+
+    ENDIF.
+
+  ENDIF.
+
+  IF ls_payr-xragl IS NOT INITIAL OR ls_payr IS INITIAL.
+
+
+
+
+    SELECT SINGLE voidt FROM tvoit INTO lv_message WHERE langu = 'E' AND voidr = ls_payr-voidr.
+*    MESSAGE lv_message TYPE 'S' DISPLAY LIKE 'E'.
+    lv_no_data = 'X'.
+    EXIT.
+  ELSE.
+
+
+    IF sy-subrc EQ 0.
+      MOVE:ls_payr-rwbtr TO lv_rwbtr.
+    ENDIF.
+*
+    SELECT SINGLE * FROM lfa1 INTO ls_lfa1
+                       WHERE lifnr = ls_payr-lifnr.
+    SELECT SINGLE * FROM ekko INTO ls_ekko
+                     WHERE lifnr = ls_payr-lifnr AND bukrs = ls_payr-zbukr.
+
+*SELECT SINGLE * from t001w into ls_t001w
+*                    where ekorg = ls_ekko-ekorg.
+*  SELECT SINGLE * from adrc INTO ls_adrc
+*                    where ADDRNUMBER = ls_t001w-adrnr.
+
+    SELECT * FROM bsak INTO TABLE lt_bsak "#EC CI_DB_OPERATION_OK[2602107]
+                       WHERE augbl = ls_payr-vblnr
+                       AND   gjahr = ls_payr-gjahr
+                       AND   bukrs IN s_bukrs
+                       AND   shkzg = 'H'.
+
+
+
+    SELECT        sgtxt UP TO 1 ROWS   "#EC CI_DB_OPERATION_OK[2602107]
+                        FROM bsak INTO lv_sgtxt1
+                           WHERE augbl = ls_payr-vblnr
+                           AND   gjahr = ls_payr-gjahr
+                           AND   bukrs IN s_bukrs
+                           AND   shkzg = 'S'
+      ORDER BY bukrs
+               lifnr
+               umsks
+               umskz
+               augdt
+               augbl
+               zuonr
+               gjahr
+               belnr
+               buzei.
+    ENDSELECT.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+
+
+    IF NOT lt_bsak IS INITIAL.
+      SORT lt_bsak BY gjahr.
+    ENDIF.
+
+    DATA : lt_bsik1 LIKE lt_bsik.
+
+    SELECT * FROM bsik INTO TABLE lt_bsik "#EC CI_DB_OPERATION_OK[2602107]
+                       WHERE belnr = ls_payr-vblnr
+                       AND   gjahr = ls_payr-gjahr
+                       AND   bukrs IN s_bukrs
+                       AND   shkzg = 'S'.
+
+
+
+    IF NOT lt_bsik IS INITIAL.
+
+      SORT lt_bsik BY gjahr.
+    ENDIF.
+
+
+    LOOP AT lt_bsak INTO ls_bsak.
+*      lv_xblnr = ls_bsak-xblnr.
+      CONCATENATE lv_xblnr ',' ls_bsak-xblnr INTO lv_xblnr.
+      CONCATENATE iv_inv_doc ',' ls_bsak-belnr INTO iv_inv_doc.
+
+      CONDENSE : lv_xblnr, iv_inv_doc.
+
+      IF  lv_xblnr+0(1) = ','.
+        lv_xblnr+0(1) = ''.
+      ENDIF.
+
+      IF  iv_inv_doc+0(1) = ','.
+        iv_inv_doc+0(1) = ''.
+      ENDIF.
+
+      lv_belnr = ls_bsak-belnr.
+      lv_sgtxt = ls_bsak-sgtxt.
+      lv_xzahl = ls_bsak-xzahl.
+    ENDLOOP.
+
+    IF lt_bsak IS INITIAL.
+
+      LOOP AT lt_bsik INTO ls_bsik.
+*        lv_xblnr = ls_bsik-xblnr.
+
+*-Begin of HANA Adoptation
+*---Old
+*        SELECT SINGLE XBLNR FROM BSIK INTO LV_XBLNR WHERE BELNR = LS_BSIK-REBZG.
+*---New
+        SELECT xblnr UP TO 1 ROWS FROM bsik INTO lv_xblnr WHERE belnr = ls_bsik-rebzg ORDER BY PRIMARY KEY. "#EC CI_DB_OPERATION_OK[2602107]
+        ENDSELECT.
+*-End of HANA Adoptation
+
+
+        CONCATENATE iv_inv_doc ',' ls_bsik-rebzg INTO iv_inv_doc.
+
+        IF  lv_xblnr+0(1) = ','.
+          lv_xblnr+0(1) = ''.
+        ENDIF.
+
+        IF  iv_inv_doc+0(1) = ','.
+          iv_inv_doc+0(1) = ''.
+        ENDIF.
+
+
+        lv_belnr = ls_bsik-belnr.
+        lv_sgtxt = ls_bsik-sgtxt.
+        lv_xzahl = ls_bsik-xzahl.
+
+
+      ENDLOOP.
+
+    ENDIF.
+
+
+
+
+    SELECT * FROM bsak INTO TABLE lt_bsak1 "#EC CI_DB_OPERATION_OK[2602107]
+                        WHERE augbl = ls_payr-vblnr
+                        AND   gjahr = ls_payr-gjahr
+                        AND   bukrs = s_bukrs
+                        AND   shkzg = 'S'.
+
+    IF NOT lt_bsak1 IS INITIAL.
+      SORT lt_bsak1 BY gjahr.
+    ENDIF.
+
+    LOOP AT lt_bsak1 INTO ls_bsak1.
+      lv_xblnr1 = ls_bsak1-xblnr.
+      lv_kostl = ls_bsak1-kostl.
+      lv_xzahl1 = ls_bsak-xzahl.
+    ENDLOOP.
+
+    SELECT SINGLE * FROM t012k INTO  ls_t012k
+                        WHERE hbkid = ls_payr-hbkid
+                        AND  hktid = ls_payr-hktid
+                        AND   bukrs = s_bukrs-low.
+
+
+    SELECT        * UP TO 1 ROWS
+                    FROM t012t INTO  ls_t012t
+                        WHERE hbkid = ls_payr-hbkid
+                         AND hktid = ls_payr-hktid
+                         AND   bukrs = s_bukrs-low
+      ORDER BY spras
+               bukrs
+               hbkid
+               hktid.
+    ENDSELECT.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+
+*  ENDIF.
+
+  ENDIF.
+
+
+  IF lt_bsak[] IS INITIAL.
+    lt_bsak = lt_bsik.
+  ENDIF.
+
+  IF lt_bsak[] IS NOT INITIAL.
+
+
+
+
+
+    SELECT * FROM faglflexa INTO TABLE lt_flexa
+                  FOR ALL ENTRIES IN lt_bsak
+                  WHERE ryear = lt_bsak-gjahr
+    AND docnr = lt_bsak-augbl
+    AND rldnr = '0L'
+    AND rbukrs = lt_bsak-bukrs.
+
+
+    IF lt_flexa IS INITIAL.
+
+
+
+
+      SELECT * FROM faglflexa APPENDING TABLE lt_flexa
+                        FOR ALL ENTRIES IN lt_bsak
+                        WHERE ryear = lt_bsak-gjahr
+          AND docnr = lt_bsak-belnr
+          AND rldnr = '0L'
+          AND rbukrs = lt_bsak-bukrs.
+
+    ENDIF.
+
+    DATA : ls_bseg TYPE bseg,
+           lv_name TYPE char40.
+
+*/ FEW fix - inserted by Gekkobrain Codefix (GB)
+    SELECT                             "#EC CI_DB_OPERATION_OK[2431747]
+    * UP TO 1 ROWS
+    FROM bseg INTO ls_bseg
+    WHERE belnr = ls_payr-vblnr ORDER BY PRIMARY KEY.
+    ENDSELECT.
+*     if ls_bseg-prctr is not INITIAL.
+*     SELECT SINGLE * from cepc into
+*           ls_cepc where prctr = ls_bseg-prctr.
+*SELECT SINGLE * from t001w into ls_t001w
+*                    where werks = ls_marc-werks.
+*  SELECT SINGLE * from adrc INTO ls_adrc
+*                    where ADDRNUMBER = ls_t001w-adrnr.
+*    endif.
+    CLEAR ls_bseg.
+    LOOP AT lt_flexa INTO ls_flexa.
+      CLEAR lv_name.
+
+      IF ls_flexa-prctr IS NOT INITIAL.
+        SELECT        * UP TO 1 ROWS
+                        FROM cepc INTO
+              ls_cepc WHERE prctr = ls_flexa-prctr
+          ORDER BY prctr
+                   datbi
+                   kokrs.
+        ENDSELECT.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+      ENDIF.
+*/ FEW fix - inserted by Gekkobrain Codefix (GB)
+      SELECT                           "#EC CI_DB_OPERATION_OK[2602107]
+      *                                "#EC CI_DB_OPERATION_OK[2431747]
+      UP TO 1 ROWS
+      FROM bseg INTO ls_bseg WHERE gjahr = ls_flexa-ryear
+      AND bukrs = ls_flexa-rbukrs
+      AND belnr = ls_flexa-docnr
+      AND buzei = ls_flexa-docln ORDER BY PRIMARY KEY.
+      ENDSELECT.
+      CASE ls_bseg-koart.
+        WHEN 'S'.
+
+*-Begin of HANA Adoptation
+*---Old
+*          SELECT        SAKNR TXT20 UP TO 1 ROWS
+*                                    FROM SKAT
+*            INTO (LS_FLEXA-LOGSYS, LV_NAME)
+*            WHERE SPRAS = 'EN' AND SAKNR = LS_BSEG-HKONT
+*            ORDER BY SPRAS
+*                     KTOPL
+*                     SAKNR.
+*          ENDSELECT.
+*---New
+          RANGES: r_ktopl FOR skat-ktopl.
+          SELECT saknr txt20 UP TO 1 ROWS FROM skat INTO (ls_flexa-logsys, lv_name) BYPASSING BUFFER
+                                         WHERE spras = 'EN'
+                                          AND ktopl IN r_ktopl
+                                          AND saknr = ls_bseg-hkont ORDER BY spras ktopl saknr.
+          ENDSELECT.
+* Order By Index0
+* HANA FIX by GekkoBrain Codefixer (GB)
+*-End of HANA Adoptation
+        WHEN 'K'.
+
+          SELECT SINGLE lifnr  name1 FROM lfa1
+                      INTO (ls_flexa-logsys, lv_name)
+                      WHERE lifnr = ls_bseg-lifnr.
+
+*          w_business-racct = ls_bseg-lifnr.
+        WHEN 'D'.
+          SELECT SINGLE kunnr name1 FROM kna1
+                      INTO (ls_flexa-logsys, lv_name)
+                      WHERE kunnr = ls_bseg-kunnr.
+
+*          w_business-racct = ls_bseg-kunnr.
+      ENDCASE.
+
+      ls_flexa-rfarea = lv_name+0(16).
+      ls_flexa-scntr = lv_name+17(10).
+      ls_flexa-pprctr = lv_name+27(10).
+      ls_flexa-sfarea = lv_name+37(3).
+
+      MODIFY lt_flexa FROM ls_flexa TRANSPORTING logsys rfarea scntr pprctr sfarea.
+
+    ENDLOOP.
+
+  ENDIF.
+
+
+  DATA : ls_qisrsuser_data TYPE qisrsuser_data.
+
+  CALL FUNCTION 'ISR_GET_USER_DETAILS'
+    EXPORTING
+      id_user_id     = ls_payr-prius
+    CHANGING
+      is_user_data   = ls_qisrsuser_data
+    EXCEPTIONS
+      user_not_found = 1
+      OTHERS         = 2.
+  IF sy-subrc EQ 0.
+
+    lv_uname = ls_qisrsuser_data-fullname.
+
+  ENDIF.
+
+  SORT lt_flexa BY logsys ASCENDING.
+
+ENDFORM.                    " FETCH_DATA
+
+
+*&---------------------------------------------------------------------*
+*&      Form  PRINT_FORM
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*----------------------------------------------------------------------*
+FORM print_form .
+
+  IF lv_no_data = 'X'.
+    MESSAGE lv_message TYPE 'S' DISPLAY LIKE 'E'.
+    EXIT.
+  ELSE.
+
+
+    CALL FUNCTION 'SPELL_AMOUNT'    "#EC CI_FLDEXT_OK[2610650]
+      EXPORTING
+        amount    = lv_rwbtr
+        currency  = 'INR'
+        filler    = ' '
+        language  = sy-langu
+      IMPORTING
+        in_words  = lv_spell
+      EXCEPTIONS
+        not_found = 1
+        too_large = 2
+        OTHERS    = 3.
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+    DATA: lv_fname TYPE rs38l_fnam.
+
+    CALL FUNCTION 'SSF_FUNCTION_MODULE_NAME'
+      EXPORTING
+        formname = 'YFI_CHEQUEVOUCHER'
+*       VARIANT  = ' '
+*       DIRECT_CALL              = ' '
+      IMPORTING
+        fm_name  = lv_fname
+*    EXCEPTIONS
+*       NO_FORM  = 1
+*       NO_FUNCTION_MODULE       = 2
+*       OTHERS   = 3
+      .
+    IF sy-subrc <> 0.
+* MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+*         WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+    ENDIF.
+*
+    CALL FUNCTION lv_fname
+      EXPORTING
+        iv_xblnr         = lv_xblnr
+        iv_sgtxt         = lv_sgtxt
+        iv_xblnr1        = lv_xblnr1
+        iv_kostl         = lv_kostl
+        iv_xzahl         = lv_xzahl
+        iv_xzahl1        = lv_xzahl1
+        iv_spell         = lv_spell
+        is_payr          = ls_payr
+        is_lfa1          = ls_lfa1
+        is_t012k         = ls_t012k
+        is_t012t         = ls_t012t
+        iv_belnr         = lv_belnr
+        iv_inv_doc       = iv_inv_doc
+        iv_sgtxt1        = lv_sgtxt1
+        iv_reprint       = lv_reprint
+        iv_int_number    = lv_int_number
+        iv_name          = lv_uname
+        ls_cepc          = ls_cepc
+        lv_name1         = lv_name1
+*       ls_t001w         = ls_t001w
+*       ls_adrc          = ls_adrc
+      TABLES
+        it_bsak          = lt_bsak
+        it_flexa         = lt_flexa
+      EXCEPTIONS
+        formatting_error = 1
+        internal_error   = 2
+        send_error       = 3
+        user_canceled    = 4
+        OTHERS           = 5.
+
+    IF sy-subrc <> 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+              WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+  ENDIF.
+
+ENDFORM.                    " PRINT_FORM
+*&---------------------------------------------------------------------*
+*&      Form  CLEAR_DATA
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  -->  p1        text
+*  <--  p2        text
+*----------------------------------------------------------------------*
+FORM clear_data .
+
+  REFRESH:lt_bsak,
+          lt_bsak1.
+  CLEAR: ls_payr,
+         ls_lfa1,
+         ls_t012k,
+         ls_t012t,
+         lv_rwbtr,
+         lv_xblnr,
+         lv_sgtxt,
+         lv_xzahl.
+
+ENDFORM.                    " CLEAR_DATA
