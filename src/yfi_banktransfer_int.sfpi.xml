@@ -65,7 +65,6 @@
       <FPCLINE>       END OF ty_xfer_row.</FPCLINE>
       <FPCLINE>TYPES: ty_xfer_tab TYPE STANDARD TABLE OF ty_xfer_row WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
-     <TYPES/>
      <FIELDSYMBOLS/>
     </CL_FP_GLOBAL_DEFINITIONS>
    </cls:CL_FP_GLOBAL_DEFINITIONS>

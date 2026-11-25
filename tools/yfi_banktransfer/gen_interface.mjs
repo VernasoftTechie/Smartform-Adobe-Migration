@@ -91,8 +91,10 @@ const INIT = [
 let s = fs.readFileSync(OUT, 'utf8');
 const once = (a, b) => { if (s.split(a).length !== 2) throw new Error(`anchor not unique: ${a}`); s = s.replace(a, () => b); };
 const gdata = (n, t) => `      <SFPGDATA><NAME>${n}</NAME><TYPING>TYPE</TYPING><TYPENAME>${t}</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>`;
+// The base carries an empty <TYPES/> when the legacy form has no TYPES: it must go, or SFP keeps it (F89).
+s = s.replace(/\n {5}<TYPES\/>/, '');
 once('     </GLOBAL_DATA>\n', `${GLOBALS.map(([n, t]) => gdata(n, t)).join('\n')}\n     </GLOBAL_DATA>\n     <TYPES>\n${TYPES.map(fpc).join('\n')}\n     </TYPES>\n`);
-if (/<TYPES>[\s\S]*<TYPES>/.test(s)) throw new Error('two TYPES sections - the base already had one');
+if ((s.match(/<TYPES[\s/>]/g) || []).length !== 1) throw new Error('the interface must have exactly one TYPES element (F89)');
 const params = (tag, add) => {
   const m = s.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
   if (!m) throw new Error(`${tag} missing`);
