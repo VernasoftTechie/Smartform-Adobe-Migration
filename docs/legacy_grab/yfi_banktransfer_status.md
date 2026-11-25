@@ -1,7 +1,7 @@
 # Migration Status — YFI_BANKTRANSFER
 
 STATUS: waiting_manual
-UPDATED: 2026-11-25T18:15:17.411Z
+UPDATED: 2026-11-25T18:25:00.736Z
 WAITING_ON: operator
 NOTE: Two steps for you: (1) pull this branch in abapGit and activate YFI_BANKTRANSFER_INT, (2) create the empty form YFI_BANKTRANSFER_ADT, activate, push. Context and layout are done by us.
 STOP: none
@@ -33,3 +33,7 @@ Window-7 has started on YFI_BANKTRANSFER. Version 1 prints exactly what the Smar
 2. **Create the form** - SFP: create **YFI_BANKTRANSFER_ADT** on the interface YFI_BANKTRANSFER_INT, package ZAB_ADOBE, leave it empty, **activate**. Then abapGit: **Stage, Commit and Push** it to this branch.
 
 Then choose **I've done this - confirm**. We build the Context and the complete layout into your form and send it back for one pull and a preview, with a short list of post-implementation checks. (Only if the pull in step 1 does not create the interface: create YFI_BANKTRANSFER_INT empty in SFP and pull again.)
+
+## 2026-11-25T18:25:00.736Z — Interface corrected before your pull - your two steps are unchanged
+One detail corrected in the interface: the beneficiary amounts are now formatted with the currency the Smart Form uses for them (the posting currency of IS_BSIS), exactly as printed today.
+If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
