@@ -1,7 +1,7 @@
 # Migration Status — YMMSLGRNNOTE
 
 STATUS: waiting_manual
-UPDATED: 2026-11-25T18:25:52.660Z
+UPDATED: 2026-11-25T18:42:44.986Z
 WAITING_ON: operator
 NOTE: Two steps for you: (1) pull this branch in abapGit and activate YMMSLGRNNOTE_INT, (2) create the empty form YMMSLGRNNOTE_ADT, activate, push. Context and layout are done by us.
 STOP: none
@@ -35,3 +35,7 @@ If your printed GRNs show different figures, tell me (with one printed GRN) and 
 2. **Create the form** - SFP: create **YMMSLGRNNOTE_ADT** on the interface YMMSLGRNNOTE_INT, package ZAB_ADOBE, leave it empty, **activate**. Then abapGit: **Stage, Commit and Push** it to this branch.
 
 Then choose **I've done this - confirm**. We build the Context and the complete layout into your form and send it back for one pull and a preview, with a short list of post-implementation checks. (Only if the pull in step 1 does not create the interface: create YMMSLGRNNOTE_INT empty in SFP and pull again.)
+
+## 2026-11-25T18:42:44.986Z — Interface corrected before your pull - your two steps are unchanged
+One detail corrected in the interface before your pull: its own table types are now declared one per TYPES statement - the form exactly as SAP's form interface reads them (another form showed 'type unknown' on activation otherwise). Nothing else changed.
+If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
