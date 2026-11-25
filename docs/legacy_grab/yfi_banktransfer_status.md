@@ -1,9 +1,9 @@
 # Migration Status — YFI_BANKTRANSFER
 
 STATUS: waiting_manual
-UPDATED: 2026-11-25T18:42:36.888Z
+UPDATED: 2026-11-25T18:47:17.895Z
 WAITING_ON: operator
-NOTE: Fixed: pull this branch again and activate YFI_BANKTRANSFER_INT; then create the empty form YFI_BANKTRANSFER_ADT, activate, push.
+NOTE: Real cause fixed: pull this branch again and activate YFI_BANKTRANSFER_INT; then create the empty form YFI_BANKTRANSFER_ADT, activate, push.
 STOP: none
 CLAIMED_BY: Window-7
 
@@ -50,6 +50,17 @@ Thank you for the screenshot - and good news first: the pull created YFI_BANKTRA
 
 **Please do**
 1. **abapGit**: pull this branch again (it overwrites the inactive YFI_BANKTRANSFER_INT) and **activate YFI_BANKTRANSFER_INT**. If SAP shows another message, send it the same way (screenshot or text) - I fix it right away.
+2. **SFP**: create the empty form **YFI_BANKTRANSFER_ADT** on YFI_BANKTRANSFER_INT (package ZAB_ADOBE), **activate**, then abapGit **Stage, Commit and Push** it to this branch.
+
+Then choose **I've done this - confirm**, and we build the Context and the layout.
+
+## 2026-11-25T18:47:17.895Z — Real cause found for "Type TY_XFER_TAB is unknown" - please pull again and activate
+Thank you for trying again - my previous fix did not address the real cause, sorry for the extra round.
+
+**Real cause**: the interface file contained the types section twice - once with the type TY_XFER_TAB and once empty. On the pull SAP kept the empty one, so the type was missing. The file now has exactly one types section, and its structure matches, element for element, the interface ZMMCG_PO_SF_INT that activates in your system. I also added an automatic check so a file with two types sections can never be produced again.
+
+**Please do**
+1. **abapGit**: pull this branch again and **activate YFI_BANKTRANSFER_INT**. If SAP shows any message, send it the same way.
 2. **SFP**: create the empty form **YFI_BANKTRANSFER_ADT** on YFI_BANKTRANSFER_INT (package ZAB_ADOBE), **activate**, then abapGit **Stage, Commit and Push** it to this branch.
 
 Then choose **I've done this - confirm**, and we build the Context and the layout.
