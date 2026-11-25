@@ -40,7 +40,6 @@ const out = (target, src, cur, append = false, pad = '') => [
 ];
 
 const TYPES = [
-  '" BOLT: display rows of the two legacy tables, as printed',
   'TYPES: BEGIN OF ty_flexa_row,',
   '         budat  TYPE string,',
   '         logsys TYPE string,',
@@ -49,14 +48,14 @@ const TYPES = [
   '         prctr  TYPE string,',
   '         debit  TYPE string,',
   '         credit TYPE string,',
-  '       END OF ty_flexa_row,',
-  '       ty_flexa_tab TYPE STANDARD TABLE OF ty_flexa_row WITH EMPTY KEY.',
+  '       END OF ty_flexa_row.',
+  'TYPES: ty_flexa_tab TYPE STANDARD TABLE OF ty_flexa_row WITH DEFAULT KEY.',
   'TYPES: BEGIN OF ty_bsak_row,',
   '         sgtxt1 TYPE string,',
   '         sgtxt  TYPE string,',
   '         wrbtr  TYPE string,',
-  '       END OF ty_bsak_row,',
-  '       ty_bsak_tab TYPE STANDARD TABLE OF ty_bsak_row WITH EMPTY KEY.',
+  '       END OF ty_bsak_row.',
+  'TYPES: ty_bsak_tab TYPE STANDARD TABLE OF ty_bsak_row WITH DEFAULT KEY.',
 ];
 const STRINGS = ['GV_ZALDT', 'GV_LIFNR', 'GV_VBLNR', 'GV_CHECT', 'GV_AMNT', 'GV_BANKN', 'GV_BANK_TEXT', 'GV_WAERS', 'GV_WORDS',
   'GV_VENDOR_NAME', 'GV_XBLNR', 'GV_INV_DOC', 'GV_INT_NUMBER', 'GV_PREPARER', 'GV_COMP_NAME', 'GV_COMP_LINE1',

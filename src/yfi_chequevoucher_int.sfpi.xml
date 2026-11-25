@@ -73,7 +73,6 @@
       <SFPGDATA><NAME>GV_SIGN2_TITLE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
-      <FPCLINE>" BOLT: display rows of the two legacy tables, as printed</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_flexa_row,</FPCLINE>
       <FPCLINE>         budat  TYPE string,</FPCLINE>
       <FPCLINE>         logsys TYPE string,</FPCLINE>
@@ -82,14 +81,14 @@
       <FPCLINE>         prctr  TYPE string,</FPCLINE>
       <FPCLINE>         debit  TYPE string,</FPCLINE>
       <FPCLINE>         credit TYPE string,</FPCLINE>
-      <FPCLINE>       END OF ty_flexa_row,</FPCLINE>
-      <FPCLINE>       ty_flexa_tab TYPE STANDARD TABLE OF ty_flexa_row WITH EMPTY KEY.</FPCLINE>
+      <FPCLINE>       END OF ty_flexa_row.</FPCLINE>
+      <FPCLINE>TYPES: ty_flexa_tab TYPE STANDARD TABLE OF ty_flexa_row WITH DEFAULT KEY.</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_bsak_row,</FPCLINE>
       <FPCLINE>         sgtxt1 TYPE string,</FPCLINE>
       <FPCLINE>         sgtxt  TYPE string,</FPCLINE>
       <FPCLINE>         wrbtr  TYPE string,</FPCLINE>
-      <FPCLINE>       END OF ty_bsak_row,</FPCLINE>
-      <FPCLINE>       ty_bsak_tab TYPE STANDARD TABLE OF ty_bsak_row WITH EMPTY KEY.</FPCLINE>
+      <FPCLINE>       END OF ty_bsak_row.</FPCLINE>
+      <FPCLINE>TYPES: ty_bsak_tab TYPE STANDARD TABLE OF ty_bsak_row WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
      <TYPES/>
      <FIELDSYMBOLS/>
