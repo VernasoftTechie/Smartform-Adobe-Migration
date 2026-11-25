@@ -1,7 +1,7 @@
 # Migration Status — YFI_CHEQUEVOUCHER
 
 STATUS: waiting_manual
-UPDATED: 2026-11-25T18:24:52.648Z
+UPDATED: 2026-11-25T18:42:28.875Z
 WAITING_ON: operator
 NOTE: Two steps for you: (1) pull this branch in abapGit and activate YFI_CHEQUEVOUCHER_INT, (2) create the empty form YFI_CHEQUEVOUCHER_ADT, activate, push. Context and layout are done by us.
 STOP: none
@@ -38,4 +38,8 @@ Then choose **I've done this - confirm**. We build the Context and the complete 
 
 ## 2026-11-25T18:24:52.648Z — Interface corrected before your pull - your two steps are unchanged
 One detail corrected in the interface: the amounts of the 'Payment made in respect of' lines are now formatted exactly as the Smart Form prints them (the Smart Form gives them no currency key; only the accounting lines use their currency).
+If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
+
+## 2026-11-25T18:42:28.875Z — Interface corrected before your pull - your two steps are unchanged
+One detail corrected in the interface before your pull: its own table types are now declared one per TYPES statement - the form exactly as SAP's form interface reads them (another form showed 'type unknown' on activation otherwise). Nothing else changed.
 If you have already pulled, simply pull again and activate. Your two steps in the previous entry stay the same.
