@@ -1,0 +1,3045 @@
+{
+  "source": {
+    "file": "ymmslgrnnote.xml",
+    "bytes": 188451,
+    "sha256": "53A914BDF098C76813741E31955A48C54D3DFBCE77289FDF2689AB66E11482D7"
+  },
+  "header": {
+    "FORMNAME": "YMMSLGRNNOTE",
+    "CAPTION": "Goods Reciept Note",
+    "MASTERLANG": "E",
+    "LANGVECTOR": "*",
+    "DEVCLASS": "ZMM",
+    "VERSION": "00001",
+    "FIRSTUSER": "ABAP09",
+    "FIRSTDATE": "2014-05-12",
+    "FIRSTTIME": "13:22:31",
+    "LASTUSER": "PVEERESH",
+    "LASTDATE": "2022-12-28",
+    "LASTTIME": "07:32:55"
+  },
+  "pageFormat": "DINA4",
+  "formStyle": "SYSTEM",
+  "interface": [
+    {
+      "io": "E",
+      "name": "DOCUMENT_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESPD",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_INFO",
+      "typing": "TYPE",
+      "type": "SSFCRESCL",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "E",
+      "name": "JOB_OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCRESOP",
+      "optional": false,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX",
+      "typing": "TYPE",
+      "type": "TOA_DARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_INDEX_TAB",
+      "typing": "TYPE",
+      "type": "TSFDARA",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "ARCHIVE_PARAMETERS",
+      "typing": "TYPE",
+      "type": "ARC_PARAMS",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "CONTROL_PARAMETERS",
+      "typing": "TYPE",
+      "type": "SSFCTRLOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_APPL_OBJ",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_RECIPIENT",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "MAIL_SENDER",
+      "typing": "TYPE",
+      "type": "SWOTOBJID",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "OUTPUT_OPTIONS",
+      "typing": "TYPE",
+      "type": "SSFCOMPOP",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "USER_SETTINGS",
+      "typing": "TYPE",
+      "type": "TDBOOL",
+      "optional": true,
+      "byValue": true,
+      "standard": true,
+      "default": "'X'"
+    },
+    {
+      "io": "I",
+      "name": "LS_MKPF",
+      "typing": "TYPE",
+      "type": "MKPF",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_MSEG",
+      "typing": "LIKE",
+      "type": "ZEXTRA_FIELD",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_ADRC",
+      "typing": "TYPE",
+      "type": "ADRC",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_T001W",
+      "typing": "TYPE",
+      "type": "T001W",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_T001",
+      "typing": "TYPE",
+      "type": "T001",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_EBAN",
+      "typing": "TYPE",
+      "type": "EBAN",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_EKKO",
+      "typing": "TYPE",
+      "type": "EKKO",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LV_MAKTX",
+      "typing": "TYPE",
+      "type": "MAKTX",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "LS_LFA1",
+      "typing": "TYPE",
+      "type": "LFA1",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_WAERS",
+      "typing": "TYPE",
+      "type": "WAERS",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "I",
+      "name": "IV_KURSF",
+      "typing": "TYPE",
+      "type": "BAPICURR_D",
+      "optional": true,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "FORMATTING_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "INTERNAL_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "SEND_ERROR",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "X",
+      "name": "USER_CANCELED",
+      "typing": "",
+      "type": "",
+      "optional": false,
+      "byValue": false,
+      "standard": true,
+      "default": ""
+    },
+    {
+      "io": "T",
+      "name": "LT_MSEG",
+      "typing": "LIKE",
+      "type": "ZEXTRA_FIELD",
+      "optional": false,
+      "byValue": false,
+      "standard": false,
+      "default": ""
+    }
+  ],
+  "globalTypes": [
+    "TYPES: LT_MSEG_1 TYPE ZEXTRA_FIELD."
+  ],
+  "globalData": [
+    {
+      "name": "WA_MSEG",
+      "typing": "TYPE",
+      "type": "ZEXTRA_FIELD"
+    },
+    {
+      "name": "LV_UNIT",
+      "typing": "TYPE",
+      "type": "ERFMG"
+    },
+    {
+      "name": "TOT_AMNT",
+      "typing": "TYPE",
+      "type": "GNETW"
+    },
+    {
+      "name": "MONTH",
+      "typing": "TYPE",
+      "type": "T247-KTX"
+    },
+    {
+      "name": "DATE",
+      "typing": "TYPE",
+      "type": "CHAR20"
+    },
+    {
+      "name": "FINAL_AMT",
+      "typing": "TYPE",
+      "type": "GNETW"
+    },
+    {
+      "name": "VAT",
+      "typing": "TYPE",
+      "type": "KWERT"
+    },
+    {
+      "name": "DIS",
+      "typing": "TYPE",
+      "type": "KWERT"
+    },
+    {
+      "name": "SUM",
+      "typing": "TYPE",
+      "type": "BNBTR"
+    },
+    {
+      "name": "LV_DMBTR",
+      "typing": "TYPE",
+      "type": "BNBTR"
+    },
+    {
+      "name": "LV_BUTXT",
+      "typing": "TYPE",
+      "type": "T001-BUTXT"
+    },
+    {
+      "name": "LV_UNIT_XOF",
+      "typing": "TYPE",
+      "type": "P DECIMALS 0"
+    },
+    {
+      "name": "LV_AMOUNT",
+      "typing": "TYPE",
+      "type": "WMTO_S-AMOUNT"
+    },
+    {
+      "name": "LV_VAT_XOF",
+      "typing": "TYPE",
+      "type": "P DECIMALS 0"
+    },
+    {
+      "name": "LV_SUM_XOF",
+      "typing": "TYPE",
+      "type": "P DECIMALS 0"
+    },
+    {
+      "name": "FINAL_AMT_XOF",
+      "typing": "TYPE",
+      "type": "P DECIMALS 0"
+    },
+    {
+      "name": "TOT_AMNT_XOF",
+      "typing": "TYPE",
+      "type": "P DECIMALS 0"
+    }
+  ],
+  "globalParams": [],
+  "globalCoding": [
+    "break abap1."
+  ],
+  "tree": {
+    "type": "RP",
+    "label": "form root",
+    "children": [
+      {
+        "type": "PA",
+        "label": "page",
+        "children": [
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "GR",
+                "label": "graphic",
+                "children": [],
+                "objKind": "GRAPHIC",
+                "name": "%GRAPHIC1",
+                "caption": "New Graphic 1",
+                "graphic": {
+                  "object": "GRAPHICS",
+                  "name": "DANOGATELOGONEW",
+                  "id": "BMAP",
+                  "btype": "BCOL",
+                  "resolution": "0150"
+                }
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "%GRAPHIC1",
+            "caption": "New Graphic 1",
+            "geometry": {
+              "left": "0.23 CM",
+              "top": "0.27 CM",
+              "width": "2.62 CM",
+              "height": "1.46 CM"
+            },
+            "windowType": "G"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT21",
+                    "caption": "New Text 21",
+                    "outStyle": "YGRNNOTE",
+                    "style": "YGRNNOTE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "PE",
+                          "line": ",,This is system generated Goods Receipt Note and should be confirmed in"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the system"
+                        },
+                        {
+                          "fmt": "PC",
+                          "line": "The Invoice processing for the Materials is subject to conformance with"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the required Quality standards"
+                        },
+                        {
+                          "fmt": "PD",
+                          "line": "________________________________________________________________________"
+                        },
+                        {
+                          "fmt": "=",
+                          "line": "________________"
+                        },
+                        {
+                          "fmt": "P7",
+                          "line": "End Of  GRN Report For Supplier  &LS_LFA1-NAME1&"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P7",
+                          "line": "This is system generated Goods Receipt Note and should be confirmed in"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the system"
+                        },
+                        {
+                          "fmt": "PC",
+                          "line": "The Invoice processing for the Materials is subject to conformance with"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "the required Quality standards"
+                        },
+                        {
+                          "fmt": "P7",
+                          "line": "________________________________________________________________________"
+                        },
+                        {
+                          "fmt": "=",
+                          "line": "__________"
+                        },
+                        {
+                          "fmt": "P7",
+                          "line": "End Of  GRN Report For Supplier  &LS_LFA1-NAME1&"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "SIGNATURE",
+            "caption": "signature window",
+            "geometry": {
+              "left": "0.23 CM",
+              "top": "25.30 CM",
+              "width": "20.57 CM",
+              "height": "1.77 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT2",
+                    "caption": "New Text 2",
+                    "outStyle": "YGRNNOTE",
+                    "style": "YGRNNOTE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P1",
+                          "line": "<C1>GRN NO.&LS_MKPF-MBLNR&</>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "<C1>GRN Date:&LS_MKPF-BUDAT&</>"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P1",
+                          "line": "<C1>GRN NO.&LS_MKPF-MBLNR&</>"
+                        },
+                        {
+                          "fmt": "P1",
+                          "line": "<C1>GRN Date:&LS_MKPF-BUDAT&</>"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "DATE",
+            "caption": "date window",
+            "geometry": {
+              "left": "14.20 CM",
+              "top": "2.27 CM",
+              "width": "6.65 CM",
+              "height": "1.53 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT3",
+                        "caption": "New Text 3",
+                        "outStyle": "YGRNNOTE",
+                        "style": "YGRNNOTE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Name of the Supplier:<C2>&LS_LFA1-NAME1&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Way Bill No. and Date:<C2>&LS_MKPF-WAY_BII_NO&</><C2> <(>&<)>"
+                            },
+                            {
+                              "fmt": "",
+                              "line": "&LS_MKPF-WAY_BIL_DT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Invoice No and Date:<C2>&LS_MKPF-VENDOR_INV&</><C2> <(>&<)>"
+                            },
+                            {
+                              "fmt": "",
+                              "line": "&LS_MKPF-VEND_INV&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Transporter Name: <C2>&LS_MKPF-TRANSPORTER&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Vehicle No: <C2>&LS_MKPF-VEHICLE_NO&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "LPR No. and Date:<C2>&LS_EBAN-BANFN&</><C2>&&LS_EBAN-BADAT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "LPO No. and Date:<C2>&LS_EKKO-EBELN&</><C2>&&LS_EKKO-BEDAT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Department Name:<C2>&ls_eban-MFRPN&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Section Name or Code:<C2>&LS_EBAN-BEDNR&</>"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Name of the Supplier:<C2>&LS_LFA1-NAME1&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Way Bill No. and Date:<C2>&LS_MKPF-WAY_BII_NO&</><C2> <(>&<)>"
+                            },
+                            {
+                              "fmt": "",
+                              "line": "&LS_MKPF-WAY_BIL_DT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Invoice No and Date:<C2>&LS_MKPF-VENDOR_INV&</><C2> <(>&<)>"
+                            },
+                            {
+                              "fmt": "",
+                              "line": "&LS_MKPF-VEND_INV&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Transporter Name: <C2>&LS_MKPF-TRANSPORTER&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Vehicle No: <C2>&LS_MKPF-VEHICLE_NO&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "LPR No. and Date:<C2>&LS_EBAN-BANFN&</><C2>&&LS_EBAN-BADAT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "LPO No. and Date:<C2>&LS_EKKO-EBELN&</><C2>&&LS_EKKO-BEDAT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Department Name:<C2>&ls_eban-MFRPN&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Section Name or Code:<C2>&LS_EBAN-BEDNR&</>"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TI",
+                        "label": "text",
+                        "children": [],
+                        "objKind": "TEXT",
+                        "name": "%TEXT4",
+                        "caption": "New Text 4",
+                        "outStyle": "YGRNNOTE",
+                        "style": "YGRNNOTE",
+                        "text": {
+                          "E": [
+                            {
+                              "fmt": "P1",
+                              "line": "Air Way BIll No/Bill of Loding No:<C2>&LS_MKPF-AWB_NO_BOL&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Air Way Bill/Bill of Loading Date:<C2>&LS_MKPF-AWB_DT_BOL&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Name of Ship/Flight:<C2>&LS_MKPF-SHIP_FLIGHT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Name of Clearing Agent:<C2>&LS_MKPF-CLEAR_AGNT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Letter of Credit(LC)No:<C2>&LS_MKPF-LC_NO&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Form M No:<C2>&LS_MKPF-FORM_M&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Container No. or Mark No:<C2>&LS_MKPF-CONTAINER&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Currency/Exchange Rate:<C2>&iv_waers& / &iv_kursf&</>"
+                            }
+                          ],
+                          "F": [
+                            {
+                              "fmt": "P1",
+                              "line": "Air Way BIll No/Bill of Loding No:<C2>&LS_MKPF-AWB_NO_BOL&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Air Way Bill/Bill of Loading Date:<C2>&LS_MKPF-AWB_DT_BOL&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Name of Ship/Flight:<C2>&LS_MKPF-SHIP_FLIGHT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Name of Clearing Agent:<C2>&LS_MKPF-CLEAR_AGNT&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Letter of Credit(LC)No:<C2>&LS_MKPF-LC_NO&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Form M No:<C2>&LS_MKPF-FORM_M&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Container No. or Mark No:<C2>&LS_MKPF-CONTAINER&</>"
+                            },
+                            {
+                              "fmt": "P1",
+                              "line": "Currency/Exchange Rate:<C2>&iv_waers& / &iv_kursf&</>"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TEMPLATE1",
+                    "caption": "New Template 1",
+                    "sectKind": "template",
+                    "width": "20.20 CM",
+                    "columns": {
+                      "%C1": [
+                        "10.66 CM",
+                        "9.54 CM"
+                      ]
+                    },
+                    "patternFrame": "0.00 PT"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "TEMPLATE",
+            "caption": "template window",
+            "geometry": {
+              "left": "0.13 CM",
+              "top": "4.00 CM",
+              "width": "20.67 CM",
+              "height": "4.66 CM"
+            },
+            "borders": [
+              "left",
+              "top",
+              "right",
+              "bottom"
+            ],
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "CO",
+                    "label": "program lines",
+                    "children": [],
+                    "objKind": "CODE",
+                    "name": "%CODE5",
+                    "caption": "New Program Lines 5",
+                    "params": [
+                      {
+                        "name": "LS_MSEG",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "LV_BUTXT",
+                        "dir": "output"
+                      }
+                    ],
+                    "code": [
+                      "select single  butxt from t001 into lv_butxt where bukrs = ls_mseg-bukrs."
+                    ]
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT1",
+                    "caption": "New Text 1",
+                    "condition": "LS_T001W-WERKS <> '1000' AND LS_T001W-WERKS <> '1100'",
+                    "outStyle": "YGRNNOTE",
+                    "style": "YGRNNOTE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P3",
+                          "line": "&lv_BUTXT&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "&LS_T001W-NAME1&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "&LS_T001W-STRAS&,&LS_T001W-PFACH&,&LS_T001W-ORT01&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "Goods Receipt Note"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P3",
+                          "line": "&lv_BUTXT&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "&LS_T001W-NAME1&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "&LS_T001W-STRAS&,&LS_T001W-PFACH&,&LS_T001W-ORT01&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "Goods Receipt Note"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT29",
+                    "caption": "New Text 1",
+                    "condition": "LS_T001W-WERKS = '1000' OR LS_T001W-WERKS = '1100'",
+                    "outStyle": "YGRNNOTE",
+                    "style": "YGRNNOTE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P3",
+                          "line": "Dangote Cement PLC."
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "&LS_T001W-STRAS&,&LS_T001W-PFACH&,&LS_T001W-ORT01&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "Goods Receipt Note"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P3",
+                          "line": "Dangote Cement PLC."
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "&LS_T001W-STRAS&,&LS_T001W-PFACH&,&LS_T001W-ORT01&"
+                        },
+                        {
+                          "fmt": "P5",
+                          "line": "Goods Receipt Note"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "HEADERWINDOW",
+            "caption": "header window",
+            "geometry": {
+              "left": "2.10 CM",
+              "top": "0.13 CM",
+              "width": "16.75 CM",
+              "height": "2.00 CM"
+            },
+            "windowType": "T"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "SE",
+                    "label": "section",
+                    "children": [
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT5",
+                                    "caption": "New Text 5",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P5",
+                                          "line": "SNo"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P5",
+                                          "line": "SNo"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL1",
+                                "caption": "New Column 1",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT6",
+                                    "caption": "New Text 6",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P5",
+                                          "line": "Material Code"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P5",
+                                          "line": "Material Code"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL2",
+                                "caption": "New Column 2",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT7",
+                                    "caption": "New Text 7",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P5",
+                                          "line": "Item Description"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P5",
+                                          "line": "Item Description"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL3",
+                                "caption": "New Column 3",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT8",
+                                    "caption": "New Text 8",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Unit"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Unit"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL4",
+                                "caption": "New Column 4",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT9",
+                                    "caption": "New Text 9",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Accepted Qty"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Accepted Qty"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL5",
+                                "caption": "New Column 5",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT30",
+                                    "caption": "New Text 30",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "St.Bin"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "St.Bin"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL6",
+                                "caption": "New Column 6",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT10",
+                                    "caption": "New Text 10",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Unit Rate"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Unit Rate"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL18",
+                                "caption": "New Column 18",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT11",
+                                    "caption": "New Text 11",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Amount"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Amount"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL7",
+                                "caption": "New Column 7",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW1",
+                            "caption": "New Line 1",
+                            "outStyle": "YGRNNOTE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT1",
+                        "caption": "Header",
+                        "eventType": "header"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT12",
+                                    "caption": "New Text 12",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PA",
+                                          "line": "&WA_MSEG-ZEILE&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL8",
+                                "caption": "New Column 8",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT13",
+                                    "caption": "New Text 13",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PA",
+                                          "line": "&WA_MSEG-MATNR&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL9",
+                                "caption": "New Column 9",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT14",
+                                    "caption": "New Text 14",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P8",
+                                          "line": "&wa_mseg-sgtxt&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL10",
+                                "caption": "New Column 10",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT15",
+                                    "caption": "New Text 15",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&WA_MSEG-ERFME&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL11",
+                                "caption": "New Column 11",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT16",
+                                    "caption": "New Text 16",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&WA_MSEG-ERFMG&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL12",
+                                "caption": "New Column 12",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT31",
+                                    "caption": "New Text 31",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&WA_MSEG-LGPLA(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL13",
+                                "caption": "New Column 13",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "CO",
+                                    "label": "program lines",
+                                    "children": [],
+                                    "objKind": "CODE",
+                                    "name": "%CODE1",
+                                    "caption": "New Program Lines 1",
+                                    "params": [
+                                      {
+                                        "name": "WA_MSEG-ERFMG",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-DMBTR",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-LV_URATE",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-WAERS",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_AMOUNT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_UNIT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "LV_UNIT_XOF",
+                                        "dir": "output"
+                                      }
+                                    ],
+                                    "code": [
+                                      "**break abap8.",
+                                      "*lv_unit = wa_mseg-dmbtr .",
+                                      "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "  LV_AMOUNT = WA_MSEG-LV_URATE.",
+                                      "  CALL FUNCTION                   \"#EC CI_USAGE_OK[2340247]",
+                                      "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+                                      "    EXPORTING",
+                                      "      CURRENCY        = WA_MSEG-WAERS",
+                                      "      AMOUNT_INTERNAL = LV_AMOUNT",
+                                      "    IMPORTING",
+                                      "      AMOUNT_DISPLAY  = LV_AMOUNT",
+                                      "    EXCEPTIONS",
+                                      "      INTERNAL_ERROR  = 1",
+                                      "      OTHERS          = 2.",
+                                      "  IF SY-SUBRC <> 0.",
+                                      "* Implement suitable error handling here",
+                                      "  ENDIF.",
+                                      "",
+                                      "*lv_unit_xof = wa_mseg-lv_urate.",
+                                      "  LV_UNIT_XOF = LV_AMOUNT.",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "ELSE.",
+                                      "  LV_UNIT = WA_MSEG-LV_URATE.",
+                                      "ENDIF."
+                                    ]
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT17",
+                                    "caption": "New Text 17",
+                                    "condition": "WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&LV_UNIT(C)&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT32",
+                                    "caption": "New Text 32",
+                                    "condition": "WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&LV_UNIT_XOF(C)&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL15",
+                                "caption": "New Column 15",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "CO",
+                                    "label": "program lines",
+                                    "children": [],
+                                    "objKind": "CODE",
+                                    "name": "%CODE3",
+                                    "caption": "New Program Lines 3",
+                                    "params": [
+                                      {
+                                        "name": "WA_MSEG-DMBTR",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-ERFMG",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "VAT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-LV_URATE",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "SUM",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_AMOUNT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "FINAL_AMT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "VAT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "SUM",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "TOT_AMNT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "LV_VAT_XOF",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "LV_SUM_XOF",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "FINAL_AMT_XOF",
+                                        "dir": "output"
+                                      }
+                                    ],
+                                    "code": [
+                                      "VAT = WA_MSEG-VAT.",
+                                      "SUM = SUM + WA_MSEG-BNBTR.",
+                                      "*FRI = wa_mseg-FRI.",
+                                      "*OTH = wa_mseg-OTH.",
+                                      "*DIS = wa_mseg-DIS.",
+                                      "*FINAL_AMT = ( WA_MSEG-DMBTR * WA_MSEG-ERFMG ).",
+                                      "FINAL_AMT =                \"#EC CI_FLDEXT_OK[2610650]",
+                                      "( WA_MSEG-LV_URATE * WA_MSEG-ERFMG ).",
+                                      "",
+                                      "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "  LV_AMOUNT = VAT.",
+                                      "  CALL FUNCTION                               \"#EC CI_USAGE_OK[2340247]",
+                                      "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+                                      "    EXPORTING",
+                                      "      CURRENCY        = WA_MSEG-WAERS",
+                                      "      AMOUNT_INTERNAL = LV_AMOUNT",
+                                      "    IMPORTING",
+                                      "      AMOUNT_DISPLAY  = LV_AMOUNT",
+                                      "    EXCEPTIONS",
+                                      "      INTERNAL_ERROR  = 1",
+                                      "      OTHERS          = 2.",
+                                      "  IF SY-SUBRC <> 0.",
+                                      "* Implement suitable error handling here",
+                                      "  ENDIF.",
+                                      "  LV_VAT_XOF = LV_AMOUNT.",
+                                      "",
+                                      "***************************Freight************",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "",
+                                      "  LV_AMOUNT = SUM * 10.",
+                                      "  CALL FUNCTION                               \"#EC CI_USAGE_OK[2340247]",
+                                      "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+                                      "    EXPORTING",
+                                      "      CURRENCY        = WA_MSEG-WAERS",
+                                      "      AMOUNT_INTERNAL = LV_AMOUNT",
+                                      "    IMPORTING",
+                                      "      AMOUNT_DISPLAY  = LV_AMOUNT",
+                                      "    EXCEPTIONS",
+                                      "      INTERNAL_ERROR  = 1",
+                                      "      OTHERS          = 2.",
+                                      "  IF SY-SUBRC <> 0.",
+                                      "* Implement suitable error handling here",
+                                      "  ENDIF.",
+                                      "  LV_SUM_XOF = LV_AMOUNT.",
+                                      "****************Amount**************",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "",
+                                      "  LV_AMOUNT = FINAL_AMT.",
+                                      "  CALL FUNCTION                               \"#EC CI_USAGE_OK[2340247]",
+                                      "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+                                      "    EXPORTING",
+                                      "      CURRENCY        = WA_MSEG-WAERS",
+                                      "      AMOUNT_INTERNAL = LV_AMOUNT",
+                                      "    IMPORTING",
+                                      "      AMOUNT_DISPLAY  = LV_AMOUNT",
+                                      "    EXCEPTIONS",
+                                      "      INTERNAL_ERROR  = 1",
+                                      "      OTHERS          = 2.",
+                                      "  IF SY-SUBRC <> 0.",
+                                      "* Implement suitable error handling here",
+                                      "  ENDIF.",
+                                      "  FINAL_AMT_XOF = LV_AMOUNT.",
+                                      "",
+                                      "",
+                                      "ELSE.",
+                                      "",
+                                      "ENDIF."
+                                    ]
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT33",
+                                    "caption": "New Text 18",
+                                    "condition": "WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&FINAL_AMT_XOF&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT18",
+                                    "caption": "New Text 18",
+                                    "condition": "WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&FINAL_AMT&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL14",
+                                "caption": "New Column 14",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW2",
+                            "caption": "New Line 2",
+                            "outStyle": "YGRNNOTE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT2",
+                        "caption": "Main Area",
+                        "eventType": "main area"
+                      },
+                      {
+                        "type": "EV",
+                        "label": "event",
+                        "children": [
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT25",
+                                    "caption": "New Text 23",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Gross:"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Gross:"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL22",
+                                "caption": "New Column 16",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "CO",
+                                    "label": "program lines",
+                                    "children": [],
+                                    "objKind": "CODE",
+                                    "name": "%CODE6",
+                                    "caption": "New Program Lines 6",
+                                    "params": [
+                                      {
+                                        "name": "WA_MSEG",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "TOT_AMNT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_AMOUNT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "TOT_AMNT_XOF",
+                                        "dir": "output"
+                                      }
+                                    ],
+                                    "code": [
+                                      "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "  LV_AMOUNT = TOT_AMNT.",
+                                      "  CALL FUNCTION               \"#EC CI_USAGE_OK[2340247]",
+                                      "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+                                      "    EXPORTING",
+                                      "      CURRENCY        = WA_MSEG-WAERS",
+                                      "      AMOUNT_INTERNAL = LV_AMOUNT",
+                                      "    IMPORTING",
+                                      "      AMOUNT_DISPLAY  = LV_AMOUNT",
+                                      "    EXCEPTIONS",
+                                      "      INTERNAL_ERROR  = 1",
+                                      "      OTHERS          = 2.",
+                                      "  IF SY-SUBRC <> 0.",
+                                      "* Implement suitable error handling here",
+                                      "  ENDIF.",
+                                      "  TOT_AMNT_XOF = LV_AMOUNT.",
+                                      "",
+                                      "ENDIF."
+                                    ]
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT26",
+                                    "caption": "New Text 27",
+                                    "condition": "WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "&TOT_AMNT&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT34",
+                                    "caption": "New Text 27",
+                                    "condition": "WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "&TOT_AMNT_XOF&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL23",
+                                "caption": "New Column 17",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW5",
+                            "caption": "vat",
+                            "outStyle": "YGRNNOTE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          },
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT23",
+                                    "caption": "New Text 23",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "Vat:"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "Vat:"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL16",
+                                "caption": "New Column 16",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT27",
+                                    "caption": "New Text 27",
+                                    "condition": "WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&LV_VAT_XOF&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT35",
+                                    "caption": "New Text 27",
+                                    "condition": "WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&VAT&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL17",
+                                "caption": "New Column 17",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW3",
+                            "caption": "vat",
+                            "outStyle": "YGRNNOTE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          },
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT24",
+                                    "caption": "New Text 24",
+                                    "condition": "WA_MSEG-BWART <> '103'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "Freight and other charge :"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "Freight and other charge :"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL19",
+                                "caption": "New Column 19",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "CO",
+                                    "label": "program lines",
+                                    "children": [],
+                                    "objKind": "CODE",
+                                    "name": "%CODE7",
+                                    "caption": "New Program Lines 7",
+                                    "params": [
+                                      {
+                                        "name": "SUM",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_AMOUNT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_SUM_XOF",
+                                        "dir": "output"
+                                      }
+                                    ],
+                                    "code": [
+                                      "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+                                      "  CLEAR LV_AMOUNT.",
+                                      "  LV_AMOUNT = SUM.",
+                                      "  CALL FUNCTION               \"#EC CI_USAGE_OK[2340247]",
+                                      "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+                                      "    EXPORTING",
+                                      "      CURRENCY        = WA_MSEG-WAERS",
+                                      "      AMOUNT_INTERNAL = LV_AMOUNT",
+                                      "    IMPORTING",
+                                      "      AMOUNT_DISPLAY  = LV_AMOUNT",
+                                      "    EXCEPTIONS",
+                                      "      INTERNAL_ERROR  = 1",
+                                      "      OTHERS          = 2.",
+                                      "  IF SY-SUBRC <> 0.",
+                                      "* Implement suitable error handling here",
+                                      "  ENDIF.",
+                                      "  LV_SUM_XOF = LV_AMOUNT.",
+                                      "",
+                                      "ENDIF."
+                                    ]
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT28",
+                                    "caption": "New Text 28",
+                                    "condition": "WA_MSEG-BWART <> '103' AND WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&lv_SUM_xof&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT36",
+                                    "caption": "New Text 28",
+                                    "condition": "WA_MSEG-BWART <> '103' AND WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "P9",
+                                          "line": "&SUM&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL20",
+                                "caption": "New Column 20",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW4",
+                            "caption": "freight",
+                            "outStyle": "YGRNNOTE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          },
+                          {
+                            "type": "SE",
+                            "label": "section",
+                            "children": [
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT19",
+                                    "caption": "New Text 19",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Total Amount:"
+                                        }
+                                      ],
+                                      "F": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "Total Amount:"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL28",
+                                "caption": "New Column 28",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              },
+                              {
+                                "type": "SE",
+                                "label": "section",
+                                "children": [
+                                  {
+                                    "type": "CO",
+                                    "label": "program lines",
+                                    "children": [],
+                                    "objKind": "CODE",
+                                    "name": "%CODE4",
+                                    "caption": "New Program Lines 4",
+                                    "params": [
+                                      {
+                                        "name": "TOT_AMNT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "VAT",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "SUM",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-BNBTR",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "TOT_AMNT_XOF",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_SUM_XOF",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "LV_VAT_XOF",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "WA_MSEG",
+                                        "dir": "input"
+                                      },
+                                      {
+                                        "name": "TOT_AMNT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "VAT",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "WA_MSEG-BNBTR",
+                                        "dir": "output"
+                                      },
+                                      {
+                                        "name": "DIS",
+                                        "dir": "output"
+                                      }
+                                    ],
+                                    "code": [
+                                      "*BREAK-POINT.",
+                                      "",
+                                      "IF wa_mseg-waers = 'XOF' OR wa_mseg-waers = 'XAF'.",
+                                      "TOT_AMNT_XOF =  TOT_AMNT_XOF + lv_sum_XOF + lv_vat_xof.",
+                                      "ELSE.",
+                                      "  TOT_AMNT =  TOT_AMNT + sum + vat.",
+                                      "ENDIF."
+                                    ]
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT20",
+                                    "caption": "New Text 20",
+                                    "condition": "WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "&TOT_AMNT_XOF&"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "type": "TI",
+                                    "label": "text",
+                                    "children": [],
+                                    "objKind": "TEXT",
+                                    "name": "%TEXT37",
+                                    "caption": "New Text 20",
+                                    "condition": "WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+                                    "style": "YGRNNOTE",
+                                    "text": {
+                                      "E": [
+                                        {
+                                          "fmt": "PB",
+                                          "line": "&TOT_AMNT&"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "objKind": "SECTION",
+                                "name": "%CELL29",
+                                "caption": "New Column 29",
+                                "sectKind": "table column",
+                                "patternFrame": "0.00 PT"
+                              }
+                            ],
+                            "objKind": "SECTION",
+                            "name": "%ROW7",
+                            "caption": "Final amount",
+                            "outStyle": "YGRNNOTE",
+                            "sectKind": "table line",
+                            "patternFrame": "0.00 PT"
+                          }
+                        ],
+                        "objKind": "EVENT",
+                        "name": "%EVENT3",
+                        "caption": "Footer",
+                        "eventType": "footer"
+                      }
+                    ],
+                    "objKind": "SECTION",
+                    "name": "%TABLE1",
+                    "caption": "New Table 1",
+                    "sectKind": "table",
+                    "tabName": "LT_MSEG",
+                    "workArea": "WA_MSEG",
+                    "width": "19.70 CM",
+                    "columns": {
+                      "%LTYPE3": [
+                        "0.86 CM",
+                        "2.30 CM",
+                        "7.05 CM",
+                        "1.25 CM",
+                        "2.05 CM",
+                        "1.49 CM",
+                        "1.44 CM",
+                        "3.26 CM"
+                      ],
+                      "%LTYPE1": [
+                        "0.86 CM",
+                        "2.30 CM",
+                        "7.05 CM",
+                        "1.25 CM",
+                        "2.05 CM",
+                        "1.49 CM",
+                        "1.44 CM",
+                        "3.26 CM"
+                      ],
+                      "%LTYPE2": [
+                        "16.43 CM",
+                        "3.27 CM"
+                      ],
+                      "%LTYPE4": [
+                        "16.43 CM",
+                        "3.27 CM"
+                      ],
+                      "%LTYPE7": [
+                        "16.43 CM",
+                        "3.27 CM"
+                      ]
+                    },
+                    "patternFrame": "15.00 TW"
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "MAIN",
+            "caption": "Main Window",
+            "geometry": {
+              "left": "0.17 CM",
+              "top": "8.76 CM",
+              "width": "20.73 CM",
+              "height": "14.93 CM"
+            },
+            "windowType": "M"
+          },
+          {
+            "type": "WI",
+            "label": "window",
+            "children": [
+              {
+                "type": "RC",
+                "label": "window content",
+                "children": [
+                  {
+                    "type": "CO",
+                    "label": "program lines",
+                    "children": [],
+                    "objKind": "CODE",
+                    "name": "%CODE2",
+                    "caption": "New Program Lines 2",
+                    "params": [
+                      {
+                        "name": "LS_MKPF-BLDAT",
+                        "dir": "input"
+                      },
+                      {
+                        "name": "MONTH",
+                        "dir": "output"
+                      },
+                      {
+                        "name": "DATE",
+                        "dir": "output"
+                      }
+                    ],
+                    "code": [
+                      "*break developer.",
+                      "CALL FUNCTION 'ISP_GET_MONTH_NAME'\"#EC CI_USAGE_OK[2469385]",
+                      "  EXPORTING",
+                      "   DATE               = ls_mkpf-bldat",
+                      "    LANGUAGE           = SY-LANGU",
+                      "*   MONTH_NUMBER       = MON_NO",
+                      " IMPORTING",
+                      "*   LANGU_BACK         =",
+                      "*   LONGTEXT           = MONTH",
+                      "   SHORTTEXT          = MONTH",
+                      " EXCEPTIONS",
+                      "   CALENDAR_ID        = 1",
+                      "   DATE_ERROR         = 2",
+                      "   NOT_FOUND          = 3",
+                      "   WRONG_INPUT        = 4",
+                      "   OTHERS             = 5",
+                      "          .",
+                      "IF SY-SUBRC <> 0.",
+                      "* Implement suitable error handling here",
+                      "ENDIF.",
+                      "",
+                      "CONCATENATE ls_mkpf-bldat+6(2)'-' month'-'ls_mkpf-bldat+0(4)",
+                      "   into date."
+                    ]
+                  },
+                  {
+                    "type": "TI",
+                    "label": "text",
+                    "children": [],
+                    "objKind": "TEXT",
+                    "name": "%TEXT22",
+                    "caption": "New Text 22",
+                    "outStyle": "YGRNNOTE",
+                    "style": "YGRNNOTE",
+                    "text": {
+                      "E": [
+                        {
+                          "fmt": "P7",
+                          "line": "&DATE&<(>,<)>&LS_MKPF-CPUTM&               GRN No.: &LS_MKPF-MBLNR&"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "page &SFSY-PAGE& of &SFSY-FORMPAGES&"
+                        }
+                      ],
+                      "F": [
+                        {
+                          "fmt": "P7",
+                          "line": "&DATE&<(>,<)>&LS_MKPF-CPUTM&               GRN No.: &LS_MKPF-MBLNR&"
+                        },
+                        {
+                          "fmt": "",
+                          "line": "page &SFSY-PAGE& of &SFSY-FORMPAGES&"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "objKind": "WINDOW",
+            "name": "FOOTER",
+            "caption": "FOOTER WINDOW",
+            "geometry": {
+              "left": "0.33 CM",
+              "top": "27.37 CM",
+              "width": "20.30 CM",
+              "height": "2.00 CM"
+            },
+            "windowType": "T"
+          }
+        ],
+        "objKind": "PAGE",
+        "name": "%PAGE1",
+        "caption": "New Page"
+      }
+    ]
+  },
+  "styles": [
+    "YGRNNOTE"
+  ],
+  "languages": [
+    "E",
+    "F"
+  ],
+  "fields": {
+    "DATE": 2,
+    "FINAL_AMT": 1,
+    "FINAL_AMT_XOF": 1,
+    "LS_EBAN-BADAT": 2,
+    "LS_EBAN-BANFN": 2,
+    "LS_EBAN-BEDNR": 2,
+    "LS_EKKO-BEDAT": 2,
+    "LS_EKKO-EBELN": 2,
+    "LS_LFA1-NAME1": 4,
+    "LS_MKPF-AWB_DT_BOL": 2,
+    "LS_MKPF-AWB_NO_BOL": 2,
+    "LS_MKPF-BUDAT": 2,
+    "LS_MKPF-CLEAR_AGNT": 2,
+    "LS_MKPF-CONTAINER": 2,
+    "LS_MKPF-CPUTM": 2,
+    "LS_MKPF-FORM_M": 2,
+    "LS_MKPF-LC_NO": 2,
+    "LS_MKPF-MBLNR": 4,
+    "LS_MKPF-SHIP_FLIGHT": 2,
+    "LS_MKPF-TRANSPORTER": 2,
+    "LS_MKPF-VEHICLE_NO": 2,
+    "LS_MKPF-VENDOR_INV": 2,
+    "LS_MKPF-VEND_INV": 2,
+    "LS_MKPF-WAY_BII_NO": 2,
+    "LS_MKPF-WAY_BIL_DT": 2,
+    "LS_T001W-NAME1": 2,
+    "LS_T001W-ORT01": 4,
+    "LS_T001W-PFACH": 4,
+    "LS_T001W-STRAS": 4,
+    "LV_UNIT(C)": 1,
+    "LV_UNIT_XOF(C)": 1,
+    "LV_VAT_XOF": 1,
+    "SFSY-FORMPAGES": 2,
+    "SFSY-PAGE": 2,
+    "SUM": 1,
+    "TOT_AMNT": 2,
+    "TOT_AMNT_XOF": 2,
+    "VAT": 1,
+    "WA_MSEG-ERFME": 1,
+    "WA_MSEG-ERFMG": 1,
+    "WA_MSEG-LGPLA(C)": 1,
+    "WA_MSEG-MATNR": 1,
+    "WA_MSEG-ZEILE": 1,
+    "iv_kursf": 2,
+    "iv_waers": 2,
+    "ls_eban-MFRPN": 2,
+    "lv_BUTXT": 2,
+    "lv_SUM_xof": 1,
+    "wa_mseg-sgtxt": 1
+  },
+  "paragraphFormats": [
+    "P1",
+    "P3",
+    "P5",
+    "P7",
+    "P8",
+    "P9",
+    "PA",
+    "PB",
+    "PC",
+    "PD",
+    "PE"
+  ],
+  "characterFormats": [
+    "C1",
+    "C2"
+  ],
+  "graphics": [
+    {
+      "object": "GRAPHICS",
+      "name": "DANOGATELOGONEW",
+      "id": "BMAP",
+      "btype": "BCOL",
+      "resolution": "0150"
+    }
+  ],
+  "codeNodes": [
+    {
+      "name": "%CODE5",
+      "caption": "New Program Lines 5",
+      "params": [
+        {
+          "name": "LS_MSEG",
+          "dir": "input"
+        },
+        {
+          "name": "LV_BUTXT",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "select single  butxt from t001 into lv_butxt where bukrs = ls_mseg-bukrs."
+      ],
+      "evidence": {
+        "selects": [
+          "select single butxt from t001 into lv_butxt where bukrs = ls_mseg-bukrs."
+        ],
+        "tables": [
+          "T001"
+        ],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 0,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE1",
+      "caption": "New Program Lines 1",
+      "params": [
+        {
+          "name": "WA_MSEG-ERFMG",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG-DMBTR",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG-LV_URATE",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG-WAERS",
+          "dir": "input"
+        },
+        {
+          "name": "LV_AMOUNT",
+          "dir": "input"
+        },
+        {
+          "name": "LV_UNIT",
+          "dir": "output"
+        },
+        {
+          "name": "LV_UNIT_XOF",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "**break abap8.",
+        "*lv_unit = wa_mseg-dmbtr .",
+        "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+        "  CLEAR LV_AMOUNT.",
+        "  LV_AMOUNT = WA_MSEG-LV_URATE.",
+        "  CALL FUNCTION                   \"#EC CI_USAGE_OK[2340247]",
+        "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+        "    EXPORTING",
+        "      CURRENCY        = WA_MSEG-WAERS",
+        "      AMOUNT_INTERNAL = LV_AMOUNT",
+        "    IMPORTING",
+        "      AMOUNT_DISPLAY  = LV_AMOUNT",
+        "    EXCEPTIONS",
+        "      INTERNAL_ERROR  = 1",
+        "      OTHERS          = 2.",
+        "  IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "  ENDIF.",
+        "",
+        "*lv_unit_xof = wa_mseg-lv_urate.",
+        "  LV_UNIT_XOF = LV_AMOUNT.",
+        "  CLEAR LV_AMOUNT.",
+        "ELSE.",
+        "  LV_UNIT = WA_MSEG-LV_URATE.",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 4,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE3",
+      "caption": "New Program Lines 3",
+      "params": [
+        {
+          "name": "WA_MSEG-DMBTR",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG-ERFMG",
+          "dir": "input"
+        },
+        {
+          "name": "VAT",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG-LV_URATE",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG",
+          "dir": "input"
+        },
+        {
+          "name": "SUM",
+          "dir": "input"
+        },
+        {
+          "name": "LV_AMOUNT",
+          "dir": "input"
+        },
+        {
+          "name": "FINAL_AMT",
+          "dir": "output"
+        },
+        {
+          "name": "VAT",
+          "dir": "output"
+        },
+        {
+          "name": "SUM",
+          "dir": "output"
+        },
+        {
+          "name": "TOT_AMNT",
+          "dir": "output"
+        },
+        {
+          "name": "LV_VAT_XOF",
+          "dir": "output"
+        },
+        {
+          "name": "LV_SUM_XOF",
+          "dir": "output"
+        },
+        {
+          "name": "FINAL_AMT_XOF",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "VAT = WA_MSEG-VAT.",
+        "SUM = SUM + WA_MSEG-BNBTR.",
+        "*FRI = wa_mseg-FRI.",
+        "*OTH = wa_mseg-OTH.",
+        "*DIS = wa_mseg-DIS.",
+        "*FINAL_AMT = ( WA_MSEG-DMBTR * WA_MSEG-ERFMG ).",
+        "FINAL_AMT =                \"#EC CI_FLDEXT_OK[2610650]",
+        "( WA_MSEG-LV_URATE * WA_MSEG-ERFMG ).",
+        "",
+        "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+        "  CLEAR LV_AMOUNT.",
+        "  LV_AMOUNT = VAT.",
+        "  CALL FUNCTION                               \"#EC CI_USAGE_OK[2340247]",
+        "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+        "    EXPORTING",
+        "      CURRENCY        = WA_MSEG-WAERS",
+        "      AMOUNT_INTERNAL = LV_AMOUNT",
+        "    IMPORTING",
+        "      AMOUNT_DISPLAY  = LV_AMOUNT",
+        "    EXCEPTIONS",
+        "      INTERNAL_ERROR  = 1",
+        "      OTHERS          = 2.",
+        "  IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "  ENDIF.",
+        "  LV_VAT_XOF = LV_AMOUNT.",
+        "",
+        "***************************Freight************",
+        "  CLEAR LV_AMOUNT.",
+        "",
+        "  LV_AMOUNT = SUM * 10.",
+        "  CALL FUNCTION                               \"#EC CI_USAGE_OK[2340247]",
+        "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+        "    EXPORTING",
+        "      CURRENCY        = WA_MSEG-WAERS",
+        "      AMOUNT_INTERNAL = LV_AMOUNT",
+        "    IMPORTING",
+        "      AMOUNT_DISPLAY  = LV_AMOUNT",
+        "    EXCEPTIONS",
+        "      INTERNAL_ERROR  = 1",
+        "      OTHERS          = 2.",
+        "  IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "  ENDIF.",
+        "  LV_SUM_XOF = LV_AMOUNT.",
+        "****************Amount**************",
+        "  CLEAR LV_AMOUNT.",
+        "",
+        "  LV_AMOUNT = FINAL_AMT.",
+        "  CALL FUNCTION                               \"#EC CI_USAGE_OK[2340247]",
+        "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+        "    EXPORTING",
+        "      CURRENCY        = WA_MSEG-WAERS",
+        "      AMOUNT_INTERNAL = LV_AMOUNT",
+        "    IMPORTING",
+        "      AMOUNT_DISPLAY  = LV_AMOUNT",
+        "    EXCEPTIONS",
+        "      INTERNAL_ERROR  = 1",
+        "      OTHERS          = 2.",
+        "  IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "  ENDIF.",
+        "  FINAL_AMT_XOF = LV_AMOUNT.",
+        "",
+        "",
+        "ELSE.",
+        "",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 9,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE6",
+      "caption": "New Program Lines 6",
+      "params": [
+        {
+          "name": "WA_MSEG",
+          "dir": "input"
+        },
+        {
+          "name": "TOT_AMNT",
+          "dir": "input"
+        },
+        {
+          "name": "LV_AMOUNT",
+          "dir": "input"
+        },
+        {
+          "name": "TOT_AMNT_XOF",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+        "  CLEAR LV_AMOUNT.",
+        "  LV_AMOUNT = TOT_AMNT.",
+        "  CALL FUNCTION               \"#EC CI_USAGE_OK[2340247]",
+        "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+        "    EXPORTING",
+        "      CURRENCY        = WA_MSEG-WAERS",
+        "      AMOUNT_INTERNAL = LV_AMOUNT",
+        "    IMPORTING",
+        "      AMOUNT_DISPLAY  = LV_AMOUNT",
+        "    EXCEPTIONS",
+        "      INTERNAL_ERROR  = 1",
+        "      OTHERS          = 2.",
+        "  IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "  ENDIF.",
+        "  TOT_AMNT_XOF = LV_AMOUNT.",
+        "",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 1,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE7",
+      "caption": "New Program Lines 7",
+      "params": [
+        {
+          "name": "SUM",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG",
+          "dir": "input"
+        },
+        {
+          "name": "LV_AMOUNT",
+          "dir": "input"
+        },
+        {
+          "name": "LV_SUM_XOF",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "IF WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'.",
+        "  CLEAR LV_AMOUNT.",
+        "  LV_AMOUNT = SUM.",
+        "  CALL FUNCTION               \"#EC CI_USAGE_OK[2340247]",
+        "    'CURRENCY_AMOUNT_SAP_TO_DISPLAY'",
+        "    EXPORTING",
+        "      CURRENCY        = WA_MSEG-WAERS",
+        "      AMOUNT_INTERNAL = LV_AMOUNT",
+        "    IMPORTING",
+        "      AMOUNT_DISPLAY  = LV_AMOUNT",
+        "    EXCEPTIONS",
+        "      INTERNAL_ERROR  = 1",
+        "      OTHERS          = 2.",
+        "  IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "  ENDIF.",
+        "  LV_SUM_XOF = LV_AMOUNT.",
+        "",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 1,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE4",
+      "caption": "New Program Lines 4",
+      "params": [
+        {
+          "name": "TOT_AMNT",
+          "dir": "input"
+        },
+        {
+          "name": "VAT",
+          "dir": "input"
+        },
+        {
+          "name": "SUM",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG-BNBTR",
+          "dir": "input"
+        },
+        {
+          "name": "TOT_AMNT_XOF",
+          "dir": "input"
+        },
+        {
+          "name": "LV_SUM_XOF",
+          "dir": "input"
+        },
+        {
+          "name": "LV_VAT_XOF",
+          "dir": "input"
+        },
+        {
+          "name": "WA_MSEG",
+          "dir": "input"
+        },
+        {
+          "name": "TOT_AMNT",
+          "dir": "output"
+        },
+        {
+          "name": "VAT",
+          "dir": "output"
+        },
+        {
+          "name": "WA_MSEG-BNBTR",
+          "dir": "output"
+        },
+        {
+          "name": "DIS",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "*BREAK-POINT.",
+        "",
+        "IF wa_mseg-waers = 'XOF' OR wa_mseg-waers = 'XAF'.",
+        "TOT_AMNT_XOF =  TOT_AMNT_XOF + lv_sum_XOF + lv_vat_xof.",
+        "ELSE.",
+        "  TOT_AMNT =  TOT_AMNT + sum + vat.",
+        "ENDIF."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 1,
+        "calls": []
+      }
+    },
+    {
+      "name": "%CODE2",
+      "caption": "New Program Lines 2",
+      "params": [
+        {
+          "name": "LS_MKPF-BLDAT",
+          "dir": "input"
+        },
+        {
+          "name": "MONTH",
+          "dir": "output"
+        },
+        {
+          "name": "DATE",
+          "dir": "output"
+        }
+      ],
+      "code": [
+        "*break developer.",
+        "CALL FUNCTION 'ISP_GET_MONTH_NAME'\"#EC CI_USAGE_OK[2469385]",
+        "  EXPORTING",
+        "   DATE               = ls_mkpf-bldat",
+        "    LANGUAGE           = SY-LANGU",
+        "*   MONTH_NUMBER       = MON_NO",
+        " IMPORTING",
+        "*   LANGU_BACK         =",
+        "*   LONGTEXT           = MONTH",
+        "   SHORTTEXT          = MONTH",
+        " EXCEPTIONS",
+        "   CALENDAR_ID        = 1",
+        "   DATE_ERROR         = 2",
+        "   NOT_FOUND          = 3",
+        "   WRONG_INPUT        = 4",
+        "   OTHERS             = 5",
+        "          .",
+        "IF SY-SUBRC <> 0.",
+        "* Implement suitable error handling here",
+        "ENDIF.",
+        "",
+        "CONCATENATE ls_mkpf-bldat+6(2)'-' month'-'ls_mkpf-bldat+0(4)",
+        "   into date."
+      ],
+      "evidence": {
+        "selects": [],
+        "tables": [],
+        "fms": [
+          "ISP_GET_MONTH_NAME"
+        ],
+        "performs": [],
+        "memory": [],
+        "breakpoints": 0,
+        "commented": 5,
+        "calls": []
+      }
+    }
+  ],
+  "globalEvidence": {
+    "selects": [],
+    "tables": [],
+    "fms": [],
+    "performs": [],
+    "memory": [],
+    "breakpoints": 1,
+    "commented": 0,
+    "calls": []
+  },
+  "conditions": [
+    "LS_T001W-WERKS <> '1000' AND LS_T001W-WERKS <> '1100'",
+    "LS_T001W-WERKS = '1000' OR LS_T001W-WERKS = '1100'",
+    "WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'",
+    "WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+    "WA_MSEG-BWART <> '103'",
+    "WA_MSEG-BWART <> '103' AND WA_MSEG-WAERS = 'XOF' OR WA_MSEG-WAERS = 'XAF'",
+    "WA_MSEG-BWART <> '103' AND WA_MSEG-WAERS <> 'XOF' AND WA_MSEG-WAERS <> 'XAF'"
+  ],
+  "pages": [
+    {
+      "name": "%PAGE1",
+      "caption": "New Page"
+    }
+  ],
+  "styleInInventory": {
+    "YGRNNOTE": false
+  },
+  "graphicInInventory": {
+    "DANOGATELOGONEW": true
+  }
+}

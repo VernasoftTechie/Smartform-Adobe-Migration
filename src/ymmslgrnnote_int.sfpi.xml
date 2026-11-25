@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SFPI" serializer_version="v1.0.0">
+ <asx:abap version="1.0" xmlns:asx="http://www.sap.com/abapxml">
+  <asx:values>
+   <VERSION>1</VERSION>
+   <TYPE/>
+   <INTERFACE href="#o1"/>
+   <INTERFACET>
+    <FPINTERFACET>
+     <NAME/>
+     <STATE/>
+     <LANGUAGE>E</LANGUAGE>
+     <ID/>
+     <TEXT>YMMSLGRNNOTE</TEXT>
+    </FPINTERFACET>
+   </INTERFACET>
+  </asx:values>
+  <asx:heap xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:abap="http://www.sap.com/abapxml/types/built-in" xmlns:cls="http://www.sap.com/abapxml/classes/global" xmlns:dic="http://www.sap.com/abapxml/types/dictionary">
+   <cls:CL_FP_INTERFACE_DATA id="o1">
+    <CL_FP_INTERFACE_DATA classVersion="1">
+     <CODING href="#o5"/>
+     <PARAMETERS href="#o4"/>
+     <GLOBAL_DEFINITIONS href="#o3"/>
+     <REFERENCE_FIELDS href="#o2"/>
+     <XSD_DEFINITIONS/>
+    </CL_FP_INTERFACE_DATA>
+   </cls:CL_FP_INTERFACE_DATA>
+   <cls:CL_FP_REFERENCE_FIELDS id="o2">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_REFERENCE_FIELDS classVersion="1">
+     <REFERENCE_FIELDS/>
+    </CL_FP_REFERENCE_FIELDS>
+   </cls:CL_FP_REFERENCE_FIELDS>
+   <cls:CL_FP_GLOBAL_DEFINITIONS id="o3">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_GLOBAL_DEFINITIONS classVersion="1">
+     <GLOBAL_DATA>
+      <SFPGDATA><NAME>WA_MSEG</NAME><TYPING>TYPE</TYPING><TYPENAME>ZEXTRA_FIELD</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_UNIT</NAME><TYPING>TYPE</TYPING><TYPENAME>ERFMG</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>TOT_AMNT</NAME><TYPING>TYPE</TYPING><TYPENAME>GNETW</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>MONTH</NAME><TYPING>TYPE</TYPING><TYPENAME>T247-KTX</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>DATE</NAME><TYPING>TYPE</TYPING><TYPENAME>CHAR20</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>FINAL_AMT</NAME><TYPING>TYPE</TYPING><TYPENAME>GNETW</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>VAT</NAME><TYPING>TYPE</TYPING><TYPENAME>KWERT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>DIS</NAME><TYPING>TYPE</TYPING><TYPENAME>KWERT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>SUM</NAME><TYPING>TYPE</TYPING><TYPENAME>BNBTR</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_DMBTR</NAME><TYPING>TYPE</TYPING><TYPENAME>BNBTR</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_BUTXT</NAME><TYPING>TYPE</TYPING><TYPENAME>T001-BUTXT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_UNIT_XOF</NAME><TYPING>TYPE</TYPING><TYPENAME>P DECIMALS 0</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_AMOUNT</NAME><TYPING>TYPE</TYPING><TYPENAME>WMTO_S-AMOUNT</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_VAT_XOF</NAME><TYPING>TYPE</TYPING><TYPENAME>P DECIMALS 0</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>LV_SUM_XOF</NAME><TYPING>TYPE</TYPING><TYPENAME>P DECIMALS 0</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>FINAL_AMT_XOF</NAME><TYPING>TYPE</TYPING><TYPENAME>P DECIMALS 0</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>TOT_AMNT_XOF</NAME><TYPING>TYPE</TYPING><TYPENAME>P DECIMALS 0</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GT_ITEM_ROWS</NAME><TYPING>TYPE</TYPING><TYPENAME>TY_ITEM_TAB</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_HDR_L1</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_HDR_L2</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_HDR_L3</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_HDR_L4</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_GRN_NO</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_GRN_DATE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_SUPPLIER</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_WAYBILL</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_INVOICE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_TRANSPORTER</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_VEHICLE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_LPR</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_LPO</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_DEPT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_SECTION</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_AWB_NO</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_AWB_DATE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_SHIP</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_AGENT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_LC_NO</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_FORM_M</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_CONTAINER</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_CURR_RATE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_GROSS_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_VAT_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_FREIGHT_LBL</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_FREIGHT_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_TOTAL_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_FOOTER_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+      <SFPGDATA><NAME>GV_END_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
+     </GLOBAL_DATA>
+     <TYPES>
+      <FPCLINE>TYPES: LT_MSEG_1 TYPE ZEXTRA_FIELD.</FPCLINE>
+      <FPCLINE>" BOLT: display rows of %TABLE1 (LT_MSEG), as printed</FPCLINE>
+      <FPCLINE>TYPES: BEGIN OF ty_item_row,</FPCLINE>
+      <FPCLINE>         zeile  TYPE string,</FPCLINE>
+      <FPCLINE>         matnr  TYPE string,</FPCLINE>
+      <FPCLINE>         sgtxt  TYPE string,</FPCLINE>
+      <FPCLINE>         erfme  TYPE string,</FPCLINE>
+      <FPCLINE>         erfmg  TYPE string,</FPCLINE>
+      <FPCLINE>         lgpla  TYPE string,</FPCLINE>
+      <FPCLINE>         urate  TYPE string,</FPCLINE>
+      <FPCLINE>         amount TYPE string,</FPCLINE>
+      <FPCLINE>       END OF ty_item_row,</FPCLINE>
+      <FPCLINE>       ty_item_tab TYPE STANDARD TABLE OF ty_item_row WITH EMPTY KEY.</FPCLINE>
+     </TYPES>
+     <FIELDSYMBOLS/>
+    </CL_FP_GLOBAL_DEFINITIONS>
+   </cls:CL_FP_GLOBAL_DEFINITIONS>
+   <cls:CL_FP_PARAMETERS id="o4">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_PARAMETERS classVersion="1">
+     <IMPORT_PARAMETERS>
+      <SFPIOPAR><NAME>LS_MKPF</NAME><TYPING>TYPE</TYPING><TYPENAME>MKPF</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_MSEG</NAME><TYPING>LIKE</TYPING><TYPENAME>ZEXTRA_FIELD</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_ADRC</NAME><TYPING>TYPE</TYPING><TYPENAME>ADRC</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_T001W</NAME><TYPING>TYPE</TYPING><TYPENAME>T001W</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_T001</NAME><TYPING>TYPE</TYPING><TYPENAME>T001</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_EBAN</NAME><TYPING>TYPE</TYPING><TYPENAME>EBAN</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_EKKO</NAME><TYPING>TYPE</TYPING><TYPENAME>EKKO</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LV_MAKTX</NAME><TYPING>TYPE</TYPING><TYPENAME>MAKTX</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>LS_LFA1</NAME><TYPING>TYPE</TYPING><TYPENAME>LFA1</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_WAERS</NAME><TYPING>TYPE</TYPING><TYPENAME>WAERS</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+      <SFPIOPAR><NAME>IV_KURSF</NAME><TYPING>TYPE</TYPING><TYPENAME>BAPICURR_D</TYPENAME><OPTIONAL>X</OPTIONAL><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </IMPORT_PARAMETERS>
+     <EXPORT_PARAMETERS/>
+     <TABLE_PARAMETERS>
+      <SFPIOPAR><NAME>LT_MSEG</NAME><TYPING>LIKE</TYPING><TYPENAME>ZEXTRA_FIELD</TYPENAME><OPTIONAL/><BYVALUE/><DEFAULTVAL/><STANDARD/><CONSTANT/></SFPIOPAR>
+     </TABLE_PARAMETERS>
+     <EXCEPTIONS/>
+    </CL_FP_PARAMETERS>
+   </cls:CL_FP_PARAMETERS>
+   <cls:CL_FP_CODING id="o5">
+    <CL_FP_INTERFACE_DATA_CHANGED classVersion="1">
+     <INTERFACE_DATA href="#o1"/>
+    </CL_FP_INTERFACE_DATA_CHANGED>
+    <CL_FP_CODING classVersion="1">
+     <INPUT_PARAMETERS>
+      <FPPARAMETER>LS_MSEG</FPPARAMETER>
+      <FPPARAMETER>LS_MKPF</FPPARAMETER>
+      <FPPARAMETER>LT_MSEG</FPPARAMETER>
+      <FPPARAMETER>LS_T001W</FPPARAMETER>
+      <FPPARAMETER>LS_EBAN</FPPARAMETER>
+      <FPPARAMETER>LS_EKKO</FPPARAMETER>
+      <FPPARAMETER>LS_LFA1</FPPARAMETER>
+      <FPPARAMETER>IV_WAERS</FPPARAMETER>
+      <FPPARAMETER>IV_KURSF</FPPARAMETER>
+      <FPPARAMETER>LV_BUTXT</FPPARAMETER>
+      <FPPARAMETER>DATE</FPPARAMETER>
+     </INPUT_PARAMETERS>
+     <OUTPUT_PARAMETERS>
+      <FPPARAMETER>LV_BUTXT</FPPARAMETER>
+      <FPPARAMETER>MONTH</FPPARAMETER>
+      <FPPARAMETER>DATE</FPPARAMETER>
+      <FPPARAMETER>WA_MSEG</FPPARAMETER>
+      <FPPARAMETER>LV_UNIT</FPPARAMETER>
+      <FPPARAMETER>LV_UNIT_XOF</FPPARAMETER>
+      <FPPARAMETER>LV_AMOUNT</FPPARAMETER>
+      <FPPARAMETER>VAT</FPPARAMETER>
+      <FPPARAMETER>SUM</FPPARAMETER>
+      <FPPARAMETER>FINAL_AMT</FPPARAMETER>
+      <FPPARAMETER>LV_VAT_XOF</FPPARAMETER>
+      <FPPARAMETER>LV_SUM_XOF</FPPARAMETER>
+      <FPPARAMETER>FINAL_AMT_XOF</FPPARAMETER>
+      <FPPARAMETER>TOT_AMNT</FPPARAMETER>
+      <FPPARAMETER>TOT_AMNT_XOF</FPPARAMETER>
+      <FPPARAMETER>GT_ITEM_ROWS</FPPARAMETER>
+      <FPPARAMETER>GV_HDR_L1</FPPARAMETER>
+      <FPPARAMETER>GV_HDR_L2</FPPARAMETER>
+      <FPPARAMETER>GV_HDR_L3</FPPARAMETER>
+      <FPPARAMETER>GV_HDR_L4</FPPARAMETER>
+      <FPPARAMETER>GV_GRN_NO</FPPARAMETER>
+      <FPPARAMETER>GV_GRN_DATE</FPPARAMETER>
+      <FPPARAMETER>GV_SUPPLIER</FPPARAMETER>
+      <FPPARAMETER>GV_WAYBILL</FPPARAMETER>
+      <FPPARAMETER>GV_INVOICE</FPPARAMETER>
+      <FPPARAMETER>GV_TRANSPORTER</FPPARAMETER>
+      <FPPARAMETER>GV_VEHICLE</FPPARAMETER>
+      <FPPARAMETER>GV_LPR</FPPARAMETER>
+      <FPPARAMETER>GV_LPO</FPPARAMETER>
+      <FPPARAMETER>GV_DEPT</FPPARAMETER>
+      <FPPARAMETER>GV_SECTION</FPPARAMETER>
+      <FPPARAMETER>GV_AWB_NO</FPPARAMETER>
+      <FPPARAMETER>GV_AWB_DATE</FPPARAMETER>
+      <FPPARAMETER>GV_SHIP</FPPARAMETER>
+      <FPPARAMETER>GV_AGENT</FPPARAMETER>
+      <FPPARAMETER>GV_LC_NO</FPPARAMETER>
+      <FPPARAMETER>GV_FORM_M</FPPARAMETER>
+      <FPPARAMETER>GV_CONTAINER</FPPARAMETER>
+      <FPPARAMETER>GV_CURR_RATE</FPPARAMETER>
+      <FPPARAMETER>GV_GROSS_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_VAT_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_FREIGHT_LBL</FPPARAMETER>
+      <FPPARAMETER>GV_FREIGHT_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_TOTAL_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_FOOTER_TXT</FPPARAMETER>
+      <FPPARAMETER>GV_END_TXT</FPPARAMETER>
+     </OUTPUT_PARAMETERS>
+     <INITIALIZATION>
+      <FPCLINE>* BOLT: break abap1.  (debug breakpoint of the legacy form for user ABAP1 - not carried, no effect on the output)</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>select single  butxt from t001 into lv_butxt where bukrs = ls_mseg-bukrs.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>*break developer.</FPCLINE>
+      <FPCLINE>CALL FUNCTION &apos;ISP_GET_MONTH_NAME&apos;"#EC CI_USAGE_OK[2469385]</FPCLINE>
+      <FPCLINE>  EXPORTING</FPCLINE>
+      <FPCLINE>   DATE               = ls_mkpf-bldat</FPCLINE>
+      <FPCLINE>    LANGUAGE           = SY-LANGU</FPCLINE>
+      <FPCLINE>*   MONTH_NUMBER       = MON_NO</FPCLINE>
+      <FPCLINE> IMPORTING</FPCLINE>
+      <FPCLINE>*   LANGU_BACK         =</FPCLINE>
+      <FPCLINE>*   LONGTEXT           = MONTH</FPCLINE>
+      <FPCLINE>   SHORTTEXT          = MONTH</FPCLINE>
+      <FPCLINE> EXCEPTIONS</FPCLINE>
+      <FPCLINE>   CALENDAR_ID        = 1</FPCLINE>
+      <FPCLINE>   DATE_ERROR         = 2</FPCLINE>
+      <FPCLINE>   NOT_FOUND          = 3</FPCLINE>
+      <FPCLINE>   WRONG_INPUT        = 4</FPCLINE>
+      <FPCLINE>   OTHERS             = 5</FPCLINE>
+      <FPCLINE>          .</FPCLINE>
+      <FPCLINE>IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>CONCATENATE ls_mkpf-bldat+6(2)&apos;-&apos; month&apos;-&apos;ls_mkpf-bldat+0(4)</FPCLINE>
+      <FPCLINE>   into date.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-8): main window, table %TABLE1 over LT_MSEG ===============================</FPCLINE>
+      <FPCLINE>" %CODE1 (unit rate) and %CODE3 (amount, VAT, freight sum) ran once per item in the Smart Form.</FPCLINE>
+      <FPCLINE>" An Adobe table cannot run code, so they run here, verbatim, in a LOOP; GT_ITEM_ROWS keeps what</FPCLINE>
+      <FPCLINE>" the row printed (XOF / XAF: the whole-number amounts of %TEXT32 / %TEXT33).</FPCLINE>
+      <FPCLINE>DATA lv_bolt_out TYPE c LENGTH 255.</FPCLINE>
+      <FPCLINE>DATA lv_bolt_a   TYPE string.</FPCLINE>
+      <FPCLINE>DATA lv_bolt_b   TYPE string.</FPCLINE>
+      <FPCLINE>LOOP AT lt_mseg INTO wa_mseg.</FPCLINE>
+      <FPCLINE>* --- %CODE1 New Program Lines 1 (verbatim)</FPCLINE>
+      <FPCLINE>**break abap8.</FPCLINE>
+      <FPCLINE>*lv_unit = wa_mseg-dmbtr .</FPCLINE>
+      <FPCLINE>  IF WA_MSEG-WAERS = &apos;XOF&apos; OR WA_MSEG-WAERS = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>    CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE>    LV_AMOUNT = WA_MSEG-LV_URATE.</FPCLINE>
+      <FPCLINE>    CALL FUNCTION                   "#EC CI_USAGE_OK[2340247]</FPCLINE>
+      <FPCLINE>      &apos;CURRENCY_AMOUNT_SAP_TO_DISPLAY&apos;</FPCLINE>
+      <FPCLINE>      EXPORTING</FPCLINE>
+      <FPCLINE>        CURRENCY        = WA_MSEG-WAERS</FPCLINE>
+      <FPCLINE>        AMOUNT_INTERNAL = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      IMPORTING</FPCLINE>
+      <FPCLINE>        AMOUNT_DISPLAY  = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      EXCEPTIONS</FPCLINE>
+      <FPCLINE>        INTERNAL_ERROR  = 1</FPCLINE>
+      <FPCLINE>        OTHERS          = 2.</FPCLINE>
+      <FPCLINE>    IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>*lv_unit_xof = wa_mseg-lv_urate.</FPCLINE>
+      <FPCLINE>    LV_UNIT_XOF = LV_AMOUNT.</FPCLINE>
+      <FPCLINE>    CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE>  ELSE.</FPCLINE>
+      <FPCLINE>    LV_UNIT = WA_MSEG-LV_URATE.</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>* --- %CODE3 New Program Lines 3 (verbatim)</FPCLINE>
+      <FPCLINE>  VAT = WA_MSEG-VAT.</FPCLINE>
+      <FPCLINE>  SUM = SUM + WA_MSEG-BNBTR.</FPCLINE>
+      <FPCLINE>*FRI = wa_mseg-FRI.</FPCLINE>
+      <FPCLINE>*OTH = wa_mseg-OTH.</FPCLINE>
+      <FPCLINE>*DIS = wa_mseg-DIS.</FPCLINE>
+      <FPCLINE>*FINAL_AMT = ( WA_MSEG-DMBTR * WA_MSEG-ERFMG ).</FPCLINE>
+      <FPCLINE>  FINAL_AMT =                "#EC CI_FLDEXT_OK[2610650]</FPCLINE>
+      <FPCLINE>  ( WA_MSEG-LV_URATE * WA_MSEG-ERFMG ).</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  IF WA_MSEG-WAERS = &apos;XOF&apos; OR WA_MSEG-WAERS = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>    CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE>    LV_AMOUNT = VAT.</FPCLINE>
+      <FPCLINE>    CALL FUNCTION                               "#EC CI_USAGE_OK[2340247]</FPCLINE>
+      <FPCLINE>      &apos;CURRENCY_AMOUNT_SAP_TO_DISPLAY&apos;</FPCLINE>
+      <FPCLINE>      EXPORTING</FPCLINE>
+      <FPCLINE>        CURRENCY        = WA_MSEG-WAERS</FPCLINE>
+      <FPCLINE>        AMOUNT_INTERNAL = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      IMPORTING</FPCLINE>
+      <FPCLINE>        AMOUNT_DISPLAY  = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      EXCEPTIONS</FPCLINE>
+      <FPCLINE>        INTERNAL_ERROR  = 1</FPCLINE>
+      <FPCLINE>        OTHERS          = 2.</FPCLINE>
+      <FPCLINE>    IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>    LV_VAT_XOF = LV_AMOUNT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>***************************Freight************</FPCLINE>
+      <FPCLINE>    CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>    LV_AMOUNT = SUM * 10.</FPCLINE>
+      <FPCLINE>    CALL FUNCTION                               "#EC CI_USAGE_OK[2340247]</FPCLINE>
+      <FPCLINE>      &apos;CURRENCY_AMOUNT_SAP_TO_DISPLAY&apos;</FPCLINE>
+      <FPCLINE>      EXPORTING</FPCLINE>
+      <FPCLINE>        CURRENCY        = WA_MSEG-WAERS</FPCLINE>
+      <FPCLINE>        AMOUNT_INTERNAL = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      IMPORTING</FPCLINE>
+      <FPCLINE>        AMOUNT_DISPLAY  = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      EXCEPTIONS</FPCLINE>
+      <FPCLINE>        INTERNAL_ERROR  = 1</FPCLINE>
+      <FPCLINE>        OTHERS          = 2.</FPCLINE>
+      <FPCLINE>    IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>    LV_SUM_XOF = LV_AMOUNT.</FPCLINE>
+      <FPCLINE>****************Amount**************</FPCLINE>
+      <FPCLINE>    CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>    LV_AMOUNT = FINAL_AMT.</FPCLINE>
+      <FPCLINE>    CALL FUNCTION                               "#EC CI_USAGE_OK[2340247]</FPCLINE>
+      <FPCLINE>      &apos;CURRENCY_AMOUNT_SAP_TO_DISPLAY&apos;</FPCLINE>
+      <FPCLINE>      EXPORTING</FPCLINE>
+      <FPCLINE>        CURRENCY        = WA_MSEG-WAERS</FPCLINE>
+      <FPCLINE>        AMOUNT_INTERNAL = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      IMPORTING</FPCLINE>
+      <FPCLINE>        AMOUNT_DISPLAY  = LV_AMOUNT</FPCLINE>
+      <FPCLINE>      EXCEPTIONS</FPCLINE>
+      <FPCLINE>        INTERNAL_ERROR  = 1</FPCLINE>
+      <FPCLINE>        OTHERS          = 2.</FPCLINE>
+      <FPCLINE>    IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>    ENDIF.</FPCLINE>
+      <FPCLINE>    FINAL_AMT_XOF = LV_AMOUNT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE/>
+      <FPCLINE>  ELSE.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>  " BOLT: the cells of %ROW2 as printed</FPCLINE>
+      <FPCLINE>  APPEND INITIAL LINE TO gt_item_rows ASSIGNING FIELD-SYMBOL(&lt;lfs_item&gt;).</FPCLINE>
+      <FPCLINE>  WRITE wa_mseg-zeile TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_item&gt;-zeile = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE wa_mseg-matnr TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_item&gt;-matnr = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  &lt;lfs_item&gt;-sgtxt = wa_mseg-sgtxt.</FPCLINE>
+      <FPCLINE>  WRITE wa_mseg-erfme TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_item&gt;-erfme = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE wa_mseg-erfmg TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_item&gt;-erfmg = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE wa_mseg-lgpla TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  &lt;lfs_item&gt;-lgpla = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  IF wa_mseg-waers = &apos;XOF&apos; OR wa_mseg-waers = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>    WRITE lv_unit_xof TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>    &lt;lfs_item&gt;-urate = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>    WRITE final_amt_xof TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>    &lt;lfs_item&gt;-amount = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  ELSE.</FPCLINE>
+      <FPCLINE>    WRITE lv_unit TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>    &lt;lfs_item&gt;-urate = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>    WRITE final_amt TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>    &lt;lfs_item&gt;-amount = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>ENDLOOP.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-8): table footer, in the legacy order (WA_MSEG = the last item) ===========</FPCLINE>
+      <FPCLINE>" Each footer line printed its value at the moment it was processed - taken here the same way.</FPCLINE>
+      <FPCLINE>* --- %CODE6 New Program Lines 6 (verbatim) - row "Gross:"</FPCLINE>
+      <FPCLINE>IF WA_MSEG-WAERS = &apos;XOF&apos; OR WA_MSEG-WAERS = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>  CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE>  LV_AMOUNT = TOT_AMNT.</FPCLINE>
+      <FPCLINE>  CALL FUNCTION               "#EC CI_USAGE_OK[2340247]</FPCLINE>
+      <FPCLINE>    &apos;CURRENCY_AMOUNT_SAP_TO_DISPLAY&apos;</FPCLINE>
+      <FPCLINE>    EXPORTING</FPCLINE>
+      <FPCLINE>      CURRENCY        = WA_MSEG-WAERS</FPCLINE>
+      <FPCLINE>      AMOUNT_INTERNAL = LV_AMOUNT</FPCLINE>
+      <FPCLINE>    IMPORTING</FPCLINE>
+      <FPCLINE>      AMOUNT_DISPLAY  = LV_AMOUNT</FPCLINE>
+      <FPCLINE>    EXCEPTIONS</FPCLINE>
+      <FPCLINE>      INTERNAL_ERROR  = 1</FPCLINE>
+      <FPCLINE>      OTHERS          = 2.</FPCLINE>
+      <FPCLINE>  IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>  TOT_AMNT_XOF = LV_AMOUNT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>IF wa_mseg-waers = &apos;XOF&apos; OR wa_mseg-waers = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>  WRITE tot_amnt_xof TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_gross_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE lv_vat_xof TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_vat_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ELSE.</FPCLINE>
+      <FPCLINE>  WRITE tot_amnt TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_gross_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>  WRITE vat TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_vat_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>gv_freight_lbl = COND #( WHEN wa_mseg-bwart &lt;&gt; &apos;103&apos; THEN `Freight and other charge :` ).</FPCLINE>
+      <FPCLINE>* --- %CODE7 New Program Lines 7 (verbatim) - row "Freight and other charge"</FPCLINE>
+      <FPCLINE>IF WA_MSEG-WAERS = &apos;XOF&apos; OR WA_MSEG-WAERS = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>  CLEAR LV_AMOUNT.</FPCLINE>
+      <FPCLINE>  LV_AMOUNT = SUM.</FPCLINE>
+      <FPCLINE>  CALL FUNCTION               "#EC CI_USAGE_OK[2340247]</FPCLINE>
+      <FPCLINE>    &apos;CURRENCY_AMOUNT_SAP_TO_DISPLAY&apos;</FPCLINE>
+      <FPCLINE>    EXPORTING</FPCLINE>
+      <FPCLINE>      CURRENCY        = WA_MSEG-WAERS</FPCLINE>
+      <FPCLINE>      AMOUNT_INTERNAL = LV_AMOUNT</FPCLINE>
+      <FPCLINE>    IMPORTING</FPCLINE>
+      <FPCLINE>      AMOUNT_DISPLAY  = LV_AMOUNT</FPCLINE>
+      <FPCLINE>    EXCEPTIONS</FPCLINE>
+      <FPCLINE>      INTERNAL_ERROR  = 1</FPCLINE>
+      <FPCLINE>      OTHERS          = 2.</FPCLINE>
+      <FPCLINE>  IF SY-SUBRC &lt;&gt; 0.</FPCLINE>
+      <FPCLINE>* Implement suitable error handling here</FPCLINE>
+      <FPCLINE>  ENDIF.</FPCLINE>
+      <FPCLINE>  LV_SUM_XOF = LV_AMOUNT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>" %TEXT28: BWART &lt;&gt; 103 AND WAERS = XOF OR WAERS = XAF (generated ABAP: AND before OR) / %TEXT36</FPCLINE>
+      <FPCLINE>IF ( wa_mseg-bwart &lt;&gt; &apos;103&apos; AND wa_mseg-waers = &apos;XOF&apos; ) OR wa_mseg-waers = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>  WRITE lv_sum_xof TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_freight_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ELSEIF wa_mseg-bwart &lt;&gt; &apos;103&apos; AND wa_mseg-waers &lt;&gt; &apos;XOF&apos; AND wa_mseg-waers &lt;&gt; &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>  WRITE sum TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_freight_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>* --- %CODE4 New Program Lines 4 (verbatim) - row "Total Amount:"</FPCLINE>
+      <FPCLINE>*BREAK-POINT.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>IF wa_mseg-waers = &apos;XOF&apos; OR wa_mseg-waers = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>TOT_AMNT_XOF =  TOT_AMNT_XOF + lv_sum_XOF + lv_vat_xof.</FPCLINE>
+      <FPCLINE>ELSE.</FPCLINE>
+      <FPCLINE>  TOT_AMNT =  TOT_AMNT + sum + vat.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>IF wa_mseg-waers = &apos;XOF&apos; OR wa_mseg-waers = &apos;XAF&apos;.</FPCLINE>
+      <FPCLINE>  WRITE tot_amnt_xof TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_total_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ELSE.</FPCLINE>
+      <FPCLINE>  WRITE tot_amnt TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>  gv_total_txt = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE/>
+      <FPCLINE>" ===== BOLT (Window-8): header window %TEXT1 / %TEXT29 (plants 1000 and 1100) ================</FPCLINE>
+      <FPCLINE>lv_bolt_a = |{ ls_t001w-stras },{ ls_t001w-pfach },{ ls_t001w-ort01 }|.</FPCLINE>
+      <FPCLINE>IF ls_t001w-werks = &apos;1000&apos; OR ls_t001w-werks = &apos;1100&apos;.</FPCLINE>
+      <FPCLINE>  gv_hdr_l1 = `Dangote Cement PLC.`.</FPCLINE>
+      <FPCLINE>  gv_hdr_l2 = lv_bolt_a.</FPCLINE>
+      <FPCLINE>  gv_hdr_l3 = `Goods Receipt Note`.</FPCLINE>
+      <FPCLINE>  CLEAR gv_hdr_l4.</FPCLINE>
+      <FPCLINE>ELSE.</FPCLINE>
+      <FPCLINE>  gv_hdr_l1 = lv_butxt.</FPCLINE>
+      <FPCLINE>  gv_hdr_l2 = ls_t001w-name1.</FPCLINE>
+      <FPCLINE>  gv_hdr_l3 = lv_bolt_a.</FPCLINE>
+      <FPCLINE>  gv_hdr_l4 = `Goods Receipt Note`.</FPCLINE>
+      <FPCLINE>ENDIF.</FPCLINE>
+      <FPCLINE>" DATE window</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-mblnr TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_grn_no = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-budat TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_grn_date = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>" TEMPLATE window %TEXT3 / %TEXT4: the values after each label (&lt;(&gt;&amp;&lt;)&gt; and &amp;&amp; print "&amp;")</FPCLINE>
+      <FPCLINE>gv_supplier = ls_lfa1-name1.</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-way_bii_no TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_a = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-way_bil_dt TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_b = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>gv_waybill = |{ lv_bolt_a } &amp; { lv_bolt_b }|.</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-vendor_inv TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_a = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-vend_inv TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_b = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>gv_invoice = |{ lv_bolt_a } &amp; { lv_bolt_b }|.</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-transporter TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_transporter = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-vehicle_no TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_vehicle = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_eban-banfn TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_a = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_eban-badat TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_b = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>gv_lpr = |{ lv_bolt_a }&amp;{ lv_bolt_b }|.</FPCLINE>
+      <FPCLINE>WRITE ls_ekko-ebeln TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_a = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_ekko-bedat TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_b = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>gv_lpo = |{ lv_bolt_a }&amp;{ lv_bolt_b }|.</FPCLINE>
+      <FPCLINE>WRITE ls_eban-mfrpn TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_dept = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_eban-bednr TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_section = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-awb_no_bol TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_awb_no = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-awb_dt_bol TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_awb_date = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-ship_flight TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_ship = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-clear_agnt TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_agent = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-lc_no TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_lc_no = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-form_m TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_form_m = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-container TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>gv_container = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>WRITE iv_kursf TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_a = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>gv_curr_rate = |{ iv_waers } / { lv_bolt_a }|.</FPCLINE>
+      <FPCLINE>" FOOTER window %TEXT22: date (%CODE2), time, GRN no. - "page X of Y" is added by the layout</FPCLINE>
+      <FPCLINE>WRITE ls_mkpf-cputm TO lv_bolt_out.</FPCLINE>
+      <FPCLINE>lv_bolt_a = condense( lv_bolt_out ).</FPCLINE>
+      <FPCLINE>gv_footer_txt = |{ date },{ lv_bolt_a } GRN No.: { gv_grn_no } page|.</FPCLINE>
+      <FPCLINE>" SIGNATURE window %TEXT21 last line</FPCLINE>
+      <FPCLINE>gv_end_txt = |End Of GRN Report For Supplier { ls_lfa1-name1 }|.</FPCLINE>
+     </INITIALIZATION>
+     <FORMS/>
+    </CL_FP_CODING>
+   </cls:CL_FP_CODING>
+  </asx:heap>
+ </asx:abap>
+</abapGit>
