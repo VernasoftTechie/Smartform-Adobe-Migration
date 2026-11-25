@@ -36,14 +36,13 @@ const indent = (lines) => lines.map((l) => (!l.trim() ? '' : l.startsWith('*') ?
 
 // ---- 2. BOLT additions -----------------------------------------------------------------------
 const TYPES = [
-  '" BOLT: one entry per item of IT_VBRP = the item line (%ROW2) and its TOTAL line (%ROW3)',
   'TYPES: BEGIN OF ty_item,',
   '         slno    TYPE string,',
   '         details TYPE string,',
   '         amount  TYPE string,',
   '         total   TYPE string,',
-  '       END OF ty_item,',
-  '       ty_item_tab TYPE STANDARD TABLE OF ty_item WITH EMPTY KEY.',
+  '       END OF ty_item.',
+  'TYPES: ty_item_tab TYPE STANDARD TABLE OF ty_item WITH DEFAULT KEY.',
 ];
 const GLOBALS = [
   ['GT_ITEMS', 'TY_ITEM_TAB'],

@@ -63,14 +63,13 @@
       <SFPGDATA><NAME>GV_WORDS_LINE</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
-      <FPCLINE>" BOLT: one entry per item of IT_VBRP = the item line (%ROW2) and its TOTAL line (%ROW3)</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_item,</FPCLINE>
       <FPCLINE>         slno    TYPE string,</FPCLINE>
       <FPCLINE>         details TYPE string,</FPCLINE>
       <FPCLINE>         amount  TYPE string,</FPCLINE>
       <FPCLINE>         total   TYPE string,</FPCLINE>
-      <FPCLINE>       END OF ty_item,</FPCLINE>
-      <FPCLINE>       ty_item_tab TYPE STANDARD TABLE OF ty_item WITH EMPTY KEY.</FPCLINE>
+      <FPCLINE>       END OF ty_item.</FPCLINE>
+      <FPCLINE>TYPES: ty_item_tab TYPE STANDARD TABLE OF ty_item WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
      <TYPES/>
      <FIELDSYMBOLS/>
