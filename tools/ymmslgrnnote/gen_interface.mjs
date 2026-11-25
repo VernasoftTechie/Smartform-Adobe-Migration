@@ -196,6 +196,7 @@ const gdata = (n, t) => `      <SFPGDATA><NAME>${n}</NAME><TYPING>TYPE</TYPING><
 once('     </GLOBAL_DATA>\n', `${GLOBALS.map(([n, t]) => gdata(n, t)).join('\n')}\n     </GLOBAL_DATA>\n`);
 if (/<TYPES>/.test(s)) once('     </TYPES>', `${TYPES.map(fpc).join('\n')}\n     </TYPES>`);
 else once('     </GLOBAL_DATA>\n', `     </GLOBAL_DATA>\n     <TYPES>\n${TYPES.map(fpc).join('\n')}\n     </TYPES>\n`);
+if ((s.match(/<TYPES[\s/>]/g) || []).length !== 1) throw new Error('the interface must have exactly one TYPES element (F89)');
 const params = (tag, add) => {
   const m = s.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
   if (!m) throw new Error(`${tag} missing`);
