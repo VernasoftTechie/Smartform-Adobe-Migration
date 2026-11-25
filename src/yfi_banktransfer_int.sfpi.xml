@@ -53,7 +53,6 @@
       <SFPGDATA><NAME>GV_NAME1_TXT</NAME><TYPING>TYPE</TYPING><TYPENAME>STRING</TYPENAME><DEFAULTVAL/><CONSTANT/></SFPGDATA>
      </GLOBAL_DATA>
      <TYPES>
-      <FPCLINE>" BOLT: display rows of %TABLE1 (IT_XFER_DETAILS), as printed</FPCLINE>
       <FPCLINE>TYPES: BEGIN OF ty_xfer_row,</FPCLINE>
       <FPCLINE>         slno        TYPE string,</FPCLINE>
       <FPCLINE>         ref         TYPE string,</FPCLINE>
@@ -63,8 +62,8 @@
       <FPCLINE>         bankl       TYPE string,</FPCLINE>
       <FPCLINE>         bankn       TYPE string,</FPCLINE>
       <FPCLINE>         wrbtr       TYPE string,</FPCLINE>
-      <FPCLINE>       END OF ty_xfer_row,</FPCLINE>
-      <FPCLINE>       ty_xfer_tab TYPE STANDARD TABLE OF ty_xfer_row WITH EMPTY KEY.</FPCLINE>
+      <FPCLINE>       END OF ty_xfer_row.</FPCLINE>
+      <FPCLINE>TYPES: ty_xfer_tab TYPE STANDARD TABLE OF ty_xfer_row WITH DEFAULT KEY.</FPCLINE>
      </TYPES>
      <TYPES/>
      <FIELDSYMBOLS/>

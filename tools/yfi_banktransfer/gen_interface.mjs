@@ -31,7 +31,6 @@ const fpc = (l) => (l === '' ? '      <FPCLINE/>' : `      <FPCLINE>${esc(l)}</F
 const out = (target, src, pad = '') => [`${pad}WRITE ${src} TO lv_bolt_out.`, `${pad}${target} = condense( lv_bolt_out ).`];
 
 const TYPES = [
-  '" BOLT: display rows of %TABLE1 (IT_XFER_DETAILS), as printed',
   'TYPES: BEGIN OF ty_xfer_row,',
   '         slno        TYPE string,',
   '         ref         TYPE string,',
@@ -41,8 +40,8 @@ const TYPES = [
   '         bankl       TYPE string,',
   '         bankn       TYPE string,',
   '         wrbtr       TYPE string,',
-  '       END OF ty_xfer_row,',
-  '       ty_xfer_tab TYPE STANDARD TABLE OF ty_xfer_row WITH EMPTY KEY.',
+  '       END OF ty_xfer_row.',
+  'TYPES: ty_xfer_tab TYPE STANDARD TABLE OF ty_xfer_row WITH DEFAULT KEY.',
 ];
 const STRINGS = ['GV_DATE_TXT', 'GV_BODY_TXT', 'GV_CURR_TXT', 'GV_WATERMARK_TXT', 'GV_NAME1_TXT'];
 const GLOBALS = [['GT_XFER_ROWS', 'TY_XFER_TAB'], ...STRINGS.map((n) => [n, 'STRING'])];
